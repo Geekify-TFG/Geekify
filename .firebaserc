@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "geekify-dev"
+  },
+  "targets": {
+    "geekify-dev": {
+      "hosting": {
+        "main": [
+          "geekify-main"
+        ],
+        "dev": [
+          "geekify-dev"
+        ]
+      }
+    }
   }
 }
