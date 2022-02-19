@@ -8,7 +8,7 @@ function App() {
         <Paper>
           <img src={logo} className="App-logo" alt="logo" />
           <Typography variant="h4" component="h1" gutterBottom>
-            Geekify project v2
+            Geekify project v3
           </Typography>
           <Button variant="contained" color="primary">
             Primary Button
