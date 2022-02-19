@@ -1,6 +1,6 @@
 {
   "hosting": [{
-    "target": "dev",
+    "target": "geekify-dev",
     "public": "build",
     "ignore": [
       "firebase.json",
@@ -14,7 +14,7 @@
       }
     ]
   },{
-    "target": "main",
+    "target": "geekify-main",
     "public": "build",
     "ignore": [
       "firebase.json",
