@@ -35,7 +35,7 @@ jobs:
       - name: Build dependencies
         run: npm run build
       - name: Archive production artifact
-        uses: actions/upload-artifact@develop
+        uses: actions/upload-artifact@main
         with:
           name: build
           path: build
@@ -48,7 +48,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@develop
       - name: Download artifact
-        uses: actions/download-artifact@develop
+        uses: actions/download-artifact@main
         with:
           name: build
           path: dist
