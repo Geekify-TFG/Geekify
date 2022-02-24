@@ -1,0 +1,19 @@
+export const AppColors = {
+    'PRIMARY': '#1D3972',
+    'PRIMARY_WITH_OPACITY': '#1D397220',
+    'PRIMARY_MAX_OPACITY': '#F5F6FA',
+    'SECONDARY': '#7F8DAA',
+    'BACKGROUND': '#F0F0F0',
+    'BLACK': '#000000',
+    'WHITE': '#FFFFFF',
+    'RED': '#F0142F',
+    'PIRMARY_WITH_OPACITY': '#1D397220',
+    'SUBTEXT': '#707070',
+    'BOX_FILL': '#f1f9ff',
+    'ACCENT': '#004CE3',
+    'BOX_SHADOW': '#00000029',
+    'GREEN': '#3DD598',
+    'SECONDARY_TITLE': '#5A607F',
+    'SECONDARY_SUBTEXT': '#7E84A3',
+
+}
