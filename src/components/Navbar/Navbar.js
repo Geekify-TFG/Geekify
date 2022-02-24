@@ -6,7 +6,6 @@ import {makeStyles} from '@material-ui/core/styles'
 import {AppColors} from "../../resources/AppColors"
 import {Link, useHistory} from 'react-router-dom'
 import PropTypes from 'prop-types';
-import taglineIcon from '../../img/tagline_icon.png'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 
@@ -142,17 +141,7 @@ const Navbar = ({open, setOpen, setSelected, logged}) => {
 
                 </IconButton>
                 }
-                {!logged &&
-                <Link to={"/home"}  className={classes.title}
-                      style={{color: AppColors.WHITE, textDecoration: 'none'}}>
-                    <img alt='icon' className={classes.icon} src={taglineIcon}/>
-                </Link>
-                }
-                {logged&&
-                <Link to={"/home"} onClick={handleSetSelected} className={classes.title}
-                      style={{color: AppColors.WHITE, textDecoration: 'none'}}>
-                    <img alt='icon' className={classes.icon} src={taglineIcon}/>
-                </Link>}
+
                 {logged &&
                 <IconButton onClick={() => {
                     history.push('/account');
