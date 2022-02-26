@@ -5,6 +5,8 @@ import {AppTextsFontSize, AppTextsFontWeight, textType, useTextStyles} from "../
 import {makeStyles} from "@mui/styles";
 import {
     Button,
+    Card,
+    CardActionArea,
     CardActions,
     CardContent,
     CardHeader,
@@ -13,9 +15,9 @@ import {
     Grid,
     Link,
     Menu,
-    MenuItem
+    MenuItem,
+    Typography
 } from '@material-ui/core';
-import Card from "../CardGeekify/CardGeekify";
 import TextGeekify from "../TextGeekify/TextGeekify";
 
 const useStyles = makeStyles({
@@ -83,8 +85,8 @@ const GameCard = ({
 
     const onClickHandler = () => {
         history.push({
-            pathname: `/game/${gameId}`,
-            state: {detail: gameId,}
+            pathname: `/game/${gameTitle}`,
+            state: {detail: gameTitle,}
         })
 
 
@@ -95,107 +97,37 @@ const GameCard = ({
         setAnchorEl(null);
     };
 
-    const body = (
-            <Grid
-                container
-                item
-                xs
-                direction="column"
-                justifyContent="space-between"
-            >
-                <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item xs zeroMinWidth>
-                        <Link className={classes.link}>
-                            <CardHeader
-                                classes={{
-                                    title: texts.title_bold,
-                                    root: classes.cardHeaderRoot,
-                                    content: classes.cardHeaderContent
-                                }}
-                                style={{
-                                    height: '64px',
-                                    width: '232px',
-                                    color: AppColors.PRIMARY,
-                                    paddingLeft: "24px",
-                                    paddingTop: "24px",
-                                    paddingBottom: "8px"
-                                }}
-                                onClick={onClickHandler}
-                                title={
-                                    <TextGeekify margin={"0px"} style={"break-word"} type={textType.TITLE_BOLD}
-                                          text={gameTitle}/>}
-                            />
+   
 
-                        </Link>
-                    </Grid>
-                </Grid>
-
+    return (
+        <Card style={{height: '302px', width: '222px', position: "relative",borderRadius:20}} className={classes.card}>
+            <CardActionArea style={{position: 'relative', height: '302px', width: '222px'}} onClick={onClickHandler}>
                 <CardMedia
-                    component="img"
-                    height="194"
+                    media="picture"
+                    alt={gameTitle}
                     image={gameImage}
-                    alt="Paella dish"
+                    title={gameTitle}
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        height: '302px', width: '222px'
+                    }}
                 />
-                <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item xs zeroMinWidth>
-                        <CardContent style={{
-                            height: '110px', width: '280px',
-                            paddingTop: '6px', paddingBottom: 0, paddingLeft: '24px',
-                        }}>
-                            <TextGeekify margin={"0px"} style={"break-word"} type={textType.BODY_CARD}
-                                  text={gameDescription}/>
+                <CardContent style={{
+                    position: "relative",
+                    top: '8em',
+                    backgroundColor: "transparent"
+                }}>
 
-                        </CardContent>
-                    </Grid>
-                </Grid>
-                <CardActions>
-                    <Grid
-                        item
-                        zeroMinWidth
-                        xs
-                        direction="column"
-                        justifyContent="flex-start"
-                        alignItems="center">
-                        <Grid
-                            style={{padding: "10px", paddingTop: 0}}
-                            container
-                            item
-                            direction="row"
-                            justifyContent="flex-start"
-                            alignItems="center">
+                    <Typography style={{color: AppColors.WHITE}} gutterBottom variant="h5" component="h2">
+                        {gameTitle}
+                    </Typography>
 
-                            <Grid
-                                item>
-                                <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
-
-                                </Button>
-                                <Menu
-                                    style={{
-                                        boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)"
-                                    }}
-                                    color={AppColors.WHITE}
-                                    id="fade-menu"
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{vertical: "bottom", horizontal: "right"}}
-                                    keepMounted
-                                    open={open}
-                                    onClose={handleClose}
-                                    TransitionComponent={Fade}>
-                                    <MenuItem style={{color: AppColors.PRIMARY}}
-                                              onClick={() => {
-                                                  handleClose()
-                                              }}> {"EDIT"} </MenuItem>
-
-                                </Menu>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </CardActions>
-            </Grid>
-        )
-    ;
-
-    return <Card height={'280px'} width={'320px'}> {body} </Card>
+                </CardContent>
+            </CardActionArea>
+        </Card>
+    )
 
 
 }
