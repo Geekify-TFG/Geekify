@@ -3,15 +3,16 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
+import {AppColors} from "../../resources/AppColors";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         search: {
             position: 'relative',
-            borderRadius: theme.shape.borderRadius,
-            backgroundColor: fade(theme.palette.common.black, 0.15),
+            borderRadius: 30,
+            backgroundColor: fade(AppColors.BACKGROUND_DRAWER, 0.15),
             '&:hover': {
-                backgroundColor: fade(theme.palette.common.black, 0.25),
+                backgroundColor: fade(AppColors.BACKGROUND_DRAWER, 0.25),
             },
             marginLeft: 0,
             width: '100%',
@@ -35,15 +36,18 @@ const useStyles = makeStyles((theme) =>
         inputInput: {
             padding: theme.spacing(1, 1, 1, 0),
             // vertical padding + font size from searchIcon
-            paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+            backgroundColor:AppColors.BACKGROUND_DRAWER,
+            paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
             transition: theme.transitions.create('width'),
             width: '100%',
             [theme.breakpoints.up('sm')]: {
-                width: '12ch',
+                width: '15em',
+                height: '2em',
                 '&:focus': {
-                    width: '20ch',
+                    width: '20em',
                 },
             },
+            borderRadius: 30,
         },
     })
 );
@@ -74,17 +78,16 @@ function SearchBar() {
 
     return (
         <div style={{marginLeft: '25px'}} className={classes.search}>
-            <div className={classes.searchIcon}>
-                <SearchIcon/>
-            </div>
+
             <InputBase
                 data-testid="SearchBar"
-                placeholder="Search..."
+                placeholder="Search videogames"
                 classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
                 }}
-                inputProps={{'aria-label': 'search '}}
+                style={{color:AppColors.WHITE}}
+                inputProps={{'aria-label': 'Search videogames '}}
                 value={value}
                 onKeyDown={keyPress} onChange={handleChange}
             />
