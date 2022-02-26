@@ -97,7 +97,7 @@ const GameCard = ({
         setAnchorEl(null);
     };
 
-   
+
 
     return (
         <Card style={{height: '302px', width: '222px', position: "relative",borderRadius:20}} className={classes.card}>

@@ -113,8 +113,8 @@ const GridGames = ({games}) => {
                                   xs={12}
                                   sm={12}
                                   md={6}
-                                  lg={4}
-                                  xl={3}
+                                  lg={3}
+                                  xl={2}
                             >
                                 <GameCard
                                  //   gameId={elem.id}
