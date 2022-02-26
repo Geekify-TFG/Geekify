@@ -29,6 +29,9 @@ const TextGeekify = ({ style, type, text, color, marginLeft, margin }) => {
             case textType.NUMBER:
                 setStyles(texts.number)
                 break
+            case textType.TITLE_MAIN:
+                setStyles(texts.title_main)
+                break
             case textType.TITLE:
                 setStyles(texts.title)
                 break

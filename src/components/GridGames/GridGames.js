@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Container, Grid} from '@material-ui/core';
+import {Button, Container, Grid} from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles'
 import {useTextStyles} from "../../resources/AppTexts";
@@ -54,6 +54,14 @@ const GridGames = ({games}) => {
         return (
             <Container fluid style={{margin: 0, maxWidth: '100%'}}>
                 <div className={classes.root}>
+
+                    <Grid container item
+                          style={{ marginBottom: '24px' }}
+                          direction={"row"}
+                          alignItems={"flex-end"}
+                          justifyContent={"flex-end"}>
+
+                    </Grid>
 
                     <Grid
                         align="center"
