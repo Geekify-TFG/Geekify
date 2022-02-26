@@ -3,6 +3,9 @@ export const LabelsGameCard = {
 }
 
 export const LabelsDrawer = {
-    A: "A",
-    B:"b",
+    HOME: "Home",
+    SEARCH:"Search",
+    CALENDAR:"Release Calendar",
+    LIBRARY:"My library",
+    FORUMS:"Forums",
 }
