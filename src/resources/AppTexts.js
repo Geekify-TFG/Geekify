@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 export const textType = {
     NUMBER: 'NUMBER',
     TITLE: 'TITLE',
+    TITLE_MAIN: 'TITLE_MAIN',
     TITLE_MEDIUM: 'TITLE_MEDIUM',
     TITLE_BOLD: 'TITLE_BOLD',
     SUBTITLE: 'SUBTITLE',
@@ -17,6 +18,7 @@ export const textType = {
     BODY_SUBTEXT: 'BODY_SUBTEXT'
 }
 export const AppTextsFontSize = {
+    SIZE_TITLE_MAIN:'100px',
     SIZE_NUMBER: '28px',
     SIZE_TITLE: '18px',
     SIZE_SUBTITLE: '16px',
@@ -37,6 +39,11 @@ export const useTextStyles = makeStyles(() => ({
     number: {
         fontSize: AppTextsFontSize.SIZE_NUMBER,
         fontWeight: AppTextsFontWeight.WEIGHT_BOLD,
+    },
+    title_main: {
+        fontSize: AppTextsFontSize.SIZE_TITLE_MAIN,
+        fontWeight: AppTextsFontWeight.WEIGHT_LIGHT,
+        fontFamily: "Comfortaa"
     },
     title: {
         fontSize: AppTextsFontSize.SIZE_TITLE,
