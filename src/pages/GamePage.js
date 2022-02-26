@@ -5,6 +5,7 @@ import logo from "../logo.svg";
 import {BASE_PATH, GAMES} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
+import {useHistory} from "react-router-dom";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -17,6 +18,7 @@ const Item = styled(Paper)(({theme}) => ({
 
 const GamePage = () => {
     const [games, setGames] = useState();
+    const history = useHistory()
 
     const getGames = async () => {
         try {
@@ -33,7 +35,10 @@ const GamePage = () => {
     }, []);
 
     return (
-        <Container maxWidth="sm" className="App">
+        <Grid container>
+            <Button onClick={()=>history.push({pathname:"/"})}>A</Button>
+
+            <Container maxWidth="sm" className="App">
             <Paper>
                 <img src={logo} className="App-logo" alt="logo" />
                 <Typography variant="h4" component="h1" gutterBottom>
@@ -47,6 +52,7 @@ const GamePage = () => {
                 </Button>
             </Paper>
         </Container>
+        </Grid>
     )
 }
 
