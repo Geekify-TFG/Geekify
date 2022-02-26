@@ -1,25 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
-import {Button, Container, Paper, Typography} from "@mui/material";
-import {useContext, useEffect, useState} from "react";
+import {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useTextStyles} from "./resources/AppTexts";
 import clsx from "clsx";
-import Navbar from "./components/Navbar/Navbar";
-import {Divider, Drawer, Icon, IconButton, List,ListItem ,ListItemIcon, ListItemText} from "@material-ui/core";
+import {Drawer, Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import {LabelsDrawer} from "./locale/en";
 import {AppColors} from "./resources/AppColors";
-import MenuIcon from "@material-ui/icons/Menu";
-import {
-    BrowserRouter as Router,
-    Link,
-    Redirect,
-    Route,
-    Routes,
-    Switch,
-} from "react-router-dom";
+import {BrowserRouter as Router, Link, Route, Switch,} from "react-router-dom";
 import MainPage from "./pages/MainPage"
 import GamePage from "./pages/GamePage";
+import homeIcon from "./img/home_icon.svg"
+import searchIcon from "./img/search_icon.svg"
+import calendarIcon from "./img/calendar_icon.svg"
+import libraryIcon from "./img/library_icon.svg"
+import forumsIcon from "./img/forum_icon.svg"
+
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -68,23 +63,14 @@ const useStyles = makeStyles((theme) => ({
         display: "none",
     },
     drawerOpen: {
+        backgroundColor: AppColors.BACKGROUND_DRAWER,
         width: drawerWidth,
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
-    drawerClose: {
-        transition: theme.transitions.create("width", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: "hidden",
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.up("sm")]: {
-            width: theme.spacing(9) + 1,
-        },
-    },
+
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
@@ -93,93 +79,64 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const RouteMain = ({component: Component, select, drawer, ...rest}) => {
-    if (drawer == null) drawer = true;
+const RouteMain = ({component: Component, select}) => {
     //const authContext = useContext(AuthContext);
-   // const {authenticated, checkAuth} = authContext;
+    // const {authenticated, checkAuth} = authContext;
     const texts = useTextStyles();
-    const storageManager = new StorageManager();
 
 
     const classes = useStyles();
-    const [open, setOpen] = useState(); //false
-    const [selected, setSelected] = useState(null);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-        window.abierto = true;
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-        window.abierto = false;
-    };
-
-    useEffect(() => {
-        setOpen(drawer);
-    }, [drawer]);
+    const [open, setOpen] = useState(true); //false
+    const [selected, setSelected] = useState(0);
 
 
-    const drawerIconsList = [];
-    const drawerLinkList = ["/", ];
+    const drawerIconsList = [homeIcon, searchIcon, calendarIcon, libraryIcon, forumsIcon];
+    const drawerLinkList = ["/", "/search", "/calendar", "/library", "/forums"];
 
     return (
         <>
-            <Navbar
-                open={open}
-                setOpen={setOpen}
-                setSelected={setSelected}
-                logged={true}
-            />
+
             <main
                 className={clsx(classes.content, {
                     [classes.contentShift]: open,
                 })}
             >
-                <div className={classes.drawerHeader}/>
+                {/*<div className={classes.drawerHeader}/>*/}
+                <Route
+                    render={(props) =>
+                        <Component {...props} />
+                    }
+                />
 
             </main>
             <Drawer
                 anchor="left"
-                open={drawer}
                 variant="permanent"
                 className={clsx(classes.drawer, {
                     [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
                 })}
                 classes={{
                     paper: clsx({
                         [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
                     }),
                 }}
             >
-                {open && (
-                    <div className={classes.drawerHeader}>
-                        <IconButton onClick={handleDrawerClose}>
-                            {<MenuIcon style={{color: AppColors.PRIMARY}}/>}
-                        </IconButton>
-                    </div>
-                )}
+                <div className={classes.drawerHeader}>
 
-                {open === false && (
-                    <div className={classes.drawerHeader}>
-                        <IconButton onClick={handleDrawerOpen}>
-                            {<MenuIcon style={{color: AppColors.PRIMARY}}/>}
-                        </IconButton>
-                    </div>
-                )}
-                <Divider/>
+                </div>
+
                 <List>
                     {[
-                        LabelsDrawer.A,
-                        LabelsDrawer.B,
+                        LabelsDrawer.HOME,
+                        LabelsDrawer.SEARCH,
+                        LabelsDrawer.CALENDAR,
+                        LabelsDrawer.LIBRARY,
+                        LabelsDrawer.FORUMS,
                     ].map((text, index) => (
                         <Link
                             to={drawerLinkList[index]}
                             onClick={() => {
                                 setSelected(index);
-                                window.abierto = false;
                             }}
                             style={{color: AppColors.WHITE, textDecoration: "none"}}
                         >
@@ -189,7 +146,7 @@ const RouteMain = ({component: Component, select, drawer, ...rest}) => {
                                 selected={selected === index}
                                 style={{
                                     backgroundColor:
-                                        selected === index && AppColors.PIRMARY_WITH_OPACITY,
+                                        selected === index && AppColors.PRIMARY,
                                     borderLeft:
                                         selected === index && "5px solid " + AppColors.PRIMARY,
                                     paddingLeft: selected === index && "22px" || selected !== index && "27px",
@@ -207,7 +164,7 @@ const RouteMain = ({component: Component, select, drawer, ...rest}) => {
                                 <ListItemText
                                     classes={{primary: texts.subtitle_bold}}
                                     primary={text}
-                                    style={{color: AppColors.PRIMARY}}
+                                    style={{color: AppColors.WHITE}}
                                 />
                             </ListItem>
                         </Link>
@@ -223,7 +180,8 @@ function App() {
     return (
         <Router>
             <Switch>
-                <Route  path="/" component={MainPage}/>
+                <RouteMain exact path="/" component={MainPage}/>
+                <RouteMain exact path={"/a"} component={() => <GamePage/>}/>
             </Switch>
         </Router>
 
