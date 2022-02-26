@@ -1,21 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import {Grid, Paper, Typography} from "@material-ui/core";
-import {styled} from "@mui/material";
+import {Grid, Typography} from "@material-ui/core";
 import {BASE_PATH, GAMES} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import {useHistory} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
-import TextGeekify from "../components/TextGeekify/TextGeekify";
-import {textType} from "../resources/AppTexts";
 import {makeStyles} from "@material-ui/core/styles";
+import eldenImage from "../img/elden_background.jpeg"
+import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
+import {AppColors} from "../resources/AppColors";
+import IconProvider from "../components/IconProvider/IconProvider";
 
 const useStyles = makeStyles((theme) => ({
 
-    appBg:{
-       backgroundImage:"linear-gradient(to bottom,  rgba(161, 161, 161, 0.33), rgba(117, 19, 93, 0.81)),var(--img)"
+    singleBlogBg: {
+        content: '',
+        position: "relative",
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)',
+        opacity: ".5",
+    },
 
-    }
+
 }))
 
 const MainPage = () => {
@@ -40,15 +48,23 @@ const MainPage = () => {
 
     return (
         <>
-            <Grid container alignItems={"center"} className={classes.appBg} style={{"--img": "url('https://images.unsplash.com/photo-1610907083431-d36d8947c8e2')"}}>
-                <Grid item style={{margin: '2em'}}>
-                    <SearchBar/>
-                </Grid>
+            <Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
-                      direction={"column"}>
+                      direction={"column"} style={{
+                    backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${eldenImage})`,
+                    backgroundSize: "cover",
+
+                }}>
+                    <Grid container direction={"row"}>
+                        <Grid item style={{margin: '2em'}}>
+                            <SearchBar/>
+                        </Grid>
+
+
+                    </Grid>
                     <Grid item style={{margin: '4em'}}>
-                        <Typography style={{fontSize:'100px'}}>Lorem Ipsum</Typography>
-                        <Typography style={{fontSize:'100px'}}>Dolor sit amet</Typography>
+                        <Typography style={{fontSize: '100px'}}>Lorem Ipsum</Typography>
+                        <Typography style={{fontSize: '100px'}}>Dolor sit amet</Typography>
                     </Grid>
                 </Grid>
                 <Grid container alignItems="center"
