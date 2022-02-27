@@ -1,24 +1,11 @@
 import React, {useState} from 'react';
 import {AppColors} from "../../resources/AppColors";
 import {useHistory} from "react-router-dom";
-import {AppTextsFontSize, AppTextsFontWeight, textType, useTextStyles} from "../../resources/AppTexts";
+import {AppTextsFontSize, AppTextsFontWeight, useTextStyles} from "../../resources/AppTexts";
 import {makeStyles} from "@mui/styles";
-import {
-    Button,
-    Card,
-    CardActionArea,
-    CardActions,
-    CardContent,
-    CardHeader,
-    CardMedia,
-    Fade,
-    Grid,
-    Link,
-    Menu,
-    MenuItem,
-    Typography
-} from '@material-ui/core';
-import TextGeekify from "../TextGeekify/TextGeekify";
+import {Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography} from '@material-ui/core';
+import Icons from "../../resources/Icons";
+import IconProvider from "../IconProvider/IconProvider";
 
 const useStyles = makeStyles({
     root: {
@@ -69,7 +56,8 @@ const GameCard = ({
                       gameId,
                       gameTitle,
                       gameDescription,
-                      gameImage
+                      gameImage,
+                      gameRating
 
                   }) => {
     const classes = useStyles();
@@ -98,10 +86,12 @@ const GameCard = ({
     };
 
 
-
     return (
-        <Card style={{height: '302px', width: '222px', position: "relative",borderRadius:20}} className={classes.card}>
+        <Card style={{height: '302px', width: '222px', position: "relative", borderRadius: 20}}
+              className={classes.card}>
+
             <CardActionArea style={{position: 'relative', height: '302px', width: '222px'}} onClick={onClickHandler}>
+
                 <CardMedia
                     media="picture"
                     alt={gameTitle}
@@ -116,14 +106,34 @@ const GameCard = ({
                 />
                 <CardContent style={{
                     position: "relative",
-                    top: '8em',
-                    backgroundColor: "transparent"
+                    backgroundColor: "transparent",
+                    paddingTop: 0,
+                    height: '250px'
                 }}>
+                    <Grid container>
 
-                    <Typography style={{color: AppColors.WHITE}} gutterBottom variant="h5" component="h2">
-                        {gameTitle}
-                    </Typography>
+                        <Grid item style={{paddingLeft: '8em'}}>
+                            <Button style={{backgroundColor: AppColors.BACKGROUND, borderRadius: 20}} disabled={true}>
+                                <IconProvider icon={<Icons.STAR style={{
+                                    verticalAlign: "middle",
+                                    display: "inline-flex",
+                                    paddingRight: '4px',
+                                    color: AppColors.PRIMARY,
+                                }} size="100px"/>}/>
+                                <Typography style={{color: AppColors.WHITE, marginBottom: 0}} gutterBottom variant="h5"
+                                            component="h2">
+                                    {gameRating}
+                                </Typography>
+                            </Button>
 
+                        </Grid>
+                        <Grid item style={{paddingTop: '11em'}}>
+                            <Typography style={{color: AppColors.WHITE}} gutterBottom variant="h5" component="h2">
+                                {gameTitle}
+                            </Typography>
+                        </Grid>
+
+                    </Grid>
                 </CardContent>
             </CardActionArea>
         </Card>
