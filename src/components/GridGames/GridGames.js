@@ -45,9 +45,7 @@ const GridGames = ({games}) => {
             console.log(err.message)
         }
     }
-    useEffect(() => {
-        getGames()
-    }, []);
+
 
 
     if (redirectTo[0]) {
