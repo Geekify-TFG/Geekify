@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Grid} from '@material-ui/core';
+import {Container, Grid} from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles'
 import {useTextStyles} from "../../resources/AppTexts";
@@ -45,9 +45,7 @@ const GridGames = ({games}) => {
             console.log(err.message)
         }
     }
-    useEffect(() => {
-        getGames()
-    }, []);
+
 
 
     if (redirectTo[0]) {
@@ -56,7 +54,7 @@ const GridGames = ({games}) => {
                 <div className={classes.root}>
 
                     <Grid container item
-                          style={{ marginBottom: '24px' }}
+                          style={{marginBottom: '24px'}}
                           direction={"row"}
                           alignItems={"flex-end"}
                           justifyContent={"flex-end"}>
@@ -81,7 +79,7 @@ const GridGames = ({games}) => {
                                       xl={3}
                                 >
                                     <GameCard
-                                      //  gameId={elem.id}
+                                        //  gameId={elem.id}
                                         gameTitle={elem.name}
                                     />
                                 </Grid>
@@ -117,9 +115,10 @@ const GridGames = ({games}) => {
                                   xl={2}
                             >
                                 <GameCard
-                                 //   gameId={elem.id}
+                                    //   gameId={elem.id}
                                     gameTitle={elem.name}
                                     gameImage={elem.background_image}
+                                    gameRating={elem.rating}
                                 />
                             </Grid>
                         ))}
