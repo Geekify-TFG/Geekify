@@ -6,5 +6,6 @@ export const AppColors = {
     'BLACK': '#000000',
     'WHITE': '#FFFFFF',
     'RED': '#F0142F',
-
+    'YELLOW_SUBTEXT': '#FFE663',
+    'SUBTEXT': '#BBBBBB',
 }
