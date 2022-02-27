@@ -128,17 +128,21 @@ const GameCard = ({
 
                         </Grid>
                         <Grid item style={{paddingTop: '9em'}}>
-                            <Typography style={{color: AppColors.WHITE}} gutterBottom variant="h5" component="h2">
+                            <Typography style={{color: AppColors.WHITE,height:'64px'}}  variant="h5" component="h2">
                                 {gameTitle}
                             </Typography>
                         </Grid>
-                        <Grid item style={{paddingLeft: '10em'}}>
-                            <Button style={{backgroundColor: AppColors.BACKGROUND, borderRadius: 20,border:'2px solid #6563FF',borderColor:AppColors.PRIMARY,width:'1px',
-                                height: '40px'}} >
+                        <Grid item style={{paddingLeft: '12em',paddingTop:'0.7em'}}>
+                            <Button style={{
+                                backgroundColor: AppColors.BACKGROUND,
+                                borderRadius: 30,
+                                border: '2px solid #6563FF',
+                                borderColor: AppColors.PRIMARY,
+                                maxWidth: '45px', maxHeight: '45px', minWidth: '45px', minHeight: '45px'
+                            }}>
                                 <IconProvider icon={<Icons.BOOKMARK style={{
                                     verticalAlign: "middle",
                                     display: "inline-flex",
-                                    paddingRight: '4px',
                                     color: AppColors.PRIMARY,
                                 }} size="100px"/>}/>
 
