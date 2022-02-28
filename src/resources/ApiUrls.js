@@ -11,10 +11,14 @@ const _RESET_STEP2 = "/auth/reset-step2";
 
 // Path games
 const _GAMES_PATH = "/games?";
+const _GAME_PATH = "/games/";
 const _ORDERING_PATH = "ordering=";
 const _RATING_PATH = "-rating&";
 const _RELEASE_PATH = "-released&";
-// Endpoints
+// Endpoints games
 export const GAMES = `${_GAMES_PATH}${_API_KEY}`
 export const GAMES_RATING = `${_GAMES_PATH}${_ORDERING_PATH}${_RATING_PATH}${_API_KEY}`
 export const GAMES_RELEASED= `${_GAMES_PATH}${_ORDERING_PATH}${_RELEASE_PATH}${_API_KEY}`
+
+// Endpoints game
+export const GAME = (id) => `${_GAME_PATH}${id}?${_API_KEY}`
