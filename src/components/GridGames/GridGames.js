@@ -115,7 +115,7 @@ const GridGames = ({games}) => {
                                   xl={2}
                             >
                                 <GameCard
-                                    //   gameId={elem.id}
+                                    gameId={elem.id}
                                     gameTitle={elem.name}
                                     gameImage={elem.background_image}
                                     gameRating={elem.rating}
