@@ -129,7 +129,7 @@ const GamePage = () => {
                             <ButtonGroup style={{width: '500px'}} color="primary"
                                          aria-label="outlined primary button group">
                                 {game.tags.slice(0,3).map((type) => (
-                                    <Button style={{backgroundColor: AppColors.BACKGROUND_TAGS, borderRadius: 20,}} disabled={true}>
+                                    <Button style={{backgroundColor: AppColors.WHITE, borderRadius: 20,}} disabled={true}>
                                         <Typography style={{color: AppColors.BLACK, marginBottom: 0}} gutterBottom variant="h8"
                                                     >
                                             {type.name}
