@@ -19,3 +19,15 @@ export const LabelsMain ={
     RELEASE: 'Release date',
     RATING: 'Rating',
 }
+
+export const LabelsGamePage = {
+    DESCRIPTION: "Description",
+    RELEASE: 'Release date',
+    PLATFORM: 'Platform',
+    DURATION: 'Average duration',
+    DEVELOPER: 'Developer',
+    PUBLISHER: 'Publisher',
+    RECOMMENDED_AGE: 'Recommended age',
+    COMMUNITY: 'Community panel',
+    COMMENT_EXAMPLE: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a hendrerit quam, in sollicitudin sapien. Nulla interdum purus vitae efficitur gravida. Vestibulum fringilla lectus a elit commodo, eget maximus nisl molestie. Suspendisse porta augue sed ex fringilla, ullamcorper euismod nunc volutpat. '
+}
