@@ -2,27 +2,29 @@ import React, {useEffect, useState} from 'react';
 import {
     Avatar,
     ButtonGroup,
-    Card,
-    CardMedia,
-    Grid, IconButton,
-    InputAdornment,
+    Card, CardMedia, FormControl,
+    Grid,
+    InputAdornment, InputLabel,
     List,
     ListItem,
-    ListItemText,
+    ListItemText, MenuItem, Select,
     TextField
 } from "@material-ui/core";
 import {Button, Typography} from "@mui/material";
-import {BASE_PATH, GAME} from "../resources/ApiUrls";
+import {BASE_PATH, GAME, GAME_ACHIEVEMENTS, GAME_IMAGES} from "../resources/ApiUrls";
 import axios from "axios";
 import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
-import {LabelsGamePage, LabelsMain} from "../locale/en";
+import {LabelsGamePage} from "../locale/en";
 import {makeStyles} from "@mui/styles";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import CardGeekify from "../components/CardGeekify/CardGeekify";
 import accountIcon from "../img/account_icon.svg"
 import CardComment from "../components/CardComment/CardComment";
+import CardAchievements from "../components/CardAchievements/CardAchievements";
+import CardImage from "../components/CardImage/CardImage";
+import Icons from "../resources/Icons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -69,30 +71,95 @@ const useStyles = makeStyles((theme) => ({
         color: AppColors.PRIMARY,
         backgroundColor: AppColors.BACKGROUND_DRAWER,
         borderRadius: 10,
-    }
+    },
+    select: {
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+                borderColor: AppColors.PRIMARY,
+                opacity: "0.2",
+                borderRadius: 10,
+
+            },
+        },
+        "& .MuiInputBase-root": {
+            color: AppColors.WHITE,
+
+        },
+        "& .MuiInputLabel-root": {
+            color: AppColors.WHITE,
+            backgroundColor: "transparent"
+
+        },
+        "&:before": {
+            color: AppColors.WHITE,
+        },
+        "&:after": {
+            borderBottomColor: AppColors.WHITE,
+        },
+        "& .MuiSvgIcon-root": {
+            color: AppColors.PRIMARY,
+        },
+        color: AppColors.WHITE,
+        backgroundColor: AppColors.BACKGROUND_DRAWER,
+        borderRadius: 10,
+    },
 
 
 }));
 
 const GamePage = () => {
     const [game, setGame] = useState();
+    const [achievements, setAchievements] = useState();
+    const [images, setImages] = useState();
     const location = useLocation();
     const classes = useStyles();
-    const [comment,setComment] = useState()
+    const [comment, setComment] = useState()
     const history = useHistory()
     const idGame = location.state.detail
+    const [rating, setRating] = useState("");
 
+    const handleChange = (event) => {
+        setRating(event.target.value);
+    };
     const getGame = async () => {
         try {
             const response = await axios.get(`${BASE_PATH}${GAME(idGame)}`);
-            console.log(response.data)
             setGame(response.data)
+            getParentPlatforms(response.data)
         } catch (err) {
             console.log(err.message)
         }
     }
+
+    const getAchievementsGame = async () => {
+        try {
+            const response = await axios.get(`${BASE_PATH}${GAME_ACHIEVEMENTS(idGame)}`);
+            setAchievements(response.data.results)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    const getImagesGame = async () => {
+        try {
+            const response = await axios.get(`${BASE_PATH}${GAME_IMAGES(idGame)}`);
+            setImages(response.data.results)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    const getParentPlatforms = async (parentPlatform) => {
+        console.log(parentPlatform.parent_platforms)
+        const platformIconsList=[]
+
+    }
+
+
     useEffect(() => {
         getGame()
+        getAchievementsGame()
+        getImagesGame()
     }, []);
 
     return (
@@ -126,9 +193,8 @@ const GamePage = () => {
                         </Grid>
                     </Grid>
                     <Grid container direction={"row"} style={{flexWrap: "nowrap"}}>
-
-                        <Grid item style={{margin: '4em'}}>
-                            <Card style={{height: '400px', width: '300px', position: "relative", borderRadius: 20}}
+                        <Grid item style={{margin: '4em', marginRight: '2em'}}>
+                            <Card style={{height: '400px', width: '275px', position: "relative", borderRadius: 20}}
                                   className={classes.card}>
                                 <CardMedia
                                     media="picture"
@@ -144,15 +210,40 @@ const GamePage = () => {
                                 />
 
                             </Card>
+                            <FormControl className={classes.select} variant="outlined" margin='normal'
+                                         style={{width: '9.75em'}}>
+                                <InputLabel className={classes.select}
+                                            id="demo-simple-select-label"></InputLabel>
+                                    <Select className={classes.select} IconComponent={Icons.ARROW_DOWN}
+                                            value={rating}
+                                            displayEmpty
+                                            renderValue={rating !== "" ? undefined : () => "Not rated yet"}
+                                            onChange={handleChange}
+                                            label="Rating"
+                                            style={{width: 280}}
+                                    >
+
+                                        <MenuItem style={{color: AppColors.PRIMARY}}
+                                                  value={4}>{LabelsGamePage.MASTERPIECE}</MenuItem>
+                                        <MenuItem style={{color: AppColors.PRIMARY}}
+                                                  value={3}>{LabelsGamePage.VERY_GOOD}</MenuItem>
+                                        <MenuItem style={{color: AppColors.PRIMARY}}
+                                                  value={2}>{LabelsGamePage.FINE}</MenuItem>
+                                        <MenuItem style={{color: AppColors.PRIMARY}}
+                                                  value={1}>{LabelsGamePage.MEH}</MenuItem>
+                                        <MenuItem style={{color: AppColors.PRIMARY}}
+                                                  value={0}>{LabelsGamePage.NOT_RECOMMENDED}</MenuItem>
+                                    </Select>
+                            </FormControl>
                         </Grid>
                         <Grid container direction={"column"} item style={{margin: '4em', marginLeft: 0}}>
                             <Grid item style={{marginBottom: '1em'}}>
                                 <Button
                                     style={{backgroundColor: AppColors.BACKGROUND, borderRadius: 20, maxWidth: '10em'}}
                                     disabled={true}>
-                                    <Typography style={{color: AppColors.WHITE, marginBottom: 0}} gutterBottom
-                                                variant="h5"
-                                                component="h2">
+                                    <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
+                                                gutterBottom
+                                    >
                                         {game.genres[0].name}
                                     </Typography>
                                 </Button>
@@ -162,20 +253,20 @@ const GamePage = () => {
 
                                     <Typography
                                         style={{
-                                            fontSize: '40px',
+                                            fontSize: '35px',
                                             color: AppColors.WHITE
                                         }}>{game.name.toUpperCase()}</Typography>
                                 </Grid>
                             </Grid>
                             <Grid item style={{marginBottom: '1em'}}>
 
-                                <ButtonGroup style={{width: '500px'}} color="primary"
+                                <ButtonGroup style={{width: '500px', height: '40px'}} color="primary"
                                              aria-label="outlined primary button group">
                                     {game.tags.slice(0, 3).map((type) => (
                                         <Button style={{backgroundColor: AppColors.WHITE, borderRadius: 20,}}
                                                 disabled={true}>
                                             <Typography style={{color: AppColors.BLACK, marginBottom: 0}} gutterBottom
-                                                        variant="h8"
+
                                             >
                                                 {type.name}
                                             </Typography>
@@ -197,7 +288,7 @@ const GamePage = () => {
                                 <Typography
                                     style={{
                                         color: AppColors.WHITE
-                                    }}>{game.description}</Typography>
+                                    }}>{game.description_raw}</Typography>
 
                             </Grid>
                         </Grid>
@@ -207,50 +298,50 @@ const GamePage = () => {
                 <Grid container
                       direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '4em'}}>
-                        <CardGeekify bg={AppColors.BACKGROUND_CARD} height={'274px'} width={'349px'}>
+                        <CardGeekify bg={AppColors.BACKGROUND_CARD} height={'274px'} width={'350px'}>
                             <Grid
                                 container
                             >
-                                <List style={{marginLeft:'1em',marginTop:'0.5em'}}>
+                                <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
                                     <ListItem>
-                                        <ListItemText style={{color:AppColors.WHITE,marginRight:'5em'}}
-                                            primary={LabelsGamePage.RELEASE}
+                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                      primary={LabelsGamePage.RELEASE}
                                         />
-                                        <ListItemText style={{color:AppColors.SECONDARY}}
-                                            primary={game.released}
+                                        <ListItemText style={{color: AppColors.SECONDARY}}
+                                                      primary={game.released}
                                         />
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemText style={{color:AppColors.WHITE,marginRight:'9em'}}
-                                            primary={LabelsGamePage.PLATFORM}
+                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '9em'}}
+                                                      primary={LabelsGamePage.PLATFORM}
                                         />
-                                        <ListItemText style={{color:AppColors.SECONDARY}}
-                                            primary={game.playtime}
-                                        />
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemText style={{color:AppColors.WHITE,marginRight:'5em'}}
-                                            primary={LabelsGamePage.DURATION}
-                                        />
-                                        <ListItemText style={{color:AppColors.SECONDARY}}
-                                            primary={game.playtime}
+                                        <ListItemText style={{color: AppColors.SECONDARY}}
+                                                      primary={game.playtime}
                                         />
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemText style={{color:AppColors.WHITE,marginRight:'5em'}}
-                                            primary={LabelsGamePage.DEVELOPER}
+                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                      primary={LabelsGamePage.DURATION}
                                         />
-                                        <ListItemText style={{color:AppColors.SECONDARY}}
-                                            primary={game.developers[0].name}
+                                        <ListItemText style={{color: AppColors.SECONDARY}}
+                                                      primary={game.playtime}
+                                        />
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                      primary={LabelsGamePage.DEVELOPER}
+                                        />
+                                        <ListItemText style={{color: AppColors.SECONDARY}}
+                                                      primary={game.developers[0].name}
                                         />
                                     </ListItem>
 
                                     <ListItem>
-                                        <ListItemText style={{color:AppColors.WHITE,marginRight:'5em'}}
-                                            primary={LabelsGamePage.PUBLISHER}
+                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                      primary={LabelsGamePage.PUBLISHER}
                                         />
-                                        <ListItemText style={{color:AppColors.SECONDARY}}
-                                            primary={game.publishers[0].name}
+                                        <ListItemText style={{color: AppColors.SECONDARY}}
+                                                      primary={game.publishers[0].name}
                                         />
                                     </ListItem>
                                 </List>
@@ -260,16 +351,39 @@ const GamePage = () => {
 
                         </CardGeekify>
 
+                        <Typography
+                            style={{
+                                fontSize: '20px',
+                                color: AppColors.WHITE
+                            }}>{LabelsGamePage.ACHIEVEMENTS}</Typography>
+
+                        {
+                            achievements.map(elem => (
+                                <Grid item style={{marginBottom: '1em'}} key={achievements.indexOf(elem)}
+
+                                >
+                                    <CardAchievements
+                                        bg={AppColors.BACKGROUND_DRAWER}
+                                        width={'350px'}
+                                        title={elem.name}
+                                        description={elem.description}
+                                        percent={elem.percent}
+                                        image={elem.image}
+
+                                    />
+                                </Grid>
+                            ))}
+
                     </Grid>
-                    <Grid item style={{marginLeft: '4em'}}>
-                        <Grid item style={{marginBottom: '4em', }}>
+                    <Grid item style={{marginLeft: '2em'}}>
+                        <Grid item style={{marginBottom: '4em',}}>
                             <Typography
                                 style={{
                                     fontSize: '20px',
                                     color: AppColors.WHITE
                                 }}>{LabelsGamePage.COMMUNITY}</Typography>
                             <TextField
-                                style={{width:'400px'}}
+                                style={{width: '350px'}}
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
                                 label={`Publish about ${game.name}`}
@@ -281,21 +395,48 @@ const GamePage = () => {
                                     startAdornment: (
                                         <InputAdornment position="start">
 
-                                                <img alt='icon'
-                                                     src={accountIcon}/>
+                                            <img alt='icon'
+                                                 src={accountIcon}/>
                                         </InputAdornment>
 
                                     ),
                                 }}
                             />
-                            <CardComment width={'400px'} time={"2 minutes ago"} title={"Hola"} comment={LabelsGamePage.COMMENT_EXAMPLE} bg={AppColors.BACKGROUND_DRAWER} />
+                            <CardComment width={'350px'} time={"2 minutes ago"} title={"Hola"}
+                                         comment={LabelsGamePage.COMMENT_EXAMPLE} bg={AppColors.BACKGROUND_DRAWER}/>
                         </Grid>
 
 
+                    </Grid>
+                    <Grid item style={{marginLeft: '2em'}}>
+                        <Grid item style={{marginBottom: '4em',}}>
+
+                            {
+                                images.map(elem => (
+                                    <Grid item style={{marginBottom: '1em'}} key={images.indexOf(elem)}
+
+                                    >
+                                        <Card style={{height: '400px', width: '275px', position: "relative", borderRadius: 20}}
+                                              className={classes.card}>
+                                            <CardMedia
+                                                image={elem.image}
+                                                title={"A"}
+                                                alt={"A"}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 0,
+                                                    right: 0,
+                                                    height: '400px', width: '300px'
+                                                }}
+                                            />
+
+                                        </Card>
+                                    </Grid>
+                                ))}
+                        </Grid>
 
 
                     </Grid>
-
                 </Grid>
             </Grid>}
         </>
