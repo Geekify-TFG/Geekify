@@ -73,8 +73,8 @@ const GameCard = ({
 
     const onClickHandler = () => {
         history.push({
-            pathname: `/game/${gameTitle}`,
-            state: {detail: gameTitle,}
+            pathname: `/game/${gameId}`,
+            state: {detail: gameId}
         })
 
 

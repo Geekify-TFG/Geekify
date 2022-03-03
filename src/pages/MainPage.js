@@ -99,7 +99,6 @@ const MainPage = () => {
             var data = []
             console.log(`${BASE_PATH}${GAMES_RATING}`)
             const response = await axios.get(`${BASE_PATH}${GAMES_RATING}`);
-            //const response = await axios.get(`https://api.rawg.io/api/games?ordering=-rating&key=40f3cb2ff2c94a5889d3d6c865415ec5`);
             setGames(response.data.results)
             setLoading(false)
 
@@ -135,12 +134,12 @@ const MainPage = () => {
                     backgroundSize: "cover",
 
                 }}>
-                    <Grid container direction={"row"}>
+                    <Grid container direction={"row"} justifyContent={"space-between"}  spacing={20}>
                         <Grid item style={{margin: '2em'}}>
                             <SearchBar/>
                         </Grid>
 
-                        <Grid item style={{margin: '2em', marginLeft: '35em'}}>
+                        <Grid item style={{margin: '2em'}}>
                             <Button style={{
                                 backgroundColor: AppColors.BACKGROUND_DRAWER,
                                 borderRadius: 30,

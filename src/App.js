@@ -181,7 +181,7 @@ function App() {
         <Router>
             <Switch>
                 <RouteMain exact path="/" component={MainPage}/>
-                <RouteMain exact path={"/a"} component={() => <GamePage/>}/>
+                <RouteMain  path={"/game/:id"} component={() => <GamePage/>}/>
             </Switch>
         </Router>
 
