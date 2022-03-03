@@ -357,7 +357,7 @@ const GamePage = () => {
                                 color: AppColors.WHITE
                             }}>{LabelsGamePage.ACHIEVEMENTS}</Typography>
 
-                        {
+                        { achievements&&
                             achievements.map(elem => (
                                 <Grid item style={{marginBottom: '1em'}} key={achievements.indexOf(elem)}
 
@@ -411,7 +411,7 @@ const GamePage = () => {
                     <Grid item style={{marginLeft: '2em'}}>
                         <Grid item style={{marginBottom: '4em',}}>
 
-                            {
+                            {images&&
                                 images.map(elem => (
                                     <Grid item style={{marginBottom: '1em'}} key={images.indexOf(elem)}
 
