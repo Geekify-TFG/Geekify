@@ -15,6 +15,7 @@ import calendarIcon from "./img/calendar_icon.svg"
 import libraryIcon from "./img/library_icon.svg"
 import forumsIcon from "./img/forum_icon.svg"
 import SearchPage from "./pages/SearchPage";
+import CollectionsPage from "./pages/CollectionsPage";
 
 
 const drawerWidth = 240;
@@ -92,7 +93,7 @@ const RouteMain = ({component: Component, select}) => {
 
 
     const drawerIconsList = [homeIcon, searchIcon, calendarIcon, libraryIcon, forumsIcon];
-    const drawerLinkList = ["/", "/search", "/calendar", "/library", "/forums"];
+    const drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums"];
 
     return (
         <>
@@ -184,6 +185,7 @@ function App() {
                 <RouteMain exact path="/" component={MainPage}/>
                 <RouteMain  path={"/game/:id"} component={() => <GamePage/>}/>
                 <RouteMain  path={"/search"} component={() => <SearchPage/>}/>
+                <RouteMain  path={"/collections"} component={() => <CollectionsPage/>}/>
             </Switch>
         </Router>
 
