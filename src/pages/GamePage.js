@@ -21,16 +21,14 @@ import axios from "axios";
 import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
-import {LabelsGamePage, LabelsSearchPage} from "../locale/en";
+import {LabelsGamePage} from "../locale/en";
 import {makeStyles} from "@mui/styles";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
-import CardGeekify from "../components/CardGeekify/CardGeekify";
 import accountIcon from "../img/account_icon.svg"
-import CardComment from "../components/CardComment/CardComment";
-import CardAchievements from "../components/CardAchievements/CardAchievements";
+import CommentCard from "../components/Cards/CommentCard";
 import Icons from "../resources/Icons";
-import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
-import {platformsMock} from "../mocks/SearchMocks";
+import CardGeekify from "../components/Cards/CardGeekify";
+import CardAchievements from "../components/Cards/AchievementsCard";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -409,7 +407,7 @@ const GamePage = () => {
                                     ),
                                 }}
                             />
-                            <CardComment width={'350px'} time={"2 minutes ago"} title={"Hola"}
+                            <CommentCard width={'350px'} time={"2 minutes ago"} title={"Hola"}
                                          comment={LabelsGamePage.COMMENT_EXAMPLE} bg={AppColors.BACKGROUND_DRAWER}/>
                         </Grid>
 
