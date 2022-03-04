@@ -63,3 +63,7 @@ export const LabelsSearchPage={
     COOP:'Cooperative',
     MULTIPLAYER: 'Multiplayer',
 }
+
+export const LabelsCollection = {
+    MY_COLLECTIONS: 'My collections'
+}
