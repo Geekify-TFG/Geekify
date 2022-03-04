@@ -41,7 +41,7 @@ const CardAchivements = props => {
                 }
 
                 title={<Typography style={{fontSize: '20px', color: AppColors.WHITE}}>{title}</Typography>}
-                subheader={<Typography style={{fontSize: '16px', color: AppColors.WHITE}}>{`${percent} %`}</Typography>}
+                subheader={<Typography style={{fontSize: '16px', color: AppColors.PRIMARY}}>{`${percent} %`}</Typography>}
             />
 
             <CardContent>
