@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import {useTextStyles} from "../../resources/AppTexts";
 import {BASE_PATH, GAMES} from "../../resources/ApiUrls";
 import axios from "axios";
-import GameCard from "../GameCard";
+import GameCard from "../Cards/GameCard";
 
 /**
  * @component
