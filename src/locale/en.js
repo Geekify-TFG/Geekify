@@ -37,3 +37,29 @@ export const LabelsGamePage = {
     NOT_RECOMMENDED: 'Not recommended',
     NOT_RATED:'Not rated'
 }
+
+export const LabelsSearchPage={
+    RELEASE_YEAR: 'Release year',
+    RATING: 'Rating',
+    PLATFORM:'Platform',
+    PLAYSTATION: 'Playstation',
+    NINTENDO:'Nintendo',
+    XBOX:'Xbox',
+    PC:'PC',
+    OTHERS:'Others',
+    GENRES:'Genres',
+    ACTION:'Action',
+    ADVENTURE:'Adventure',
+    SHOOTER:'Shooter',
+    PUZZLE:'Puzzle',
+    RPG:'RPG',
+    INDIE:'Indie',
+    STRATEGY:'Strategy',
+    FAMILY:'Family',
+    SPORTS:'Sports',
+    FIGHTING:'Fighting',
+    NUMBER_PLAYERS:'Number of players',
+    ONLY_ME: 'Only me',
+    COOP:'Cooperative',
+    MULTIPLAYER: 'Multiplayer',
+}

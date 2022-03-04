@@ -49,10 +49,27 @@ const useStyles = makeStyles((theme) =>
             },
             borderRadius: 30,
         },
+        inputBig: {
+            padding: theme.spacing(1, 1, 1, 0),
+            // vertical padding + font size from searchIcon
+            backgroundColor:AppColors.BACKGROUND_SEARCH,
+            paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
+            color:AppColors.GRAY,
+            transition: theme.transitions.create('width'),
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                width: '50em',
+                height: '2.5em',
+                '&:focus': {
+                    width: '50em',
+                },
+            },
+            borderRadius: 30,
+        },
     })
 );
 
-function SearchBar() {
+function SearchBar({size}) {
 
     const classes = useStyles();
     const [value, setValue] = useState()
@@ -75,16 +92,17 @@ function SearchBar() {
         }
 
     }
+    const myComponentClass = size ? classes.inputBig : classes.inputInput;
 
     return (
-        <div style={{marginLeft: '25px'}} className={classes.search}>
+        <div style={{marginLeft: '25px'}} >
 
             <InputBase
                 data-testid="SearchBar"
                 placeholder="Search videogames"
                 classes={{
                     root: classes.inputRoot,
-                    input: classes.inputInput,
+                    input: myComponentClass,
                 }}
                 style={{color:AppColors.WHITE}}
                 inputProps={{'aria-label': 'Search videogames '}}

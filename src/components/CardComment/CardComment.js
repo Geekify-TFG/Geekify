@@ -41,8 +41,8 @@ const CardComment = props => {
                     </Avatar>
                 }
 
-                title={<Typography  style={{fontSize:'20px',color:AppColors.WHITE}}>{title}</Typography>}
-                subheader={<Typography  style={{fontSize:'16px',color:AppColors.WHITE}}>{time}</Typography>}
+                title={<Typography  style={{fontSize:'20px',color:AppColors.PRIMARY}}>{title}</Typography>}
+                subheader={<Typography  style={{fontSize:'16px',color:AppColors.GRAY}}>{time}</Typography>}
             />
 
             <CardContent>

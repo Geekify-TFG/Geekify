@@ -2,12 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {
     Avatar,
     ButtonGroup,
-    Card, CardMedia, FormControl,
+    Card,
+    CardMedia,
+    FormControl,
     Grid,
-    InputAdornment, InputLabel,
+    InputAdornment,
+    InputLabel,
     List,
     ListItem,
-    ListItemText, MenuItem, Select,
+    ListItemText,
+    MenuItem,
+    Select,
     TextField
 } from "@material-ui/core";
 import {Button, Typography} from "@mui/material";
@@ -16,15 +21,16 @@ import axios from "axios";
 import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
-import {LabelsGamePage} from "../locale/en";
+import {LabelsGamePage, LabelsSearchPage} from "../locale/en";
 import {makeStyles} from "@mui/styles";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import CardGeekify from "../components/CardGeekify/CardGeekify";
 import accountIcon from "../img/account_icon.svg"
 import CardComment from "../components/CardComment/CardComment";
 import CardAchievements from "../components/CardAchievements/CardAchievements";
-import CardImage from "../components/CardImage/CardImage";
 import Icons from "../resources/Icons";
+import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
+import {platformsMock} from "../mocks/SearchMocks";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -151,7 +157,7 @@ const GamePage = () => {
 
     const getParentPlatforms = async (parentPlatform) => {
         console.log(parentPlatform.parent_platforms)
-        const platformIconsList=[]
+        const platformIconsList = []
 
     }
 
@@ -210,30 +216,31 @@ const GamePage = () => {
                                 />
 
                             </Card>
+
                             <FormControl className={classes.select} variant="outlined" margin='normal'
                                          style={{width: '9.75em'}}>
                                 <InputLabel className={classes.select}
-                                            id="demo-simple-select-label"></InputLabel>
-                                    <Select className={classes.select} IconComponent={Icons.ARROW_DOWN}
-                                            value={rating}
-                                            displayEmpty
-                                            renderValue={rating !== "" ? undefined : () => "Not rated yet"}
-                                            onChange={handleChange}
-                                            label="Rating"
-                                            style={{width: 280}}
-                                    >
+                                            id="demo-simple-select-label"/>
+                                <Select className={classes.select} IconComponent={Icons.ARROW_DOWN}
+                                        value={rating}
+                                        displayEmpty
+                                        renderValue={rating !== "" ? undefined : () => "Not rated yet"}
+                                        onChange={handleChange}
+                                        label="Rating"
+                                        style={{width: 280}}
+                                >
 
-                                        <MenuItem style={{color: AppColors.PRIMARY}}
-                                                  value={4}>{LabelsGamePage.MASTERPIECE}</MenuItem>
-                                        <MenuItem style={{color: AppColors.PRIMARY}}
-                                                  value={3}>{LabelsGamePage.VERY_GOOD}</MenuItem>
-                                        <MenuItem style={{color: AppColors.PRIMARY}}
-                                                  value={2}>{LabelsGamePage.FINE}</MenuItem>
-                                        <MenuItem style={{color: AppColors.PRIMARY}}
-                                                  value={1}>{LabelsGamePage.MEH}</MenuItem>
-                                        <MenuItem style={{color: AppColors.PRIMARY}}
-                                                  value={0}>{LabelsGamePage.NOT_RECOMMENDED}</MenuItem>
-                                    </Select>
+                                    <MenuItem style={{color: AppColors.PRIMARY}}
+                                              value={4}>{LabelsGamePage.MASTERPIECE}</MenuItem>
+                                    <MenuItem style={{color: AppColors.PRIMARY}}
+                                              value={3}>{LabelsGamePage.VERY_GOOD}</MenuItem>
+                                    <MenuItem style={{color: AppColors.PRIMARY}}
+                                              value={2}>{LabelsGamePage.FINE}</MenuItem>
+                                    <MenuItem style={{color: AppColors.PRIMARY}}
+                                              value={1}>{LabelsGamePage.MEH}</MenuItem>
+                                    <MenuItem style={{color: AppColors.PRIMARY}}
+                                              value={0}>{LabelsGamePage.NOT_RECOMMENDED}</MenuItem>
+                                </Select>
                             </FormControl>
                         </Grid>
                         <Grid container direction={"column"} item style={{margin: '4em', marginLeft: 0}}>
@@ -357,22 +364,22 @@ const GamePage = () => {
                                 color: AppColors.WHITE
                             }}>{LabelsGamePage.ACHIEVEMENTS}</Typography>
 
-                        { achievements&&
-                            achievements.map(elem => (
-                                <Grid item style={{marginBottom: '1em'}} key={achievements.indexOf(elem)}
+                        {achievements &&
+                        achievements.map(elem => (
+                            <Grid item style={{marginBottom: '1em'}} key={achievements.indexOf(elem)}
 
-                                >
-                                    <CardAchievements
-                                        bg={AppColors.BACKGROUND_DRAWER}
-                                        width={'350px'}
-                                        title={elem.name}
-                                        description={elem.description}
-                                        percent={elem.percent}
-                                        image={elem.image}
+                            >
+                                <CardAchievements
+                                    bg={AppColors.BACKGROUND_DRAWER}
+                                    width={'350px'}
+                                    title={elem.name}
+                                    description={elem.description}
+                                    percent={elem.percent}
+                                    image={elem.image}
 
-                                    />
-                                </Grid>
-                            ))}
+                                />
+                            </Grid>
+                        ))}
 
                     </Grid>
                     <Grid item style={{marginLeft: '2em'}}>
@@ -411,28 +418,33 @@ const GamePage = () => {
                     <Grid item style={{marginLeft: '2em'}}>
                         <Grid item style={{marginBottom: '4em',}}>
 
-                            {images&&
-                                images.map(elem => (
-                                    <Grid item style={{marginBottom: '1em'}} key={images.indexOf(elem)}
+                            {images &&
+                            images.map(elem => (
+                                <Grid item style={{marginBottom: '1em'}} key={images.indexOf(elem)}
 
-                                    >
-                                        <Card style={{height: '400px', width: '275px', position: "relative", borderRadius: 20}}
-                                              className={classes.card}>
-                                            <CardMedia
-                                                image={elem.image}
-                                                title={"A"}
-                                                alt={"A"}
-                                                style={{
-                                                    position: "absolute",
-                                                    top: 0,
-                                                    right: 0,
-                                                    height: '400px', width: '300px'
-                                                }}
-                                            />
+                                >
+                                    <Card style={{
+                                        height: '400px',
+                                        width: '275px',
+                                        position: "relative",
+                                        borderRadius: 20
+                                    }}
+                                          className={classes.card}>
+                                        <CardMedia
+                                            image={elem.image}
+                                            title={"A"}
+                                            alt={"A"}
+                                            style={{
+                                                position: "absolute",
+                                                top: 0,
+                                                right: 0,
+                                                height: '400px', width: '300px'
+                                            }}
+                                        />
 
-                                        </Card>
-                                    </Grid>
-                                ))}
+                                    </Card>
+                                </Grid>
+                            ))}
                         </Grid>
 
 

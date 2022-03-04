@@ -14,6 +14,7 @@ import searchIcon from "./img/search_icon.svg"
 import calendarIcon from "./img/calendar_icon.svg"
 import libraryIcon from "./img/library_icon.svg"
 import forumsIcon from "./img/forum_icon.svg"
+import SearchPage from "./pages/SearchPage";
 
 
 const drawerWidth = 240;
@@ -182,6 +183,7 @@ function App() {
             <Switch>
                 <RouteMain exact path="/" component={MainPage}/>
                 <RouteMain  path={"/game/:id"} component={() => <GamePage/>}/>
+                <RouteMain  path={"/search"} component={() => <SearchPage/>}/>
             </Switch>
         </Router>
 
