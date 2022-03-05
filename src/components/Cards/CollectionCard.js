@@ -58,6 +58,7 @@ const CollectionCard = ({
                             collectionNumGames,
                             collectionImage,
                             height, width,
+                            paddingLeft
                         }) => {
     const classes = useStyles();
     const history = useHistory()
@@ -66,7 +67,7 @@ const CollectionCard = ({
     const onClickHandler = () => {
         history.push({
             pathname: `/collection/${collectionId}`,
-            state: {detail: collectionId}
+            state: {detail: collectionId, title: collectionTitle}
         })
 
 
@@ -88,7 +89,7 @@ const CollectionCard = ({
                         position: "absolute",
                         top: 0,
                         right: 0,
-                        height: '212px',width: `${width}`
+                        height: '212px', width: `${width}`
                     }}
                 />
                 <CardContent style={{
@@ -99,9 +100,9 @@ const CollectionCard = ({
                 }}>
                     <Grid container>
 
-                        <Grid item style={{paddingLeft: '8em'}}>
+                        <Grid item style={{paddingLeft: `${paddingLeft}`, paddingTop: '1em'}}>
                             <Button style={{backgroundColor: AppColors.BACKGROUND, borderRadius: 20}} disabled={true}>
-                                <IconProvider icon={<Icons.STAR style={{
+                                <IconProvider icon={<Icons.BOOKMARK style={{
                                     verticalAlign: "middle",
                                     display: "inline-flex",
                                     paddingRight: '4px',
@@ -114,10 +115,15 @@ const CollectionCard = ({
                             </Button>
 
                         </Grid>
-                        <Grid item style={{paddingTop: '9em'}}>
-                            <Typography style={{color: AppColors.WHITE, height: '64px'}} variant="h5" component="h2">
-                                {collectionTitle}
-                            </Typography>
+                        <Grid item style={{paddingTop: '8em'}}>
+                            <Button
+                                style={{textTransform:'none',backgroundColor: AppColors.BACKGROUND, borderRadius: 20}} disabled={true}>
+
+                                <Typography style={{color: AppColors.WHITE}} variant="h5" component="h2">
+                                    {collectionTitle}
+                                </Typography>
+                            </Button>
+
                         </Grid>
                     </Grid>
                 </CardContent>

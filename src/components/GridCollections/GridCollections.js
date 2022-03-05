@@ -32,7 +32,6 @@ const GridCollections = ({collections}) => {
 
     const [collection, setCollection] = useState(collections);
 
-
     return (
         <Container fluid style={{margin: 0, maxWidth: '100%'}}>
             <div className={classes.root}>
@@ -55,9 +54,9 @@ const GridCollections = ({collections}) => {
                                   xl={3}
                             >
                                 {(index % 2 === 0) ?
-                                    <CollectionCard width={'550px'} collectionId={elem.id} collectionTitle={elem.title}
+                                    <CollectionCard paddingLeft={'34em'} width={'550px'} collectionId={elem.id} collectionTitle={elem.title}
                                                     collectionNumGames={elem.numGames} collectionImage={elem.image}/>
-                                    : <CollectionCard width={'400px'} collectionId={elem.id} collectionTitle={elem.title}
+                                    : <CollectionCard paddingLeft={'23em'} width={'400px'} collectionId={elem.id} collectionTitle={elem.title}
                                                       collectionNumGames={elem.numGames} collectionImage={elem.image}/>
 
                                     }
