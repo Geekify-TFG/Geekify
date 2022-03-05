@@ -17,9 +17,9 @@ import {AppColors} from "../../resources/AppColors";
  * const bg = 'light';
  * const style = {height: '18rem', width: '18rem'};
  *
- * <CardComment bg={bg} style={style}> {children} </CardGeekify>
+ * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
-const CardImage = props => {
+const ImageCard = props => {
     const {children, bg, height, width, title, image} = props;
     return (
         <Card style={{height: {height}, width: {width}, borderRadius: 20,position:'relative'}}>
@@ -40,7 +40,7 @@ const CardImage = props => {
     )
 }
 
-CardImage.propTypes = {
+ImageCard.propTypes = {
     bg: PropTypes.string,
     height: PropTypes.string,
     width: PropTypes.string,
@@ -48,8 +48,8 @@ CardImage.propTypes = {
     image: PropTypes.string,
 }
 
-CardImage.defaultProps = {
+ImageCard.defaultProps = {
     bg: AppColors.WHITE
 };
 
-export default CardImage;
+export default ImageCard;

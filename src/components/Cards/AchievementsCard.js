@@ -1,8 +1,7 @@
 import React from "react";
-import {Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography} from '@material-ui/core';
+import {Avatar, Card, CardContent, CardHeader, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {AppColors} from "../../resources/AppColors";
-import FavoriteIcon from '@mui/icons-material/Favorite';
 
 /**
  * Component to create comment cards.
@@ -18,10 +17,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
  * const bg = 'light';
  * const style = {height: '18rem', width: '18rem'};
  *
- * <CardComment bg={bg} style={style}> {children} </CardGeekify>
+ * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
-const CardComment = props => {
-    const {children, bg, height, width, title, time,comment} = props;
+const CardAchivements = props => {
+    const {children, bg, height, width, title, percent, description, image} = props;
     return (
         <Card
             className="w-100 mb-3"
@@ -36,42 +35,39 @@ const CardComment = props => {
             }>
             <CardHeader
                 avatar={
-                    <Avatar sx={{bgcolor: AppColors.RED}} aria-label="recipe">
-
+                    <Avatar  aria-label="recipe">
+                        <img style={{width: '40px', height: '40px'}} src={image}/>
                     </Avatar>
                 }
 
-                title={<Typography  style={{fontSize:'20px',color:AppColors.PRIMARY}}>{title}</Typography>}
-                subheader={<Typography  style={{fontSize:'16px',color:AppColors.GRAY}}>{time}</Typography>}
+                title={<Typography style={{fontSize: '20px', color: AppColors.WHITE}}>{title}</Typography>}
+                subheader={<Typography style={{fontSize: '16px', color: AppColors.PRIMARY}}>{`${percent} %`}</Typography>}
             />
 
             <CardContent>
-                <Typography  style={{fontSize:'16px',color:AppColors.WHITE}} >
-                    {comment}
+                <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>
+                    {description}
                 </Typography>
             </CardContent>
-            <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon/>
-                </IconButton>
 
-            </CardActions>
         </Card>
     )
 }
 
-CardComment.propTypes = {
-    children: PropTypes.array.isRequired,
+CardAchivements.propTypes = {
     bg: PropTypes.string,
     height: PropTypes.string,
     width: PropTypes.string,
     title: PropTypes.string,
-    time: PropTypes.string,
-    comment: PropTypes.string,
+    description: PropTypes.string,
+    image: PropTypes.string,
+    percent: PropTypes.string,
+
+
 }
 
-CardComment.defaultProps = {
+CardAchivements.defaultProps = {
     bg: AppColors.WHITE
 };
 
-export default CardComment;
+export default CardAchivements;
