@@ -64,10 +64,6 @@ const useStyles = makeStyles((theme) => ({
 
 const CollectionsPage = () => {
     const [collections, setCollections] = useState();
-    const history = useHistory()
-    const classes = useStyles();
-    const sort_type = [LabelsMain.POPULAR, LabelsMain.RELEASE, LabelsMain.RATING];
-    const [sortActive, setSortActive] = useState('Popular');
     const [loading, setLoading] = useState(false);
 
   /*  //Function to get all the games
