@@ -16,6 +16,7 @@ import libraryIcon from "./img/library_icon.svg"
 import forumsIcon from "./img/forum_icon.svg"
 import SearchPage from "./pages/SearchPage";
 import CollectionsPage from "./pages/CollectionsPage";
+import CollectionPage from "./pages/CollectionPage";
 
 
 const drawerWidth = 240;
@@ -186,6 +187,7 @@ function App() {
                 <RouteMain  path={"/game/:id"} component={() => <GamePage/>}/>
                 <RouteMain  path={"/search"} component={() => <SearchPage/>}/>
                 <RouteMain  path={"/collections"} component={() => <CollectionsPage/>}/>
+                <RouteMain  path={"/collection/:id"} component={() => <CollectionPage/>}/>
             </Switch>
         </Router>
 
