@@ -67,3 +67,10 @@ export const LabelsSearchPage = {
 export const LabelsCollection = {
     MY_COLLECTIONS: 'My collections'
 }
+
+export const LabelsForumsPage = {
+    FORUMS: 'Forums',
+    JOIN_FORUM: 'Join the forum',
+    FOLLOWING_GROUPS: 'Following groups',
+    SEE_MORE: 'See more'
+}

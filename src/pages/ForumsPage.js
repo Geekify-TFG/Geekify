@@ -1,12 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, CircularProgress, Grid, Typography} from "@material-ui/core";
+import {
+    Avatar,
+    Button, Card, CardMedia,
+    Divider,
+    Grid,
+    InputAdornment,
+    List,
+    ListItem, ListItemAvatar,
+    ListItemText,
+    TextField,
+    Typography
+} from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
-import {LabelsCollection} from "../locale/en";
+import {LabelsForums, LabelsForumsPage, LabelsGamePage} from "../locale/en";
 import styled from "@emotion/styled";
-import GridCollections from "../components/GridCollections/GridCollections";
-import {collectionsMock} from "../mocks/CollectionsMock";
+import ForumCard from "../components/Cards/ForumCard";
+import {forumsMock} from "../mocks/ForumsMock";
+import CommentCard from "../components/Cards/CommentCard";
+import CardGeekify from "../components/Cards/CardGeekify";
+import CardAchievements from "../components/Cards/AchievementsCard";
+import accountIcon from "../img/account_icon.svg";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -58,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ForumsPage = () => {
-    const [collections, setCollections] = useState();
+    const [forums, setForums] = useState();
     const [loading, setLoading] = useState(false);
 
     /*  //Function to get all the games
@@ -76,7 +91,7 @@ const ForumsPage = () => {
   */
 
     useEffect(() => {
-        setCollections(collectionsMock)
+        setForums(forumsMock)
         // getCollections()
 
     }, []);
@@ -114,26 +129,132 @@ const ForumsPage = () => {
                     </Grid>
 
                 </Grid>
+
                 <Grid container
-                      direction={"column"}>
-                    <Grid item style={{marginLeft: '4em'}}>
+                      direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
+                    <Grid item style={{marginLeft: '2em'}}>
+
+
                         <Typography
                             style={{
                                 fontSize: '40px',
                                 color: AppColors.WHITE
-                            }}>{LabelsCollection.MY_COLLECTIONS}</Typography>
+                            }}>{LabelsForumsPage.FORUMS}</Typography>
+
+                        {forums &&
+                        forums.map(elem => (
+                            <Grid item style={{paddingLeft:0, paddingBottom: '2em'}} key={forums.indexOf(elem)}
+
+                            >
+                                <ForumCard
+                                    bg={AppColors.BACKGROUND_DRAWER}
+                                    forumTitle={elem.title}
+                                    forumDescription={elem.description}
+                                    forumNumUsers={elem.numUsers}
+                                    forumImage={elem.image}
+                                    forumGenre={elem.genre}
+
+                                />
+                                <Divider style={{width: '45em', backgroundColor: AppColors.GRAY}}/>
+
+                            </Grid>
+
+                        ))}
+
+                    </Grid>
+                    <Grid item style={{marginLeft: '2em'}}>
+                        <Grid item style={{marginBottom: '4em',}}>
+                            <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={50} height={'auto'} width={'350px'}>
+                                <Grid
+                                    container
+                                >
+                                    <Typography
+                                        style={{
+                                            fontSize: '20px',
+                                            color: AppColors.WHITE,
+                                            marginLeft:'3em',
+                                            marginTop:'1em'
+                                        }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
+
+
+                                    <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
+                                            </ListItemAvatar>
+                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                          primary={'Elden ring'}
+                                            />
+                                            <ListItemText style={{color: AppColors.SECONDARY}}
+                                                          primary={'18'}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
+                                            </ListItemAvatar>
+                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                          primary={'Elden ring'}
+                                            />
+                                            <ListItemText style={{color: AppColors.SECONDARY}}
+                                                          primary={'18'}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
+                                            </ListItemAvatar>
+                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                          primary={'Elden ring'}
+                                            />
+                                            <ListItemText style={{color: AppColors.SECONDARY}}
+                                                          primary={'18'}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
+                                            </ListItemAvatar>
+                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                          primary={'Elden ring'}
+                                            />
+                                            <ListItemText style={{color: AppColors.SECONDARY}}
+                                                          primary={'18'}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
+                                            </ListItemAvatar>
+                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                          primary={'Elden ring'}
+                                            />
+                                            <ListItemText style={{color: AppColors.SECONDARY}}
+                                                          primary={'18'}
+                                            />
+                                        </ListItem>
+
+                                        <Typography
+                                            style={{
+                                                fontSize: '20px',
+                                                color: AppColors.WHITE,
+                                                marginLeft:'3em',
+                                                marginTop:'1em'
+                                            }}>{LabelsForumsPage.SEE_MORE}</Typography>
+
+
+                                    </List>
+                                </Grid>
+
+                            </CardGeekify>
+                        </Grid>
+
+
                     </Grid>
 
-                    {
-                        loading ?
-                            <div style={{display: 'flex', justifyContent: 'center'}}>
-                                <CircularProgress/>
-                            </div>
-                            :
-                            <Grid item>
-                                {collections && <GridCollections collections={collections}/>}
-                            </Grid>}
                 </Grid>
+
+
             </Grid>
         </>
     )
