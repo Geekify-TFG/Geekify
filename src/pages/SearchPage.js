@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, CircularProgress, Grid, Select, Slider, Typography} from "@material-ui/core";
+import {Avatar, Button, CircularProgress, Grid, Slider, Typography} from "@material-ui/core";
 import {BASE_PATH, GAMES, GAMES_RATING, GAMES_RELEASED} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
@@ -9,9 +9,9 @@ import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
 import {LabelsMain, LabelsSearchPage} from "../locale/en";
 import styled from "@emotion/styled";
-import Icons from "../resources/Icons";
 import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
-import {platformsMock, genresMock, numPlayersMock } from "../mocks/SearchMocks"
+import {genresMock, numPlayersMock, platformsMock} from "../mocks/SearchMocks"
+
 const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
@@ -184,7 +184,6 @@ const SearchPage = () => {
     };
 
 
-
     return (
         <>
             <Grid container alignItems={"center"}>
@@ -255,16 +254,20 @@ const SearchPage = () => {
                         </Grid>
 
                         <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
-                            <SelectGeekify value={platforms} handleChange={handleChangePlatform} options={platformsMock} borderRadius={30} width={'201px'} label={LabelsSearchPage.PLATFORM}/>
+                            <SelectGeekify value={platforms} handleChange={handleChangePlatform} options={platformsMock}
+                                           borderRadius={30} width={'201px'} label={LabelsSearchPage.PLATFORM}/>
                         </Grid>
 
                         <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
-                            <SelectGeekify value={genres} handleChange={handleChangeGenres} options={genresMock} borderRadius={30} width={'3px'} label={LabelsSearchPage.GENRES}/>
+                            <SelectGeekify value={genres} handleChange={handleChangeGenres} options={genresMock}
+                                           borderRadius={30} width={'3px'} label={LabelsSearchPage.GENRES}/>
                         </Grid>
 
 
                         <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
-                            <SelectGeekify value={numPlayers} handleChange={handleChangeNumPlayers} options={numPlayersMock} borderRadius={30} width={'400px'} label={LabelsSearchPage.NUMBER_PLAYERS}/>
+                            <SelectGeekify value={numPlayers} handleChange={handleChangeNumPlayers}
+                                           options={numPlayersMock} borderRadius={30} width={'400px'}
+                                           label={LabelsSearchPage.NUMBER_PLAYERS}/>
                         </Grid>
 
 

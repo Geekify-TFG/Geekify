@@ -8,7 +8,7 @@ const Icons = {
     'HOME': HomeIcon,
     'STAR': StarIcon,
     'MORE': MoreHorizIcon,
-    'BOOKMARK':BookmarkIcon,
+    'BOOKMARK': BookmarkIcon,
     'ARROW_DOWN': KeyboardArrowDownIcon,
 
 }

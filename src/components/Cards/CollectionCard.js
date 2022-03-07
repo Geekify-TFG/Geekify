@@ -117,7 +117,8 @@ const CollectionCard = ({
                         </Grid>
                         <Grid item style={{paddingTop: '8em'}}>
                             <Button
-                                style={{textTransform:'none',backgroundColor: AppColors.BACKGROUND, borderRadius: 20}} disabled={true}>
+                                style={{textTransform: 'none', backgroundColor: AppColors.BACKGROUND, borderRadius: 20}}
+                                disabled={true}>
 
                                 <Typography style={{color: AppColors.WHITE}} variant="h5" component="h2">
                                     {collectionTitle}

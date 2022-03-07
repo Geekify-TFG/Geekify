@@ -6,9 +6,7 @@ import GridGames from "../components/GridGames/GridGames";
 import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
-import eldenImage from "../img/elden_background.jpeg"
 import {AppColors} from "../resources/AppColors";
-import {LabelsMain} from "../locale/en";
 import styled from "@emotion/styled";
 
 const ButtonToggle = styled(Button)`

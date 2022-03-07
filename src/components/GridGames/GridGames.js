@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Container, Grid} from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles'
@@ -45,7 +45,6 @@ const GridGames = ({games}) => {
             console.log(err.message)
         }
     }
-
 
 
     if (redirectTo[0]) {

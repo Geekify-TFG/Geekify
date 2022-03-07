@@ -128,11 +128,11 @@ const GameCard = ({
 
                         </Grid>
                         <Grid item style={{paddingTop: '9em'}}>
-                            <Typography style={{color: AppColors.WHITE,height:'64px'}}  variant="h5" component="h2">
+                            <Typography style={{color: AppColors.WHITE, height: '64px'}} variant="h5" component="h2">
                                 {gameTitle}
                             </Typography>
                         </Grid>
-                        <Grid item style={{paddingLeft: '12em',paddingTop:'0.7em'}}>
+                        <Grid item style={{paddingLeft: '12em', paddingTop: '0.7em'}}>
                             <Button style={{
                                 backgroundColor: AppColors.BACKGROUND,
                                 borderRadius: 30,

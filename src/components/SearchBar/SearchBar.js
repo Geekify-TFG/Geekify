@@ -1,5 +1,4 @@
 import {createStyles, fade, makeStyles} from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) =>
         inputInput: {
             padding: theme.spacing(1, 1, 1, 0),
             // vertical padding + font size from searchIcon
-            backgroundColor:AppColors.BACKGROUND_DRAWER,
+            backgroundColor: AppColors.BACKGROUND_DRAWER,
             paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
             transition: theme.transitions.create('width'),
             width: '100%',
@@ -52,9 +51,9 @@ const useStyles = makeStyles((theme) =>
         inputBig: {
             padding: theme.spacing(1, 1, 1, 0),
             // vertical padding + font size from searchIcon
-            backgroundColor:AppColors.BACKGROUND_SEARCH,
+            backgroundColor: AppColors.BACKGROUND_SEARCH,
             paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
-            color:AppColors.GRAY,
+            color: AppColors.GRAY,
             transition: theme.transitions.create('width'),
             width: '100%',
             [theme.breakpoints.up('sm')]: {
@@ -95,7 +94,7 @@ function SearchBar({size}) {
     const myComponentClass = size ? classes.inputBig : classes.inputInput;
 
     return (
-        <div style={{marginLeft: '25px'}} >
+        <div style={{marginLeft: '25px'}}>
 
             <InputBase
                 data-testid="SearchBar"
@@ -104,7 +103,7 @@ function SearchBar({size}) {
                     root: classes.inputRoot,
                     input: myComponentClass,
                 }}
-                style={{color:AppColors.WHITE}}
+                style={{color: AppColors.WHITE}}
                 inputProps={{'aria-label': 'Search videogames '}}
                 value={value}
                 onKeyDown={keyPress} onChange={handleChange}

@@ -17,6 +17,8 @@ import forumsIcon from "./img/forum_icon.svg"
 import SearchPage from "./pages/SearchPage";
 import CollectionsPage from "./pages/CollectionsPage";
 import CollectionPage from "./pages/CollectionPage";
+import ForumsPage from "./pages/ForumsPage";
+import ForumPage from "./pages/ForumPage";
 
 
 const drawerWidth = 240;
@@ -184,10 +186,12 @@ function App() {
         <Router>
             <Switch>
                 <RouteMain exact path="/" component={MainPage}/>
-                <RouteMain  path={"/game/:id"} component={() => <GamePage/>}/>
-                <RouteMain  path={"/search"} component={() => <SearchPage/>}/>
-                <RouteMain  path={"/collections"} component={() => <CollectionsPage/>}/>
-                <RouteMain  path={"/collection/:id"} component={() => <CollectionPage/>}/>
+                <RouteMain path={"/game/:id"} component={() => <GamePage/>}/>
+                <RouteMain path={"/search"} component={() => <SearchPage/>}/>
+                <RouteMain path={"/collections"} component={() => <CollectionsPage/>}/>
+                <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>
+                <RouteMain path={"/forums"} component={() => <ForumsPage/>}/>
+                <RouteMain path={"/forum/:id"} component={() => <ForumPage/>}/>
             </Switch>
         </Router>
 

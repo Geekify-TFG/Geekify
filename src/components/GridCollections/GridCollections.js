@@ -54,22 +54,24 @@ const GridCollections = ({collections}) => {
                                   xl={3}
                             >
                                 {(index % 2 === 0) ?
-                                    <CollectionCard paddingLeft={'34em'} width={'550px'} collectionId={elem.id} collectionTitle={elem.title}
+                                    <CollectionCard paddingLeft={'34em'} width={'550px'} collectionId={elem.id}
+                                                    collectionTitle={elem.title}
                                                     collectionNumGames={elem.numGames} collectionImage={elem.image}/>
-                                    : <CollectionCard paddingLeft={'23em'} width={'400px'} collectionId={elem.id} collectionTitle={elem.title}
+                                    : <CollectionCard paddingLeft={'23em'} width={'400px'} collectionId={elem.id}
+                                                      collectionTitle={elem.title}
                                                       collectionNumGames={elem.numGames} collectionImage={elem.image}/>
 
-                                    }
-                                    />
-                                    </Grid>
-                                    ))}
-
-
+                                }
+                                />
                             </Grid>
-                        </div>
-                        </Container>
+                        ))}
 
-                        )
-                    }
 
-                    export default GridCollections;
+                </Grid>
+            </div>
+        </Container>
+
+    )
+}
+
+export default GridCollections;

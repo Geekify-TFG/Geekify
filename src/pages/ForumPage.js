@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const CollectionsPage = () => {
+const ForumPage = () => {
     const [collections, setCollections] = useState();
     const [loading, setLoading] = useState(false);
 
@@ -139,4 +139,4 @@ const CollectionsPage = () => {
     )
 }
 
-export default CollectionsPage;
+export default ForumPage;

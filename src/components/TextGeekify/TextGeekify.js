@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from "prop-types";
-import { Typography } from "@material-ui/core";
-import { textType, useTextStyles } from "../../resources/AppTexts";
+import {Typography} from "@material-ui/core";
+import {textType, useTextStyles} from "../../resources/AppTexts";
 
 /**
  * @component
@@ -17,7 +17,7 @@ import { textType, useTextStyles } from "../../resources/AppTexts";
  * @constructor
  * <TextGeekify margin={"0px"} style={"break-word"} type={textType.SUBTITLE_BOLD} text={AccountTexts.EMAIL} />
  */
-const TextGeekify = ({ style, type, text, color, marginLeft, margin }) => {
+const TextGeekify = ({style, type, text, color, marginLeft, margin}) => {
     const [styles, setStyles] = useState()
     const texts = useTextStyles()
     if (style == null) {
@@ -76,8 +76,9 @@ const TextGeekify = ({ style, type, text, color, marginLeft, margin }) => {
         }
     }, [])
     return (
-        <Typography style={{ overflowWrap: style }} className={styles}><p
-            style={{ color: color, marginTop: margin, marginBottom: margin, marginLeft: marginLeft }}> {text}</p></Typography>
+        <Typography style={{overflowWrap: style}} className={styles}><p
+            style={{color: color, marginTop: margin, marginBottom: margin, marginLeft: marginLeft}}> {text}</p>
+        </Typography>
     )
 
 }
