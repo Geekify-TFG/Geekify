@@ -1,27 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {
     Avatar,
-    Button, Card, CardMedia,
+    Button,
     Divider,
     Grid,
-    InputAdornment,
     List,
-    ListItem, ListItemAvatar,
+    ListItem,
+    ListItemAvatar,
     ListItemText,
-    TextField,
     Typography
 } from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
-import {LabelsForums, LabelsForumsPage, LabelsGamePage} from "../locale/en";
+import {LabelsForumsPage} from "../locale/en";
 import styled from "@emotion/styled";
 import ForumCard from "../components/Cards/ForumCard";
 import {forumsMock} from "../mocks/ForumsMock";
-import CommentCard from "../components/Cards/CommentCard";
 import CardGeekify from "../components/Cards/CardGeekify";
-import CardAchievements from "../components/Cards/AchievementsCard";
-import accountIcon from "../img/account_icon.svg";
+import {followingGroupMock} from "../mocks/FollowingGroupMock";
+import Icons from "../resources/Icons";
+import IconProvider from "../components/IconProvider/IconProvider";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -74,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ForumsPage = () => {
     const [forums, setForums] = useState();
+    const [followingGroups, setFollowingGroups] = useState();
     const [loading, setLoading] = useState(false);
 
     /*  //Function to get all the games
@@ -92,8 +92,8 @@ const ForumsPage = () => {
 
     useEffect(() => {
         setForums(forumsMock)
+        setFollowingGroups(followingGroupMock)
         // getCollections()
-
     }, []);
 
     return (
@@ -143,11 +143,12 @@ const ForumsPage = () => {
 
                         {forums &&
                         forums.map(elem => (
-                            <Grid item style={{paddingLeft:0, paddingBottom: '2em'}} key={forums.indexOf(elem)}
+                            <Grid item style={{paddingLeft: 0, paddingBottom: '2em'}} key={forums.indexOf(elem)}
 
                             >
                                 <ForumCard
                                     bg={AppColors.BACKGROUND_DRAWER}
+                                    forumId={elem.id}
                                     forumTitle={elem.title}
                                     forumDescription={elem.description}
                                     forumNumUsers={elem.numUsers}
@@ -164,7 +165,8 @@ const ForumsPage = () => {
                     </Grid>
                     <Grid item style={{marginLeft: '2em'}}>
                         <Grid item style={{marginBottom: '4em',}}>
-                            <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={50} height={'auto'} width={'350px'}>
+                            <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={50} height={'auto'}
+                                         width={'350px'}>
                                 <Grid
                                     container
                                 >
@@ -172,77 +174,46 @@ const ForumsPage = () => {
                                         style={{
                                             fontSize: '20px',
                                             color: AppColors.WHITE,
-                                            marginLeft:'3em',
-                                            marginTop:'1em'
+                                            marginLeft: '3em',
+                                            marginTop: '1em'
                                         }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
 
 
                                     <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
-                                            </ListItemAvatar>
-                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                          primary={'Elden ring'}
-                                            />
-                                            <ListItemText style={{color: AppColors.SECONDARY}}
-                                                          primary={'18'}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
-                                            </ListItemAvatar>
-                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                          primary={'Elden ring'}
-                                            />
-                                            <ListItemText style={{color: AppColors.SECONDARY}}
-                                                          primary={'18'}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
-                                            </ListItemAvatar>
-                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                          primary={'Elden ring'}
-                                            />
-                                            <ListItemText style={{color: AppColors.SECONDARY}}
-                                                          primary={'18'}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
-                                            </ListItemAvatar>
-                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                          primary={'Elden ring'}
-                                            />
-                                            <ListItemText style={{color: AppColors.SECONDARY}}
-                                                          primary={'18'}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar alt="Remy Sharp" src={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
-                                            </ListItemAvatar>
-                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                          primary={'Elden ring'}
-                                            />
-                                            <ListItemText style={{color: AppColors.SECONDARY}}
-                                                          primary={'18'}
-                                            />
-                                        </ListItem>
+                                        {followingGroups &&
+                                        followingGroups.map(elem => (
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar alt="Remy Sharp" src={elem.image}/>
+                                                </ListItemAvatar>
+                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                              primary={elem.groupName}
+                                                />
+                                                <ListItemText style={{color: AppColors.GRAY}}
+                                                              primary={elem.numParticipants}
+                                                />
+                                            </ListItem>
 
-                                        <Typography
-                                            style={{
-                                                fontSize: '20px',
-                                                color: AppColors.WHITE,
-                                                marginLeft:'3em',
-                                                marginTop:'1em'
-                                            }}>{LabelsForumsPage.SEE_MORE}</Typography>
-
-
+                                        ))}
+                                        <Grid container direction={"row"}>
+                                            <Grid item>
+                                                <Typography
+                                                    style={{
+                                                        fontSize: '20px',
+                                                        color: AppColors.PRIMARY,
+                                                        marginLeft: '3em',
+                                                        marginTop: '1em'
+                                                    }}>{LabelsForumsPage.SEE_MORE}</Typography>
+                                            </Grid>
+                                            <Grid item style={{paddingLeft:'2em',paddingTop:'1em'}}>
+                                                <IconProvider icon={<Icons.ARROW_RIGHT style={{
+                                                    verticalAlign: "middle",
+                                                    display: "inline-flex",
+                                                    color: AppColors.PRIMARY,
+                                                    fontSize:'1.5em'
+                                                }} size="100px"/>}/>
+                                            </Grid>
+                                        </Grid>
                                     </List>
                                 </Grid>
 
