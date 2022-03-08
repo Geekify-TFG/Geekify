@@ -2,14 +2,14 @@ import React from 'react';
 import {AppColors} from "../../resources/AppColors";
 import {useHistory} from "react-router-dom";
 import {makeStyles} from "@mui/styles";
-import {Avatar, Button, Card, CardContent, CardMedia, Grid, Paper, Typography} from '@material-ui/core';
+import {Avatar, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Paper, Typography} from '@material-ui/core';
 import {useTheme} from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         width: '40em',
-        backgroundColor:AppColors.BACKGROUND
+        backgroundColor: AppColors.BACKGROUND
     },
     details: {
         marginLeft: 0,
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         marginBottom: '2em',
+        marginLeft: '1em',
     },
     playIcon: {
         height: 38,
@@ -75,16 +76,20 @@ const ForumCard = ({
 
     return (
         <Card elevation={0} className={classes.root}>
-            <CardMedia
-                className={classes.cover}
-                image={forumImage}
-                title="Live from space album cover"
-            />
+            <CardActionArea style={{marginRight: '2em', height: '120px', width: '120px'}} onClick={onClickHandler}>
+
+                <CardMedia
+                    className={classes.cover}
+                    image={forumImage}
+                    style={{height: '120px', width: '120px'}}
+                    title="Live from space album cover"
+                />
+            </CardActionArea>
             <div className={classes.details}>
                 <CardContent className={classes.content}>
                     <Grid container justifyContent={"space-between"} direction={"row"}>
                         <Grid item>
-                            <Typography style={{color:AppColors.WHITE,fontSize: '30px'}}>
+                            <Typography style={{color: AppColors.WHITE, fontSize: '30px'}}>
                                 {forumTitle}
                             </Typography>
                         </Grid>
@@ -105,7 +110,7 @@ const ForumCard = ({
                             </Paper>
                         </Grid>
                     </Grid>
-                    <Typography style={{color:AppColors.WHITE,fontSize: '20px'}}>
+                    <Typography style={{color: AppColors.WHITE, fontSize: '20px'}}>
                         {forumDescription}
                     </Typography>
 
