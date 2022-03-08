@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 
 export const textType = {
     NUMBER: 'NUMBER',
@@ -18,7 +18,7 @@ export const textType = {
     BODY_SUBTEXT: 'BODY_SUBTEXT'
 }
 export const AppTextsFontSize = {
-    SIZE_TITLE_MAIN:'100px',
+    SIZE_TITLE_MAIN: '100px',
     SIZE_NUMBER: '28px',
     SIZE_TITLE: '18px',
     SIZE_SUBTITLE: '16px',

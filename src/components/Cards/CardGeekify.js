@@ -1,7 +1,7 @@
 import React from "react";
-import { Card } from '@material-ui/core';
+import {Card} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { AppColors } from "../../resources/AppColors";
+import {AppColors} from "../../resources/AppColors";
 
 /**
  * Component to create custom cards.
@@ -20,14 +20,22 @@ import { AppColors } from "../../resources/AppColors";
  * <CardGeekify bg={bg} style={style}> {children} </CardGeekify>
  */
 const CardGeekify = props => {
-    const { children, bg, height, width } = props;
+    const {children, bg, height, width,borderRadius} = props;
+
     return (
         <Card
             className="w-100 mb-3"
-            style={{ boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)", borderRadius: 10, height: height, width: width, backgroundColor: bg, color: AppColors.PRIMARY }
+            style={{
+                boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)",
+                borderRadius: borderRadius,
+                height: height,
+                width: width,
+                backgroundColor: bg,
+                color: AppColors.PRIMARY
+            }
             }>
             {children}
-        </Card >
+        </Card>
     )
 }
 

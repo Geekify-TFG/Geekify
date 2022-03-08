@@ -1,14 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, ButtonGroup, CircularProgress, Grid, Typography} from "@material-ui/core";
-import {BASE_PATH, GAMES} from "../resources/ApiUrls";
-import axios from "axios";
-import GridGames from "../components/GridGames/GridGames";
-import {useHistory} from "react-router-dom";
+import {Avatar, Button, CircularProgress, Grid, Typography} from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
-import eldenImage from "../img/elden_background.jpeg"
 import {AppColors} from "../resources/AppColors";
-import {LabelsCollection, LabelsMain} from "../locale/en";
+import {LabelsCollection} from "../locale/en";
 import styled from "@emotion/styled";
 import GridCollections from "../components/GridCollections/GridCollections";
 import {collectionsMock} from "../mocks/CollectionsMock";
@@ -66,23 +61,23 @@ const CollectionsPage = () => {
     const [collections, setCollections] = useState();
     const [loading, setLoading] = useState(false);
 
-  /*  //Function to get all the games
-    const getCollections = async () => {
-        try {
-            var data = []
-            const response = await axios.get(`${BASE_PATH}${GAMES}`);
-            setCollections(response.data.results)
-            setLoading(false)
+    /*  //Function to get all the games
+      const getCollections = async () => {
+          try {
+              var data = []
+              const response = await axios.get(`${BASE_PATH}${GAMES}`);
+              setCollections(response.data.results)
+              setLoading(false)
 
-        } catch (err) {
-            console.log(err.message)
-        }
-    }
-*/
+          } catch (err) {
+              console.log(err.message)
+          }
+      }
+  */
 
     useEffect(() => {
-    setCollections(collectionsMock)
-       // getCollections()
+        setCollections(collectionsMock)
+        // getCollections()
 
     }, []);
 
@@ -123,7 +118,10 @@ const CollectionsPage = () => {
                       direction={"column"}>
                     <Grid item style={{marginLeft: '4em'}}>
                         <Typography
-                            style={{fontSize: '40px', color: AppColors.WHITE}}>{LabelsCollection.MY_COLLECTIONS}</Typography>
+                            style={{
+                                fontSize: '40px',
+                                color: AppColors.WHITE
+                            }}>{LabelsCollection.MY_COLLECTIONS}</Typography>
                     </Grid>
 
                     {

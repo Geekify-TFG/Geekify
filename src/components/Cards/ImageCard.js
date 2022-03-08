@@ -1,5 +1,5 @@
 import React from "react";
-import {Avatar, Card, CardContent, CardHeader, CardMedia, Typography} from '@material-ui/core';
+import {Card, CardMedia} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {AppColors} from "../../resources/AppColors";
 
@@ -22,14 +22,14 @@ import {AppColors} from "../../resources/AppColors";
 const ImageCard = props => {
     const {children, bg, height, width, title, image} = props;
     return (
-        <Card style={{height: {height}, width: {width}, borderRadius: 20,position:'relative'}}>
+        <Card style={{height: {height}, width: {width}, borderRadius: 20, position: 'relative'}}>
             <CardMedia
                 media="picture"
                 alt={title}
                 image={image}
                 title={title}
                 style={{
-                    position:"absolute",
+                    position: "absolute",
                     top: 0,
                     right: 0,
                     height: {height}, width: {width}

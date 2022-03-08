@@ -303,7 +303,7 @@ const GamePage = () => {
                 <Grid container
                       direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '4em'}}>
-                        <CardGeekify bg={AppColors.BACKGROUND_CARD} height={'274px'} width={'350px'}>
+                        <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={20} height={'auto'} width={'350px'}>
                             <Grid
                                 container
                             >

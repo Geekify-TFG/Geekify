@@ -20,9 +20,9 @@ const _SCREENSHOTS_PATH = "/screenshots";
 // Endpoints games
 export const GAMES = `${_GAMES_PATH}${_API_KEY}`
 export const GAMES_RATING = `${_GAMES_PATH}${_ORDERING_PATH}${_RATING_PATH}${_API_KEY}`
-export const GAMES_RELEASED= `${_GAMES_PATH}${_ORDERING_PATH}${_RELEASE_PATH}${_API_KEY}`
+export const GAMES_RELEASED = `${_GAMES_PATH}${_ORDERING_PATH}${_RELEASE_PATH}${_API_KEY}`
 
 // Endpoints game
 export const GAME = (id) => `${_GAME_PATH}${id}?${_API_KEY}`
 export const GAME_ACHIEVEMENTS = (id) => `${_GAME_PATH}${id}${_ACHIEVEMENTS_PATH}?${_API_KEY}`
-export const GAME_IMAGES= (id) => `${_GAME_PATH}${id}${_SCREENSHOTS_PATH}?${_API_KEY}`
+export const GAME_IMAGES = (id) => `${_GAME_PATH}${id}${_SCREENSHOTS_PATH}?${_API_KEY}`

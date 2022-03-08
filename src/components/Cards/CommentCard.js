@@ -21,7 +21,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
  * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
 const CommentCard = props => {
-    const {children, bg, height, width, title, time,comment} = props;
+    const {children, bg, height, width, title, time, comment} = props;
     return (
         <Card
             className="w-100 mb-3"
@@ -41,12 +41,12 @@ const CommentCard = props => {
                     </Avatar>
                 }
 
-                title={<Typography  style={{fontSize:'20px',color:AppColors.PRIMARY}}>{title}</Typography>}
-                subheader={<Typography  style={{fontSize:'16px',color:AppColors.GRAY}}>{time}</Typography>}
+                title={<Typography style={{fontSize: '20px', color: AppColors.PRIMARY}}>{title}</Typography>}
+                subheader={<Typography style={{fontSize: '16px', color: AppColors.GRAY}}>{time}</Typography>}
             />
 
             <CardContent>
-                <Typography  style={{fontSize:'16px',color:AppColors.WHITE}} >
+                <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>
                     {comment}
                 </Typography>
             </CardContent>

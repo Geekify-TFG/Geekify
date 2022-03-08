@@ -1,14 +1,13 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx'
-import {AppBar, Grid, IconButton, Toolbar} from '@material-ui/core'
+import {AppBar, IconButton, Toolbar} from '@material-ui/core'
 
 import {makeStyles} from '@material-ui/core/styles'
 import {AppColors} from "../../resources/AppColors"
-import {Link, useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-
 
 
 const drawerWidth = 240;
@@ -113,10 +112,10 @@ const Navbar = ({open, setOpen, setSelected, logged}) => {
         setShowExitModal(true);
     };
 
-    const handleOnConfirmExit = ()=> {
+    const handleOnConfirmExit = () => {
         // TODO: Duplicate form
         sessionStorage.removeItem('user')
-       // logout()
+        // logout()
         setShowExitModal(!showExitModal)
     }
 

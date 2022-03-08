@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
         }
 
-    },root: {
+    }, root: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -64,7 +64,7 @@ const MainPage = () => {
     const [games, setGames] = useState();
     const history = useHistory()
     const classes = useStyles();
-    const sort_type = [LabelsMain.POPULAR,LabelsMain.RELEASE,LabelsMain.RATING];
+    const sort_type = [LabelsMain.POPULAR, LabelsMain.RELEASE, LabelsMain.RATING];
     const [sortActive, setSortActive] = useState('Popular');
     const [loading, setLoading] = useState(false);
 
@@ -108,11 +108,10 @@ const MainPage = () => {
     }
 
 
-
     useEffect(() => {
 
         setLoading(true)
-        switch (sortActive){
+        switch (sortActive) {
             case LabelsMain.POPULAR:
                 getGames()
                 break
@@ -134,7 +133,7 @@ const MainPage = () => {
                     backgroundSize: "cover",
 
                 }}>
-                    <Grid container direction={"row"} justifyContent={"space-between"}  spacing={20}>
+                    <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
                         <Grid item style={{margin: '2em'}}>
                             <SearchBar/>
                         </Grid>
@@ -158,20 +157,23 @@ const MainPage = () => {
 
                     </Grid>
                     <Grid item style={{margin: '4em'}}>
-                        <Typography style={{fontSize: '100px',color:AppColors.WHITE}}>{LabelsMain.LOREM}</Typography>
-                        <Typography style={{fontSize: '80px',color:AppColors.YELLOW_SUBTEXT}}>{LabelsMain.DOLOR}</Typography>
+                        <Typography style={{fontSize: '100px', color: AppColors.WHITE}}>{LabelsMain.LOREM}</Typography>
+                        <Typography
+                            style={{fontSize: '80px', color: AppColors.YELLOW_SUBTEXT}}>{LabelsMain.DOLOR}</Typography>
                     </Grid>
                 </Grid>
                 <Grid container
                       direction={"column"}>
-                    <Grid item style={{marginLeft:'4em'}}>
-                        <Typography style={{fontSize: '40px',color:AppColors.WHITE}}>{LabelsMain.DISCOVERY}</Typography>
+                    <Grid item style={{marginLeft: '4em'}}>
+                        <Typography
+                            style={{fontSize: '40px', color: AppColors.WHITE}}>{LabelsMain.DISCOVERY}</Typography>
                     </Grid>
                     <Grid container>
-                        <Grid item style={{marginBottom: '4em',marginLeft:'4em'}}>
-                            <Typography style={{fontSize: '20px',color:AppColors.SUBTEXT}}>{LabelsMain.SORT}</Typography>
+                        <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
+                            <Typography
+                                style={{fontSize: '20px', color: AppColors.SUBTEXT}}>{LabelsMain.SORT}</Typography>
                         </Grid>
-                        <Grid item style={{marginLeft:'5em'}}>
+                        <Grid item style={{marginLeft: '5em'}}>
                             <ButtonGroup style={{width: '500px'}} color="primary"
                                          aria-label="outlined primary button group">
                                 {sort_type.map((type) => (
@@ -187,12 +189,12 @@ const MainPage = () => {
                     {
                         loading ?
                             <div style={{display: 'flex', justifyContent: 'center'}}>
-                                <CircularProgress />
+                                <CircularProgress/>
                             </div>
                             :
-                    <Grid item>
-                        {games && <GridGames games={games}/>}
-                    </Grid>}
+                            <Grid item>
+                                {games && <GridGames games={games}/>}
+                            </Grid>}
                 </Grid>
             </Grid>
         </>

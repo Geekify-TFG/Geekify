@@ -35,13 +35,14 @@ const CardAchivements = props => {
             }>
             <CardHeader
                 avatar={
-                    <Avatar  aria-label="recipe">
+                    <Avatar aria-label="recipe">
                         <img style={{width: '40px', height: '40px'}} src={image}/>
                     </Avatar>
                 }
 
                 title={<Typography style={{fontSize: '20px', color: AppColors.WHITE}}>{title}</Typography>}
-                subheader={<Typography style={{fontSize: '16px', color: AppColors.PRIMARY}}>{`${percent} %`}</Typography>}
+                subheader={<Typography
+                    style={{fontSize: '16px', color: AppColors.PRIMARY}}>{`${percent} %`}</Typography>}
             />
 
             <CardContent>

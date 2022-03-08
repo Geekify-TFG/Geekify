@@ -1,7 +1,6 @@
 import React from "react";
-import { Card } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { AppColors } from "../../resources/AppColors";
+import {AppColors} from "../../resources/AppColors";
 
 /**
  * Component to create custom cards.
@@ -20,7 +19,7 @@ import { AppColors } from "../../resources/AppColors";
  * <CardGeekify bg={bg} style={style}> {children} </CardGeekify>
  */
 const SliderGeekify = props => {
-    const { min } = props;
+    const {min} = props;
     return (
         <Slider>
 

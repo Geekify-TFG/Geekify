@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const SelectGeekify = ({value, handleChange, options, label, borderRadius, width,textRender}) => {
+const SelectGeekify = ({value, handleChange, options, label, borderRadius, width, textRender}) => {
     const classes = useStyles();
     return (
         <FormControl className={classes.select} variant="outlined" margin='normal' style={{width: '9.75em'}}>
@@ -56,7 +56,7 @@ const SelectGeekify = ({value, handleChange, options, label, borderRadius, width
                     (
                         <MenuItem key={item.key} style={{color: AppColors.PRIMARY}}
                                   value={item.value}>{item.label}</MenuItem>
-                        
+
                     )
                 )}
             </Select>
