@@ -68,6 +68,8 @@ const MainPage = () => {
     const [sortActive, setSortActive] = useState('Popular');
     const [loading, setLoading] = useState(false);
 
+
+
     //Function to get all the games
     const getGames = async () => {
         try {
@@ -139,7 +141,7 @@ const MainPage = () => {
                         </Grid>
 
                         <Grid item style={{margin: '2em'}}>
-                            <Button style={{
+                            <Button onClick={() =>history.push('/profile')} style={{
                                 backgroundColor: AppColors.BACKGROUND_DRAWER,
                                 borderRadius: 30,
                                 border: '2px solid #6563FF',
