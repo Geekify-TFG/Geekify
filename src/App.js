@@ -19,6 +19,7 @@ import CollectionsPage from "./pages/CollectionsPage";
 import CollectionPage from "./pages/CollectionPage";
 import ForumsPage from "./pages/ForumsPage";
 import ForumPage from "./pages/ForumPage";
+import ProfilePage from "./pages/ProfilePage";
 
 
 const drawerWidth = 240;
@@ -187,6 +188,7 @@ function App() {
             <Switch>
                 <RouteMain exact path="/" component={MainPage}/>
                 <RouteMain path={"/game/:id"} component={() => <GamePage/>}/>
+                <RouteMain path={"/profile"} component={() => <ProfilePage/>}/>
                 <RouteMain path={"/search"} component={() => <SearchPage/>}/>
                 <RouteMain path={"/collections"} component={() => <CollectionsPage/>}/>
                 <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>

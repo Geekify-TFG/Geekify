@@ -1,13 +1,11 @@
 import React, {useState} from 'react';
-import clsx from 'clsx'
-import {AppBar, IconButton, Toolbar} from '@material-ui/core'
+import {Avatar} from '@material-ui/core'
 
 import {makeStyles} from '@material-ui/core/styles'
 import {AppColors} from "../../resources/AppColors"
 import {useHistory} from 'react-router-dom'
 import PropTypes from 'prop-types';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import {Button, Typography} from "@mui/material";
 
 
 const drawerWidth = 240;
@@ -92,20 +90,13 @@ const useStyles = makeStyles((theme) => ({
  * @constructor
  * <Navbar open={false} setOpen={false} setSelected={null} logged={false}/>
  */
-const Navbar = ({open, setOpen, setSelected, logged}) => {
+const ProfileButton = () => {
     //const authContext = useContext(AuthContext)
     //const {logout,signOut} = authContext;
     const classes = useStyles();
     const history = useHistory()
     const [alertOpen, setAlertOpen] = React.useState(false);
     const [showExitModal, setShowExitModal] = useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-    const handleSetSelected = () => {
-        setSelected(null)
-    }
 
 
     const handleClickOpen = () => {
@@ -121,50 +112,28 @@ const Navbar = ({open, setOpen, setSelected, logged}) => {
 
 
     return (
-        <AppBar
-            style={{color: AppColors.WHITE, background: AppColors.PRIMARY}}
-            position="fixed"
-            className={clsx(classes.appBar, {
-                [classes.appBarShift]: open,
-            })}
-        >
-            <Toolbar>
-                {logged &&
-                < IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="end"
-                    onClick={handleDrawerOpen}
-                    className={clsx(open && classes.hide)}
-                >
+        <>
+            <Button onClick={() => history.push('/profile')} style={{
+                backgroundColor: AppColors.BACKGROUND_DRAWER,
+                borderRadius: 30,
+                border: '2px solid #6563FF',
+                borderColor: AppColors.PRIMARY,
+                height: '3.5em'
 
-                </IconButton>
-                }
+            }}>
+                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
+                </Avatar>
+                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>Jordi
+                    Romero</Typography>
 
-                {logged &&
-                <IconButton onClick={() => {
-                    history.push('/account');
-                    handleSetSelected()
-                }} color='inherit'>
-                    <AccountCircleOutlinedIcon/>
-                </IconButton>
-                }
-                {logged &&
-                <IconButton onClick={() => handleClickOpen()} color='inherit'>
-                    <ExitToAppIcon/>
-                </IconButton>
-                }
-
-
-            </Toolbar>
-        </AppBar>
+            </Button></>
     )
 }
 
-Navbar.propTypes = {
+ProfileButton.propTypes = {
     open: PropTypes.bool,
     setOpen: PropTypes.bool,
     setSelected: PropTypes.func.isRequired
 }
 
-export default Navbar;
+export default ProfileButton;

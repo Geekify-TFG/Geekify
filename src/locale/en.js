@@ -74,3 +74,10 @@ export const LabelsForumsPage = {
     FOLLOWING_GROUPS: 'Following groups',
     SEE_MORE: 'See more'
 }
+
+
+export const LabelsProfilePage = {
+    FOLLOWING: 'Following',
+    COMMENT_EXAMPLE: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a hendrerit quam, in sollicitudin sapien.',
+    NAME: 'Lorem Ipsum'
+}

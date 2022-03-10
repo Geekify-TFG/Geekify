@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, CircularProgress, Grid, Slider, Typography} from "@material-ui/core";
+import {Button, CircularProgress, Grid, Slider, Typography} from "@material-ui/core";
 import {BASE_PATH, GAMES, GAMES_RATING, GAMES_RELEASED} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
@@ -11,13 +11,14 @@ import {LabelsMain, LabelsSearchPage} from "../locale/en";
 import styled from "@emotion/styled";
 import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
 import {genresMock, numPlayersMock, platformsMock} from "../mocks/SearchMocks"
+import ProfileButton from "../components/ProfileButton/ProfileButton";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-          active &&
-          `opacity: 1;
+    active &&
+    `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {
@@ -191,19 +192,8 @@ const SearchPage = () => {
                       direction={"column"} style={{}}>
                     <Grid container direction={"row"} justifyContent={"flex-end"} spacing={20}>
                         <Grid item style={{margin: '2em'}}>
-                            <Button style={{
-                                backgroundColor: AppColors.BACKGROUND_DRAWER,
-                                borderRadius: 30,
-                                border: '2px solid #6563FF',
-                                borderColor: AppColors.PRIMARY,
-                                height: '3.5em'
-                            }}>
-                                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
-                                </Avatar>
-                                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>Jordi
-                                    Romero</Typography>
+                            <ProfileButton/>
 
-                            </Button>
                         </Grid>
 
 
