@@ -154,25 +154,7 @@ const Navbar = ({open, setOpen, setSelected, logged}) => {
                     <ExitToAppIcon/>
                 </IconButton>
                 }
-                {/*
-                    {showExitModal && (
 
-                        <DialogUhda textCancelButton={LabelsLogOut.CANCEL}
-                                    body={
-                                        <Grid>
-                                            <TextUhda color={AppColors.PRIMARY} type={textType.BODY}
-                                                      text={LabelsLogOut.TEXT}/>
-
-
-                                        </Grid>}
-                                    buttonColor={AppColors.RED}
-                                    title={LabelsLogOut.LOG_OUT}
-                                    show={showExitModal}
-                                    handleShow={setShowExitModal}
-                                    handleConfirm={handleOnConfirmExit}
-                                    textConfirmButton={LabelsLogOut.SURE}/>
-                    )}
-                */}
 
             </Toolbar>
         </AppBar>

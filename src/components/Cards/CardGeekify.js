@@ -20,7 +20,7 @@ import {AppColors} from "../../resources/AppColors";
  * <CardGeekify bg={bg} style={style}> {children} </CardGeekify>
  */
 const CardGeekify = props => {
-    const {children, bg, height, width,borderRadius} = props;
+    const {children, bg, height, width, borderRadius} = props;
 
     return (
         <Card

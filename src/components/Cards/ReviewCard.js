@@ -2,7 +2,8 @@ import React from "react";
 import {Avatar, Card, CardContent, CardHeader, Grid, Paper, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {AppColors} from "../../resources/AppColors";
-import { styled } from '@mui/material/styles';
+import IconProvider from "../IconProvider/IconProvider";
+import Icons from "../../resources/Icons";
 
 /**
  * Component to create comment cards.
@@ -21,13 +22,6 @@ import { styled } from '@mui/material/styles';
  * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
 const ReviewCard = props => {
     const {children, bg, height, width, game, review, avatar, comment} = props;
     return (
@@ -43,7 +37,14 @@ const ReviewCard = props => {
             }
             }>
             <CardHeader
-                title={<Typography style={{fontSize: '20px', color: AppColors.PRIMARY}}>{game}</Typography>}
+                title={
+                    <Paper
+                        style={{width: '8em', borderRadius: 20, backgroundColor: AppColors.PRIMARY}}>
+                        <Typography
+                            style={{marginLeft: '1em', marginRight: '1em', fontSize: '20px', color: AppColors.WHITE}}>
+                            {game}
+                        </Typography>
+                    </Paper>}
             />
 
             <CardContent>
@@ -55,7 +56,34 @@ const ReviewCard = props => {
                     <Grid item xs={10}>
                         <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>{comment}</Typography>
                     </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                    <Grid item xs={2}>
 
+                    </Grid>
+                    <Grid item xs={10}>
+                        <Paper style={{
+                            backgroundColor: AppColors.BACKGROUND,
+                            borderRadius: 20,
+                            width: '5em',
+                            height: '2.5em'
+                        }}
+                        >
+                            <Grid container style={{paddingLeft: '0.5em', paddingTop: '0.15em'}}>
+                                <IconProvider icon={<Icons.STAR style={{
+                                    paddingTop: '0.15em',
+                                    verticalAlign: "middle",
+                                    display: "inline-flex",
+                                    paddingRight: '4px',
+                                    color: AppColors.PRIMARY,
+                                }} size="100px"/>}/>
+                                <Typography style={{color: AppColors.WHITE, marginBottom: 0}} gutterBottom
+                                            variant="h5"
+                                            component="h2">
+                                    {4.9}
+                                </Typography>
+                            </Grid>
+                        </Paper> </Grid>
                 </Grid>
             </CardContent>
 

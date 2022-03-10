@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, CardMedia, Grid} from '@material-ui/core';
+import {Card, Grid} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {AppColors} from "../../resources/AppColors";
 
@@ -22,7 +22,13 @@ import {AppColors} from "../../resources/AppColors";
 const ImagesCard = props => {
     const {bg, height, width, title, images} = props;
     return (
-        <Card style={{height: `${height}`, width: `${width}`, borderRadius: 20, position: 'relative',backgroundColor:AppColors.BACKGROUND_DRAWER}}>
+        <Card style={{
+            height: `${height}`,
+            width: `${width}`,
+            borderRadius: 20,
+            position: 'relative',
+            backgroundColor: AppColors.BACKGROUND_DRAWER
+        }}>
             <Grid container direction={'column'}>
                 <img
                     alt="icon"

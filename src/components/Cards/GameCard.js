@@ -3,7 +3,7 @@ import {AppColors} from "../../resources/AppColors";
 import {useHistory} from "react-router-dom";
 import {AppTextsFontSize, AppTextsFontWeight, useTextStyles} from "../../resources/AppTexts";
 import {makeStyles} from "@mui/styles";
-import {Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography} from '@material-ui/core';
+import {Card, CardActionArea, CardContent, CardMedia, Grid, Paper, Typography} from '@material-ui/core';
 import Icons from "../../resources/Icons";
 import IconProvider from "../IconProvider/IconProvider";
 
@@ -113,18 +113,28 @@ const GameCard = ({
                     <Grid container>
 
                         <Grid item style={{paddingLeft: '8em'}}>
-                            <Button style={{backgroundColor: AppColors.BACKGROUND, borderRadius: 20}} disabled={true}>
-                                <IconProvider icon={<Icons.STAR style={{
-                                    verticalAlign: "middle",
-                                    display: "inline-flex",
-                                    paddingRight: '4px',
-                                    color: AppColors.PRIMARY,
-                                }} size="100px"/>}/>
-                                <Typography style={{color: AppColors.WHITE, marginBottom: 0}} gutterBottom variant="h5"
-                                            component="h2">
-                                    {gameRating}
-                                </Typography>
-                            </Button>
+                            <Paper style={{
+                                backgroundColor: AppColors.BACKGROUND,
+                                borderRadius: 20,
+                                width: '7em',
+                                height: '2.5em'
+                            }}
+                            >
+                                <Grid container style={{paddingLeft: '0.5em', paddingTop: '0.15em'}}>
+                                    <IconProvider icon={<Icons.STAR style={{
+                                        paddingTop: '0.15em',
+                                        verticalAlign: "middle",
+                                        display: "inline-flex",
+                                        paddingRight: '4px',
+                                        color: AppColors.PRIMARY,
+                                    }} size="100px"/>}/>
+                                    <Typography style={{color: AppColors.WHITE, marginBottom: 0}} gutterBottom
+                                                variant="h5"
+                                                component="h2">
+                                        {gameRating}
+                                    </Typography>
+                                </Grid>
+                            </Paper>
 
                         </Grid>
                         <Grid item style={{paddingTop: '9em'}}>
@@ -133,20 +143,21 @@ const GameCard = ({
                             </Typography>
                         </Grid>
                         <Grid item style={{paddingLeft: '12em', paddingTop: '0.7em'}}>
-                            <Button style={{
+                            <Paper style={{
                                 backgroundColor: AppColors.BACKGROUND,
                                 borderRadius: 30,
                                 border: '2px solid #6563FF',
                                 borderColor: AppColors.PRIMARY,
-                                maxWidth: '45px', maxHeight: '45px', minWidth: '45px', minHeight: '45px'
+                                maxWidth: '35px', maxHeight: '35px', minWidth: '35px', minHeight: '35px',
                             }}>
                                 <IconProvider icon={<Icons.BOOKMARK style={{
+                                    marginTop: '0.25em',
                                     verticalAlign: "middle",
                                     display: "inline-flex",
                                     color: AppColors.PRIMARY,
                                 }} size="100px"/>}/>
 
-                            </Button>
+                            </Paper>
 
                         </Grid>
                     </Grid>
