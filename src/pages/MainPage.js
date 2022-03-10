@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, ButtonGroup, CircularProgress, Grid, Typography} from "@material-ui/core";
+import {Button, ButtonGroup, CircularProgress, Grid, Typography} from "@material-ui/core";
 import {BASE_PATH, GAMES, GAMES_RATING, GAMES_RELEASED} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
@@ -10,13 +10,14 @@ import eldenImage from "../img/elden_background.jpeg"
 import {AppColors} from "../resources/AppColors";
 import {LabelsMain} from "../locale/en";
 import styled from "@emotion/styled";
+import ProfileButton from "../components/ProfileButton/ProfileButton";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-    active &&
-    `opacity: 1;
+          active &&
+          `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {
@@ -67,7 +68,6 @@ const MainPage = () => {
     const sort_type = [LabelsMain.POPULAR, LabelsMain.RELEASE, LabelsMain.RATING];
     const [sortActive, setSortActive] = useState('Popular');
     const [loading, setLoading] = useState(false);
-
 
 
     //Function to get all the games
@@ -141,19 +141,7 @@ const MainPage = () => {
                         </Grid>
 
                         <Grid item style={{margin: '2em'}}>
-                            <Button onClick={() =>history.push('/profile')} style={{
-                                backgroundColor: AppColors.BACKGROUND_DRAWER,
-                                borderRadius: 30,
-                                border: '2px solid #6563FF',
-                                borderColor: AppColors.PRIMARY,
-                                height: '3.5em'
-                            }}>
-                                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
-                                </Avatar>
-                                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>Jordi
-                                    Romero</Typography>
-
-                            </Button>
+                            <ProfileButton/>
                         </Grid>
 
 

@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
-import {Button, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import {useHistory} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
-import {LabelsForumsPage, LabelsGamePage, LabelsProfilePage} from "../locale/en";
+import {LabelsProfilePage} from "../locale/en";
 import {makeStyles} from "@mui/styles";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import {followingUsersMock} from "../mocks/FollowingUsersMock";
-import CommentCard from "../components/Cards/CommentCard";
 import CardGeekify from "../components/Cards/CardGeekify";
 import ImagesCard from "../components/Cards/ImagesCard";
 import ReviewCard from "../components/Cards/ReviewCard";
+import ProfileButton from "../components/ProfileButton/ProfileButton";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -128,19 +128,8 @@ const ProfilePage = () => {
                         </Grid>
 
                         <Grid item style={{margin: '2em'}}>
-                            <Button style={{
-                                backgroundColor: AppColors.BACKGROUND_DRAWER,
-                                borderRadius: 30,
-                                border: '2px solid #6563FF',
-                                borderColor: AppColors.PRIMARY,
-                                height: '3.5em'
-                            }}>
-                                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
-                                </Avatar>
-                                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>Jordi
-                                    Romero</Typography>
+                            <ProfileButton/>
 
-                            </Button>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -152,35 +141,36 @@ const ProfilePage = () => {
                 }}>
 
                     <Grid item style={{marginLeft: '2em'}}>
-                        <Grid container direction={"row"}>
-                            <Avatar style={{width: '150px', height: '150px', backgroundColor: AppColors.PRIMARY}}>
-                            </Avatar>
-                            <Typography
-                                style={{
-                                    fontSize: '40px',
-                                    color: AppColors.WHITE
-                                }}>{LabelsForumsPage.FORUMS}</Typography>
-
+                        <Grid container alignItems={"center"} spacing={8}
+                        >
+                            <Grid item>
+                                <Avatar style={{width: '150px', height: '150px', backgroundColor: AppColors.PRIMARY}}/>
+                            </Grid>
+                            <Grid item>
+                                <Typography
+                                    style={{
+                                        fontSize: '40px',
+                                        color: AppColors.WHITE
+                                    }}>{LabelsProfilePage.NAME}</Typography>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid container
                           direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
                         <Grid item style={{marginLeft: '2em'}}>
                             <CardGeekify height={'20em'} width={'20em'} bg={AppColors.GRAY}/>
-
-
-
-
                         </Grid>
                         <Grid item container
                               direction={"row"} spacing={2} style={{marginBottom: '2em', width: 0}}>
                             <Grid item xs style={{marginLeft: '2em'}}>
-                                <ImagesCard width={'450px'} height={'228px'} images={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'} />
+                                <ImagesCard width={'450px'} height={'228px'}
+                                            images={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'}/>
                             </Grid>
 
                             <Grid item style={{marginLeft: '2em'}}>
                                 <ReviewCard width={'450px'} height={'228px'} game={"Animal Crossing"}
-                                             comment={LabelsProfilePage.COMMENT_EXAMPLE} bg={AppColors.BACKGROUND_DRAWER}/>
+                                            comment={LabelsProfilePage.COMMENT_EXAMPLE}
+                                            bg={AppColors.BACKGROUND_DRAWER}/>
                             </Grid>
 
                         </Grid>
@@ -213,8 +203,15 @@ const ProfilePage = () => {
                                                 <Avatar alt="Remy Sharp" src={elem.avatar}/>
                                             </ListItemAvatar>
                                             <ListItemText style={{color: AppColors.WHITE}}
-                                                          primary={elem.username}
-                                                          secondary={elem.gamesCommon}
+                                                          classes={{secondary: AppColors.WHITE}}
+                                                          primary={<Typography style={{
+                                                              fontSize: '18px',
+                                                              color: AppColors.WHITE
+                                                          }}>{elem.username}</Typography>}
+                                                          secondary={<Typography style={{
+                                                              fontSize: '14px',
+                                                              color: AppColors.GRAY
+                                                          }}>{elem.gamesCommon}</Typography>}
                                             />
                                         </ListItem>
 

@@ -12,6 +12,7 @@ import {forumPostsMock} from "../mocks/ForumPostsMock";
 import CommentCard from "../components/Cards/CommentCard";
 import {followingGroupMock} from "../mocks/FollowingGroupMock";
 import {useLocation} from "react-router-dom";
+import ProfileButton from "../components/ProfileButton/ProfileButton";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -70,7 +71,6 @@ const ForumPage = () => {
     const forumTitle = location.state.title
 
 
-
     useEffect(() => {
         setForumPosts(forumPostsMock)
         setFollowingGroups(followingGroupMock)
@@ -92,19 +92,8 @@ const ForumPage = () => {
                         </Grid>
 
                         <Grid item style={{margin: '2em'}}>
-                            <Button style={{
-                                backgroundColor: AppColors.BACKGROUND_DRAWER,
-                                borderRadius: 30,
-                                border: '2px solid #6563FF',
-                                borderColor: AppColors.PRIMARY,
-                                height: '3.5em'
-                            }}>
-                                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
-                                </Avatar>
-                                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>Jordi
-                                    Romero</Typography>
+                            <ProfileButton/>
 
-                            </Button>
                         </Grid>
 
 
@@ -113,7 +102,7 @@ const ForumPage = () => {
                 </Grid>
 
                 <Grid container
-                      direction={"row"} style={{marginTop: '2em',marginLeft:'2em', marginBottom: '2em'}}>
+                      direction={"row"} style={{marginTop: '2em', marginLeft: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '2em'}}>
                         <Typography
                             style={{
@@ -127,10 +116,10 @@ const ForumPage = () => {
 
                             >
                                 <CommentCard width={'40em'}
-                                    bg={AppColors.BACKGROUND_DRAWER}
-                                    title={elem.username}
-                                    time={elem.timeAgo}
-                                    comment={elem.comment}
+                                             bg={AppColors.BACKGROUND_DRAWER}
+                                             title={elem.username}
+                                             time={elem.timeAgo}
+                                             comment={elem.comment}
                                 />
 
                             </Grid>

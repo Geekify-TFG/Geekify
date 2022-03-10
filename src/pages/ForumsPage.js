@@ -21,6 +21,7 @@ import CardGeekify from "../components/Cards/CardGeekify";
 import {followingGroupMock} from "../mocks/FollowingGroupMock";
 import Icons from "../resources/Icons";
 import IconProvider from "../components/IconProvider/IconProvider";
+import ProfileButton from "../components/ProfileButton/ProfileButton";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -110,19 +111,8 @@ const ForumsPage = () => {
                         </Grid>
 
                         <Grid item style={{margin: '2em'}}>
-                            <Button style={{
-                                backgroundColor: AppColors.BACKGROUND_DRAWER,
-                                borderRadius: 30,
-                                border: '2px solid #6563FF',
-                                borderColor: AppColors.PRIMARY,
-                                height: '3.5em'
-                            }}>
-                                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
-                                </Avatar>
-                                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>Jordi
-                                    Romero</Typography>
+                            <ProfileButton/>
 
-                            </Button>
                         </Grid>
 
 
@@ -205,12 +195,12 @@ const ForumsPage = () => {
                                                         marginTop: '1em'
                                                     }}>{LabelsForumsPage.SEE_MORE}</Typography>
                                             </Grid>
-                                            <Grid item style={{paddingLeft:'2em',paddingTop:'1em'}}>
+                                            <Grid item style={{paddingLeft: '2em', paddingTop: '1em'}}>
                                                 <IconProvider icon={<Icons.ARROW_RIGHT style={{
                                                     verticalAlign: "middle",
                                                     display: "inline-flex",
                                                     color: AppColors.PRIMARY,
-                                                    fontSize:'1.5em'
+                                                    fontSize: '1.5em'
                                                 }} size="100px"/>}/>
                                             </Grid>
                                         </Grid>

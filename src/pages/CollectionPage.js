@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, CircularProgress, Grid, Typography} from "@material-ui/core";
+import {Button, CircularProgress, Grid, Typography} from "@material-ui/core";
 import {BASE_PATH, GAMES} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
@@ -8,6 +8,7 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
 import styled from "@emotion/styled";
+import ProfileButton from "../components/ProfileButton/ProfileButton";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -99,19 +100,7 @@ const CollectionPage = () => {
                         </Grid>
 
                         <Grid item style={{margin: '2em'}}>
-                            <Button style={{
-                                backgroundColor: AppColors.BACKGROUND_DRAWER,
-                                borderRadius: 30,
-                                border: '2px solid #6563FF',
-                                borderColor: AppColors.PRIMARY,
-                                height: '3.5em'
-                            }}>
-                                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
-                                </Avatar>
-                                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>Jordi
-                                    Romero</Typography>
-
-                            </Button>
+                            <ProfileButton/>
                         </Grid>
 
 

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Avatar,
     ButtonGroup,
     Card,
     CardMedia,
@@ -29,6 +28,7 @@ import CommentCard from "../components/Cards/CommentCard";
 import Icons from "../resources/Icons";
 import CardGeekify from "../components/Cards/CardGeekify";
 import CardAchievements from "../components/Cards/AchievementsCard";
+import ProfileButton from "../components/ProfileButton/ProfileButton";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -181,19 +181,8 @@ const GamePage = () => {
                         </Grid>
 
                         <Grid item style={{margin: '2em'}}>
-                            <Button style={{
-                                backgroundColor: AppColors.BACKGROUND_DRAWER,
-                                borderRadius: 30,
-                                border: '2px solid #6563FF',
-                                borderColor: AppColors.PRIMARY,
-                                height: '3.5em'
-                            }}>
-                                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
-                                </Avatar>
-                                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>Jordi
-                                    Romero</Typography>
+                            <ProfileButton/>
 
-                            </Button>
                         </Grid>
                     </Grid>
                     <Grid container direction={"row"} style={{flexWrap: "nowrap"}}>
