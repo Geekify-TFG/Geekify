@@ -79,4 +79,5 @@ export const LabelsForumsPage = {
 export const LabelsProfilePage = {
     FOLLOWING: 'Following',
     COMMENT_EXAMPLE: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a hendrerit quam, in sollicitudin sapien.',
+    NAME: 'Lorem Ipsum'
 }
