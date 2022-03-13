@@ -81,3 +81,10 @@ export const LabelsProfilePage = {
     COMMENT_EXAMPLE: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a hendrerit quam, in sollicitudin sapien.',
     NAME: 'Lorem Ipsum'
 }
+
+export const LabelsLoginPage={
+    LOGIN: 'Log in',
+    EMAIL:'E-mail',
+    PASSWORD:'Password',
+    REMEMBER:'I don\'t remember my password'
+}
