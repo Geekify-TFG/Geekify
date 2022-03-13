@@ -12,10 +12,44 @@ import IconProvider from "../components/IconProvider/IconProvider";
 import Icons from "../resources/Icons";
 import {followingGroupMock} from "../mocks/FollowingGroupMock";
 
+
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"; // needed
+import bootstrapPlugin from '@fullcalendar/bootstrap';
 
+
+import styled from "@emotion/styled"
+
+// add styles as css
+export const StyleWrapper = styled.div`
+  .fc-button.fc-prev-button, .fc-button.fc-next-button, .fc-button.fc-button-primary {
+    background: #6563FF;
+  }
+  .fc-col-header-cell-cushion  {
+    color: #FFFFFF;
+  }
+  .fc-toolbar-title{
+    color: #FFFFFF;
+  }
+  
+  .fc-daygrid-day-number{
+    color: #6563FF;
+  }
+
+  .fc-scrollgrid,  .fc-scrollgrid-liquid{
+    color: #FFFFFF;
+  }
+
+  .fc td {
+    background: #37393B;
+  }
+
+
+  .fc-media-screen {
+    background: #37393B;
+  }
+`
 
 const CalendarPage = () => {
     const [followingGroups, setFollowingGroups] = useState();
@@ -71,29 +105,40 @@ const CalendarPage = () => {
                                 color: AppColors.WHITE
                             }}>{LabelsForumsPage.FORUMS}</Typography>
 
-                        <Paper style={{width: '750px', height: '695px'}}>
-                            <FullCalendar
-                                plugins={[dayGridPlugin, interactionPlugin]}
-                                initialView="dayGridMonth"
-                                eventContent={renderEventContent}
-                                events={[
-                                    {
-                                        title: 'Elden ring ',
-                                        date: '2022-03-10',
-                                        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/2011_Range_Rover_--_12-31-2010.jpg/1200px-2011_Range_Rover_--_12-31-2010.jpg"
-                                    },
-                                    {
-                                        title: 'Destiny2',
-                                        date: '2022-03-15',
-                                        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/2011_Range_Rover_--_12-31-2010.jpg/1200px-2011_Range_Rover_--_12-31-2010.jpg"
-                                    },
-                                    {
-                                        title: 'event 3',
-                                        date: '2022-04-15',
-                                        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/2011_Range_Rover_--_12-31-2010.jpg/1200px-2011_Range_Rover_--_12-31-2010.jpg"
-                                    }
-                                ]}
-                            />
+                        <Paper style={{
+                            width: '750px',
+                            height: 'auto',
+                            padding: '0.5em',
+                            backgroundColor: AppColors.BACKGROUND_DRAWER
+                        }}>
+                            <StyleWrapper>
+
+                                <FullCalendar
+                                    firstDay={1}
+                                    height={'750px'}
+                                    plugins={[dayGridPlugin, interactionPlugin, bootstrapPlugin]}
+                                    initialView="dayGridMonth"
+                                    eventContent={renderEventContent}
+                                    events={[
+                                        {
+                                            title: 'Elden ring ',
+                                            date: '2022-03-10',
+                                            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/2011_Range_Rover_--_12-31-2010.jpg/1200px-2011_Range_Rover_--_12-31-2010.jpg"
+                                        },
+                                        {
+                                            title: 'Destiny2',
+                                            date: '2022-03-15',
+                                            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/2011_Range_Rover_--_12-31-2010.jpg/1200px-2011_Range_Rover_--_12-31-2010.jpg"
+                                        },
+                                        {
+                                            title: 'event 3',
+                                            date: '2022-04-15',
+                                            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/2011_Range_Rover_--_12-31-2010.jpg/1200px-2011_Range_Rover_--_12-31-2010.jpg"
+                                        }
+                                    ]}
+                                />
+                            </StyleWrapper>
+
                         </Paper>
 
                     </Grid>
