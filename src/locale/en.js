@@ -6,6 +6,8 @@ export const LabelsDrawer = {
     CALENDAR: "Release Calendar",
     LIBRARY: "My library",
     FORUMS: "Forums",
+    LOGIN:"Login",
+    SIGNUP:"Sign up",
 }
 
 export const LabelsMain = {
@@ -87,4 +89,14 @@ export const LabelsLoginPage={
     EMAIL:'E-mail',
     PASSWORD:'Password',
     REMEMBER:'I don\'t remember my password'
+}
+
+export const LabelsSignUpPage={
+    SIGNUP:'Sign up',
+    NAME:'Name',
+    EMAIL:'E-mail',
+    PASSWORD:'Password',
+    REPEAT_PASSWORD:' Confirm password',
+    CONFIRM_AGREE: 'By creating your account you confirm that you accept our Terms & Conditions and have read our Privacy Policy',
+    ALREADY_ACCOUNT:'I already have an account, so log in'
 }
