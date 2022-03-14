@@ -128,7 +128,8 @@ const ForumsPage = () => {
                         <Typography
                             style={{
                                 fontSize: '40px',
-                                color: AppColors.WHITE
+                                color: AppColors.WHITE,
+                                fontWeight:'bold'
                             }}>{LabelsForumsPage.FORUMS}</Typography>
 
                         {forums &&

@@ -147,16 +147,16 @@ const MainPage = () => {
 
                     </Grid>
                     <Grid item style={{margin: '4em'}}>
-                        <Typography style={{fontSize: '100px', color: AppColors.WHITE}}>{LabelsMain.LOREM}</Typography>
+                        <Typography style={{fontSize: '100px', color: AppColors.WHITE,fontWeight:'bold'}}>{LabelsMain.LOREM}</Typography>
                         <Typography
-                            style={{fontSize: '80px', color: AppColors.YELLOW_SUBTEXT}}>{LabelsMain.DOLOR}</Typography>
+                            style={{fontSize: '80px', color: AppColors.YELLOW_SUBTEXT,fontWeight:'bold'}}>{LabelsMain.DOLOR}</Typography>
                     </Grid>
                 </Grid>
                 <Grid container
                       direction={"column"}>
                     <Grid item style={{marginLeft: '4em'}}>
                         <Typography
-                            style={{fontSize: '40px', color: AppColors.WHITE}}>{LabelsMain.DISCOVERY}</Typography>
+                            style={{fontSize: '40px', color: AppColors.WHITE,fontWeight:'bold'}}>{LabelsMain.DISCOVERY}</Typography>
                     </Grid>
                     <Grid container>
                         <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
