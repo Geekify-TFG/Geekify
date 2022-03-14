@@ -1,5 +1,5 @@
 import './App.css';
-import {useState} from "react";
+import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useTextStyles} from "./resources/AppTexts";
 import clsx from "clsx";
@@ -14,12 +14,16 @@ import searchIcon from "./img/search_icon.svg"
 import calendarIcon from "./img/calendar_icon.svg"
 import libraryIcon from "./img/library_icon.svg"
 import forumsIcon from "./img/forum_icon.svg"
+import loginIcon from "./img/login_icon.svg"
 import SearchPage from "./pages/SearchPage";
 import CollectionsPage from "./pages/CollectionsPage";
 import CollectionPage from "./pages/CollectionPage";
 import ForumsPage from "./pages/ForumsPage";
 import ForumPage from "./pages/ForumPage";
 import ProfilePage from "./pages/ProfilePage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import {Typography} from "@mui/material";
 
 
 const drawerWidth = 240;
@@ -96,8 +100,8 @@ const RouteMain = ({component: Component, select}) => {
     const [selected, setSelected] = useState(0);
 
 
-    const drawerIconsList = [homeIcon, searchIcon, calendarIcon, libraryIcon, forumsIcon];
-    const drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums"];
+    const drawerIconsList = [homeIcon, searchIcon, calendarIcon, libraryIcon, forumsIcon, loginIcon, loginIcon];
+    const drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums", "/login", "/signup"];
 
     return (
         <>
@@ -138,6 +142,8 @@ const RouteMain = ({component: Component, select}) => {
                         LabelsDrawer.CALENDAR,
                         LabelsDrawer.LIBRARY,
                         LabelsDrawer.FORUMS,
+                        LabelsDrawer.LOGIN,
+                        LabelsDrawer.SIGNUP,
                     ].map((text, index) => (
                         <Link
                             to={drawerLinkList[index]}
@@ -169,8 +175,9 @@ const RouteMain = ({component: Component, select}) => {
                                 </ListItemIcon>
                                 <ListItemText
                                     classes={{primary: texts.subtitle_bold}}
-                                    primary={text}
-                                    style={{color: AppColors.WHITE}}
+                                    primary={<Typography style={{
+                                        color: AppColors.WHITE, fontWeight: 'bold'
+                                    }}>{text}</Typography>}
                                 />
                             </ListItem>
                         </Link>
@@ -186,6 +193,8 @@ function App() {
     return (
         <Router>
             <Switch>
+                <Route exact path="/login" component={LoginPage}/>
+                <Route exact path="/signup" component={SignUpPage}/>
                 <RouteMain exact path="/" component={MainPage}/>
                 <RouteMain path={"/game/:id"} component={() => <GamePage/>}/>
                 <RouteMain path={"/profile"} component={() => <ProfilePage/>}/>
