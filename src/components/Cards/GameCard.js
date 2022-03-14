@@ -65,7 +65,6 @@ const GameCard = ({
     const open = Boolean(anchorEl);
     const texts = useTextStyles();
     const history = useHistory()
-    const [drawerLink, setDrawerLink] = useState()
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -128,7 +127,7 @@ const GameCard = ({
                                         paddingRight: '4px',
                                         color: AppColors.PRIMARY,
                                     }} size="100px"/>}/>
-                                    <Typography style={{color: AppColors.WHITE, marginBottom: 0}} gutterBottom
+                                    <Typography style={{color: AppColors.WHITE, marginBottom: 0,fontWeight:'bold'}} gutterBottom
                                                 variant="h5"
                                                 component="h2">
                                         {gameRating}
@@ -137,10 +136,13 @@ const GameCard = ({
                             </Paper>
 
                         </Grid>
+                        <Grid container alignItems="center"
+                              justifyContent="center">
                         <Grid item style={{paddingTop: '9em'}}>
-                            <Typography style={{color: AppColors.WHITE, height: '64px'}} variant="h5" component="h2">
+                            <Typography style={{color: AppColors.WHITE, height: '64px',fontWeight:'bold'}} variant="h5" component="h2">
                                 {gameTitle}
                             </Typography>
+                        </Grid>
                         </Grid>
                         <Grid item style={{paddingLeft: '12em', paddingTop: '0.7em'}}>
                             <Paper style={{
