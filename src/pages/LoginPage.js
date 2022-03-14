@@ -1,28 +1,11 @@
 import React, {useState} from 'react';
-import {Button, Grid, Link, TextField, Typography} from "@material-ui/core";
+import {Grid, Link, TextField, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
-import styled from "@emotion/styled";
 import {LabelsLoginPage} from "../locale/en";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import tlouImage from "../img/tlou_background.jpeg";
 import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
-
-const ButtonToggle = styled(Button)`
-  opacity: 1;
-  background-color: #1D1D1D;
-  color: #6563FF ${({active}) =>
-          active &&
-          `opacity: 1;
-        background-color: ${AppColors.PRIMARY};
-        color: white;
-        &:hover {
-            color: white;
-            background-color: #6563FF;
-          }
-        `};
-
-`;
 
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
                 borderRadius: 10,
             },
         }, '& .MuiInputBase-root': {
-            color: AppColors.PRIMARY,
+            color: AppColors.GRAY,
         }, '& .MuiInputLabel-root': {
             color: AppColors.PRIMARY,
         }, '& .MuiTextField-root': {
@@ -103,7 +86,7 @@ const LoginPage = () => {
                       direction={"column"}>
                     <Grid item style={{margin: '4em'}}>
                         <Typography
-                            style={{fontSize: '100px', color: AppColors.WHITE}}>{LabelsLoginPage.LOGIN}</Typography>
+                            style={{fontSize: '100px', color: AppColors.WHITE,fontWeight:'bold'}}>{LabelsLoginPage.LOGIN}</Typography>
                     </Grid>
 
                     <Grid item style={{marginLeft: '4em'}}>
@@ -115,7 +98,7 @@ const LoginPage = () => {
                             margin="normal"
                             variant="standard"
                             className={classes.textFieldLabel}
-                            InputLabelProps={{ shrink: true }}
+                            InputLabelProps={{shrink: true}}
                         />
                     </Grid>
                     <Grid item style={{marginLeft: '4em'}}>
@@ -127,17 +110,20 @@ const LoginPage = () => {
                             margin="normal"
                             variant="standard"
                             className={classes.textFieldLabel}
-                            InputLabelProps={{ shrink: true }}
+                            InputLabelProps={{shrink: true}}
                         />
                     </Grid>
                     <Grid item style={{marginLeft: '5.5em', marginTop: '3em'}}>
                         <ButtonFilled text={LabelsLoginPage.LOGIN} width={'350px'}/>
 
                     </Grid>
-                    <Grid item style={{marginLeft: '9.5em',marginTop:'1em'}}>
+                    <Grid item style={{marginLeft: '9.5em', marginTop: '1em'}}>
                         <Link>
-                        <Typography
-                            style={{fontSize: '16px', color: AppColors.WHITE}}>{LabelsLoginPage.REMEMBER}</Typography>
+                            <Typography
+                                style={{
+                                    fontSize: '16px',
+                                    color: AppColors.WHITE
+                                }}>{LabelsLoginPage.REMEMBER}</Typography>
                         </Link>
                     </Grid>
                 </Grid>
