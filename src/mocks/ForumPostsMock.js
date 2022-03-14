@@ -37,7 +37,7 @@ export const forumPostsMock = [
     },
     {
         id: 7,
-        username: "Games for girlfriend",
+        username: "Games for chilling",
         timeAgo: 2,
         comment: 'Lorem Ipsum is simply dummy text of the printing and typesetting  '
     },
