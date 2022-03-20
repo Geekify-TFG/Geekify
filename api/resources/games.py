@@ -81,6 +81,13 @@ class GameDetail(Resource):
                     game_achievements = requests.get(api_achievements).json()
                     api_images = "https://api.rawg.io/api/games/" + id + "/screenshots?key=" + API_KEY
                     game_images = requests.get(api_images).json()
-                    return {'games': game_detail}, 200
+                    list = []
+                    list.append(game_detail)
+                    achievements = {"achievements: ": game_achievements['results']}
+                    images = {"images: ": game_images['results']}
+                    list.append(achievements)
+                    list.append(images)
+                    print(list)
+                    return {'gameDetail': list}, 200
             except:
                 return {'message': 'Collection of games not found'}, 500
