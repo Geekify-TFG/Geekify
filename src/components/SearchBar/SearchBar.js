@@ -68,16 +68,15 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-function SearchBar({size}) {
+function SearchBar({size,searched,setNewTitle}) {
 
     const classes = useStyles();
-    const [value, setValue] = useState()
+    const [value, setValue] = useState(searched)
     const history = useHistory()
 
     const handleChange = (e) => {
         setValue(e.target.value);
     }
-
     const keyPress = (e) => {
         if (e.keyCode === 13) {
             if (e.target.value === "") {

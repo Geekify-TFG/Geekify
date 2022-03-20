@@ -25,6 +25,7 @@ import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import {Typography} from "@mui/material";
+import SearchGamePage from "./pages/SearchGamePage";
 
 
 const drawerWidth = 240;
@@ -200,6 +201,8 @@ function App() {
                 <RouteMain path={"/game/:id"} component={() => <GamePage/>}/>
                 <RouteMain path={"/profile"} component={() => <ProfilePage/>}/>
                 <RouteMain path={"/calendar"} component={() => <CalendarPage/>}/>
+                <RouteMain path={"/search/:string"} component={() => <SearchPage/>}/>
+
                 <RouteMain path={"/search"} component={() => <SearchPage/>}/>
                 <RouteMain path={"/collections"} component={() => <CollectionsPage/>}/>
                 <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>

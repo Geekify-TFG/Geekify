@@ -32,8 +32,10 @@ export const GAME_IMAGES = (id) => `${_GAME_PATH}${id}${_SCREENSHOTS_PATH}?${_AP
 
 const _MY_GAMES_PATH = "/games";
 const _MY_GAME_PATH = "/game";
+const _MY_TITLE_PATH = "/title";
 const _FILTER_PATH = "/filter";
 
 export const MY_GAMES = `${_MY_GAMES_PATH}`
-export const MY_GAME =(id)=> `${_MY_GAME_PATH}/${id}`
-export const MY_GAMES_FILTER = (filter)=> `${_MY_GAMES_PATH}${_FILTER_PATH}/${filter}`
+export const MY_GAME = (id) => `${_MY_GAME_PATH}${id}`
+export const MY_GAME_SEARCH = (title) => `${_MY_GAMES_PATH}${_MY_TITLE_PATH}/${title}`
+export const MY_GAMES_FILTER = (filter) => `${_MY_GAMES_PATH}${_FILTER_PATH}/${filter}`

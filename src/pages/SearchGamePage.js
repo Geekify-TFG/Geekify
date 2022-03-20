@@ -1,17 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Button, ButtonGroup, CircularProgress, Grid, Typography} from "@material-ui/core";
-import {
-    BASE_PATH,
-    GAMES,
-    GAMES_FILTER,
-    GAMES_RATING,
-    GAMES_RELEASED,
-    MY_BASE_PATH,
-    MY_GAMES, MY_GAMES_FILTER
-} from "../resources/ApiUrls";
+import {Button, CircularProgress, Grid, Typography} from "@material-ui/core";
+import {MY_BASE_PATH, MY_GAME_SEARCH, MY_GAMES} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import eldenImage from "../img/elden_background.jpeg"
@@ -69,11 +61,15 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const MainPage = () => {
+const SearchGamePage = () => {
     const [games, setGames] = useState();
+    const location = useLocation();
+    const title = location.state.value;
+    console.log(title)
     const history = useHistory()
     const classes = useStyles();
     const sort_text = {popular: LabelsMain.POPULAR, released: LabelsMain.RELEASED, rating: LabelsMain.RATING};
+    const sort_type = ["Popular", "Released", "Rating"];
     const [sortActive, setSortActive] = useState("popular");
     const [loading, setLoading] = useState(false);
 
@@ -81,21 +77,8 @@ const MainPage = () => {
     const getGames = async () => {
         try {
             var data = []
-            const response = await axios.get(`${MY_BASE_PATH}${MY_GAMES}`);
-            setGames(response.data.games[0].results)
-            setLoading(false)
-
-        } catch (err) {
-            console.log(err.message)
-        }
-    }
-
-
-
-    const getGamesFilter = async () => {
-        try {
-            var data = []
-            const response = await axios.get(`${MY_BASE_PATH}${MY_GAMES_FILTER(sortActive)}`);
+            const response = await axios.get(`${MY_BASE_PATH}${MY_GAME_SEARCH(title)}`);
+            console.log(response.data.games.results)
             setGames(response.data.games.results)
             setLoading(false)
 
@@ -105,22 +88,9 @@ const MainPage = () => {
     }
 
 
-
     useEffect(() => {
-
-        setLoading(true)
-        switch (sortActive) {
-            case "popular":
-                getGames()
-                break
-            case "released":
-               getGamesFilter()
-                break
-            case "rating":
-                getGamesFilter()
-                break
-        }
-    }, [sortActive]);
+        getGames()
+    }, []);
 
     return (
         <>
@@ -133,7 +103,7 @@ const MainPage = () => {
                 }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
                         <Grid item style={{margin: '2em'}}>
-                            <SearchBar/>
+                            <SearchBar searched={title}/>
                         </Grid>
 
                         <Grid item style={{margin: '2em'}}>
@@ -143,35 +113,22 @@ const MainPage = () => {
 
                     </Grid>
                     <Grid item style={{margin: '4em'}}>
-                        <Typography style={{fontSize: '100px', color: AppColors.WHITE,fontWeight:'bold'}}>{LabelsMain.LOREM}</Typography>
+                        <Typography style={{
+                            fontSize: '100px',
+                            color: AppColors.WHITE,
+                            fontWeight: 'bold'
+                        }}>{LabelsMain.LOREM}</Typography>
                         <Typography
-                            style={{fontSize: '80px', color: AppColors.YELLOW_SUBTEXT,fontWeight:'bold'}}>{LabelsMain.DOLOR}</Typography>
+                            style={{
+                                fontSize: '80px',
+                                color: AppColors.YELLOW_SUBTEXT,
+                                fontWeight: 'bold'
+                            }}>{LabelsMain.DOLOR}</Typography>
                     </Grid>
                 </Grid>
                 <Grid container
                       direction={"column"}>
-                    <Grid item style={{marginLeft: '4em'}}>
-                        <Typography
-                            style={{fontSize: '40px', color: AppColors.WHITE,fontWeight:'bold'}}>{LabelsMain.DISCOVERY}</Typography>
-                    </Grid>
-                    <Grid container>
-                        <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
-                            <Typography
-                                style={{fontSize: '20px', color: AppColors.SUBTEXT}}>{LabelsMain.SORT}</Typography>
-                        </Grid>
-                        <Grid item style={{marginLeft: '5em'}}>
-                            <ButtonGroup style={{width: '500px'}} color="primary"
-                                         aria-label="outlined primary button group">
-                                {Object.entries(sort_text).map(([key,value]) => (
-                                    <ButtonToggle active={sortActive === key}
-                                                  onClick={() => (setSortActive(key))}>
-                                        {value}
-                                    </ButtonToggle>
-                                ))}
-                            </ButtonGroup>
-                        </Grid>
 
-                    </Grid>
                     {
                         loading ?
                             <div style={{display: 'flex', justifyContent: 'center'}}>
@@ -187,4 +144,4 @@ const MainPage = () => {
     )
 }
 
-export default MainPage;
+export default SearchGamePage;
