@@ -16,8 +16,9 @@ class Games(Resource):
                 games = requests.get(api_rawg)
                 if games:
                     my_json = games.json()
+                    print(my_json)
                     try:
-                        return {'games': my_json}, 200
+                        return {'games': [my_json]}, 200
                     except Exception as e:
                         return {
                                    'message': 'An error occurred while finding games '

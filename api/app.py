@@ -7,6 +7,7 @@ from bson import json_util
 from bson.objectid import ObjectId
 from flask_restful import Api
 from config import config
+from flask_cors import CORS
 
 from db import db
 # models imports
@@ -24,6 +25,7 @@ if config_decouple('PRODUCTION', cast=bool, default=False):
 app.config.from_object(environment)
 
 api = Api(app)
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 db.get_instance().init_app(app)
 AccountModel.collection = db.get_database.accounts

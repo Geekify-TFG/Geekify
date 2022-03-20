@@ -1,6 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {Button, ButtonGroup, CircularProgress, Grid, Typography} from "@material-ui/core";
-import {BASE_PATH, GAMES, GAMES_RATING, GAMES_RELEASED} from "../resources/ApiUrls";
+import {
+    BASE_PATH,
+    GAMES,
+    GAMES_FILTER,
+    GAMES_RATING,
+    GAMES_RELEASED,
+    MY_BASE_PATH,
+    MY_GAMES, MY_GAMES_FILTER
+} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import {useHistory} from "react-router-dom";
@@ -65,17 +73,18 @@ const MainPage = () => {
     const [games, setGames] = useState();
     const history = useHistory()
     const classes = useStyles();
-    const sort_type = [LabelsMain.POPULAR, LabelsMain.RELEASE, LabelsMain.RATING];
-    const [sortActive, setSortActive] = useState('Popular');
+    const sort_text = {popular: LabelsMain.POPULAR, released: LabelsMain.RELEASED, rating: LabelsMain.RATING};
+    const sort_type = ["Popular", "Released", "Rating"];
+    const [sortActive, setSortActive] = useState("popular");
     const [loading, setLoading] = useState(false);
 
-
+    console.log(sortActive)
     //Function to get all the games
     const getGames = async () => {
         try {
             var data = []
-            const response = await axios.get(`${BASE_PATH}${GAMES}`);
-            setGames(response.data.results)
+            const response = await axios.get(`${MY_BASE_PATH}${MY_GAMES}`);
+            setGames(response.data.games[0].results)
             setLoading(false)
 
         } catch (err) {
@@ -84,11 +93,12 @@ const MainPage = () => {
     }
 
 
-    const getGamesRelease = async () => {
+
+    const getGamesFilter = async () => {
         try {
             var data = []
-            const response = await axios.get(`${BASE_PATH}${GAMES_RELEASED}`);
-            setGames(response.data.results)
+            const response = await axios.get(`${MY_BASE_PATH}${MY_GAMES_FILTER(sortActive)}`);
+            setGames(response.data.games.results)
             setLoading(false)
 
         } catch (err) {
@@ -96,32 +106,20 @@ const MainPage = () => {
         }
     }
 
-    const getGamesRating = async () => {
-        try {
-            var data = []
-            console.log(`${BASE_PATH}${GAMES_RATING}`)
-            const response = await axios.get(`${BASE_PATH}${GAMES_RATING}`);
-            setGames(response.data.results)
-            setLoading(false)
-
-        } catch (err) {
-            console.log(err.message)
-        }
-    }
 
 
     useEffect(() => {
 
         setLoading(true)
         switch (sortActive) {
-            case LabelsMain.POPULAR:
+            case "popular":
                 getGames()
                 break
-            case LabelsMain.RELEASE:
-                getGamesRelease()
+            case "released":
+               getGamesFilter()
                 break
-            case LabelsMain.RATING:
-                getGamesRating()
+            case "rating":
+                getGamesFilter()
                 break
         }
     }, [sortActive]);
@@ -166,10 +164,10 @@ const MainPage = () => {
                         <Grid item style={{marginLeft: '5em'}}>
                             <ButtonGroup style={{width: '500px'}} color="primary"
                                          aria-label="outlined primary button group">
-                                {sort_type.map((type) => (
-                                    <ButtonToggle active={sortActive === type}
-                                                  onClick={() => (setSortActive(type))}>
-                                        {type}
+                                {Object.entries(sort_text).map(([key,value]) => (
+                                    <ButtonToggle active={sortActive === key}
+                                                  onClick={() => (setSortActive(key))}>
+                                        {value}
                                     </ButtonToggle>
                                 ))}
                             </ButtonGroup>

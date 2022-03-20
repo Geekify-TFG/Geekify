@@ -16,7 +16,7 @@ export const LabelsMain = {
     DISCOVERY: "Start the discovery",
     SORT: 'Sort by',
     POPULAR: 'Popular',
-    RELEASE: 'Release date',
+    RELEASED: 'Released date',
     RATING: 'Rating',
 }
 
