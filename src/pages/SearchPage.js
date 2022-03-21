@@ -114,12 +114,14 @@ const SearchPage = () => {
 
     //Function to get all the games
     const getGames = async () => {
+        setLoading(true)
         try {
             var data = []
             let response
             console.log(title)
             if (title) {
                 response = await axios.get(`${MY_BASE_PATH}${MY_GAME_SEARCH(title)}`);
+                console.log(response.data.games.results)
                 setGames(response.data.games.results)
 
             } else {
@@ -127,11 +129,12 @@ const SearchPage = () => {
                 setGames(response.data.results)
 
             }
-            setLoading(false)
 
         } catch (err) {
             console.log(err.message)
         }
+        setLoading(false)
+
     }
 
 
@@ -160,7 +163,6 @@ const SearchPage = () => {
     const handleChangeNumPlayers = (event) => {
         setNumPlayers(event.target.value);
     };
-    console.log(newTitle,title)
 
     return (
         <>
@@ -177,7 +179,7 @@ const SearchPage = () => {
                     </Grid>
                     <Grid container justifyContent={'center'}>
                         <Grid style={{marginBottom: '4em'}}>
-                            <SearchBar setNewTitle={setNewTitle} searched={title} size={true}/>
+                            <SearchBar searched={title} size={true}/>
                         </Grid>
                     </Grid>
 
