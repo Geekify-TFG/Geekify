@@ -2,10 +2,15 @@ import React, {useState} from 'react';
 import {Grid, Link, TextField, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
-import {LabelsLoginPage} from "../locale/en";
+import {LabelsLoginPage, LabelsSnackbar} from "../locale/en";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import tlouImage from "../img/tlou_background.jpeg";
 import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
+import axios from "axios";
+import {LOGIN_URL} from "../resources/ApiUrls";
+import {useHistory} from "react-router-dom";
+import {StorageManager} from "../utils";
+import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -75,9 +80,60 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginPage = () => {
     const classes = useStyles();
+    const storageManager = new StorageManager();
 
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
+    const [openSnackEmptyFields, setOpenSnackEmptyFields] = React.useState(false);
+    const [openSnackLoginError, setOpenSnackLoginError] = React.useState(false);
+    const [openSnackLoginSuccessfully, setOpenSnackLoginSuccessfully] = React.useState(false);
+
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const history = useHistory();
+
+    const handleCloseEmptyFields = () => {
+        setOpenSnackEmptyFields(false);
+    };
+
+    const handleCloseLoginError = () => {
+        setOpenSnackLoginError(false);
+    };
+
+    const handleCloseLoginSuccess = () => {
+        setOpenSnackLoginSuccessfully(false);
+    };
+
+
+    const handleClickLogin = async () => {
+        if (email === "" || password === "") setOpenSnackEmptyFields(true);
+        else {
+            console.log(email, password)
+            const params = {
+                email,
+                password,
+            };
+            await axios.post(LOGIN_URL, params)
+                .then(res => {
+                    if (res.status === 200) {
+                        storageManager.storeEmail(params.email)
+                        storageManager.storeToken(res.data.token)
+                        setOpenSnackLoginSuccessfully(true)
+                        setTimeout(() => {
+                        history.push({
+                            pathname: '/',
+                            state: {logged: true, token: res.data.token}
+                        })
+                        }, 2000)
+
+                    } else {
+                        alert('Couldn\'t sign in this user! sorry!');
+                        console.log('Couldn\'t sign in this user! sorry!');
+                    }
+                }).catch((error) => {
+                    setOpenSnackLoginError(true)
+                });
+        }
+    };
+
 
     return (
         <>
@@ -86,7 +142,11 @@ const LoginPage = () => {
                       direction={"column"}>
                     <Grid item style={{margin: '4em'}}>
                         <Typography
-                            style={{fontSize: '100px', color: AppColors.WHITE,fontWeight:'bold'}}>{LabelsLoginPage.LOGIN}</Typography>
+                            style={{
+                                fontSize: '100px',
+                                color: AppColors.WHITE,
+                                fontWeight: 'bold'
+                            }}>{LabelsLoginPage.LOGIN}</Typography>
                     </Grid>
 
                     <Grid item style={{marginLeft: '4em'}}>
@@ -114,7 +174,7 @@ const LoginPage = () => {
                         />
                     </Grid>
                     <Grid item style={{marginLeft: '5.5em', marginTop: '3em'}}>
-                        <ButtonFilled text={LabelsLoginPage.LOGIN} width={'350px'}/>
+                        <ButtonFilled onClick={handleClickLogin} text={LabelsLoginPage.LOGIN} width={'350px'}/>
 
                     </Grid>
                     <Grid item style={{marginLeft: '9.5em', marginTop: '1em'}}>
@@ -137,8 +197,16 @@ const LoginPage = () => {
                 </Grid>
 
             </Grid>
+            <SnackBarGeekify handleClose={handleCloseEmptyFields} severity={'error'}
+                             message={LabelsSnackbar.EMPTY_FIELDS}
+                             openSnack={openSnackEmptyFields}/>
 
-
+            <SnackBarGeekify handleClose={handleCloseLoginError} severity={'error'}
+                             message={LabelsSnackbar.LOGIN_ERROR}
+                             openSnack={openSnackLoginError}/>
+            <SnackBarGeekify handleClose={handleCloseLoginSuccess} severity={'success'}
+                             message={LabelsSnackbar.LOGIN_SUCCESS}
+                             openSnack={openSnackLoginSuccessfully}/>
         </>
     )
 }

@@ -1,12 +1,12 @@
 import './App.css';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useTextStyles} from "./resources/AppTexts";
 import clsx from "clsx";
-import {Drawer, Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import {Button, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import {LabelsDrawer} from "./locale/en";
 import {AppColors} from "./resources/AppColors";
-import {BrowserRouter as Router, Link, Route, Switch,} from "react-router-dom";
+import {BrowserRouter as Router, Link, Route, Switch, useHistory,} from "react-router-dom";
 import MainPage from "./pages/MainPage"
 import GamePage from "./pages/GamePage";
 import homeIcon from "./img/home_icon.svg"
@@ -25,6 +25,7 @@ import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import {Typography} from "@mui/material";
+import {StorageManager} from "./utils";
 
 
 const drawerWidth = 240;
@@ -94,16 +95,47 @@ const RouteMain = ({component: Component, select}) => {
     //const authContext = useContext(AuthContext);
     // const {authenticated, checkAuth} = authContext;
     const texts = useTextStyles();
+    const storageManager = new StorageManager();
+    const history = useHistory()
 
 
     const classes = useStyles();
     const [open, setOpen] = useState(true); //false
     const [selected, setSelected] = useState(0);
 
+    const logout = () => {
+        console.log('log out')
+        storageManager.removeToken()
+        window.location.reload();
+        setSelected(0)
+    }
 
     const drawerIconsList = [homeIcon, searchIcon, calendarIcon, libraryIcon, forumsIcon, loginIcon, loginIcon];
-    const drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums", "/login", "/signup"];
+    let drawerLinkList = [];
+    let drawerLabelsList = [];
+    if (storageManager.getToken()) {
+        drawerLabelsList = [
+            LabelsDrawer.HOME,
+            LabelsDrawer.SEARCH,
+            LabelsDrawer.CALENDAR,
+            LabelsDrawer.LIBRARY,
+            LabelsDrawer.FORUMS,
+            LabelsDrawer.SIGN_OUT,
+        ];
+        drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums", "/"]
 
+    } else {
+        drawerLabelsList = [
+            LabelsDrawer.HOME,
+            LabelsDrawer.SEARCH,
+            LabelsDrawer.CALENDAR,
+            LabelsDrawer.LIBRARY,
+            LabelsDrawer.FORUMS,
+            LabelsDrawer.LOGIN,
+            LabelsDrawer.SIGNUP,
+        ];
+        drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums", "/login", "/signup"]
+    }
     return (
         <>
 
@@ -137,15 +169,7 @@ const RouteMain = ({component: Component, select}) => {
                 </div>
 
                 <List>
-                    {[
-                        LabelsDrawer.HOME,
-                        LabelsDrawer.SEARCH,
-                        LabelsDrawer.CALENDAR,
-                        LabelsDrawer.LIBRARY,
-                        LabelsDrawer.FORUMS,
-                        LabelsDrawer.LOGIN,
-                        LabelsDrawer.SIGNUP,
-                    ].map((text, index) => (
+                    {drawerLabelsList.map((text, index) => (
                         <Link
                             to={drawerLinkList[index]}
                             onClick={() => {
@@ -158,6 +182,8 @@ const RouteMain = ({component: Component, select}) => {
                                 key={text}
                                 selected={selected === index}
                                 style={{
+                                    //marginTop: index === drawerLabelsList.length-1 ? `${(window.innerHeight-400)}px`:  0,
+                                    marginTop: storageManager.getToken() ? (index === drawerLabelsList.length - 1 ? `${(window.innerHeight - 400)}px` : 0) : (index === drawerLabelsList.length - 2 ? `${(window.innerHeight - 440)}px` : 0),
                                     backgroundColor:
                                         selected === index && AppColors.PRIMARY,
                                     borderLeft:
@@ -176,13 +202,26 @@ const RouteMain = ({component: Component, select}) => {
                                 </ListItemIcon>
                                 <ListItemText
                                     classes={{primary: texts.subtitle_bold}}
-                                    primary={<Typography style={{
-                                        color: AppColors.WHITE, fontWeight: 'bold'
-                                    }}>{text}</Typography>}
+                                    primary={
+                                        <>
+                                            {(storageManager.getToken() && index === drawerLabelsList.length - 1) ?
+                                                <Button onClick={() => {
+                                                    logout()
+                                                }} style={{
+                                                    color: AppColors.WHITE, fontWeight: 'bold'
+                                                }}>{text}</Button> :
+                                                <Typography style={{
+                                                    color: AppColors.WHITE, fontWeight: 'bold'
+                                                }}>{text}</Typography>
+                                            }
+
+                                        </>}
                                 />
+
                             </ListItem>
                         </Link>
                     ))}
+
                 </List>
             </Drawer>
 
@@ -200,6 +239,8 @@ function App() {
                 <RouteMain path={"/game/:id"} component={() => <GamePage/>}/>
                 <RouteMain path={"/profile"} component={() => <ProfilePage/>}/>
                 <RouteMain path={"/calendar"} component={() => <CalendarPage/>}/>
+                <RouteMain path={"/search/:string"} component={() => <SearchPage/>}/>
+
                 <RouteMain path={"/search"} component={() => <SearchPage/>}/>
                 <RouteMain path={"/collections"} component={() => <CollectionsPage/>}/>
                 <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>

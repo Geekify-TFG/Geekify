@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Button, CircularProgress, Grid, Slider, Typography} from "@material-ui/core";
-import {BASE_PATH, GAMES, GAMES_RATING, GAMES_RELEASED} from "../resources/ApiUrls";
+import {BASE_PATH, GAMES, MY_BASE_PATH, MY_GAME_SEARCH} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
-import {LabelsMain, LabelsSearchPage} from "../locale/en";
+import {LabelsSearchPage} from "../locale/en";
 import styled from "@emotion/styled";
 import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
 import {genresMock, numPlayersMock, platformsMock} from "../mocks/SearchMocks"
@@ -17,8 +17,8 @@ const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-    active &&
-    `opacity: 1;
+          active &&
+          `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {
@@ -98,70 +98,50 @@ const SearchPage = () => {
     const [games, setGames] = useState();
     const history = useHistory()
     const classes = useStyles();
-    const sort_type = [LabelsMain.POPULAR, LabelsMain.RELEASE, LabelsMain.RATING];
-    const [sortActive, setSortActive] = useState('Popular');
+    const location = useLocation();
+    let title = ""
+    if (location.state)
+        title = location.state.value;
+
+
     const [loading, setLoading] = useState(false);
     const [releaseYear, setReleaseYear] = useState([2017, 2022]);
     const [rating, setRating] = useState([0, 5]);
     const [platforms, setPlatform] = useState();
     const [genres, setGenres] = useState();
     const [numPlayers, setNumPlayers] = useState();
+    const [newTitle,setNewTitle] =useState()
 
     //Function to get all the games
     const getGames = async () => {
+        setLoading(true)
         try {
             var data = []
-            const response = await axios.get(`${BASE_PATH}${GAMES}`);
-            setGames(response.data.results)
-            setLoading(false)
+            let response
+            console.log(title)
+            if (title) {
+                response = await axios.get(`${MY_BASE_PATH}${MY_GAME_SEARCH(title)}`);
+                console.log(response.data.games.results)
+                setGames(response.data.games.results)
+
+            } else {
+                response = await axios.get(`${BASE_PATH}${GAMES}`);
+                setGames(response.data.results)
+
+            }
 
         } catch (err) {
             console.log(err.message)
         }
-    }
+        setLoading(false)
 
-
-    const getGamesRelease = async () => {
-        try {
-            var data = []
-            const response = await axios.get(`${BASE_PATH}${GAMES_RELEASED}`);
-            setGames(response.data.results)
-            setLoading(false)
-
-        } catch (err) {
-            console.log(err.message)
-        }
-    }
-
-    const getGamesRating = async () => {
-        try {
-            var data = []
-            console.log(`${BASE_PATH}${GAMES_RATING}`)
-            const response = await axios.get(`${BASE_PATH}${GAMES_RATING}`);
-            setGames(response.data.results)
-            setLoading(false)
-
-        } catch (err) {
-            console.log(err.message)
-        }
     }
 
 
     useEffect(() => {
+        getGames()
 
-        setLoading(true)
-        switch (sortActive) {
-            case LabelsMain.POPULAR:
-                getGames()
-                break
-            case LabelsMain.RELEASE:
-                getGamesRelease()
-                break
-            case LabelsMain.RATING:
-                getGamesRating()
-                break
-        }
-    }, [sortActive]);
+    }, [title]);
 
     const handleChangeReleaseYear = (event, newValue) => {
         setReleaseYear(newValue);
@@ -184,7 +164,6 @@ const SearchPage = () => {
         setNumPlayers(event.target.value);
     };
 
-
     return (
         <>
             <Grid container alignItems={"center"}>
@@ -200,7 +179,7 @@ const SearchPage = () => {
                     </Grid>
                     <Grid container justifyContent={'center'}>
                         <Grid style={{marginBottom: '4em'}}>
-                            <SearchBar size={true}/>
+                            <SearchBar searched={title} size={true}/>
                         </Grid>
                     </Grid>
 
