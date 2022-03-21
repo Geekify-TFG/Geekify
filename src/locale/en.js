@@ -1,5 +1,20 @@
 export const LabelsGameCard = {}
 
+
+export const LabelsSnackbar={
+    COMMON_ERROR: "Something went wrong, try it again later",
+    REGISTER_SUCCESSFULLY: "Register successfully",
+    EMPTY_FIELDS: "Make sure to fill all the fields",
+    ACCEPT_TERMS: "Please accept our Terms & Conditions",
+    PASSWORD_NOT_MATCH: "The passwords do not match",
+    CHANGES_SAVED: "Changes saved successfully!",
+    PASSWORD_SAVED: "Password changed successfully!",
+    LOGIN_ERROR:
+        "These credentials do not match our records. Please review them and try again",
+    LOGIN_SUCCESS:
+        "Login successfully",
+}
+
 export const LabelsDrawer = {
     HOME: "Home",
     SEARCH: "Search",

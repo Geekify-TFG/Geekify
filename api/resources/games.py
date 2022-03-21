@@ -88,7 +88,6 @@ class GameDetail(Resource):
                     images = {"images: ": game_images['results']}
                     list.append(achievements)
                     list.append(images)
-                    print(list)
                     return {'gameDetail': list}, 200
             except:
                 return {'message': 'Collection of games not found'}, 500
