@@ -23,6 +23,7 @@ export const LabelsDrawer = {
     FORUMS: "Forums",
     LOGIN:"Login",
     SIGNUP:"Sign up",
+    SIGN_OUT:"Sign out",
 }
 
 export const LabelsMain = {
