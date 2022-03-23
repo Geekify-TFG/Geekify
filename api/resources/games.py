@@ -6,6 +6,7 @@ from api.lock import lock
 
 API_KEY = '40f3cb2ff2c94a5889d3d6c865415ec5'
 api_rawg = "https://api.rawg.io/api/games?key=" + API_KEY
+#api_rawg = "https://api.rawg.io/api/games/lists/main?key=" + API_KEY
 response = requests.get(api_rawg)
 
 
@@ -16,7 +17,6 @@ class Games(Resource):
                 games = requests.get(api_rawg)
                 if games:
                     my_json = games.json()
-                    print(my_json)
                     try:
                         return {'games': [my_json]}, 200
                     except Exception as e:
@@ -91,3 +91,37 @@ class GameDetail(Resource):
                     return {'gameDetail': list}, 200
             except:
                 return {'message': 'Collection of games not found'}, 500
+
+
+class GameFilters(Resource):
+    # platform : [playstation,nintendo,xbox,pc,others]
+    # genres : [action,adventure,shooter,puzzle,rpg,indie,strategy,family,sports,fighting]
+    # num_players : [ 1,2,3]
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('dates', '--list', action='append', help='<Required> Set flag', required=True)
+        parser.add_argument('metacritic', '--list', action='append', help='<Required> Set flag', required=True)
+        parser.add_argument('parent_platforms', '--list', action='append', help='<Required> Set flag', required=True)
+        parser.add_argument('genres', '--list', action='append', help='<Required> Set flag', required=True)
+        parser.add_argument('tags', '--list', action='append', help='<Required> Set flag', required=True)
+
+        args = parser.parse_args()
+        release_year = args['dates']
+        rating = args['metacritic']
+        platform = args['parent_platforms']
+        genres = args['genres']
+        num_players = args['tags']
+
+        api_detail = "https://api.rawg.io/api/games?"
+        api_url = ""
+        for i in args:
+            api_url += i + "="
+            for v in args[i]:
+                if v == args[i][-1]:
+                    api_url += v
+                else:
+                    api_url += v +","
+            api_url += "&"
+        api_detail += api_url + "ordering=-metacritic&key=" + API_KEY
+        games = requests.get(api_detail).json()
+        return {'games': games}, 200
