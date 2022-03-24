@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, CircularProgress, Grid, Slider, Typography} from "@material-ui/core";
-import {BASE_PATH, GAMES, MY_BASE_PATH, MY_GAME_SEARCH} from "../resources/ApiUrls";
+import {BASE_PATH, GAMES, MY_BASE_PATH, MY_GAME_SEARCH, MY_GAMES} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import {useHistory, useLocation} from "react-router-dom";
@@ -9,9 +9,10 @@ import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
 import {LabelsSearchPage} from "../locale/en";
 import styled from "@emotion/styled";
-import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
 import {genresMock, numPlayersMock, platformsMock} from "../mocks/SearchMocks"
 import ProfileButton from "../components/ProfileButton/ProfileButton";
+import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
+import MultipleSelectGeekify from "../components/MultipleSelectGeekify/MultipleSelectGeekify";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -107,10 +108,10 @@ const SearchPage = () => {
     const [loading, setLoading] = useState(false);
     const [releaseYear, setReleaseYear] = useState([2017, 2022]);
     const [rating, setRating] = useState([0, 5]);
-    const [platforms, setPlatform] = useState();
-    const [genres, setGenres] = useState();
-    const [numPlayers, setNumPlayers] = useState();
-    const [newTitle,setNewTitle] =useState()
+    const [platforms, setPlatform] = React.useState([]);
+    const [genres, setGenres] = useState([]);
+    const [numPlayers, setNumPlayers] = useState([]);
+    const [newTitle, setNewTitle] = useState()
 
     //Function to get all the games
     const getGames = async () => {
@@ -118,7 +119,6 @@ const SearchPage = () => {
         try {
             var data = []
             let response
-            console.log(title)
             if (title) {
                 response = await axios.get(`${MY_BASE_PATH}${MY_GAME_SEARCH(title)}`);
                 console.log(response.data.games.results)
@@ -153,7 +153,9 @@ const SearchPage = () => {
 
 
     const handleChangePlatform = (event) => {
+        console.log(event.target.value)
         setPlatform(event.target.value);
+
     };
 
     const handleChangeGenres = (event) => {
@@ -163,6 +165,69 @@ const SearchPage = () => {
     const handleChangeNumPlayers = (event) => {
         setNumPlayers(event.target.value);
     };
+
+    const handleClickApplyFilters = async () => {
+        setLoading(true)
+
+        console.log(releaseYear, rating, platforms, genres, numPlayers)
+        var dict = []
+        dict.push({
+            key: "dates",
+            value: releaseYear
+        })
+        dict.push({
+            key: "metacritic",
+            value: rating
+        })
+        dict.push({
+            key: "parent_platforms",
+            values: platforms
+        })
+        dict.push({
+            key: "genres",
+            values: platforms
+        })
+        dict.push({
+            key: "tags",
+            values: numPlayers
+        })
+        console.log(dict)
+        var url = "/filters?"
+        for (let i = 0; i <dict.length ; i++) {
+            if(dict[i].value){
+                console.log(dict[i].value)
+                for (let j = 0; j <dict[i].value.length ; j++) {
+                    url += `${dict[i].key}`
+                    url += `=${dict[i].value[j]}&`
+                    console.log(dict[i].value[j])
+                }
+            }else{
+                for (let x = 0; x <dict[i].values.length ; x++) {
+                    url += `${dict[i].key}`
+                    url += `=${dict[i].values[x].value}&`
+
+                    console.log(dict[i].values[x].value)
+                }
+
+            }
+
+        }
+        //{{HOST_MYAPI}}/games/filters?dates=1999&dates=2000&metacritic=80&metacritic=100&parent_platforms=1&parent_platform=2&genres=action&genres=shooter&tags=singleplayer
+        console.log(url)
+        const editedText = url.slice(0, -1) //'abcde'
+        console.log(editedText)
+
+        try {
+            var response = await axios.get(`${MY_BASE_PATH}${MY_GAMES}${editedText}`);
+            console.log(response.data.games.results)
+            setGames(response.data.games.results)
+        } catch (err) {
+            console.log(err.message)
+        }
+        setLoading(false)
+
+    }
+
 
     return (
         <>
@@ -188,7 +253,7 @@ const SearchPage = () => {
                 <Grid container
                       direction={"column"}>
                     <Grid container spacing={4}>
-                        <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
+                        <Grid item style={{marginBottom: '0em', marginLeft: '4em'}}>
                             <Typography style={{
                                 fontSize: '20px',
                                 color: AppColors.SUBTEXT
@@ -205,7 +270,7 @@ const SearchPage = () => {
                             />
                         </Grid>
 
-                        <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
+                        <Grid item style={{marginBottom: '0em', marginLeft: '4em'}}>
                             <Typography style={{
                                 fontSize: '20px',
                                 color: AppColors.SUBTEXT
@@ -222,21 +287,26 @@ const SearchPage = () => {
                             />
                         </Grid>
 
-                        <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
-                            <SelectGeekify value={platforms} handleChange={handleChangePlatform} options={platformsMock}
-                                           borderRadius={30} width={'201px'} label={LabelsSearchPage.PLATFORM}/>
+                        <Grid item style={{marginBottom: '0em', marginLeft: '4em'}}>
+                            <MultipleSelectGeekify value={platforms} handleChange={handleChangePlatform}
+                                                   options={platformsMock}
+                                                   borderRadius={30} width={'201px'} label={LabelsSearchPage.PLATFORM}/>
                         </Grid>
 
-                        <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
-                            <SelectGeekify value={genres} handleChange={handleChangeGenres} options={genresMock}
-                                           borderRadius={30} width={'3px'} label={LabelsSearchPage.GENRES}/>
+                        <Grid item style={{marginBottom: '0em', marginLeft: '4em'}}>
+                            <MultipleSelectGeekify value={genres} handleChange={handleChangeGenres} options={genresMock}
+                                                   borderRadius={30} width={'3px'} label={LabelsSearchPage.GENRES}/>
                         </Grid>
 
 
-                        <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
-                            <SelectGeekify value={numPlayers} handleChange={handleChangeNumPlayers}
-                                           options={numPlayersMock} borderRadius={30} width={'400px'}
-                                           label={LabelsSearchPage.NUMBER_PLAYERS}/>
+                        <Grid item style={{marginBottom: '0em', marginLeft: '4em'}}>
+                            <MultipleSelectGeekify value={numPlayers} handleChange={handleChangeNumPlayers}
+                                                   options={numPlayersMock} borderRadius={30} width={'400px'}
+                                                   label={LabelsSearchPage.NUMBER_PLAYERS}/>
+                        </Grid>
+                        <Grid item style={{marginLeft: '4em'}}>
+                            <ButtonFilled onClick={handleClickApplyFilters} text={LabelsSearchPage.APPLY_FILTERS}/>
+
                         </Grid>
 
 

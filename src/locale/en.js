@@ -80,6 +80,7 @@ export const LabelsSearchPage = {
     ONLY_ME: 'Only me',
     COOP: 'Cooperative',
     MULTIPLAYER: 'Multiplayer',
+        APPLY_FILTERS: 'Apply filters'
 }
 
 export const LabelsCollection = {

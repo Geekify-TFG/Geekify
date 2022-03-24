@@ -3,80 +3,80 @@ import {LabelsSearchPage} from "../locale/en";
 export const platformsMock = [
     {
         label: LabelsSearchPage.PLAYSTATION,
-        value: "PLAYSTATION"
+        value: "2"
     },
     {
         label: LabelsSearchPage.NINTENDO,
-        value: "NINTENDO"
+        value: "7"
     },
     {
         label: LabelsSearchPage.XBOX,
-        value: "XBOX"
+        value: "3"
     },
     {
         label: LabelsSearchPage.PC,
-        value: "PC"
+        value: "1"
     },
     {
         label: LabelsSearchPage.OTHERS,
-        value: "Others"
+        value: "4"
     },
 ]
 
 export const genresMock = [
     {
         label: LabelsSearchPage.ACTION,
-        value: "Action"
+        value: "action"
     },
     {
         label: LabelsSearchPage.ADVENTURE,
-        value: "NINTENDO"
+        value: "adventure"
     },
     {
         label: LabelsSearchPage.SHOOTER,
-        value: "Shooter"
+        value: "shooter"
     },
     {
         label: LabelsSearchPage.PUZZLE,
-        value: "Puzzle"
+        value: "puzzle"
     },
     {
         label: LabelsSearchPage.RPG,
-        value: "Rpg"
+        value: "rpg"
     },
     {
         label: LabelsSearchPage.INDIE,
-        value: "Indie"
+        value: "indie"
     },
     {
         label: LabelsSearchPage.STRATEGY,
-        value: "Strategy"
+        value: "strategy"
     },
     {
         label: LabelsSearchPage.FAMILY,
-        value: "Family"
+        value: "family"
     },
     {
         label: LabelsSearchPage.SPORTS,
-        value: "Sports"
+        value: "sports"
     },
     {
         label: LabelsSearchPage.FIGHTING,
-        value: "Fighting"
+        value: "fighting"
     },
 ]
 
 export const numPlayersMock = [
     {
         label: LabelsSearchPage.ONLY_ME,
-        value: "Only me"
+        value: "singleplayer"
     },
     {
         label: LabelsSearchPage.COOP,
-        value: "Cooperative"
+        value: "cooperative"
     },
     {
         label: LabelsSearchPage.MULTIPLAYER,
-        value: "Multiplayer"
+        value: "multiplayer"
     },
 ]
