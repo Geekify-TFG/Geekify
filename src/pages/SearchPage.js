@@ -193,16 +193,16 @@ const SearchPage = () => {
         })
         console.log(dict)
         var url = "/filters?"
-        for (let i = 0; i <dict.length ; i++) {
-            if(dict[i].value){
+        for (let i = 0; i < dict.length; i++) {
+            if (dict[i].value) {
                 console.log(dict[i].value)
-                for (let j = 0; j <dict[i].value.length ; j++) {
+                for (let j = 0; j < dict[i].value.length; j++) {
                     url += `${dict[i].key}`
                     url += `=${dict[i].value[j]}&`
                     console.log(dict[i].value[j])
                 }
-            }else{
-                for (let x = 0; x <dict[i].values.length ; x++) {
+            } else {
+                for (let x = 0; x < dict[i].values.length; x++) {
                     url += `${dict[i].key}`
                     url += `=${dict[i].values[x].value}&`
 
