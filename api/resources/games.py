@@ -6,7 +6,7 @@ from api.lock import lock
 
 API_KEY = '40f3cb2ff2c94a5889d3d6c865415ec5'
 api_rawg = "https://api.rawg.io/api/games?key=" + API_KEY
-#api_rawg = "https://api.rawg.io/api/games/lists/main?key=" + API_KEY
+# api_rawg = "https://api.rawg.io/api/games/lists/main?key=" + API_KEY
 response = requests.get(api_rawg)
 
 
@@ -99,28 +99,38 @@ class GameFilters(Resource):
     # num_players : [ 1,2,3]
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('dates', '--list', action='append', help='<Required> Set flag', required=True)
-        parser.add_argument('metacritic', '--list', action='append', help='<Required> Set flag', required=True)
-        parser.add_argument('parent_platforms', '--list', action='append', help='<Required> Set flag', required=True)
-        parser.add_argument('genres', '--list', action='append', help='<Required> Set flag', required=True)
-        parser.add_argument('tags', '--list', action='append', help='<Required> Set flag', required=True)
-
+        parser.add_argument('dates', action='append', help='<Required> Set flag', required=True)
+        parser.add_argument('metacritic', action='append', help='<Required> Set flag', required=True)
+        parser.add_argument('parent_platforms', action='append', help='<Required> Set flag', required=False)
+        parser.add_argument('genres', action='append', help='<Required> Set flag', required=False)
+        parser.add_argument('tags', action='append', help='<Required> Set flag', required=False)
         args = parser.parse_args()
+
         release_year = args['dates']
         rating = args['metacritic']
         platform = args['parent_platforms']
         genres = args['genres']
         num_players = args['tags']
-
+        a = {}
+        if release_year:
+            a["dates"] = release_year
+        if rating:
+            a["metacritic"] = rating
+        if platform:
+            a["parent_platforms"] = platform
+        if genres:
+            a["genres"] = genres
+        if num_players:
+            a["tags"] = num_players
         api_detail = "https://api.rawg.io/api/games?"
         api_url = ""
-        for i in args:
+        for i in a:
             api_url += i + "="
-            for v in args[i]:
-                if v == args[i][-1]:
+            for v in a[i]:
+                if v == a[i][-1]:
                     api_url += v
                 else:
-                    api_url += v +","
+                    api_url += v + ","
             api_url += "&"
         api_detail += api_url + "ordering=-metacritic&key=" + API_KEY
         games = requests.get(api_detail).json()

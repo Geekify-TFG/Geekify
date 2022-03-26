@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, CircularProgress, Grid, Slider, Typography} from "@material-ui/core";
-import {BASE_PATH, GAMES, MY_BASE_PATH, MY_GAME_SEARCH, MY_GAMES} from "../resources/ApiUrls";
+import {MY_BASE_PATH, MY_GAME_SEARCH, MY_GAMES} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import {useHistory, useLocation} from "react-router-dom";
@@ -125,8 +125,8 @@ const SearchPage = () => {
                 setGames(response.data.games.results)
 
             } else {
-                response = await axios.get(`${BASE_PATH}${GAMES}`);
-                setGames(response.data.results)
+                response = await axios.get(`${MY_BASE_PATH}${MY_GAMES}`);
+                setGames(response.data.games[0].results)
 
             }
 
@@ -185,7 +185,7 @@ const SearchPage = () => {
         })
         dict.push({
             key: "genres",
-            values: platforms
+            values: genres
         })
         dict.push({
             key: "tags",
@@ -219,6 +219,7 @@ const SearchPage = () => {
 
         try {
             var response = await axios.get(`${MY_BASE_PATH}${MY_GAMES}${editedText}`);
+            console.log(response)
             console.log(response.data.games.results)
             setGames(response.data.games.results)
         } catch (err) {
