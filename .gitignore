@@ -65,3 +65,20 @@ bower_components
 # dotenv environment variables file
 .env
 /node_modules/
+
+# Dependencies
+/.pnp
+.pnp.js
+/api/venv
+/.idea
+
+# Misc
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+__pycache__
+

@@ -11,6 +11,7 @@ import {LOGIN_URL} from "../resources/ApiUrls";
 import {useHistory} from "react-router-dom";
 import {StorageManager} from "../utils";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
+import GoogleLogin, {GoogleLogout} from "react-google-login";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -79,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginPage = () => {
+    const clientId = "324894202380-fe0leg07j8uv629iul8e98qm06quualo.apps.googleusercontent.com"
     const classes = useStyles();
     const storageManager = new StorageManager();
 
@@ -122,7 +124,7 @@ const LoginPage = () => {
                             pathname: '/',
                             state: {logged: true, token: res.data.token}
                         })
-                        }, 2000)
+                        }, 1000)
 
                     } else {
                         alert('Couldn\'t sign in this user! sorry!');
@@ -134,6 +136,27 @@ const LoginPage = () => {
         }
     };
 
+    const onLoginSuccess = async (res) =>{
+        console.log(res)
+        storageManager.storeGoogle(true)
+        storageManager.storeToken(res.tokenObj.id_token)
+        storageManager.storeEmail(res.Ju.zv)
+        setOpenSnackLoginSuccessfully(true)
+        setTimeout(() => {
+            history.push({
+                pathname: '/',
+                state: {logged: true, token: res.tokenObj.id_token}
+            })
+        }, 2000)
+    }
+
+
+    const onLoginFailure = async () =>{
+        setOpenSnackLoginError(true)
+    }
+    const onLogoutSucces = async () =>{
+        alert("logout")
+    }
 
     return (
         <>
@@ -185,6 +208,16 @@ const LoginPage = () => {
                                     color: AppColors.WHITE
                                 }}>{LabelsLoginPage.REMEMBER}</Typography>
                         </Link>
+                    </Grid>
+                    <Grid item style={{marginLeft: '13.5em', marginTop: '1em'}}>
+                        <GoogleLogin
+                            clientId={clientId}
+                            buttonText="Sign In"
+                            onSuccess={onLoginSuccess}
+                            onFailure={onLoginFailure}
+                            cookiePolicy={'single_host_origin'}
+                            isSignedIn={true}
+                        />
                     </Grid>
                 </Grid>
                 <Grid item xs={6} alignItems="flex-start"

@@ -13,7 +13,7 @@ auth = HTTPBasicAuth()
 '''
     account model specially is converted and protected as it were a relational model 
     all attribute are defined here and is a must have value
-    account (email, password(encrypted), is_admin(0,1), firstName, lastName, ...)
+    account (email, password(encrypted), name, ...)
 '''
 
 

@@ -13,6 +13,8 @@ export const LabelsSnackbar={
         "These credentials do not match our records. Please review them and try again",
     LOGIN_SUCCESS:
         "Login successfully",
+    LOGOUT_SUCCESS:
+        "Logout successfully",
 }
 
 export const LabelsDrawer = {

@@ -1,10 +1,10 @@
 import './App.css';
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useTextStyles} from "./resources/AppTexts";
 import clsx from "clsx";
 import {Button, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
-import {LabelsDrawer} from "./locale/en";
+import {LabelsDrawer, LabelsSnackbar} from "./locale/en";
 import {AppColors} from "./resources/AppColors";
 import {BrowserRouter as Router, Link, Route, Switch, useHistory,} from "react-router-dom";
 import MainPage from "./pages/MainPage"
@@ -26,6 +26,8 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import {Typography} from "@mui/material";
 import {StorageManager} from "./utils";
+import {GoogleLogout} from "react-google-login";
+import SnackBarGeekify from "./components/SnackbarGeekify/SnackbarGeekify";
 
 
 const drawerWidth = 240;
@@ -94,6 +96,8 @@ const useStyles = makeStyles((theme) => ({
 const RouteMain = ({component: Component, select}) => {
     //const authContext = useContext(AuthContext);
     // const {authenticated, checkAuth} = authContext;
+    const clientId = "324894202380-fe0leg07j8uv629iul8e98qm06quualo.apps.googleusercontent.com"
+
     const texts = useTextStyles();
     const storageManager = new StorageManager();
     const history = useHistory()
@@ -102,13 +106,31 @@ const RouteMain = ({component: Component, select}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(true); //false
     const [selected, setSelected] = useState(0);
+    const [openSnackLogoutSuccess, setOpenSnackLogoutSuccess] = React.useState(false);
+
 
     const logout = () => {
-        console.log('log out')
         storageManager.removeToken()
-        window.location.reload();
+        setOpenSnackLogoutSuccess(true)
         setSelected(0)
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000)
     }
+
+    const onLogoutSucces = async () => {
+        storageManager.removeToken()
+        storageManager.removeGoogle()
+        setOpenSnackLogoutSuccess(true)
+        setSelected(0)
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000)
+    }
+
+    const handleCloseLogoutSucces = () => {
+        setOpenSnackLogoutSuccess(false);
+    };
 
     const drawerIconsList = [homeIcon, searchIcon, calendarIcon, libraryIcon, forumsIcon, loginIcon, loginIcon];
     let drawerLinkList = [];
@@ -205,17 +227,30 @@ const RouteMain = ({component: Component, select}) => {
                                     primary={
                                         <>
                                             {(storageManager.getToken() && index === drawerLabelsList.length - 1) ?
-                                                <Button onClick={() => {
-                                                    logout()
-                                                }} style={{
-                                                    color: AppColors.WHITE, fontWeight: 'bold'
-                                                }}>{text}</Button> :
+                                                <>
+                                                    {(storageManager.getToken() && storageManager.getGoogle() && index === drawerLabelsList.length - 1) ?
+                                                        <GoogleLogout
+                                                            clientId={clientId}
+                                                            buttonText="Sign Out"
+                                                            onLogoutSuccess={onLogoutSucces}
+                                                        >
+                                                        </GoogleLogout>
+
+                                                        :
+                                                        <Button onClick={() => {
+                                                            logout()
+                                                        }} style={{
+                                                            color: AppColors.WHITE, fontWeight: 'bold'
+                                                        }}>{text}</Button>
+                                                    }
+
+                                                </> :
                                                 <Typography style={{
                                                     color: AppColors.WHITE, fontWeight: 'bold'
                                                 }}>{text}</Typography>
                                             }
-
-                                        </>}
+                                        </>
+                                    }
                                 />
 
                             </ListItem>
@@ -224,7 +259,9 @@ const RouteMain = ({component: Component, select}) => {
 
                 </List>
             </Drawer>
-
+            <SnackBarGeekify handleClose={handleCloseLogoutSucces} severity={'success'}
+                             message={LabelsSnackbar.LOGOUT_SUCCESS}
+                             openSnack={openSnackLogoutSuccess}/>
         </>
     );
 };
