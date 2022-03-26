@@ -15,7 +15,7 @@ from api.models.accountModel import AccountModel
 # resources imports
 from resources.account import Accounts
 from resources.login import LogIn
-from resources.games import Games, GamesByTitle, GamesByOrder,GameDetail
+from resources.games import Games, GamesByTitle, GamesByOrder,GameDetail,GameFilters
 
 app = Flask(__name__)
 environment = config['development']
@@ -51,5 +51,6 @@ api.add_resource(Games, '/games')
 api.add_resource(GameDetail, '/game/<string:id>')
 api.add_resource(GamesByTitle, '/games/title/<string:title>')
 api.add_resource(GamesByOrder, '/games/filter/<string:order>')
+api.add_resource(GameFilters, '/games/filters')
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
