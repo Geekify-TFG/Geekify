@@ -84,7 +84,7 @@ const MultipleSelectGeekify = ({value, handleChange, options, label, borderRadiu
             >
                 {options.map((item) => (
                     <MenuItem key={item.value} value={item}>
-                        <Checkbox checked={value.indexOf(item) > -1}/>
+                        <Checkbox style={{color:AppColors.PRIMARY}} checked={value.indexOf(item) > -1}/>
                         <ListItemText primary={item.label}/>
                     </MenuItem>
                 ))}
