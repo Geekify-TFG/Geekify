@@ -188,7 +188,7 @@ const LoginPage = () => {
                         <TextField
                             style={{width: '400px'}}
                             onChange={(e) => setPassword(e.target.value)}
-                            type="text"
+                            type="password"
                             label={LabelsLoginPage.PASSWORD}
                             margin="normal"
                             variant="standard"
