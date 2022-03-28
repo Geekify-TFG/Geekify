@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Avatar} from '@material-ui/core'
 
 import {makeStyles} from '@material-ui/core/styles'
@@ -6,7 +6,7 @@ import {AppColors} from "../../resources/AppColors"
 import {useHistory} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {Button, Typography} from "@mui/material";
-
+import {StorageManager} from "../../utils";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -79,24 +79,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-/**
- * @component
- * Component to create the superior navbar
- * @param {boolean} open : value to know when the navbar is open
- * @param {boolean} setOpen: value to open or close the navbar
- * @param {function} setSelected: function to know which value of the drawer is selected
- * @param {boolean} logged: value to know if the user is logged or not
- *
- * @constructor
- * <Navbar open={false} setOpen={false} setSelected={null} logged={false}/>
- */
 const ProfileButton = () => {
     //const authContext = useContext(AuthContext)
     //const {logout,signOut} = authContext;
+    const storageManager = new StorageManager();
+
     const classes = useStyles();
     const history = useHistory()
     const [alertOpen, setAlertOpen] = React.useState(false);
     const [showExitModal, setShowExitModal] = useState(false);
+    const [logged, setLogged] = useState(false)
 
 
     const handleClickOpen = () => {
@@ -110,10 +102,15 @@ const ProfileButton = () => {
         setShowExitModal(!showExitModal)
     }
 
+    useEffect(() => {
+        if (storageManager.getToken() !== "") {
+            setLogged(true)
+        }
+    }, [logged]);
 
     return (
         <>
-            <Button onClick={() => history.push('/profile')} style={{
+            {logged&&<Button onClick={() => history.push('/profile')} style={{
                 backgroundColor: AppColors.BACKGROUND_DRAWER,
                 borderRadius: 30,
                 border: '2px solid #6563FF',
@@ -123,10 +120,10 @@ const ProfileButton = () => {
             }}>
                 <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
                 </Avatar>
-                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>Jordi
-                    Romero</Typography>
+                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>{storageManager.getEmail()}</Typography>
 
-            </Button></>
+            </Button>}
+        </>
     )
 }
 

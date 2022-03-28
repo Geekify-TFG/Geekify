@@ -1,5 +1,22 @@
 export const LabelsGameCard = {}
 
+
+export const LabelsSnackbar={
+    COMMON_ERROR: "Something went wrong, try it again later",
+    REGISTER_SUCCESSFULLY: "Register successfully",
+    EMPTY_FIELDS: "Make sure to fill all the fields",
+    ACCEPT_TERMS: "Please accept our Terms & Conditions",
+    PASSWORD_NOT_MATCH: "The passwords do not match",
+    CHANGES_SAVED: "Changes saved successfully!",
+    PASSWORD_SAVED: "Password changed successfully!",
+    LOGIN_ERROR:
+        "These credentials do not match our records. Please review them and try again",
+    LOGIN_SUCCESS:
+        "Login successfully",
+    LOGOUT_SUCCESS:
+        "Logout successfully",
+}
+
 export const LabelsDrawer = {
     HOME: "Home",
     SEARCH: "Search",
@@ -8,6 +25,7 @@ export const LabelsDrawer = {
     FORUMS: "Forums",
     LOGIN:"Login",
     SIGNUP:"Sign up",
+    SIGN_OUT:"Sign out",
 }
 
 export const LabelsMain = {
@@ -16,7 +34,7 @@ export const LabelsMain = {
     DISCOVERY: "Start the discovery",
     SORT: 'Sort by',
     POPULAR: 'Popular',
-    RELEASE: 'Release date',
+    RELEASED: 'Released date',
     RATING: 'Rating',
 }
 
@@ -64,6 +82,7 @@ export const LabelsSearchPage = {
     ONLY_ME: 'Only me',
     COOP: 'Cooperative',
     MULTIPLAYER: 'Multiplayer',
+        APPLY_FILTERS: 'Apply filters'
 }
 
 export const LabelsCollection = {

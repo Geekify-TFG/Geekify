@@ -3,11 +3,15 @@ import {Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typograp
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
 import styled from "@emotion/styled";
-import {LabelsSignUpPage} from "../locale/en";
+import {LabelsSignUpPage, LabelsSnackbar} from "../locale/en";
 import {AppTextsFontSize, AppTextsFontWeight, textType} from "../resources/AppTexts";
 import tlouImage from "../img/tlou_background.jpeg";
 import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
-import TextGeekify from "../components/TextGeekify/TextGeekify";
+import axios from "axios";
+import {REGISTER_URL} from "../resources/ApiUrls";
+import {StorageManager} from "../utils";
+import {useHistory} from "react-router-dom";
+import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -94,14 +98,69 @@ const useStyles = makeStyles((theme) => ({
 const SignUpPage = () => {
     const classes = useStyles();
     const [checked, setChecked] = useState(false);
+    const storageManager = new StorageManager();
+    const history = useHistory();
 
-    const [name, setName] = useState()
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-    const [repeatPassword, setRepeatPassword] = useState()
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [repeatPassword, setRepeatPassword] = useState("")
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
+    };
+
+
+    const [openSnackEmptyFields, setOpenSnackEmptyFields] = React.useState(false);
+    const [openSnackPwdNotMatch, setOpenSnackPwdNotMatch] = React.useState(false);
+    const [openSnackTerms, setOpenSnackTerms] = React.useState(false);
+    const [openSnackRegisterSuccessfully, setSnackOpenRegisterSuccessfully] = React.useState(false);
+
+    const handleCloseEmptyFields = () => {
+        setOpenSnackEmptyFields(false);
+    };
+
+    const handleCloseLoginError = () => {
+        setOpenSnackPwdNotMatch(false);
+    };
+
+
+    const handleCloseTerms = () => {
+        setOpenSnackTerms(false);
+    };
+
+
+    const handleCloseRegisterSuccessfully = () => {
+        setSnackOpenRegisterSuccessfully(false);
+    };
+
+
+    const handleCLickRegister = async () => {
+        console.log(name, email, password, repeatPassword)
+        if (email === "" || password === "" || name === "" || repeatPassword === "") setOpenSnackEmptyFields(true);
+        else if (password !== repeatPassword) setOpenSnackPwdNotMatch(true);
+        else if (!checked) setOpenSnackTerms(true);
+        else {
+            const params = {
+                name,
+                email,
+                password,
+            };
+            await axios.post(REGISTER_URL, params)
+                .then(res => {
+                    if (res.status === 201) {
+                        setSnackOpenRegisterSuccessfully(true)
+                        setTimeout(() => {
+                            history.push("/login")
+                        }, 2000)
+                    } else {
+                        alert('Couldn\'t sign in this user! sorry!');
+                        console.log('Couldn\'t sign in this user! sorry!');
+                    }
+                }).catch((error) => {
+                    alert("A")
+                });
+        }
     };
 
 
@@ -112,7 +171,11 @@ const SignUpPage = () => {
                       direction={"column"}>
                     <Grid item style={{margin: '4em', marginBottom: 0}}>
                         <Typography
-                            style={{fontSize: '100px', color: AppColors.WHITE,fontWeight:'bold'}}>{LabelsSignUpPage.SIGNUP}</Typography>
+                            style={{
+                                fontSize: '100px',
+                                color: AppColors.WHITE,
+                                fontWeight: 'bold'
+                            }}>{LabelsSignUpPage.SIGNUP}</Typography>
                     </Grid>
 
                     <Grid item style={{marginLeft: '4em'}}>
@@ -181,7 +244,8 @@ const SignUpPage = () => {
 
                     </Grid>
                     <Grid item style={{marginLeft: '5.5em', marginTop: '3em'}}>
-                        <ButtonFilled type={textType.TITLE_MAIN} text={LabelsSignUpPage.SIGNUP} width={'350px'}/>
+                        <ButtonFilled onClick={handleCLickRegister} type={textType.TITLE_MAIN}
+                                      text={LabelsSignUpPage.SIGNUP} width={'350px'}/>
 
                     </Grid>
                     <Grid item style={{marginLeft: '8em', marginTop: '1em'}}>
@@ -202,7 +266,18 @@ const SignUpPage = () => {
                 </Grid>
 
             </Grid>
-
+            <SnackBarGeekify handleClose={handleCloseEmptyFields} severity={'error'}
+                             message={LabelsSnackbar.EMPTY_FIELDS}
+                             openSnack={openSnackEmptyFields}/>
+            <SnackBarGeekify handleClose={handleCloseLoginError} severity={'error'}
+                             message={LabelsSnackbar.PASSWORD_NOT_MATCH}
+                             openSnack={openSnackPwdNotMatch}/>
+            <SnackBarGeekify handleClose={handleCloseTerms} severity={'error'}
+                             message={LabelsSnackbar.ACCEPT_TERMS}
+                             openSnack={openSnackTerms}/>
+            <SnackBarGeekify handleClose={handleCloseRegisterSuccessfully} severity={'success'}
+                             message={LabelsSnackbar.REGISTER_SUCCESSFULLY}
+                             openSnack={openSnackRegisterSuccessfully}/>
 
         </>
     )
