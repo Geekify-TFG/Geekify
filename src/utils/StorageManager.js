@@ -3,6 +3,7 @@ export default class MyStorageManager {
     _PWD = 'pwd';
     _TOKEN = 'token';
     _LOGGED= 'logged';
+    _GOOGLE= 'google';
     _EXPIRATION_DATE = 'token-expiration';
     _localStorage = window.localStorage;
 
@@ -18,6 +19,11 @@ export default class MyStorageManager {
     getToken = () => this._localStorage.getItem(this._TOKEN) || "";
     storeToken = token => this._localStorage.setItem(this._TOKEN, token);
     removeToken = () => this._localStorage.removeItem(this._TOKEN)
+
+    // Get and store the token
+    getGoogle = () => this._localStorage.getItem(this._GOOGLE) || "";
+    storeGoogle = google => this._localStorage.setItem(this._GOOGLE, google);
+    removeGoogle = () => this._localStorage.removeItem(this._GOOGLE)
 
     // Get and store the token
     getLogged = () => this._localStorage.getItem(this._LOGGED) || "";
