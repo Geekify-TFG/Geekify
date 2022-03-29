@@ -115,6 +115,7 @@ const SignUpPage = () => {
     const [openSnackPwdNotMatch, setOpenSnackPwdNotMatch] = React.useState(false);
     const [openSnackTerms, setOpenSnackTerms] = React.useState(false);
     const [openSnackRegisterSuccessfully, setSnackOpenRegisterSuccessfully] = React.useState(false);
+    const [openSnackAccountRegistered, setOpenSnackAccountRegistered] = React.useState(false);
 
     const handleCloseEmptyFields = () => {
         setOpenSnackEmptyFields(false);
@@ -134,6 +135,9 @@ const SignUpPage = () => {
         setSnackOpenRegisterSuccessfully(false);
     };
 
+    const handleCloseAccountRegistered = () => {
+        setOpenSnackAccountRegistered(false);
+    };
 
     const handleCLickRegister = async () => {
         console.log(name, email, password, repeatPassword)
@@ -158,7 +162,7 @@ const SignUpPage = () => {
                         console.log('Couldn\'t sign in this user! sorry!');
                     }
                 }).catch((error) => {
-                    alert("A")
+                    setOpenSnackAccountRegistered(true);
                 });
         }
     };
@@ -180,6 +184,7 @@ const SignUpPage = () => {
 
                     <Grid item style={{marginLeft: '4em'}}>
                         <TextField
+                            id={"name"}
                             style={{width: '400px'}}
                             onChange={(e) => setName(e.target.value)}
                             type="text"
@@ -192,6 +197,7 @@ const SignUpPage = () => {
                     </Grid>
                     <Grid item style={{marginLeft: '4em'}}>
                         <TextField
+                            id={"email"}
                             style={{width: '400px'}}
                             onChange={(e) => setEmail(e.target.value)}
                             type="text"
@@ -204,6 +210,7 @@ const SignUpPage = () => {
                     </Grid>
                     <Grid item style={{marginLeft: '4em'}}>
                         <TextField
+                            id={"password"}
                             style={{width: '400px'}}
                             onChange={(e) => setPassword(e.target.value)}
                             type="password"
@@ -216,6 +223,7 @@ const SignUpPage = () => {
                     </Grid>
                     <Grid item style={{marginLeft: '4em'}}>
                         <TextField
+                            id={"repeatPassword"}
                             style={{width: '400px'}}
                             onChange={(e) => setRepeatPassword(e.target.value)}
                             type="password"
@@ -228,13 +236,15 @@ const SignUpPage = () => {
                     </Grid>
                     <Grid container item direction={"row"} style={{width: '25em', marginLeft: '4em'}}>
                         <FormGroup>
-                            <FormControlLabel control={<Checkbox
-                                style={{
-                                    color: AppColors.PRIMARY,
-                                }}
-                                checked={checked}
-                                onChange={handleChange}
-                            />} label={<Typography
+                            <FormControlLabel
+                                id={"privacyCheck"}
+                                control={<Checkbox
+                                    style={{
+                                        color: AppColors.PRIMARY,
+                                    }}
+                                    checked={checked}
+                                    onChange={handleChange}
+                                />} label={<Typography
                                 style={{
                                     fontSize: '14px',
                                     color: AppColors.WHITE
@@ -278,6 +288,9 @@ const SignUpPage = () => {
             <SnackBarGeekify handleClose={handleCloseRegisterSuccessfully} severity={'success'}
                              message={LabelsSnackbar.REGISTER_SUCCESSFULLY}
                              openSnack={openSnackRegisterSuccessfully}/>
+            <SnackBarGeekify  handleClose={handleCloseAccountRegistered} severity={'error'}
+                             message={LabelsSnackbar.ACCOUNT_REPEATED}
+                             openSnack={openSnackAccountRegistered}/>
 
         </>
     )

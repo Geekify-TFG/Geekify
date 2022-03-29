@@ -223,6 +223,7 @@ const RouteMain = ({component: Component, select}) => {
                                     </Icon>
                                 </ListItemIcon>
                                 <ListItemText
+                                    id={`${text}`}
                                     classes={{primary: texts.subtitle_bold}}
                                     primary={
                                         <>

@@ -174,6 +174,7 @@ const LoginPage = () => {
 
                     <Grid item style={{marginLeft: '4em'}}>
                         <TextField
+                            id={"email"}
                             style={{width: '400px'}}
                             onChange={(e) => setEmail(e.target.value)}
                             type="text"
@@ -186,6 +187,7 @@ const LoginPage = () => {
                     </Grid>
                     <Grid item style={{marginLeft: '4em'}}>
                         <TextField
+                            id={"password"}
                             style={{width: '400px'}}
                             onChange={(e) => setPassword(e.target.value)}
                             type="password"

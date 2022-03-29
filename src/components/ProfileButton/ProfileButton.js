@@ -110,7 +110,7 @@ const ProfileButton = () => {
 
     return (
         <>
-            {logged&&<Button onClick={() => history.push('/profile')} style={{
+            {logged&&<Button id="myProfile" onClick={() => history.push('/profile')} style={{
                 backgroundColor: AppColors.BACKGROUND_DRAWER,
                 borderRadius: 30,
                 border: '2px solid #6563FF',
