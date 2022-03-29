@@ -14,7 +14,7 @@ describe('Login and sign in tests', () => {
        cy.get('[id="repeatPassword"]').should('be.visible').type(this.testData.takenpassword)
        cy.get('[id="privacyCheck"]').should('be.visible').click()
        cy.get('button').contains('Sign up').should('be.visible').click()
-       cy.get('[id="alert"]').should('be.visible')
+       cy.get('[id="alert"]').should('be.visible', {timeout: 10000})
     })
 
     /*it('Register with wrong email', function () {
