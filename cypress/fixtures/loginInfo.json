@@ -1,0 +1,11 @@
+{
+  "takenname": "takentest",
+  "takenpassword": "takentest",
+  "takenemail": "takentest@takentest.takentest",
+  "name": "test",
+  "password": "test",
+  "email": "test@test.test",
+  "wrongemail": "wrongemail",
+  "wrongpassword": "wrongpassword",
+  "inexistentemail": "inexistent@email.com"
+}
