@@ -59,9 +59,9 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos
-      - name: Unit tests
-        run: python -m pytest testModels
-        working-directory: api
-      - name: Integration tests
-        run: python -m pytest testREST
-        working-directory: api
+#      - name: Unit tests
+#        run: python -m pytest testModels
+#        working-directory: api
+#      - name: Integration tests
+#        run: python -m pytest testREST
+#        working-directory: api
