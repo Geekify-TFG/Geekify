@@ -7,6 +7,7 @@ export const LabelsSnackbar={
     EMPTY_FIELDS: "Make sure to fill all the fields",
     ACCEPT_TERMS: "Please accept our Terms & Conditions",
     PASSWORD_NOT_MATCH: "The passwords do not match",
+    ACCOUNT_REPEATED: "An account with this email already exists",
     CHANGES_SAVED: "Changes saved successfully!",
     PASSWORD_SAVED: "Password changed successfully!",
     LOGIN_ERROR:
