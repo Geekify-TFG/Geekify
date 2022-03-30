@@ -6,10 +6,10 @@ name: Control Tests
 on:
   # Triggers the workflow on push or pull request events
   push:
-    branches:
-      - develop
-      - main
-      - QA-Cypress
+#    branches:
+#      - develop
+#      - main
+#      - QA-Cypress
 
   pull_request:
     branches:
@@ -59,9 +59,9 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos
-#      - name: Unit tests
-#        run: python -m pytest testModels
-#        working-directory: api
-#      - name: Integration tests
-#        run: python -m pytest testREST
-#        working-directory: api
+      - name: Unit tests
+        run: python -m pytest testModels
+        working-directory: api
+      - name: Integration tests
+        run: python -m pytest testREST
+        working-directory: api
