@@ -124,5 +124,10 @@ export const LabelsSignUpPage={
 export const DialogTexts = {
     CANCEL: 'Cancel',
     SAVE:'Save',
-    ADD_TO_COLLECTIONS: 'Add to collections'
+    ADD_TO_COLLECTIONS: 'Add to collections',
+    CREATE_COLLECTION:'Create collection'
+}
+
+export const ErrorTexts = {
+    CREATE_COLLECTION: 'Error to create the collection'
 }
