@@ -22,7 +22,7 @@ export const LabelsDrawer = {
     HOME: "Home",
     SEARCH: "Search",
     CALENDAR: "Release Calendar",
-    LIBRARY: "My library",
+    COLLECTIONS: "My collections",
     FORUMS: "Forums",
     LOGIN:"Login",
     SIGNUP:"Sign up",
@@ -119,4 +119,10 @@ export const LabelsSignUpPage={
     REPEAT_PASSWORD:' Confirm password',
     CONFIRM_AGREE: 'By creating your account you confirm that you accept our Terms & Conditions and have read our Privacy Policy',
     ALREADY_ACCOUNT:'I already have an account, so log in'
+}
+
+export const DialogTexts = {
+    CANCEL: 'Cancel',
+    SAVE:'Save',
+    ADD_TO_COLLECTIONS: 'Add to collections'
 }

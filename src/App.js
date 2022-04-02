@@ -140,7 +140,7 @@ const RouteMain = ({component: Component, select}) => {
             LabelsDrawer.HOME,
             LabelsDrawer.SEARCH,
             LabelsDrawer.CALENDAR,
-            LabelsDrawer.LIBRARY,
+            LabelsDrawer.COLLECTIONS,
             LabelsDrawer.FORUMS,
             LabelsDrawer.SIGN_OUT,
         ];
@@ -151,7 +151,7 @@ const RouteMain = ({component: Component, select}) => {
             LabelsDrawer.HOME,
             LabelsDrawer.SEARCH,
             LabelsDrawer.CALENDAR,
-            LabelsDrawer.LIBRARY,
+            LabelsDrawer.COLLECTIONS,
             LabelsDrawer.FORUMS,
             LabelsDrawer.LOGIN,
             LabelsDrawer.SIGNUP,

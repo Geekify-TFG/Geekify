@@ -8,6 +8,8 @@ import styled from "@emotion/styled";
 import GridCollections from "../components/GridCollections/GridCollections";
 import {collectionsMock} from "../mocks/CollectionsMock";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
+import axios from "axios";
+import {BASE_PATH, MY_BASE_PATH, MY_COLLECTIONS} from "../resources/ApiUrls";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -62,23 +64,23 @@ const CollectionsPage = () => {
     const [collections, setCollections] = useState();
     const [loading, setLoading] = useState(false);
 
-    /*  //Function to get all the games
-      const getCollections = async () => {
-          try {
-              var data = []
-              const response = await axios.get(`${BASE_PATH}${GAMES}`);
-              setCollections(response.data.results)
-              setLoading(false)
+    const getCollections = async () => {
+        try {
+            var data = []
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS}`);
+            setCollections(response.data.collections)
+            //setLoading(false)
 
-          } catch (err) {
-              console.log(err.message)
-          }
-      }
-  */
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+
 
     useEffect(() => {
-        setCollections(collectionsMock)
-        // getCollections()
+        //setCollections(collectionsMock)
+        getCollections()
 
     }, []);
 

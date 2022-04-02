@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, CircularProgress, Grid, Typography} from "@material-ui/core";
-import {BASE_PATH, GAMES} from "../resources/ApiUrls";
+import {BASE_PATH, GAMES, MY_BASE_PATH, MY_COLLECTION} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import {useHistory, useLocation} from "react-router-dom";
@@ -66,13 +66,15 @@ const CollectionPage = () => {
 
     const [loading, setLoading] = useState(false);
     const titleCollection = location.state.title
+    const idCollection = location.state.detail
 
     //Function to get all the games
     const getGames = async () => {
         try {
             var data = []
-            const response = await axios.get(`${BASE_PATH}${GAMES}`);
-            setGames(response.data.results)
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTION(idCollection)}`);
+            console.log(response.data.collection.value.games)
+            setGames(response.data.collection.value.games)
             setLoading(false)
 
         } catch (err) {

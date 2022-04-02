@@ -62,7 +62,6 @@ const CollectionCard = ({
                         }) => {
     const classes = useStyles();
     const history = useHistory()
-    console.log(width)
 
     const onClickHandler = () => {
         history.push({
