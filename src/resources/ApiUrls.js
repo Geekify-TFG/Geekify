@@ -54,5 +54,6 @@ const _COLLECTIONS_PATH = "/collections";
 const _COLLECTION_PATH = "/collection";
 const _COLLECTION_GAME_PATH = "/collectionGame";
 export const MY_COLLECTIONS= `${_COLLECTIONS_PATH}`
+export const CREATE_COLLECTION= `${_COLLECTION_PATH}`
 export const COLLECTION_GAME= (id) =>`${_COLLECTION_GAME_PATH}/${id}`
 export const MY_COLLECTION = (id) => `${_COLLECTION_PATH}/${id}`
