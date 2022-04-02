@@ -7,7 +7,7 @@ from bson import json_util
 from bson.objectid import ObjectId
 from flask_restful import Api
 
-from api.resources.collections import Collections, CollectionsList
+from api.resources.collections import Collections, CollectionsList, CollectionGame
 from config import config
 from flask_cors import CORS
 
@@ -48,5 +48,6 @@ api.add_resource(GameFilters, '/games/filters')
 
 api.add_resource(Collections, '/collection', '/collection/<string:id>')
 api.add_resource(CollectionsList, '/collections')
+api.add_resource(CollectionGame, '/collectionGame/<string:id>')
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

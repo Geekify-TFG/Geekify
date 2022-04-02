@@ -23,21 +23,25 @@ class CollectionModel(DocumentModel):
    mongodb - collection called accounts
    """
 
-    __column_names__ = ['title', 'image', 'numGames']
+    __column_names__ = ['title', 'image', 'numGames', 'games']
 
     # columns is a dict where the value for each column are referenced
     title_col_name = __column_names__[0]
     image_col_name = __column_names__[1]
-    numGames_col_name = __column_names__[2]
+    num_games_col_name = __column_names__[2]
+    games_col_name = __column_names__[3]
 
     def __init__(
             self,
             title=None,
             image='https://source.unsplash.com/random',
             num_games=0,
+            games=None,
             doc=None
     ):
         super(CollectionModel, self).__init__(doc)
+        if games is None:
+            games = []
         columns = dict.fromkeys(self.__column_names__)
         if doc:
             dic = dict.fromkeys(self.__column_names__)
@@ -52,7 +56,8 @@ class CollectionModel(DocumentModel):
         else:
             columns['{0}'.format(self.title_col_name)] = str(title)
             columns['{0}'.format(self.image_col_name)] = image
-            columns['{0}'.format(self.numGames_col_name)] = str(num_games)
+            columns['{0}'.format(self.num_games_col_name)] = str(num_games)
+            columns['{0}'.format(self.games_col_name)] = games
             self.set_doc_ref(columns.copy())
 
     # Create new document -- private method
@@ -64,7 +69,6 @@ class CollectionModel(DocumentModel):
         if not self.exists:
             self.set_created()
             my_json = self.json()
-            print((my_json['value'].copy()))
             result = self.collection.insert_one(my_json['value'].copy())
             self.set_doc_ref(my_json['value'].copy())
             self.set_id(result.inserted_id)
@@ -86,7 +90,7 @@ class CollectionModel(DocumentModel):
         return self.__create()
 
     def update_document(
-            self, title=None, image=None, num_games=None,
+            self, title=None, image=None, num_games=None, games=None
     ):
         # if it's already exists then update
         if self.exists:
@@ -95,7 +99,10 @@ class CollectionModel(DocumentModel):
 
             if image:
                 self.__update_column__(self.image_col_name, str(image))
-
+            if num_games:
+                self.__update_column__(self.num_games_col_name, num_games)
+            if games:
+                self.__update_column__(self.games_col_name, games)
             self.collection.find_one_and_update(
                 {'_id': self.id},
                 {
@@ -110,6 +117,7 @@ class CollectionModel(DocumentModel):
             title=None,
             image=None,
             num_games=None,
+            games=None
     ):
         collection = cls.find_by_id(id)
         if collection.exists:
@@ -117,12 +125,22 @@ class CollectionModel(DocumentModel):
                 title=title,
                 image=image,
                 num_games=num_games,
+                games=games
             )
+
+    def update_tags(self, new_tag):
+        self.collection.find_one_and_update(
+            {'_id': self.id},
+            {
+                '$push': {
+                    "games": new_tag
+                }
+
+            }
+        )
 
     def delete_from_db(self):
         super(CollectionModel, self).delete_from_db()
-
-
 
     @classmethod
     def find_collection(cls, title=None, id=None):

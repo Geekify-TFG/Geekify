@@ -73,7 +73,6 @@ class AccountModel(DocumentModel):
                 raise Exception('password not hashed. security issue')
             self.set_created()
             my_json = self.json()
-            print((my_json['value'].copy()))
             result = self.collection.insert_one(my_json['value'].copy())
             self.set_doc_ref(my_json['value'].copy())
             self.set_id(result.inserted_id)

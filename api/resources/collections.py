@@ -1,8 +1,11 @@
 from flask_restful import Resource, reqparse
+import requests
 
 from api.lock import lock
 from api.models.accountModel import AccountModel, auth, g
 from api.models.collectionModel import CollectionModel
+
+API_KEY = '40f3cb2ff2c94a5889d3d6c865415ec5'
 
 
 class Collections(Resource):
@@ -14,7 +17,6 @@ class Collections(Resource):
                     if collection.exists:
                         my_json = collection.json()
                         try:
-                            print(my_json)
                             return {'publication': my_json}, 200
                         except Exception as e:
                             return {
@@ -67,3 +69,20 @@ class CollectionsList(Resource):
                 return {'collections': [collections[key].json() for key in collections.keys()]}, 200
             except Exception as e:
                 return {'Internal server error': '{0}:{1}'.format(type(e), e)}, 502
+
+
+class CollectionGame(Resource):
+    def put(self, id=None):
+        with lock.lock:
+            parser = reqparse.RequestParser()
+            parser.add_argument('game_id', type=str, required=False)
+            data = parser.parse_args()
+
+            game_id = data['game_id']
+            api_detail = "https://api.rawg.io/api/games/" + game_id + "?key=" + API_KEY
+            game_detail = requests.get(api_detail).json()
+            collection = CollectionModel.find_collection(id=id)
+
+            collection.update_tags(game_detail)
+
+        return {'message': 'Collection updated successfully'}, 201
