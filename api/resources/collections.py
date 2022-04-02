@@ -82,7 +82,6 @@ class CollectionGame(Resource):
             api_detail = "https://api.rawg.io/api/games/" + game_id + "?key=" + API_KEY
             game_detail = requests.get(api_detail).json()
             collection = CollectionModel.find_collection(id=id)
-
             collection.update_tags(game_detail)
 
         return {'message': 'Collection updated successfully'}, 201
