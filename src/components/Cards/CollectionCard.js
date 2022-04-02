@@ -71,8 +71,6 @@ const CollectionCard = ({
 
 
     }
-
-
     return (
         <Card style={{height: '212px', width: `${width}`, position: "relative", borderRadius: 20}}
               className={classes.card}>

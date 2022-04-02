@@ -1,9 +1,75 @@
 import React, {useState} from 'react';
-import {Container, Grid} from '@material-ui/core';
+import {Card, CardActionArea, CardMedia, Container, FormControl, Grid, InputAdornment} from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles'
 import {useTextStyles} from "../../resources/AppTexts";
 import CollectionCard from "../Cards/CollectionCard";
+import addIcon from '../../img/add_icon.svg'
+import {AppColors} from "../../resources/AppColors";
+import axios from "axios";
+import {CREATE_COLLECTION, MY_BASE_PATH} from "../../resources/ApiUrls";
+import DialogGeekify from "../DialogGeekify";
+import {DialogTexts, ErrorTexts} from "../../locale/en";
+import TextFieldGeekify from "../TextFieldGeekify/textFieldGeekify";
+import ErrorIcon from '@material-ui/icons/Error'
+
+
+function CreateCollection({
+                              gameId,
+                              collections,
+                              showCreateCollection,
+                              setShowCreateCollection,
+                              getCollections,
+                              loading, setLoading
+                          }) {
+    const [nameCollection, setNameCollection] = useState()
+    const [showEmailError, setShowEmailError] = useState(false)
+
+    const handleClickSubmit = async () => {
+        try {
+            var collectionBody = {'title': nameCollection}
+            const response = await axios.post(`${MY_BASE_PATH}${CREATE_COLLECTION}`, collectionBody)
+            setShowCreateCollection(-999)
+            setLoading(true)
+            getCollections()
+        } catch (e) {
+            console.log('Error: ', e)
+        }
+    }
+
+    const handleInputChange = e => {
+        const {name, value} = e.target
+        setNameCollection(value)
+    }
+    console.log(nameCollection)
+    return (
+        <DialogGeekify
+            textCancelButton={DialogTexts.CANCEL}
+            textConfirmButton={DialogTexts.SAVE}
+            handleShow={setShowCreateCollection}
+            handleConfirm={handleClickSubmit}
+            title={DialogTexts.ADD_TO_COLLECTIONS}
+            body={
+                <FormControl margin='normal' style={{width: '100%'}}>
+                    <TextFieldGeekify
+                        name='Collection'
+                        handleChange={handleInputChange}
+                        label={"Collection"}
+                        error={showEmailError}
+                        helperText={showEmailError && ErrorTexts.CREATE_COLLECTION}
+                        inputProps={{
+                            endAdornment: showEmailError && <InputAdornment position="end"><ErrorIcon
+                                style={{color: AppColors.RED}}/></InputAdornment>,
+                        }}
+                    />
+                </FormControl>
+            }
+            show={showCreateCollection}
+
+        />
+    )
+}
+
 
 /**
  * @component
@@ -20,18 +86,25 @@ const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
         padding: theme.spacing(2)
+    },
+    card: {
+        minWidth: 275,
+        border: `4px solid #7B7983`,
     }
 }))
 
-const GridCollections = ({collections}) => {
+const GridCollections = ({loading, setLoading, getCollections, collections}) => {
     const history = useHistory()
     const texts = useTextStyles();
     const classes = useStyles();
     const [redirectTo, setRedirectTo] = useState([false, -1]);
-
+    const [showCreateCollection, setShowCreateCollection] = useState(-999)
+    console.log(showCreateCollection)
+    const onClickAddNewCollection = async () => {
+        setShowCreateCollection(1)
+    }
 
     const [collection, setCollection] = useState(collections);
-    console.log(collection)
     return (
         <Container fluid style={{margin: 0, maxWidth: '100%'}}>
             <div className={classes.root}>
@@ -53,24 +126,59 @@ const GridCollections = ({collections}) => {
                                   lg={6}
                                   xl={3}
                             >
-                                {(index % 2 === 0) ?
-                                    <CollectionCard paddingLeft={'34em'} width={'550px'} collectionId={elem.id}
-                                                    collectionTitle={elem.value.title}
-                                                    collectionNumGames={elem.value.numGames} collectionImage={elem.value.image}/>
-                                    : <CollectionCard paddingLeft={'23em'} width={'400px'} collectionId={elem.id}
-                                                      collectionTitle={elem.value.title}
-                                                      collectionNumGames={elem.value.numGames} collectionImage={elem.value.image}/>
-
-                                }
+                                <CollectionCard paddingLeft={'23em'} width={'400px'} collectionId={elem.id}
+                                                collectionTitle={elem.value.title}
+                                                collectionNumGames={elem.value.numGames}
+                                                collectionImage={elem.value.image}/>
 
                             </Grid>
                         ))}
-                    <CollectionCard paddingLeft={'34em'} width={'550px'} collectionId={"s"}
-                                    collectionTitle={"A"}
-                                    collectionNumGames={"2"} collectionImage={"elem.value.image"}/>
+                    <Grid item
+                          xs={12}
+                          sm={12}
+                          md={6}
+                          lg={6}
+                          xl={3}
+                    >
+                        <Card style={{
+                            backgroundColor: AppColors.BACKGROUND,
+                            borderRadius: 20,
+                            borderColor: AppColors.GRAY,
+                            height: '212px',
+                            width: '400px',
+                            position: "relative",
+                            boxShadow: "none"
+                        }}
+                              className={classes.card}>
 
+                            <CardActionArea style={{position: 'relative', height: '212px', width: '400px'}}
+                                            onClick={onClickAddNewCollection}>
+
+                                <CardMedia
+                                    media="picture"
+                                    alt={"A"}
+                                    image={addIcon}
+                                    title={"collectionTitle"}
+                                    style={{
+                                        color: AppColors.RED,
+                                        height: '100px', width: '100px'
+                                    }}
+                                />
+                            </CardActionArea>
+                        </Card>
+
+                    </Grid>
                 </Grid>
             </div>
+            {showCreateCollection >= 0 && (
+                <CreateCollection
+                    showCreateCollection={showCreateCollection}
+                    setShowCreateCollection={setShowCreateCollection}
+                    getCollections={getCollections}
+                    loading={loading}
+                    setLoading={setLoading}
+                />
+            )}
         </Container>
 
     )

@@ -49,8 +49,14 @@ const DialogGeekify = props => {
             onClose={handleOnClose}
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
+            PaperProps={{
+                style: {
+                    backgroundColor: AppColors.BACKGROUND,
+                    boxShadow: 'none',
+                },
+            }}
         >
-            <DialogTitle style={{color: AppColors.PRIMARY}} id="scroll-dialog-title">
+            <DialogTitle style={{color: AppColors.WHITE}} id="scroll-dialog-title">
                 {props.title}
                 {closeButton && <IconButton
                     aria-label="close"
@@ -88,7 +94,7 @@ const DialogGeekify = props => {
                                 color="primary" variant="contained">
                             {props.textDeleteButton}
                         </Button>}
-                        {!cancelButton && <Button onClick={handleOnClose} style={{minWidth: '8em', marginRight: '1em'}}
+                        {!cancelButton && <Button onClick={handleOnClose} style={{backgroundColor:AppColors.WHITE,minWidth: '8em', marginRight: '1em'}}
                                                   variant="outlined">
                             {props.textCancelButton}
                         </Button>}
