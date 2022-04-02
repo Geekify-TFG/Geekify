@@ -17,7 +17,7 @@ class Collections(Resource):
                     if collection.exists:
                         my_json = collection.json()
                         try:
-                            return {'publication': my_json}, 200
+                            return {'collection': my_json}, 200
                         except Exception as e:
                             return {
                                        'message': 'An error occurred while finding the content of publication. '
