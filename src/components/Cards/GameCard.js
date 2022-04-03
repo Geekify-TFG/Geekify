@@ -86,7 +86,7 @@ const GameCard = ({
 
 
     return (
-        <Card style={{height: '302px', width: '222px', position: "relative", borderRadius: 20}}
+        <Card data-testid={"gameCard"} style={{height: '302px', width: '222px', position: "relative", borderRadius: 20}}
               className={classes.card}>
 
             <CardActionArea style={{position: 'relative', height: '302px', width: '222px'}} onClick={onClickHandler}>

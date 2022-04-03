@@ -16,13 +16,15 @@ export const LabelsSnackbar={
         "Login successfully",
     LOGOUT_SUCCESS:
         "Logout successfully",
+    COLLECTION_CREATED: 'Collection created successfully!',
+    COLLECTION_DELETED: 'Collection deleted successfully!'
 }
 
 export const LabelsDrawer = {
     HOME: "Home",
     SEARCH: "Search",
     CALENDAR: "Release Calendar",
-    LIBRARY: "My library",
+    COLLECTIONS: "My collections",
     FORUMS: "Forums",
     LOGIN:"Login",
     SIGNUP:"Sign up",
@@ -119,4 +121,22 @@ export const LabelsSignUpPage={
     REPEAT_PASSWORD:' Confirm password',
     CONFIRM_AGREE: 'By creating your account you confirm that you accept our Terms & Conditions and have read our Privacy Policy',
     ALREADY_ACCOUNT:'I already have an account, so log in'
+}
+
+export const DialogTexts = {
+    CANCEL: 'Cancel',
+    SAVE:'Save',
+    DELETE:'Delete',
+    ADD_TO_COLLECTIONS: 'Add to collections',
+    CREATE_COLLECTION:'Create collection',
+    DELETE_COLLECTION:'Delete collection'
+}
+
+export const ErrorTexts = {
+    CREATE_COLLECTION: 'Error to create the collection'
+}
+
+export const menuOptions={
+    EDIT:'Edit',
+    DELETE:'Delete'
 }

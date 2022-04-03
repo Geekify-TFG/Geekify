@@ -15,12 +15,20 @@ import {
     TextField
 } from "@material-ui/core";
 import {Button, Typography} from "@mui/material";
-import {BASE_PATH, GAME, GAME_ACHIEVEMENTS, GAME_IMAGES} from "../resources/ApiUrls";
+import {
+    BASE_PATH,
+    COLLECTION_GAME,
+    GAME,
+    GAME_ACHIEVEMENTS,
+    GAME_IMAGES,
+    MY_BASE_PATH,
+    MY_COLLECTIONS
+} from "../resources/ApiUrls";
 import axios from "axios";
 import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
-import {LabelsGamePage} from "../locale/en";
+import {DialogTexts, LabelsGamePage} from "../locale/en";
 import {makeStyles} from "@mui/styles";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import accountIcon from "../img/account_icon.svg"
@@ -29,6 +37,8 @@ import Icons from "../resources/Icons";
 import CardGeekify from "../components/Cards/CardGeekify";
 import CardAchievements from "../components/Cards/AchievementsCard";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
+import DialogGeekify from "../components/DialogGeekify";
+import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -111,6 +121,46 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+
+function AddToCollection({
+                             handleAddParticipant,
+                             initialValues,
+                             gameId,
+                             collections,
+                             showAddToCollectionModal,
+                             setShowAddToCollectionModal
+                         }) {
+    const [collection, setCollection] = useState()
+    const handleClickSubmit = async () => {
+        try {
+            var gameBody = {'game_id': gameId}
+            const response = await axios.put(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
+            setShowAddToCollectionModal(-999)
+        } catch (e) {
+            console.log('Error: ', e)
+        }
+    }
+    const handleChangeCollection = (event) => {
+        setCollection(event.target.value);
+    };
+
+    return (
+        <DialogGeekify
+            textCancelButton={DialogTexts.CANCEL}
+            textConfirmButton={DialogTexts.SAVE}
+            handleShow={setShowAddToCollectionModal}
+            handleConfirm={handleClickSubmit}
+            title={DialogTexts.ADD_TO_COLLECTIONS}
+            body={
+                <SelectGeekify value={collection} handleChange={handleChangeCollection} options={collections}
+                               borderRadius={30} width={'3px'} label={"Collections"}/>
+            }
+            show={showAddToCollectionModal}
+
+        />
+    )
+}
+
 const GamePage = () => {
     const [game, setGame] = useState();
     const [achievements, setAchievements] = useState();
@@ -121,10 +171,17 @@ const GamePage = () => {
     const history = useHistory()
     const idGame = location.state.detail
     const [rating, setRating] = useState("");
+    const [collections, setCollections] = useState()
 
+    const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
     const handleChange = (event) => {
         setRating(event.target.value);
     };
+
+    const handleAddToCollection = () => {
+        setShowAddToCollectionModal(1)
+    }
+
     const getGame = async () => {
         try {
             const response = await axios.get(`${BASE_PATH}${GAME(idGame)}`);
@@ -159,11 +216,24 @@ const GamePage = () => {
 
     }
 
+    const getCollections = async () => {
+        try {
+            var data = []
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS}`);
+            setCollections(response.data.collections)
+            //setLoading(false)
+
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
 
     useEffect(() => {
         getGame()
         getAchievementsGame()
         getImagesGame()
+        getCollections()
+
     }, []);
 
     return (
@@ -243,13 +313,31 @@ const GamePage = () => {
                                 </Button>
                             </Grid>
                             <Grid item>
-                                <Grid item style={{marginBottom: '1em'}}>
+                                <Grid container direction={"row"} justifyContent={"space-between"}
+                                      style={{marginBottom: '1em'}}>
 
                                     <Typography
                                         style={{
                                             fontSize: '35px',
                                             color: AppColors.WHITE
                                         }}>{game.name.toUpperCase()}</Typography>
+
+                                    <Button
+                                        data-testid={"BtnAddToCollection"}
+                                        style={{
+                                            backgroundColor: AppColors.BACKGROUND,
+                                            borderRadius: 20,
+                                            maxWidth: '10em'
+                                        }}
+                                        onClick={handleAddToCollection}
+                                    >
+                                        <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
+                                                    gutterBottom
+                                        >
+                                            {"Add to your collection"}
+                                        </Typography>
+                                    </Button>
+
                                 </Grid>
                             </Grid>
                             <Grid item style={{marginBottom: '1em'}}>
@@ -438,6 +526,14 @@ const GamePage = () => {
                     </Grid>
                 </Grid>
             </Grid>}
+            {showAddToCollectionModal >= 0 && (
+                <AddToCollection
+                    showAddToCollectionModal={showAddToCollectionModal}
+                    setShowAddToCollectionModal={setShowAddToCollectionModal}
+                    gameId={idGame}
+                    collections={collections}
+                />
+            )}
         </>
     )
 }

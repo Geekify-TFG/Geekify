@@ -37,13 +37,13 @@ describe('Login and sign in tests', () => {
         cy.get('button').contains('Sign up').should('be.visible').click()
     })
 
-    it('Log in de un usuario ya creado', function () {
+    /*it('Log in de un usuario ya creado', function () {
         cy.get('[id="Login"]').should('be.visible').click()
         cy.get('[id="email"]').should('be.visible').type(this.testData.email)
         cy.get('[id="password"]').should('be.visible').type(this.testData.password)
         cy.get('button').contains("Log in").should('be.visible').click()
         cy.get('[id="myProfile"]').should('be.visible', {timeout: 10000})
-    })
+    })*/
 
 
 })

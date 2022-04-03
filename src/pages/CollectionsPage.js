@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, CircularProgress, Grid, Typography} from "@material-ui/core";
+import {Button, Card, CardActionArea, CardMedia, CircularProgress, Grid, Typography} from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
@@ -8,6 +8,9 @@ import styled from "@emotion/styled";
 import GridCollections from "../components/GridCollections/GridCollections";
 import {collectionsMock} from "../mocks/CollectionsMock";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
+import axios from "axios";
+import {BASE_PATH, MY_BASE_PATH, MY_COLLECTIONS} from "../resources/ApiUrls";
+import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -24,6 +27,7 @@ const ButtonToggle = styled(Button)`
         `};
 
 `;
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -61,24 +65,20 @@ const useStyles = makeStyles((theme) => ({
 const CollectionsPage = () => {
     const [collections, setCollections] = useState();
     const [loading, setLoading] = useState(false);
+    const classes = useStyles();
 
-    /*  //Function to get all the games
-      const getCollections = async () => {
-          try {
-              var data = []
-              const response = await axios.get(`${BASE_PATH}${GAMES}`);
-              setCollections(response.data.results)
-              setLoading(false)
-
-          } catch (err) {
-              console.log(err.message)
-          }
-      }
-  */
-
+    const getCollections = async () => {
+        try {
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS}`);
+            setCollections(response.data.collections)
+            setLoading(false)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
     useEffect(() => {
-        setCollections(collectionsMock)
-        // getCollections()
+        //setCollections(collectionsMock)
+        getCollections()
 
     }, []);
 
@@ -120,8 +120,9 @@ const CollectionsPage = () => {
                             </div>
                             :
                             <Grid item>
-                                {collections && <GridCollections collections={collections}/>}
+                                {collections && <GridCollections loading={loading} setLoading={setLoading} getCollections={getCollections} collections={collections}/>}
                             </Grid>}
+
                 </Grid>
             </Grid>
         </>
