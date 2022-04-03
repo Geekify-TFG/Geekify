@@ -12,7 +12,7 @@ from api.app import CollectionModel
 
 class CollectionsREST(unittest.TestCase):
     def test_request_get_collections(self):
-        url = "http://127.0.0.1:5000/collections"
+        url = "https://geekify-be.herokuapp.com/collections"
         response = requests.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.json())  # add assertion here
@@ -21,7 +21,7 @@ class CollectionsREST(unittest.TestCase):
         collection = CollectionModel(title="test")
         collection.save_to_db()
         collection_id = collection.id
-        url = "http://127.0.0.1:5000/collection/{0}".format(collection_id)
+        url = "https://geekify-be.herokuapp.com/collection/{0}".format(collection_id)
         response = requests.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.json())  # add assertion here
@@ -31,7 +31,7 @@ class CollectionsREST(unittest.TestCase):
         collection = CollectionModel(title="test")
         collection.save_to_db()
         collection_id = collection.id
-        url = "http://127.0.0.1:5000/collectionGame/{0}".format(collection_id)
+        url = "https://geekify-be.herokuapp.com/collectionGame/{0}".format(collection_id)
         response = requests.put(url, {"game_id": 3498})
         self.assertEqual(response.status_code, 201)
         self.assertIsNotNone(response.json())  # add assertion here
