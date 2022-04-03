@@ -16,6 +16,8 @@ export const LabelsSnackbar={
         "Login successfully",
     LOGOUT_SUCCESS:
         "Logout successfully",
+    COLLECTION_CREATED: 'Collection created successfully!',
+    COLLECTION_DELETED: 'Collection deleted successfully!'
 }
 
 export const LabelsDrawer = {
@@ -124,10 +126,17 @@ export const LabelsSignUpPage={
 export const DialogTexts = {
     CANCEL: 'Cancel',
     SAVE:'Save',
+    DELETE:'Delete',
     ADD_TO_COLLECTIONS: 'Add to collections',
-    CREATE_COLLECTION:'Create collection'
+    CREATE_COLLECTION:'Create collection',
+    DELETE_COLLECTION:'Delete collection'
 }
 
 export const ErrorTexts = {
     CREATE_COLLECTION: 'Error to create the collection'
+}
+
+export const menuOptions={
+    EDIT:'Edit',
+    DELETE:'Delete'
 }

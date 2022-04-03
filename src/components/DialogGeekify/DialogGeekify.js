@@ -4,6 +4,40 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import PropTypes from 'prop-types';
 import {AppColors} from "../../resources/AppColors"
+import {makeStyles} from "@mui/styles";
+import {AppTextsFontSize, AppTextsFontWeight} from "../../resources/AppTexts";
+
+const useStyles = makeStyles({
+    root: {
+        minWidth: 275,
+    },
+    bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+    },
+    text: {
+        fontSize: AppTextsFontSize.SIZE_BODY,
+        fontWeight: AppTextsFontWeight.WEIGHT_LIGHT
+    },
+    pos: {
+        marginBottom: 12,
+    },
+    link: {
+        overflowX: "auto",
+        "&:hover": {
+            cursor: 'pointer',
+            textDecoration: `underline ${AppColors.WHITE}`
+        }
+    }, cardHeaderRoot: {
+        overflow: "hidden"
+    },
+    cardHeaderContent: {
+        overflow: "hidden"
+    }
+
+
+});
 
 const DialogGeekify = props => {
     const {
@@ -72,7 +106,7 @@ const DialogGeekify = props => {
                 </IconButton>}
             </DialogTitle>
 
-            <DialogContent dividers={true}>
+            <DialogContent  dividers={true}>
                 {props.body}
             </DialogContent>
 
