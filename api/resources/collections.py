@@ -60,6 +60,23 @@ class Collections(Resource):
                     return {'message': 'An error occurred you send a bad request. {0}:{1}'.format(type(e), e)}, 400
             return {'message': 'An error occurred parsing arguments.'}, 400
 
+    def delete(self, id=None):
+        with lock.lock:
+            try:
+                if id:
+                    collection = CollectionModel.find_by_id(id)
+
+                    try:
+                        collection.delete_from_db()
+                        return {'message': 'Collection deleted successfully'}, 200
+                    except Exception as e:
+                        return {
+                                   'message': 'An error occurred while finding the content of publication. '
+                                              'Error {0}:{1}'.format(type(e), e)
+                               }, 404
+            except Exception as e:
+                return {'message': 'Internal server error. Error {0}:{1}'.format(type(e), e)}, 500
+
 
 class CollectionsList(Resource):
     def get(self):
@@ -83,5 +100,5 @@ class CollectionGame(Resource):
             game_detail = requests.get(api_detail).json()
             collection = CollectionModel.find_collection(id=id)
             collection.update_tags(game_detail)
-
+            # print(collection.json()['value']['games'])
         return {'message': 'Collection updated successfully'}, 201

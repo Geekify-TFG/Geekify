@@ -96,7 +96,6 @@ class CollectionModel(DocumentModel):
         if self.exists:
             if title:
                 self.__update_column__(self.title_col_name, str(title))
-
             if image:
                 self.__update_column__(self.image_col_name, str(image))
             if num_games:
@@ -138,6 +137,7 @@ class CollectionModel(DocumentModel):
 
             }
         )
+
 
     def delete_from_db(self):
         super(CollectionModel, self).delete_from_db()
