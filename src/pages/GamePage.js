@@ -323,6 +323,7 @@ const GamePage = () => {
                                         }}>{game.name.toUpperCase()}</Typography>
 
                                     <Button
+                                        data-testid={"BtnAddToCollection"}
                                         style={{
                                             backgroundColor: AppColors.BACKGROUND,
                                             borderRadius: 20,

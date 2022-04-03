@@ -146,7 +146,7 @@ const GridCollections = ({loading, setLoading, getCollections, collections}) => 
                           lg={6}
                           xl={3}
                     >
-                        <Card id={"createCollection"}
+                        <Card data-testid={"createCollection"}
                             style={{
                             backgroundColor: AppColors.BACKGROUND,
                             borderRadius: 20,

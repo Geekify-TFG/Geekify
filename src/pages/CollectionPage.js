@@ -100,6 +100,7 @@ function EditCollection({
             body={
                 <FormControl margin='normal' style={{width: '100%'}}>
                     <TextFieldGeekify
+
                         name='Collection'
                         handleChange={handleInputChange}
                         label={"Collection"}
@@ -254,7 +255,7 @@ const CollectionPage = () => {
                                 style={{fontSize: '40px', color: AppColors.WHITE}}>{titleCollection}</Typography>
                         </Grid>
                         <Grid item style={{marginRight:'4em'}}>
-                            <Button style={{color: AppColors.WHITE, marginTop: '1em',backgroundColor:AppColors.BACKGROUND_DRAWER}} aria-controls="fade-menu"
+                            <Button data-testid={"menuButton"} style={{color: AppColors.WHITE, marginTop: '1em',backgroundColor:AppColors.BACKGROUND_DRAWER}} aria-controls="fade-menu"
                                     aria-haspopup="true" onClick={handleClick}>
                                 <IconProvider icon={<Icons.MORE style={{
                                     verticalAlign: "middle",
@@ -273,13 +274,13 @@ const CollectionPage = () => {
                                 open={open}
                                 onClose={handleClose}
                                 TransitionComponent={Fade}>
-                                <MenuItem style={{color: AppColors.PRIMARY}}
+                                <MenuItem data-testid="editOption" style={{color: AppColors.PRIMARY}}
                                           onClick={() => {
                                               handleOnEdit();
                                               handleClose()
                                           }}> {menuOptions.EDIT} </MenuItem>
 
-                                <MenuItem style={{color: AppColors.PRIMARY}}
+                                <MenuItem data-testid="deleteOption" style={{color: AppColors.PRIMARY}}
                                           onClick={() => {
                                               handleOnDelete();
                                               handleClose()
