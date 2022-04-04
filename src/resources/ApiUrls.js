@@ -1,7 +1,7 @@
 // Base
 const _DOMAIN = "https://api.rawg.io/api"; // Domain of the server
-//const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
-const _MY_DOMAIN = "https://geekify-be.herokuapp.com/"; // Domain of the server
+const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
+//const _MY_DOMAIN = "https://geekify-be.herokuapp.com/"; // Domain of the server
 
 const _API_KEY = "key=40f3cb2ff2c94a5889d3d6c865415ec5\n"; // Path to the API
 export const BASE_PATH = `${_DOMAIN}`; // Base URL of the backend
@@ -51,9 +51,10 @@ export const MY_GAMES_FILTER = (filter) => `${_MY_GAMES_PATH}${_FILTER_PATH}/${f
 
 //Collections paths
 const _COLLECTIONS_PATH = "/collections";
+const _USEREMAIL_PATH = "/user_email";
 const _COLLECTION_PATH = "/collection";
 const _COLLECTION_GAME_PATH = "/collectionGame";
-export const MY_COLLECTIONS= `${_COLLECTIONS_PATH}`
+export const MY_COLLECTIONS= (useremail)=> `${_COLLECTIONS_PATH}${_USEREMAIL_PATH}/${useremail}`
 export const CREATE_COLLECTION= `${_COLLECTION_PATH}`
 export const COLLECTION_GAME= (id) =>`${_COLLECTION_GAME_PATH}/${id}`
 export const MY_COLLECTION = (id) => `${_COLLECTION_PATH}/${id}`

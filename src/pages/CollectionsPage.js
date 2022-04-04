@@ -11,6 +11,7 @@ import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
 import {BASE_PATH, MY_BASE_PATH, MY_COLLECTIONS} from "../resources/ApiUrls";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
+import {StorageManager} from "../utils";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -66,10 +67,14 @@ const CollectionsPage = () => {
     const [collections, setCollections] = useState();
     const [loading, setLoading] = useState(false);
     const classes = useStyles();
+    const storageManager = new StorageManager()
 
     const getCollections = async () => {
         try {
-            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS}`);
+            const config = {auth: {username: storageManager.getToken()}}
+
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`,config);
+            console.log(response.data.collections)
             setCollections(response.data.collections)
             setLoading(false)
         } catch (err) {
