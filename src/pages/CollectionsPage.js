@@ -74,7 +74,6 @@ const CollectionsPage = () => {
             const config = {auth: {username: storageManager.getToken()}}
 
             const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`,config);
-            console.log(response.data.collections)
             setCollections(response.data.collections)
             setLoading(false)
         } catch (err) {
