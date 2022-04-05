@@ -12,17 +12,24 @@ from api.app import CollectionModel
 
 class CollectionsREST(unittest.TestCase):
     def test_request_get_collections(self):
-        url = "https://geekify-be.herokuapp.com/collections"
-        response = requests.get(url)
+        url = f'https://geekify-be.herokuapp.com/login?email=test@a.com&password=test'
+        response = requests.post(url)
+        token = response.json()['token']
+        url = "https://geekify-be.herokuapp.com/collections/user_email/test@a.com"
+        response = requests.get(url, auth=(token, ''))
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.json())  # add assertion here
 
     def test_request_create_collection(self):
+        url = f'https://geekify-be.herokuapp.com/login?email=test@a.com&password=test'
+        response = requests.post(url)
+        token = response.json()['token']
+
         collection = CollectionModel(title="test")
         collection.save_to_db()
         collection_id = collection.id
         url = "https://geekify-be.herokuapp.com/collection/{0}".format(collection_id)
-        response = requests.get(url)
+        response = requests.get(url, auth=(token, ''))
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.json())  # add assertion here
         collection.delete_from_db()
