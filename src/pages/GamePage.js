@@ -28,7 +28,7 @@ import axios from "axios";
 import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
-import {DialogTexts, LabelsGamePage} from "../locale/en";
+import {DialogTexts, LabelsGamePage, LabelsSnackbar} from "../locale/en";
 import {makeStyles} from "@mui/styles";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import accountIcon from "../img/account_icon.svg"
@@ -40,6 +40,7 @@ import ProfileButton from "../components/ProfileButton/ProfileButton";
 import DialogGeekify from "../components/DialogGeekify";
 import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
 import {StorageManager} from "../utils";
+import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -129,13 +130,15 @@ function AddToCollection({
                              gameId,
                              collections,
                              showAddToCollectionModal,
-                             setShowAddToCollectionModal
+                             setShowAddToCollectionModal,
+                             openSnackAddToCollection, setOpenSnackAddToCollection
                          }) {
     const [collection, setCollection] = useState()
     const handleClickSubmit = async () => {
         try {
             var gameBody = {'game_id': gameId}
             const response = await axios.put(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
+            setOpenSnackAddToCollection(true)
             setShowAddToCollectionModal(-999)
         } catch (e) {
             console.log('Error: ', e)
@@ -174,11 +177,16 @@ const GamePage = () => {
     const [rating, setRating] = useState("");
     const [collections, setCollections] = useState()
     const storageManager = new StorageManager()
+    const [openSnackAddToCollection, setOpenSnackAddToCollection] = useState(false)
 
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
     const handleChange = (event) => {
         setRating(event.target.value);
     };
+
+    const handleCloseSnackAddToCollection = async () => {
+        setOpenSnackAddToCollection(false)
+    }
 
     const handleAddToCollection = () => {
         setShowAddToCollectionModal(1)
@@ -223,7 +231,7 @@ const GamePage = () => {
         try {
             const config = {auth: {username: storageManager.getToken()}}
 
-            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`,config);
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`, config);
             setCollections(response.data.collections)
         } catch (err) {
             console.log(err.message)
@@ -534,8 +542,13 @@ const GamePage = () => {
                     setShowAddToCollectionModal={setShowAddToCollectionModal}
                     gameId={idGame}
                     collections={collections}
+                    setOpenSnackAddToCollection={setOpenSnackAddToCollection}
+                    openSnackAddToCollection={openSnackAddToCollection}
                 />
             )}
+            <SnackBarGeekify handleClose={handleCloseSnackAddToCollection}
+                             message={LabelsSnackbar.ADDED_TO_COLLECTION}
+                             openSnack={openSnackAddToCollection}/>
         </>
     )
 }
