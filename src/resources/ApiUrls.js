@@ -1,7 +1,7 @@
 // Base
 const _DOMAIN = "https://api.rawg.io/api"; // Domain of the server
-const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
-//const _MY_DOMAIN = "https://geekify-be.herokuapp.com/"; // Domain of the server
+//const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
+const _MY_DOMAIN = "https://geekify-be.herokuapp.com/"; // Domain of the server
 
 const _API_KEY = "key=40f3cb2ff2c94a5889d3d6c865415ec5\n"; // Path to the API
 export const BASE_PATH = `${_DOMAIN}`; // Base URL of the backend
