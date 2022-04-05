@@ -165,6 +165,4 @@ class CollectionModel(DocumentModel):
                 "You need to give one the following: "
                 "an existing title or existing user id"
             )
-        print(collection)
-
         return collection
