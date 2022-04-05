@@ -35,7 +35,7 @@ const TextFieldGeekify = ({
                            inputProps,
                            isDisabled,
                            maxLength,
-                           isNumeric
+                           isNumeric,
                        }) => {
     const classes = useStyles();
 

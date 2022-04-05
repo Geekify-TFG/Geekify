@@ -17,7 +17,9 @@ export const LabelsSnackbar={
     LOGOUT_SUCCESS:
         "Logout successfully",
     COLLECTION_CREATED: 'Collection created successfully!',
-    COLLECTION_DELETED: 'Collection deleted successfully!'
+    ADDED_TO_COLLECTION: 'Added to collection successfully!',
+    COLLECTION_DELETED: 'Collection deleted successfully!',
+    COLLECTION_EDITED: 'Collection edited successfully!'
 }
 
 export const LabelsDrawer = {
@@ -129,11 +131,13 @@ export const DialogTexts = {
     DELETE:'Delete',
     ADD_TO_COLLECTIONS: 'Add to collections',
     CREATE_COLLECTION:'Create collection',
+    EDIT_COLLECTION:'Edit collection',
     DELETE_COLLECTION:'Delete collection'
 }
 
 export const ErrorTexts = {
-    CREATE_COLLECTION: 'Error to create the collection'
+    CREATE_COLLECTION: 'Error to create the collection',
+    URL_COLLECTION: 'The URL of the image is incorrect'
 }
 
 export const menuOptions={

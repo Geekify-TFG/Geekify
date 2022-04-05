@@ -10,7 +10,7 @@ import {
     MenuItem,
     Typography
 } from "@material-ui/core";
-import {COLLECTION_GAME, CREATE_COLLECTION, MY_BASE_PATH, MY_COLLECTION} from "../resources/ApiUrls";
+import {CREATE_COLLECTION, MY_BASE_PATH, MY_COLLECTION} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import {useHistory, useLocation} from "react-router-dom";
@@ -23,9 +23,9 @@ import Icons from "../resources/Icons";
 import {DialogTexts, ErrorTexts, LabelsSnackbar, menuOptions} from "../locale/en";
 import DialogGeekify from "../components/DialogGeekify";
 import TextFieldGeekify from "../components/TextFieldGeekify/textFieldGeekify";
-import ErrorIcon from "@material-ui/icons/Error";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 import {StorageManager} from "../utils";
+import ErrorIcon from "@material-ui/icons/Error";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -61,60 +61,99 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-function EditCollection({
-                            gameId,
-                            collections,
-                            showCreateCollection,
-                            setShowCreateCollection,
-                            getCollections,
-                            loading, setLoading,
-                            openSnackCreateCollection,
-                            setopenSnackCreateCollection
-                        }) {
-    const [nameCollection, setNameCollection] = useState()
-    const [showEmailError, setShowEmailError] = useState(false)
+function EditCollectionModal({
+                                 gameId,
+                                 collections,
+                                 showEditCollection,
+                                 setShowEditCollection,
+                                 loading, setLoading,
+                                 openSnackEditCollection,
+                                 setOpenSnackEditCollection,
+                                 collection,
+                                 collectionId,getCollection
+                             }) {
+    const [titleCollection, setTitleCollection] = useState(collection.title)
+    const [imageCollection, setImageCollection] = useState(collection.image)
+    const [showErrorURL, setShowErrorURL] = useState(false)
+    const storageManager = new StorageManager()
 
     const handleClickSubmit = async () => {
-        try {
-            var collectionBody = {'title': nameCollection}
-            const response = await axios.post(`${MY_BASE_PATH}${CREATE_COLLECTION}`, collectionBody)
-            setShowCreateCollection(-999)
-            setLoading(true)
-            setopenSnackCreateCollection(true)
-            getCollections()
-        } catch (e) {
-            console.log('Error: ', e)
+        if(isValidURL(imageCollection)){
+            try {
+                const config = {auth: {username: storageManager.getToken()}}
+
+                var collectionBody = {'title': titleCollection,'image':imageCollection}
+                const response = await axios.put(`${MY_BASE_PATH}${MY_COLLECTION(collectionId)}`, collectionBody,config)
+                setShowEditCollection(-999)
+                setLoading(true)
+                setOpenSnackEditCollection(true)
+                getCollection()
+            } catch (e) {
+                console.log('Error: ', e)
+            }
         }
+        else{
+            setShowErrorURL(true)
+        }
+
     }
 
-    const handleInputChange = e => {
+    const isValidURL = (string) =>{
+        var res
+        if(string === undefined) res = null
+        else{
+            res = string.match(/(https?:\/\/.*\.(?:png|jpg))/i);
+        }
+        return (res!=null)
+    }
+
+
+    const handleInputChangeTitle = e => {
         const {name, value} = e.target
-        setNameCollection(value)
+        setTitleCollection(value)
+    }
+    const handleInputChangeImage = e => {
+        const {name, value} = e.target
+        setImageCollection(value)
     }
     return (
         <DialogGeekify
             textCancelButton={DialogTexts.CANCEL}
             textConfirmButton={DialogTexts.SAVE}
-            handleShow={setShowCreateCollection}
+            handleShow={setShowEditCollection}
             handleConfirm={handleClickSubmit}
-            title={DialogTexts.CREATE_COLLECTION}
+            title={DialogTexts.EDIT_COLLECTION}
             body={
-                <FormControl margin='normal' style={{width: '100%'}}>
-                    <TextFieldGeekify
+                <Grid container>
+                    <FormControl margin='normal' style={{width: '100%'}}>
+                        <TextFieldGeekify
+                            value={collection.title}
+                            name='Title of collection'
+                            default
+                            handleChange={handleInputChangeTitle}
+                            label='Title of collection'
+                        />
+                    </FormControl>
+                    <FormControl margin='normal' style={{width: '100%'}}>
 
-                        name='Collection'
-                        handleChange={handleInputChange}
-                        label={"Collection"}
-                        error={showEmailError}
-                        helperText={showEmailError && ErrorTexts.CREATE_COLLECTION}
-                        inputProps={{
-                            endAdornment: showEmailError && <InputAdornment position="end"><ErrorIcon
-                                style={{color: AppColors.RED}}/></InputAdornment>,
-                        }}
-                    />
-                </FormControl>
+                        <TextFieldGeekify
+                            value={collection.image}
+                            name='Image of the collection'
+                            default
+                            handleChange={handleInputChangeImage}
+                            label='Image of the collection'
+                            error={showErrorURL}
+                            helperText={showErrorURL && ErrorTexts.URL_COLLECTION}
+                            inputProps={{
+                                endAdornment: showErrorURL && <InputAdornment position="end"><ErrorIcon
+                                    style={{color: AppColors.RED}}/></InputAdornment>,
+                            }}
+                        />
+                    </FormControl>
+
+                </Grid>
             }
-            show={showCreateCollection}
+            show={showEditCollection}
 
         />
     )
@@ -160,7 +199,7 @@ function DeleteCollectionModal({
             buttonColor={AppColors.RED}
             body={
                 <>
-                    <Typography variant="subtitle1" style={{color:AppColors.WHITE}} gutterBottom>
+                    <Typography variant="subtitle1" style={{color: AppColors.WHITE}} gutterBottom>
                         {"Are you sure you want to delete this collection?"}
                     </Typography>
                 </>
@@ -180,9 +219,11 @@ const CollectionPage = () => {
     const open = Boolean(anchorEl);
 
     const [loading, setLoading] = useState(false);
+    const [collection, setCollection] = useState(false);
     const [showDeleteCollectionModal, setShowDeleteCollectionModal] = useState(false);
     const [showEditCollectionModal, setShowEditCollectionModal] = useState(-999);
     const [openSnackDeleteCollection, setOpenSnackDeleteCollection] = useState(false);
+    const [openSnackEditCollection, setOpenSnackEditCollection] = useState(false);
     const titleCollection = location.state.title
     const idCollection = location.state.detail
     const storageManager = new StorageManager()
@@ -209,13 +250,17 @@ const CollectionPage = () => {
         setOpenSnackDeleteCollection(false)
     }
 
+    const handleCloseSnackEditCollection = async () => {
+        setOpenSnackEditCollection(false)
+    }
+
     //Function to get all the games
     const getGames = async () => {
         try {
             var data = []
             const config = {auth: {username: storageManager.getToken()}}
-
-            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTION(idCollection)}`,config);
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTION(idCollection)}`, config);
+            setCollection(response.data.collection.value)
             setGames(response.data.collection.value.games)
             setLoading(false)
 
@@ -252,14 +297,18 @@ const CollectionPage = () => {
 
                 </Grid>
                 <Grid container
-                      direction={"column"} >
+                      direction={"column"}>
                     <Grid container justifyContent={"space-between"}>
                         <Grid item style={{marginLeft: '4em'}}>
                             <Typography
-                                style={{fontSize: '40px', color: AppColors.WHITE}}>{titleCollection}</Typography>
+                                style={{fontSize: '40px', color: AppColors.WHITE}}>{collection.title}</Typography>
                         </Grid>
-                        <Grid item style={{marginRight:'4em'}}>
-                            <Button data-testid={"menuButton"} style={{color: AppColors.WHITE, marginTop: '1em',backgroundColor:AppColors.BACKGROUND_DRAWER}} aria-controls="fade-menu"
+                        <Grid item style={{marginRight: '4em'}}>
+                            <Button data-testid={"menuButton"} style={{
+                                color: AppColors.WHITE,
+                                marginTop: '1em',
+                                backgroundColor: AppColors.BACKGROUND_DRAWER
+                            }} aria-controls="fade-menu"
                                     aria-haspopup="true" onClick={handleClick}>
                                 <IconProvider icon={<Icons.MORE style={{
                                     verticalAlign: "middle",
@@ -306,6 +355,10 @@ const CollectionPage = () => {
             <SnackBarGeekify handleClose={handleCloseSnackDeleteCollection}
                              message={LabelsSnackbar.COLLECTION_DELETED}
                              openSnack={openSnackDeleteCollection}/>
+            <SnackBarGeekify handleClose={handleCloseSnackEditCollection}
+                             message={LabelsSnackbar.COLLECTION_EDITED}
+                             openSnack={openSnackEditCollection}/>
+
             {showDeleteCollectionModal && (
                 <DeleteCollectionModal
                     showDeleteCollection={showDeleteCollectionModal}
@@ -315,6 +368,20 @@ const CollectionPage = () => {
                     collectionId={idCollection}
                     setOpenSnackDeleteCollection={setOpenSnackDeleteCollection}
                     openSnackDeleteCollection={openSnackDeleteCollection}
+                />
+            )}
+
+            {showEditCollectionModal && (
+                <EditCollectionModal
+                    showEditCollection={showEditCollectionModal}
+                    setShowEditCollection={setShowEditCollectionModal}
+                    loading={loading}
+                    setLoading={setLoading}
+                    collectionId={idCollection}
+                    setOpenSnackEditCollection={setOpenSnackEditCollection}
+                    openSnackEditCollection={openSnackEditCollection}
+                    collection={collection}
+                    getCollection={getGames}
                 />
             )}
         </>
