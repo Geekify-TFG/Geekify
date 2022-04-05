@@ -106,8 +106,14 @@ const GridCollections = ({loading, setLoading, getCollections, collections}) => 
     const [redirectTo, setRedirectTo] = useState([false, -1]);
     const [showCreateCollection, setShowCreateCollection] = useState(-999)
     const [openSnackCreateCollection, setopenSnackCreateCollection] = useState(false)
+    const storageManager = new StorageManager()
     const onClickAddNewCollection = async () => {
-        setShowCreateCollection(1)
+        if(storageManager.getToken()){
+            setShowCreateCollection(1)
+        }
+        else{
+            alert("Create an account")
+        }
     }
     const handleCloseSnackCreateCollection = async () => {
         setopenSnackCreateCollection(false)

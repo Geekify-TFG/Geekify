@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, CardActionArea, CardMedia, CircularProgress, Grid, Typography} from "@material-ui/core";
+import {Button, CircularProgress, Grid, Typography} from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
 import {LabelsCollection} from "../locale/en";
 import styled from "@emotion/styled";
 import GridCollections from "../components/GridCollections/GridCollections";
-import {collectionsMock} from "../mocks/CollectionsMock";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
-import {BASE_PATH, MY_BASE_PATH, MY_COLLECTIONS} from "../resources/ApiUrls";
-import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
+import {MY_BASE_PATH, MY_COLLECTIONS} from "../resources/ApiUrls";
 import {StorageManager} from "../utils";
+import TextFieldGeekify from "../components/TextFieldGeekify/textFieldGeekify";
+import TextGeekify from "../components/TextGeekify/TextGeekify";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -28,7 +28,6 @@ const ButtonToggle = styled(Button)`
         `};
 
 `;
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +72,7 @@ const CollectionsPage = () => {
         try {
             const config = {auth: {username: storageManager.getToken()}}
 
-            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`,config);
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`, config);
             setCollections(response.data.collections)
             setLoading(false)
         } catch (err) {
@@ -82,7 +81,8 @@ const CollectionsPage = () => {
     }
     useEffect(() => {
         //setCollections(collectionsMock)
-        getCollections()
+        if (storageManager.getToken())
+            getCollections()
 
     }, []);
 
