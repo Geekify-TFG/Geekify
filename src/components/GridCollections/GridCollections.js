@@ -13,7 +13,7 @@ import {DialogTexts, ErrorTexts, LabelsSnackbar} from "../../locale/en";
 import TextFieldGeekify from "../TextFieldGeekify/textFieldGeekify";
 import ErrorIcon from '@material-ui/icons/Error'
 import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
-
+import {StorageManager} from "../../utils";
 
 function CreateCollection({
                               gameId,
@@ -27,11 +27,14 @@ function CreateCollection({
                           }) {
     const [nameCollection, setNameCollection] = useState()
     const [showEmailError, setShowEmailError] = useState(false)
+    const storageManager = new StorageManager()
 
     const handleClickSubmit = async () => {
         try {
-            var collectionBody = {'title': nameCollection}
-            const response = await axios.post(`${MY_BASE_PATH}${CREATE_COLLECTION}`, collectionBody)
+            var collectionBody = {'title': nameCollection,'user_email':storageManager.getEmail()}
+            const config = {auth: {username: storageManager.getToken()}}
+
+            const response = await axios.post(`${MY_BASE_PATH}${CREATE_COLLECTION}`, collectionBody, config)
             setShowCreateCollection(-999)
             setLoading(true)
             setopenSnackCreateCollection(true)
@@ -103,8 +106,14 @@ const GridCollections = ({loading, setLoading, getCollections, collections}) => 
     const [redirectTo, setRedirectTo] = useState([false, -1]);
     const [showCreateCollection, setShowCreateCollection] = useState(-999)
     const [openSnackCreateCollection, setopenSnackCreateCollection] = useState(false)
+    const storageManager = new StorageManager()
     const onClickAddNewCollection = async () => {
-        setShowCreateCollection(1)
+        if(storageManager.getToken()){
+            setShowCreateCollection(1)
+        }
+        else{
+            alert("Create an account")
+        }
     }
     const handleCloseSnackCreateCollection = async () => {
         setopenSnackCreateCollection(false)
@@ -147,15 +156,15 @@ const GridCollections = ({loading, setLoading, getCollections, collections}) => 
                           xl={3}
                     >
                         <Card data-testid={"createCollection"}
-                            style={{
-                            backgroundColor: AppColors.BACKGROUND,
-                            borderRadius: 20,
-                            borderColor: AppColors.GRAY,
-                            height: '212px',
-                            width: '400px',
-                            position: "relative",
-                            boxShadow: "none"
-                        }}
+                              style={{
+                                  backgroundColor: AppColors.BACKGROUND,
+                                  borderRadius: 20,
+                                  borderColor: AppColors.GRAY,
+                                  height: '212px',
+                                  width: '400px',
+                                  position: "relative",
+                                  boxShadow: "none"
+                              }}
                               className={classes.card}>
 
                             <CardActionArea style={{position: 'relative', height: '212px', width: '400px'}}

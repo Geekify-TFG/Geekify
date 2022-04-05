@@ -47,7 +47,7 @@ api.add_resource(GamesByOrder, '/games/filter/<string:order>')
 api.add_resource(GameFilters, '/games/filters')
 
 api.add_resource(Collections, '/collection', '/collection/<string:id>')
-api.add_resource(CollectionsList, '/collections')
+api.add_resource(CollectionsList, '/collections/user_email/<string:user_email>')
 api.add_resource(CollectionGame, '/collectionGame/<string:id>')
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

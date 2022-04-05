@@ -39,6 +39,7 @@ import CardAchievements from "../components/Cards/AchievementsCard";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import DialogGeekify from "../components/DialogGeekify";
 import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
+import {StorageManager} from "../utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -172,6 +173,7 @@ const GamePage = () => {
     const idGame = location.state.detail
     const [rating, setRating] = useState("");
     const [collections, setCollections] = useState()
+    const storageManager = new StorageManager()
 
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
     const handleChange = (event) => {
@@ -216,13 +218,13 @@ const GamePage = () => {
 
     }
 
+
     const getCollections = async () => {
         try {
-            var data = []
-            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS}`);
-            setCollections(response.data.collections)
-            //setLoading(false)
+            const config = {auth: {username: storageManager.getToken()}}
 
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`,config);
+            setCollections(response.data.collections)
         } catch (err) {
             console.log(err.message)
         }

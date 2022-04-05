@@ -25,6 +25,7 @@ import DialogGeekify from "../components/DialogGeekify";
 import TextFieldGeekify from "../components/TextFieldGeekify/textFieldGeekify";
 import ErrorIcon from "@material-ui/icons/Error";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
+import {StorageManager} from "../utils";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -184,6 +185,7 @@ const CollectionPage = () => {
     const [openSnackDeleteCollection, setOpenSnackDeleteCollection] = useState(false);
     const titleCollection = location.state.title
     const idCollection = location.state.detail
+    const storageManager = new StorageManager()
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -211,7 +213,9 @@ const CollectionPage = () => {
     const getGames = async () => {
         try {
             var data = []
-            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTION(idCollection)}`);
+            const config = {auth: {username: storageManager.getToken()}}
+
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTION(idCollection)}`,config);
             setGames(response.data.collection.value.games)
             setLoading(false)
 

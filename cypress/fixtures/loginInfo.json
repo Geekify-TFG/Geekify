@@ -4,7 +4,7 @@
   "takenemail": "takentest@takentest.takentest",
   "name": "test",
   "password": "test",
-  "email": "test@test.test",
+  "email": "test@a.com",
   "wrongemail": "wrongemail",
   "wrongpassword": "wrongpassword",
   "inexistentemail": "inexistent@email.com"
