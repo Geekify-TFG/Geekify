@@ -28,6 +28,7 @@ export const LabelsDrawer = {
     CALENDAR: "Release Calendar",
     COLLECTIONS: "My collections",
     FORUMS: "Forums",
+    NEWS: "News",
     LOGIN:"Login",
     SIGNUP:"Sign up",
     SIGN_OUT:"Sign out",
@@ -101,6 +102,11 @@ export const LabelsForumsPage = {
     SEE_MORE: 'See more'
 }
 
+
+export const LabelsNewsPage = {
+    NEWS: 'News',
+    SEE_MORE: 'See more'
+}
 
 export const LabelsProfilePage = {
     FOLLOWING: 'Following',
