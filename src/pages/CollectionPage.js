@@ -10,7 +10,7 @@ import {
     MenuItem,
     Typography
 } from "@material-ui/core";
-import {CREATE_COLLECTION, MY_BASE_PATH, MY_COLLECTION} from "../resources/ApiUrls";
+import {MY_BASE_PATH, MY_COLLECTION} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import {useHistory, useLocation} from "react-router-dom";
@@ -70,7 +70,7 @@ function EditCollectionModal({
                                  openSnackEditCollection,
                                  setOpenSnackEditCollection,
                                  collection,
-                                 collectionId,getCollection
+                                 collectionId, getCollection
                              }) {
     const [titleCollection, setTitleCollection] = useState(collection.title)
     const [imageCollection, setImageCollection] = useState(collection.image)
@@ -78,12 +78,15 @@ function EditCollectionModal({
     const storageManager = new StorageManager()
 
     const handleClickSubmit = async () => {
-        if(isValidURL(imageCollection)){
+        console.log(imageCollection, collection.image)
+        console.log(imageCollection === undefined ? collection.image : imageCollection)
+        var image = imageCollection === undefined ? collection.image : imageCollection
+        if (isValidURL(image)) {
             try {
                 const config = {auth: {username: storageManager.getToken()}}
 
-                var collectionBody = {'title': titleCollection,'image':imageCollection}
-                const response = await axios.put(`${MY_BASE_PATH}${MY_COLLECTION(collectionId)}`, collectionBody,config)
+                var collectionBody = {'title': titleCollection, 'image': image}
+                const response = await axios.put(`${MY_BASE_PATH}${MY_COLLECTION(collectionId)}`, collectionBody, config)
                 setShowEditCollection(-999)
                 setLoading(true)
                 setOpenSnackEditCollection(true)
@@ -91,20 +94,19 @@ function EditCollectionModal({
             } catch (e) {
                 console.log('Error: ', e)
             }
-        }
-        else{
+        } else {
             setShowErrorURL(true)
         }
 
     }
 
-    const isValidURL = (string) =>{
+    const isValidURL = (string) => {
         var res
-        if(string === undefined) res = null
-        else{
+        if (string === undefined) res = null
+        else {
             res = string.match(/(https?:\/\/.*\.(?:png|jpg))/i);
         }
-        return (res!=null)
+        return (res != null)
     }
 
 
@@ -122,6 +124,7 @@ function EditCollectionModal({
             textConfirmButton={DialogTexts.SAVE}
             handleShow={setShowEditCollection}
             handleConfirm={handleClickSubmit}
+            buttonColor={AppColors.PRIMARY}
             title={DialogTexts.EDIT_COLLECTION}
             body={
                 <Grid container>
@@ -138,10 +141,10 @@ function EditCollectionModal({
 
                         <TextFieldGeekify
                             value={collection.image}
-                            name='Image of the collection'
+                            name='Link of the background image'
                             default
                             handleChange={handleInputChangeImage}
-                            label='Image of the collection'
+                            label='Link of the background image'
                             error={showErrorURL}
                             helperText={showErrorURL && ErrorTexts.URL_COLLECTION}
                             inputProps={{

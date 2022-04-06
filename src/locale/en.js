@@ -1,7 +1,7 @@
 export const LabelsGameCard = {}
 
 
-export const LabelsSnackbar={
+export const LabelsSnackbar = {
     COMMON_ERROR: "Something went wrong, try it again later",
     REGISTER_SUCCESSFULLY: "Register successfully",
     EMPTY_FIELDS: "Make sure to fill all the fields",
@@ -18,6 +18,7 @@ export const LabelsSnackbar={
         "Logout successfully",
     COLLECTION_CREATED: 'Collection created successfully!',
     ADDED_TO_COLLECTION: 'Added to collection successfully!',
+    ERROR_LOGIN_COLLECTION: 'You must be login to save to the collection!',
     COLLECTION_DELETED: 'Collection deleted successfully!',
     COLLECTION_EDITED: 'Collection edited successfully!'
 }
@@ -29,9 +30,9 @@ export const LabelsDrawer = {
     COLLECTIONS: "My collections",
     FORUMS: "Forums",
     NEWS: "News",
-    LOGIN:"Login",
-    SIGNUP:"Sign up",
-    SIGN_OUT:"Sign out",
+    LOGIN: "Login",
+    SIGNUP: "Sign up",
+    SIGN_OUT: "Sign out",
 }
 
 export const LabelsMain = {
@@ -88,7 +89,7 @@ export const LabelsSearchPage = {
     ONLY_ME: 'Only me',
     COOP: 'Cooperative',
     MULTIPLAYER: 'Multiplayer',
-        APPLY_FILTERS: 'Apply filters'
+    APPLY_FILTERS: 'Apply filters'
 }
 
 export const LabelsCollection = {
@@ -114,31 +115,31 @@ export const LabelsProfilePage = {
     NAME: 'Lorem Ipsum'
 }
 
-export const LabelsLoginPage={
+export const LabelsLoginPage = {
     LOGIN: 'Log in',
-    EMAIL:'E-mail',
-    PASSWORD:'Password',
-    REMEMBER:'I don\'t remember my password'
+    EMAIL: 'E-mail',
+    PASSWORD: 'Password',
+    REMEMBER: 'I don\'t remember my password'
 }
 
-export const LabelsSignUpPage={
-    SIGNUP:'Sign up',
-    NAME:'Name',
-    EMAIL:'E-mail',
-    PASSWORD:'Password',
-    REPEAT_PASSWORD:' Confirm password',
+export const LabelsSignUpPage = {
+    SIGNUP: 'Sign up',
+    NAME: 'Name',
+    EMAIL: 'E-mail',
+    PASSWORD: 'Password',
+    REPEAT_PASSWORD: ' Confirm password',
     CONFIRM_AGREE: 'By creating your account you confirm that you accept our Terms & Conditions and have read our Privacy Policy',
-    ALREADY_ACCOUNT:'I already have an account, so log in'
+    ALREADY_ACCOUNT: 'I already have an account, so log in'
 }
 
 export const DialogTexts = {
     CANCEL: 'Cancel',
-    SAVE:'Save',
-    DELETE:'Delete',
+    SAVE: 'Save',
+    DELETE: 'Delete',
     ADD_TO_COLLECTIONS: 'Add to collections',
-    CREATE_COLLECTION:'Create collection',
-    EDIT_COLLECTION:'Edit collection',
-    DELETE_COLLECTION:'Delete collection'
+    CREATE_COLLECTION: 'Create collection',
+    EDIT_COLLECTION: 'Edit collection',
+    DELETE_COLLECTION: 'Delete collection'
 }
 
 export const ErrorTexts = {
@@ -146,7 +147,7 @@ export const ErrorTexts = {
     URL_COLLECTION: 'The URL of the image is incorrect'
 }
 
-export const menuOptions={
-    EDIT:'Edit',
-    DELETE:'Delete'
+export const menuOptions = {
+    EDIT: 'Edit',
+    DELETE: 'Delete'
 }

@@ -319,7 +319,7 @@ const SearchPage = () => {
                             </div>
                             :
                             <Grid item>
-                                {games && <GridGames games={games}/>}
+                                {games && <GridGames mainPage={true} games={games}/>}
                             </Grid>}
                 </Grid>
             </Grid>

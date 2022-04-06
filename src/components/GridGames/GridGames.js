@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const GridGames = ({games}) => {
+const GridGames = ({games, mainPage}) => {
     const history = useHistory()
     const texts = useTextStyles();
     const classes = useStyles();
@@ -118,6 +118,7 @@ const GridGames = ({games}) => {
                                     gameTitle={elem.name}
                                     gameImage={elem.background_image}
                                     gameRating={elem.rating}
+                                    mainPage={mainPage}
                                 />
                             </Grid>
                         ))}

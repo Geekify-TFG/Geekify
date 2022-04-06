@@ -155,6 +155,7 @@ function AddToCollection({
             handleShow={setShowAddToCollectionModal}
             handleConfirm={handleClickSubmit}
             title={DialogTexts.ADD_TO_COLLECTIONS}
+            buttonColor={AppColors.PRIMARY}
             body={
                 <SelectGeekify value={collection} handleChange={handleChangeCollection} options={collections}
                                borderRadius={30} width={'3px'} label={"Collections"}/>
@@ -178,6 +179,7 @@ const GamePage = () => {
     const [collections, setCollections] = useState()
     const storageManager = new StorageManager()
     const [openSnackAddToCollection, setOpenSnackAddToCollection] = useState(false)
+    const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
 
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
     const handleChange = (event) => {
@@ -188,8 +190,18 @@ const GamePage = () => {
         setOpenSnackAddToCollection(false)
     }
 
+
+    const handleCloseSnackErrorLogin = async () => {
+        setOpenSnackBarErrorLogin(false)
+    }
+
+
     const handleAddToCollection = () => {
-        setShowAddToCollectionModal(1)
+        if (storageManager.getToken()) {
+            setShowAddToCollectionModal(1)
+        } else {
+            setOpenSnackBarErrorLogin(true)
+        }
     }
 
     const getGame = async () => {
@@ -549,6 +561,9 @@ const GamePage = () => {
             <SnackBarGeekify handleClose={handleCloseSnackAddToCollection}
                              message={LabelsSnackbar.ADDED_TO_COLLECTION}
                              openSnack={openSnackAddToCollection}/>
+            <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={'error'}
+                             message={LabelsSnackbar.ERROR_LOGIN_COLLECTION}
+                             openSnack={openSnackBarErrorLogin}/>
         </>
     )
 }
