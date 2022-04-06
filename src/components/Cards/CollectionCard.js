@@ -72,7 +72,8 @@ const CollectionCard = ({
 
     }
     return (
-        <Card data-testid={"collectionCard"} style={{height: '212px', width: `${width}`, position: "relative", borderRadius: 20}}
+        <Card data-testid={"collectionCard"}
+              style={{height: '212px', width: `${width}`, position: "relative", borderRadius: 20}}
               className={classes.card}>
 
             <CardActionArea style={{position: 'relative', height: '212px', width: `${width}`}} onClick={onClickHandler}>

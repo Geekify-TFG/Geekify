@@ -129,7 +129,7 @@ const ForumsPage = () => {
                             style={{
                                 fontSize: '40px',
                                 color: AppColors.WHITE,
-                                fontWeight:'bold'
+                                fontWeight: 'bold'
                             }}>{LabelsForumsPage.FORUMS}</Typography>
 
                         {forums &&

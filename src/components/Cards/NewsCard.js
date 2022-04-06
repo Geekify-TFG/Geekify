@@ -59,7 +59,7 @@ const NewsCard = ({
     const theme = useTheme();
 
     const toNews = (urlArticle) => {
-            window.open(urlArticle, '_blank')
+        window.open(urlArticle, '_blank')
     }
 
     return (
@@ -80,7 +80,7 @@ const NewsCard = ({
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button onClick={()=>toNews(article.url)} size="small">Read more</Button>
+                <Button onClick={() => toNews(article.url)} size="small">Read more</Button>
             </CardActions>
         </Card>
     )

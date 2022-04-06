@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, CircularProgress, Grid, Typography} from "@material-ui/core";
-import {MY_BASE_PATH, MY_GAME_SEARCH, MY_GAMES} from "../resources/ApiUrls";
+import {MY_BASE_PATH, MY_GAME_SEARCH} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import {useHistory, useLocation} from "react-router-dom";
@@ -16,8 +16,8 @@ const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-          active &&
-          `opacity: 1;
+    active &&
+    `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {

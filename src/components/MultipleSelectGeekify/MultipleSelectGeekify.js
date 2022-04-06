@@ -14,7 +14,6 @@ import {
 import Icons from "../../resources/Icons";
 import {AppColors} from "../../resources/AppColors";
 import {makeStyles} from "@material-ui/core/styles";
-import {platformsMock} from "../../mocks/SearchMocks";
 
 const useStyles = makeStyles(() => ({
     select: {
@@ -72,11 +71,12 @@ const MultipleSelectGeekify = ({value, handleChange, options, label, borderRadiu
                     value={value}
                     onChange={handleChange}
                     input={<OutlinedInput label="Tag"/>}
-                    /*renderValue={(selected) => selected.map((x) => x.label).join(', ')}*/
+                /*renderValue={(selected) => selected.map((x) => x.label).join(', ')}*/
                     renderValue={(selected) => (
-                        <Box  sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
                             {selected.map((x) => (
-                                <Chip style={{margin:'2px',backgroundColor:AppColors.PRIMARY}} key={x.label} label={x.label} />
+                                <Chip style={{margin: '2px', backgroundColor: AppColors.PRIMARY}} key={x.label}
+                                      label={x.label}/>
                             ))}
                         </Box>
                     )}
@@ -84,7 +84,7 @@ const MultipleSelectGeekify = ({value, handleChange, options, label, borderRadiu
             >
                 {options.map((item) => (
                     <MenuItem key={item.value} value={item}>
-                        <Checkbox style={{color:AppColors.PRIMARY}} checked={value.indexOf(item) > -1}/>
+                        <Checkbox style={{color: AppColors.PRIMARY}} checked={value.indexOf(item) > -1}/>
                         <ListItemText primary={item.label}/>
                     </MenuItem>
                 ))}

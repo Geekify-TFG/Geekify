@@ -11,7 +11,7 @@ import {LOGIN_URL} from "../resources/ApiUrls";
 import {useHistory} from "react-router-dom";
 import {StorageManager} from "../utils";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
-import GoogleLogin, {GoogleLogout} from "react-google-login";
+import GoogleLogin from "react-google-login";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -120,10 +120,10 @@ const LoginPage = () => {
                         storageManager.storeToken(res.data.token)
                         setOpenSnackLoginSuccessfully(true)
                         setTimeout(() => {
-                        history.push({
-                            pathname: '/',
-                            state: {logged: true, token: res.data.token}
-                        })
+                            history.push({
+                                pathname: '/',
+                                state: {logged: true, token: res.data.token}
+                            })
                         }, 1000)
 
                     } else {
@@ -136,7 +136,7 @@ const LoginPage = () => {
         }
     };
 
-    const onLoginSuccess = async (res) =>{
+    const onLoginSuccess = async (res) => {
         console.log(res)
         storageManager.storeGoogle(true)
         storageManager.storeToken(res.tokenObj.id_token)
@@ -151,10 +151,10 @@ const LoginPage = () => {
     }
 
 
-    const onLoginFailure = async () =>{
+    const onLoginFailure = async () => {
         setOpenSnackLoginError(true)
     }
-    const onLogoutSucces = async () =>{
+    const onLogoutSucces = async () => {
         alert("logout")
     }
 
