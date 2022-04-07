@@ -105,7 +105,7 @@ export const LabelsForumsPage = {
 
 
 export const LabelsNewsPage = {
-    NEWS: 'News',
+    NEWS: 'More news',
     SEE_MORE: 'See more'
 }
 

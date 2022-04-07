@@ -10,13 +10,14 @@ import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
 import {MY_BASE_PATH, NEWS} from "../resources/ApiUrls";
 import NewsCard from "../components/Cards/NewsCard";
+import BigNewCard from "../components/Cards/BigNewCard";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-    active &&
-    `opacity: 1;
+          active &&
+          `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {
@@ -55,6 +56,42 @@ const useStyles = makeStyles((theme) => ({
         "& > *:not(:last-child)": {
             marginRight: theme.spacing(2)
         }
+    }, root1: {
+        position: "relative"
+    },
+    font: {
+        position: "absolute",
+        top: "50%",
+        width: "100%",
+        textAlign: "center",
+        color: AppColors.WHITE,
+        backgroundColor: "none",
+        fontFamily: "Comic Sans MS"
+    },
+    root2: {
+        flexGrow: 1
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: "center",
+        color: theme.palette.text.secondary
+    },
+    first: {
+        padding: theme.spacing(1),
+        textAlign: "center",
+        color: theme.palette.text.secondary,
+        height: 300
+    },
+    parentPaper: {
+        padding: theme.spacing(2),
+        margin: "auto",
+        maxWidth: 1600
+    },
+    standalone: {
+        padding: theme.spacing(1),
+        textAlign: "center",
+        color: theme.palette.text.secondary,
+        height: 150
     }
 
 
@@ -64,6 +101,7 @@ const NewsPage = () => {
     const [news, setNews] = useState();
     const [mock, setMock] = useState();
     const [loading, setLoading] = useState(false);
+    const classes = useStyles();
 
     //Function to get all the games
     const getNews = async () => {
@@ -71,7 +109,7 @@ const NewsPage = () => {
             var data = []
             const response = await axios.get(`${MY_BASE_PATH}${NEWS}`);
             console.log(response.data.news)
-            setNews(response.data.news.articles.slice(0, 5))
+            setNews(response.data.news.articles)
             setLoading(false)
 
         } catch (err) {
@@ -107,8 +145,42 @@ const NewsPage = () => {
 
                 </Grid>
 
+                {news && <Grid container justifyContent={'center'}
+                               direction={"row"} style={{marginTop: '2em'}}>
+                    <Grid item style={{marginLeft: '2em'}} xs={12} container>
+                        <Grid item xs={6}>
+                            <BigNewCard height={'40em'} width={'35em'} top={'70%'} fontSize={'30px'}
+                                        subFontSize={'20px'}
+                                        article={news[0]}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Grid item xs container direction="column" spacing={2}>
+                                <Grid item xs={12}>
+                                    <BigNewCard height={'13em'} width={'30em'} top={'40%'} fontSize={'20px'}
+                                                subFontSize={'15px'}
+                                                article={news[1]}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <BigNewCard height={'13em'} width={'30em'} fontSize={'20px'} subFontSize={'15px'}
+                                                article={news[2]} top={'40%'}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <BigNewCard height={'13em'} width={'30em'} fontSize={'20px'} subFontSize={'15px'}
+                                                article={news[3]} top={'40%'}
+                                    />
+                                </Grid>
+
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>}
+
+
                 <Grid container justifyContent={'center'}
-                      direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
+                      direction={"row"} style={{marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '2em'}}>
 
 
@@ -120,7 +192,7 @@ const NewsPage = () => {
                             }}>{LabelsNewsPage.NEWS}</Typography>
 
                         {news &&
-                        news.map(article => (
+                        news.slice(4, 10).map(article => (
                             <Grid item style={{paddingLeft: 0, paddingBottom: '2em'}} key={news.indexOf(article)}
                             >
                                 <NewsCard
