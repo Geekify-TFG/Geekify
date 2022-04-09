@@ -237,7 +237,7 @@ const GamePage = () => {
             setGame(response.data.gameDetail[0])
             setAchievements(Object.values(response.data.gameDetail[1])[0])
             setImages(Object.values(response.data.gameDetail[2])[0])
-            getParentPlatforms(response.data)
+            getParentPlatforms(response.data.gameDetail[0])
         } catch (err) {
             console.log(err.message)
         }
@@ -299,7 +299,7 @@ const GamePage = () => {
     useEffect(() => {
         getGame()
         getComments()
-        if (storageManager.getEmail()) {
+        if (storageManager.getToken()) {
             getCollections()
         }
     }, []);
