@@ -235,7 +235,11 @@ const GamePage = () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${GAME(idGame)}`);
             setGame(response.data.gameDetail[0])
-            setAchievements(Object.values(response.data.gameDetail[1])[0])
+            if ((Object.values(response.data.gameDetail[1])[0]).length=== 0) {
+                setAchievements(undefined)
+            } else {
+                setAchievements(Object.values(response.data.gameDetail[1])[0])
+            }
             setImages(Object.values(response.data.gameDetail[2])[0])
             getParentPlatforms(response.data.gameDetail[0])
         } catch (err) {
@@ -255,7 +259,7 @@ const GamePage = () => {
 
 
     const getParentPlatforms = async (parentPlatform) => {
-        console.log(parentPlatform.parent_platforms)
+        //console.log(parentPlatform.parent_platforms)
         const platformIconsList = []
 
     }
@@ -482,7 +486,7 @@ const GamePage = () => {
                                                       primary={LabelsGamePage.DEVELOPER}
                                         />
                                         <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.developers[0].name}
+                                                      primary={game.developers !== [] ? "-" : game.developers[0].name}
                                         />
                                     </ListItem>
 
@@ -507,7 +511,7 @@ const GamePage = () => {
                                 color: AppColors.WHITE
                             }}>{LabelsGamePage.ACHIEVEMENTS}</Typography>
 
-                        {achievements &&
+                        {achievements ?
                         achievements.map(elem => (
                             <Grid item style={{marginBottom: '1em'}} key={achievements.indexOf(elem)}
                             >
@@ -521,7 +525,14 @@ const GamePage = () => {
 
                                 />
                             </Grid>
-                        ))}
+                        )):<Grid container style={{width: '350px', marginBottom: '1em'}}
+                            >
+                                <Typography style={{
+                                    fontSize: '30px',
+                                    color: AppColors.PRIMARY,
+                                    fontWeight: 'bold'
+                                }}>{LabelsGamePage.NO_ACHIEVEMENTS}</Typography>
+                            </Grid>}
 
                     </Grid>
                     <Grid item style={{marginLeft: '2em'}}>
@@ -536,7 +547,7 @@ const GamePage = () => {
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
                                 disabled={!storageManager.getToken()}
-                                placeholder= {storageManager.getToken() ? "" : "You must be logged to comment"}
+                                placeholder={storageManager.getToken() ? "" : "You must be logged to comment"}
                                 label={`Publish about ${game.name}`}
                                 margin="normal"
                                 variant="outlined"
@@ -564,13 +575,22 @@ const GamePage = () => {
                                 }}
                             />
 
-                            {comments && comments.map(elem => (
-                                <Grid item style={{marginBottom: '1em'}} key={comments.indexOf(elem)}
+                            {comments ? comments.map(elem => (
+                                    <Grid item style={{marginBottom: '1em'}} key={comments.indexOf(elem)}
+                                    >
+                                        <CommentCard width={'350px'} time={"2 minutes ago"} title={"Hola"}
+                                                     comment={elem} bg={AppColors.BACKGROUND_DRAWER}/>
+                                    </Grid>
+                                )) :
+                                <Grid container style={{width: '350px', marginBottom: '1em'}}
                                 >
-                                    <CommentCard width={'350px'} time={"2 minutes ago"} title={"Hola"}
-                                                 comment={elem} bg={AppColors.BACKGROUND_DRAWER}/>
+                                    <Typography style={{
+                                        fontSize: '30px',
+                                        color: AppColors.PRIMARY,
+                                        fontWeight: 'bold'
+                                    }}>{LabelsGamePage.NO_COMMENTS}</Typography>
                                 </Grid>
-                            ))}
+                            }
 
                         </Grid>}
 

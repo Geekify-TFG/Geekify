@@ -64,7 +64,9 @@ export const LabelsGamePage = {
     FINE: 'Fine',
     MEH: 'Meh',
     NOT_RECOMMENDED: 'Not recommended',
-    NOT_RATED: 'Not rated'
+    NOT_RATED: 'Not rated',
+    NO_ACHIEVEMENTS:'This game has no achievements',
+    NO_COMMENTS: 'This game has no comments. Write the first comment!'
 }
 
 export const LabelsSearchPage = {
