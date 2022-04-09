@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-function SearchBar({size,searched,setNewTitle}) {
+function SearchBar({size, searched, setNewTitle}) {
 
     const classes = useStyles();
     const [value, setValue] = useState(searched)

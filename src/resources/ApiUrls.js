@@ -27,8 +27,6 @@ export const GAME = (id) => `${_GAME_PATH}${id}?${_API_KEY}`
 export const GAME_ACHIEVEMENTS = (id) => `${_GAME_PATH}${id}${_ACHIEVEMENTS_PATH}?${_API_KEY}`
 export const GAME_IMAGES = (id) => `${_GAME_PATH}${id}${_SCREENSHOTS_PATH}?${_API_KEY}`
 
-
-
 //Login/Register paths
 const _LOGIN_PATH = "/login";
 const _REGISTER_PATH = "/account/user";
@@ -37,8 +35,6 @@ export const LOGIN_URL = `${MY_BASE_PATH}${_LOGIN_PATH}`
 export const REGISTER_URL = `${MY_BASE_PATH}${_REGISTER_PATH}`
 
 //Games paths
-
-
 const _MY_GAMES_PATH = "/games";
 const _MY_GAME_PATH = "/game";
 const _MY_TITLE_PATH = "/title";
@@ -54,7 +50,12 @@ const _COLLECTIONS_PATH = "/collections";
 const _USEREMAIL_PATH = "/user_email";
 const _COLLECTION_PATH = "/collection";
 const _COLLECTION_GAME_PATH = "/collectionGame";
-export const MY_COLLECTIONS= (useremail)=> `${_COLLECTIONS_PATH}${_USEREMAIL_PATH}/${useremail}`
-export const CREATE_COLLECTION= `${_COLLECTION_PATH}`
-export const COLLECTION_GAME= (id) =>`${_COLLECTION_GAME_PATH}/${id}`
+export const MY_COLLECTIONS = (useremail) => `${_COLLECTIONS_PATH}${_USEREMAIL_PATH}/${useremail}`
+export const CREATE_COLLECTION = `${_COLLECTION_PATH}`
+export const COLLECTION_GAME = (id) => `${_COLLECTION_GAME_PATH}/${id}`
 export const MY_COLLECTION = (id) => `${_COLLECTION_PATH}/${id}`
+
+
+//News
+const _NEWS_PATH = "/news";
+export const NEWS = `${_NEWS_PATH}`

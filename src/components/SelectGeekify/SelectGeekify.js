@@ -43,8 +43,10 @@ const SelectGeekify = ({value, handleChange, options, label, borderRadius, width
     const classes = useStyles();
     console.log(options)
     return (
-        <FormControl data-testid={"formControl"} className={classes.select} variant="outlined" margin='normal' style={{width: '15em'}}>
-            <InputLabel data-testid={"inputLabel"} className={classes.select} id="demo-simple-select-label">{label}</InputLabel>
+        <FormControl data-testid={"formControl"} className={classes.select} variant="outlined" margin='normal'
+                     style={{width: '15em'}}>
+            <InputLabel data-testid={"inputLabel"} className={classes.select}
+                        id="demo-simple-select-label">{label}</InputLabel>
             <Select data-testid={"selectGeekify"} className={classes.select} IconComponent={Icons.ARROW_DOWN}
                     value={value}
                     onChange={handleChange}

@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {Card, CardActionArea, CardMedia, Container, FormControl, Grid, InputAdornment} from '@material-ui/core';
-import {useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles'
-import {useTextStyles} from "../../resources/AppTexts";
 import CollectionCard from "../Cards/CollectionCard";
 import addIcon from '../../img/add_icon.svg'
 import {AppColors} from "../../resources/AppColors";
@@ -31,7 +29,7 @@ function CreateCollection({
 
     const handleClickSubmit = async () => {
         try {
-            var collectionBody = {'title': nameCollection,'user_email':storageManager.getEmail()}
+            var collectionBody = {'title': nameCollection, 'user_email': storageManager.getEmail()}
             const config = {auth: {username: storageManager.getToken()}}
 
             const response = await axios.post(`${MY_BASE_PATH}${CREATE_COLLECTION}`, collectionBody, config)
@@ -55,6 +53,7 @@ function CreateCollection({
             handleShow={setShowCreateCollection}
             handleConfirm={handleClickSubmit}
             title={DialogTexts.CREATE_COLLECTION}
+            buttonColor={AppColors.PRIMARY}
             body={
                 <FormControl margin='normal' style={{width: '100%'}}>
                     <TextFieldGeekify
@@ -100,18 +99,14 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const GridCollections = ({loading, setLoading, getCollections, collections}) => {
-    const history = useHistory()
-    const texts = useTextStyles();
     const classes = useStyles();
-    const [redirectTo, setRedirectTo] = useState([false, -1]);
     const [showCreateCollection, setShowCreateCollection] = useState(-999)
     const [openSnackCreateCollection, setopenSnackCreateCollection] = useState(false)
     const storageManager = new StorageManager()
     const onClickAddNewCollection = async () => {
-        if(storageManager.getToken()){
+        if (storageManager.getToken()) {
             setShowCreateCollection(1)
-        }
-        else{
+        } else {
             alert("Create an account")
         }
     }

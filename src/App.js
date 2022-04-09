@@ -15,6 +15,7 @@ import calendarIcon from "./img/calendar_icon.svg"
 import libraryIcon from "./img/library_icon.svg"
 import forumsIcon from "./img/forum_icon.svg"
 import loginIcon from "./img/login_icon.svg"
+import newspaperIcon from "./img/newspaper_icon.svg"
 import SearchPage from "./pages/SearchPage";
 import CollectionsPage from "./pages/CollectionsPage";
 import CollectionPage from "./pages/CollectionPage";
@@ -28,6 +29,7 @@ import {Typography} from "@mui/material";
 import {StorageManager} from "./utils";
 import {GoogleLogout} from "react-google-login";
 import SnackBarGeekify from "./components/SnackbarGeekify/SnackbarGeekify";
+import NewsPage from "./pages/NewsPage";
 
 
 const drawerWidth = 240;
@@ -132,7 +134,7 @@ const RouteMain = ({component: Component, select}) => {
         setOpenSnackLogoutSuccess(false);
     };
 
-    const drawerIconsList = [homeIcon, searchIcon, calendarIcon, libraryIcon, forumsIcon, loginIcon, loginIcon];
+    let drawerIconsList = [];
     let drawerLinkList = [];
     let drawerLabelsList = [];
     if (storageManager.getToken()) {
@@ -142,21 +144,25 @@ const RouteMain = ({component: Component, select}) => {
             LabelsDrawer.CALENDAR,
             LabelsDrawer.COLLECTIONS,
             LabelsDrawer.FORUMS,
+            LabelsDrawer.NEWS,
             LabelsDrawer.SIGN_OUT,
         ];
-        drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums", "/"]
+        drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums", '/news', "/"]
+        drawerIconsList = [homeIcon, searchIcon, calendarIcon, libraryIcon, forumsIcon, newspaperIcon, loginIcon, loginIcon];
 
     } else {
         drawerLabelsList = [
             LabelsDrawer.HOME,
             LabelsDrawer.SEARCH,
             LabelsDrawer.CALENDAR,
-            LabelsDrawer.COLLECTIONS,
             LabelsDrawer.FORUMS,
+            LabelsDrawer.NEWS,
             LabelsDrawer.LOGIN,
             LabelsDrawer.SIGNUP,
         ];
-        drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums", "/login", "/signup"]
+        drawerLinkList = ["/", "/search", "/calendar", "/forums", '/news', "/login", "/signup"]
+        drawerIconsList = [homeIcon, searchIcon, calendarIcon, forumsIcon, newspaperIcon, loginIcon, loginIcon];
+
     }
     return (
         <>
@@ -205,7 +211,7 @@ const RouteMain = ({component: Component, select}) => {
                                 selected={selected === index}
                                 style={{
                                     //marginTop: index === drawerLabelsList.length-1 ? `${(window.innerHeight-400)}px`:  0,
-                                    marginTop: storageManager.getToken() ? (index === drawerLabelsList.length - 1 ? `${(window.innerHeight - 400)}px` : 0) : (index === drawerLabelsList.length - 2 ? `${(window.innerHeight - 440)}px` : 0),
+                                    marginTop: storageManager.getToken() ? (index === drawerLabelsList.length - 1 ? `${(window.innerHeight - 450)}px` : 0) : (index === drawerLabelsList.length - 2 ? `${(window.innerHeight - 470)}px` : 0),
                                     backgroundColor:
                                         selected === index && AppColors.PRIMARY,
                                     borderLeft:
@@ -284,6 +290,8 @@ function App() {
                 <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>
                 <RouteMain path={"/forums"} component={() => <ForumsPage/>}/>
                 <RouteMain path={"/forum/:id"} component={() => <ForumPage/>}/>
+
+                <RouteMain path={"/news"} component={() => <NewsPage/>}/>
             </Switch>
         </Router>
 

@@ -8,6 +8,7 @@ from bson.objectid import ObjectId
 from flask_restful import Api
 
 from api.resources.collections import Collections, CollectionsList, CollectionGame
+from api.resources.news import News
 from config import config
 from flask_cors import CORS
 
@@ -37,17 +38,24 @@ CollectionModel.collection = db.get_database.collections
 CONNECTION_STRING = "mongodb+srv://jromero:050899@geekify.q6113.mongodb.net/test?retryWrites=true&w=majority"
 mongo = pymongo.MongoClient(CONNECTION_STRING, tls=True, tlsAllowInvalidCertificates=True)
 
+# Account
 api.add_resource(Accounts, '/account/email/<string:email>', '/account/id/<string:id>', '/account/user')
 api.add_resource(LogIn, '/login')
 
+# Games
 api.add_resource(Games, '/games')
 api.add_resource(GameDetail, '/game/<string:id>')
 api.add_resource(GamesByTitle, '/games/title/<string:title>')
 api.add_resource(GamesByOrder, '/games/filter/<string:order>')
 api.add_resource(GameFilters, '/games/filters')
 
+# Collections
 api.add_resource(Collections, '/collection', '/collection/<string:id>', '/collections/<string:email>/')
 api.add_resource(CollectionsList, '/collections/user_email/<string:user_email>')
 api.add_resource(CollectionGame, '/collectionGame/<string:id>')
+
+# News
+api.add_resource(News, '/news')
+
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

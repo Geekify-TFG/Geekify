@@ -10,15 +10,13 @@ import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
 import {MY_BASE_PATH, MY_COLLECTIONS} from "../resources/ApiUrls";
 import {StorageManager} from "../utils";
-import TextFieldGeekify from "../components/TextFieldGeekify/textFieldGeekify";
-import TextGeekify from "../components/TextGeekify/TextGeekify";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-          active &&
-          `opacity: 1;
+    active &&
+    `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {
@@ -124,7 +122,9 @@ const CollectionsPage = () => {
                             </div>
                             :
                             <Grid item>
-                                {collections && <GridCollections loading={loading} setLoading={setLoading} getCollections={getCollections} collections={collections}/>}
+                                {collections && <GridCollections loading={loading} setLoading={setLoading}
+                                                                 getCollections={getCollections}
+                                                                 collections={collections}/>}
                             </Grid>}
 
                 </Grid>

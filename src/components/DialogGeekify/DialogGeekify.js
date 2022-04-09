@@ -106,7 +106,7 @@ const DialogGeekify = props => {
                 </IconButton>}
             </DialogTitle>
 
-            <DialogContent  dividers={true}>
+            <DialogContent dividers={true}>
                 {props.body}
             </DialogContent>
 
@@ -128,7 +128,11 @@ const DialogGeekify = props => {
                                 color="primary" variant="contained">
                             {props.textDeleteButton}
                         </Button>}
-                        {!cancelButton && <Button onClick={handleOnClose} style={{backgroundColor:AppColors.WHITE,minWidth: '8em', marginRight: '1em'}}
+                        {!cancelButton && <Button onClick={handleOnClose} style={{
+                            backgroundColor: AppColors.WHITE,
+                            minWidth: '8em',
+                            marginRight: '1em'
+                        }}
                                                   variant="outlined">
                             {props.textCancelButton}
                         </Button>}

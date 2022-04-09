@@ -1,14 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, ButtonGroup, CircularProgress, Grid, Typography} from "@material-ui/core";
-import {
-    BASE_PATH,
-    GAMES,
-    GAMES_FILTER,
-    GAMES_RATING,
-    GAMES_RELEASED,
-    MY_BASE_PATH,
-    MY_GAMES, MY_GAMES_FILTER
-} from "../resources/ApiUrls";
+import {MY_BASE_PATH, MY_GAMES, MY_GAMES_FILTER} from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import {useHistory} from "react-router-dom";
@@ -91,7 +83,6 @@ const MainPage = () => {
     }
 
 
-
     const getGamesFilter = async () => {
         try {
             var data = []
@@ -105,7 +96,6 @@ const MainPage = () => {
     }
 
 
-
     useEffect(() => {
 
         setLoading(true)
@@ -114,7 +104,7 @@ const MainPage = () => {
                 getGames()
                 break
             case "released":
-               getGamesFilter()
+                getGamesFilter()
                 break
             case "rating":
                 getGamesFilter()
@@ -143,16 +133,28 @@ const MainPage = () => {
 
                     </Grid>
                     <Grid item style={{margin: '4em'}}>
-                        <Typography style={{fontSize: '100px', color: AppColors.WHITE,fontWeight:'bold'}}>{LabelsMain.LOREM}</Typography>
+                        <Typography style={{
+                            fontSize: '100px',
+                            color: AppColors.WHITE,
+                            fontWeight: 'bold'
+                        }}>{LabelsMain.LOREM}</Typography>
                         <Typography
-                            style={{fontSize: '80px', color: AppColors.YELLOW_SUBTEXT,fontWeight:'bold'}}>{LabelsMain.DOLOR}</Typography>
+                            style={{
+                                fontSize: '80px',
+                                color: AppColors.YELLOW_SUBTEXT,
+                                fontWeight: 'bold'
+                            }}>{LabelsMain.DOLOR}</Typography>
                     </Grid>
                 </Grid>
                 <Grid container
                       direction={"column"}>
                     <Grid item style={{marginLeft: '4em'}}>
                         <Typography
-                            style={{fontSize: '40px', color: AppColors.WHITE,fontWeight:'bold'}}>{LabelsMain.DISCOVERY}</Typography>
+                            style={{
+                                fontSize: '40px',
+                                color: AppColors.WHITE,
+                                fontWeight: 'bold'
+                            }}>{LabelsMain.DISCOVERY}</Typography>
                     </Grid>
                     <Grid container>
                         <Grid item style={{marginBottom: '4em', marginLeft: '4em'}}>
@@ -162,7 +164,7 @@ const MainPage = () => {
                         <Grid item style={{marginLeft: '5em'}}>
                             <ButtonGroup style={{width: '500px'}} color="primary"
                                          aria-label="outlined primary button group">
-                                {Object.entries(sort_text).map(([key,value]) => (
+                                {Object.entries(sort_text).map(([key, value]) => (
                                     <ButtonToggle active={sortActive === key}
                                                   onClick={() => (setSortActive(key))}>
                                         {value}
@@ -179,7 +181,7 @@ const MainPage = () => {
                             </div>
                             :
                             <Grid item>
-                                {games && <GridGames games={games}/>}
+                                {games && <GridGames mainPage={true} games={games}/>}
                             </Grid>}
                 </Grid>
             </Grid>
