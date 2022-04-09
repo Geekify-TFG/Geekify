@@ -137,7 +137,7 @@ const MainPage = () => {
                             fontSize: '100px',
                             color: AppColors.WHITE,
                             fontWeight: 'bold'
-                        }}>{LabelsMain.LOREM}</Typography>
+                        }}>{LabelsMain.WELCOME}</Typography>
                         <Typography
                             style={{
                                 fontSize: '80px',

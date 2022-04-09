@@ -20,7 +20,8 @@ export const LabelsSnackbar = {
     ADDED_TO_COLLECTION: 'Added to collection successfully!',
     ERROR_LOGIN_COLLECTION: 'You must be login to save to the collection!',
     COLLECTION_DELETED: 'Collection deleted successfully!',
-    COLLECTION_EDITED: 'Collection edited successfully!'
+    COLLECTION_EDITED: 'Collection edited successfully!',
+    COMMENTED_SUCCESSFULLY : 'You have commented the game!'
 }
 
 export const LabelsDrawer = {
@@ -36,6 +37,7 @@ export const LabelsDrawer = {
 }
 
 export const LabelsMain = {
+    WELCOME:'Welcome to Geekify',
     LOREM: "Lorem ipsum",
     DOLOR: "Dolor sit amet",
     DISCOVERY: "Start the discovery",
