@@ -5,6 +5,7 @@ import {
     CardMedia,
     FormControl,
     Grid,
+    IconButton,
     InputAdornment,
     InputLabel,
     List,
@@ -16,11 +17,10 @@ import {
 } from "@material-ui/core";
 import {Button, Typography} from "@mui/material";
 import {
-    BASE_PATH,
     COLLECTION_GAME,
+    COMMENT_GAME,
+    COMMENTS_OF_GAME,
     GAME,
-    GAME_ACHIEVEMENTS,
-    GAME_IMAGES,
     MY_BASE_PATH,
     MY_COLLECTIONS
 } from "../resources/ApiUrls";
@@ -41,6 +41,7 @@ import DialogGeekify from "../components/DialogGeekify";
 import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
 import {StorageManager} from "../utils";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
+import CheckIcon from '@mui/icons-material/Check';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -86,6 +87,25 @@ const useStyles = makeStyles((theme) => ({
         },
         color: AppColors.PRIMARY,
         backgroundColor: AppColors.BACKGROUND_DRAWER,
+        borderRadius: 10,
+    },
+    textFieldLabelDisabled: {
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+                borderColor: AppColors.PRIMARY,
+                opacity: "0.2",
+                borderRadius: 10,
+            },
+        },
+        "& .MuiInputBase-root": {
+            color: AppColors.SUBTEXT,
+        },
+        "& .MuiInputLabel-root": {
+            color: AppColors.PRIMARY,
+            borderRadius: 10,
+        },
+        color: AppColors.PRIMARY,
+        backgroundColor: AppColors.PRIMARY,
         borderRadius: 10,
     },
     select: {
@@ -169,10 +189,12 @@ function AddToCollection({
 const GamePage = () => {
     const [game, setGame] = useState();
     const [achievements, setAchievements] = useState();
+    const [comments, setComments] = useState()
+    const [comment, setComment] = useState()
+
     const [images, setImages] = useState();
     const location = useLocation();
     const classes = useStyles();
-    const [comment, setComment] = useState()
     const history = useHistory()
     const idGame = location.state.detail
     const [rating, setRating] = useState("");
@@ -180,7 +202,8 @@ const GamePage = () => {
     const storageManager = new StorageManager()
     const [openSnackAddToCollection, setOpenSnackAddToCollection] = useState(false)
     const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
-
+    const [openSnackBarComment, setOpenSnackBarComment] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
     const handleChange = (event) => {
         setRating(event.target.value);
@@ -195,6 +218,10 @@ const GamePage = () => {
         setOpenSnackBarErrorLogin(false)
     }
 
+    const handleCloseSnackComment = async () => {
+        setOpenSnackBarComment(false)
+    }
+
 
     const handleAddToCollection = () => {
         if (storageManager.getToken()) {
@@ -206,34 +233,33 @@ const GamePage = () => {
 
     const getGame = async () => {
         try {
-            const response = await axios.get(`${BASE_PATH}${GAME(idGame)}`);
-            setGame(response.data)
-            getParentPlatforms(response.data)
+            const response = await axios.get(`${MY_BASE_PATH}${GAME(idGame)}`);
+            setGame(response.data.gameDetail[0])
+            if ((Object.values(response.data.gameDetail[1])[0]).length=== 0) {
+                setAchievements(undefined)
+            } else {
+                setAchievements(Object.values(response.data.gameDetail[1])[0])
+            }
+            setImages(Object.values(response.data.gameDetail[2])[0])
+            getParentPlatforms(response.data.gameDetail[0])
         } catch (err) {
             console.log(err.message)
         }
     }
 
-    const getAchievementsGame = async () => {
+    const getComments = async () => {
         try {
-            const response = await axios.get(`${BASE_PATH}${GAME_ACHIEVEMENTS(idGame)}`);
-            setAchievements(response.data.results)
+            const response = await axios.get(`${MY_BASE_PATH}${COMMENTS_OF_GAME(idGame)}`);
+            setComments(Object.values(response.data.comments))
+            setLoading(false)
         } catch (err) {
             console.log(err.message)
         }
     }
 
-    const getImagesGame = async () => {
-        try {
-            const response = await axios.get(`${BASE_PATH}${GAME_IMAGES(idGame)}`);
-            setImages(response.data.results)
-        } catch (err) {
-            console.log(err.message)
-        }
-    }
 
     const getParentPlatforms = async (parentPlatform) => {
-        console.log(parentPlatform.parent_platforms)
+        //console.log(parentPlatform.parent_platforms)
         const platformIconsList = []
 
     }
@@ -250,12 +276,36 @@ const GamePage = () => {
         }
     }
 
+
+    const postComment = async () => {
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear();
+        let date = dd + '/' + mm + '/' + yyyy;
+        try {
+            const body = {
+                date: date,
+                content: comment,
+                user: storageManager.getEmail(),
+                game_id: idGame
+            };
+            const config = {auth: {username: storageManager.getToken()}}
+            const response = await axios.post(`${MY_BASE_PATH}${COMMENT_GAME(idGame)}`, body, config);
+            setLoading(true)
+            setOpenSnackBarComment(true)
+            getComments()
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
     useEffect(() => {
         getGame()
-        getAchievementsGame()
-        getImagesGame()
-        getCollections()
-
+        getComments()
+        if (storageManager.getToken()) {
+            getCollections()
+        }
     }, []);
 
     return (
@@ -436,7 +486,7 @@ const GamePage = () => {
                                                       primary={LabelsGamePage.DEVELOPER}
                                         />
                                         <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.developers[0].name}
+                                                      primary={game.developers !== [] ? "-" : game.developers[0].name}
                                         />
                                     </ListItem>
 
@@ -461,10 +511,9 @@ const GamePage = () => {
                                 color: AppColors.WHITE
                             }}>{LabelsGamePage.ACHIEVEMENTS}</Typography>
 
-                        {achievements &&
+                        {achievements ?
                         achievements.map(elem => (
                             <Grid item style={{marginBottom: '1em'}} key={achievements.indexOf(elem)}
-
                             >
                                 <CardAchievements
                                     bg={AppColors.BACKGROUND_DRAWER}
@@ -476,11 +525,18 @@ const GamePage = () => {
 
                                 />
                             </Grid>
-                        ))}
+                        )):<Grid container style={{width: '350px', marginBottom: '1em'}}
+                            >
+                                <Typography style={{
+                                    fontSize: '30px',
+                                    color: AppColors.PRIMARY,
+                                    fontWeight: 'bold'
+                                }}>{LabelsGamePage.NO_ACHIEVEMENTS}</Typography>
+                            </Grid>}
 
                     </Grid>
                     <Grid item style={{marginLeft: '2em'}}>
-                        <Grid item style={{marginBottom: '4em',}}>
+                        {!loading && <Grid item style={{marginBottom: '4em',}}>
                             <Typography
                                 style={{
                                     fontSize: '20px',
@@ -490,6 +546,8 @@ const GamePage = () => {
                                 style={{width: '350px'}}
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
+                                disabled={!storageManager.getToken()}
+                                placeholder={storageManager.getToken() ? "" : "You must be logged to comment"}
                                 label={`Publish about ${game.name}`}
                                 margin="normal"
                                 variant="outlined"
@@ -504,11 +562,37 @@ const GamePage = () => {
                                         </InputAdornment>
 
                                     ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+
+                                            <IconButton style={{color: AppColors.PRIMARY}}
+                                                        onClick={() => postComment()}>
+                                                <CheckIcon/>
+                                            </IconButton>
+                                        </InputAdornment>
+
+                                    ),
                                 }}
                             />
-                            <CommentCard width={'350px'} time={"2 minutes ago"} title={"Hola"}
-                                         comment={LabelsGamePage.COMMENT_EXAMPLE} bg={AppColors.BACKGROUND_DRAWER}/>
-                        </Grid>
+
+                            {comments ? comments.map(elem => (
+                                    <Grid item style={{marginBottom: '1em'}} key={comments.indexOf(elem)}
+                                    >
+                                        <CommentCard width={'350px'} time={"2 minutes ago"} title={"Hola"}
+                                                     comment={elem} bg={AppColors.BACKGROUND_DRAWER}/>
+                                    </Grid>
+                                )) :
+                                <Grid container style={{width: '350px', marginBottom: '1em'}}
+                                >
+                                    <Typography style={{
+                                        fontSize: '30px',
+                                        color: AppColors.PRIMARY,
+                                        fontWeight: 'bold'
+                                    }}>{LabelsGamePage.NO_COMMENTS}</Typography>
+                                </Grid>
+                            }
+
+                        </Grid>}
 
 
                     </Grid>
@@ -529,8 +613,8 @@ const GamePage = () => {
                                           className={classes.card}>
                                         <CardMedia
                                             image={elem.image}
-                                            title={"A"}
-                                            alt={"A"}
+                                            title={elem.image}
+                                            alt={elem.image}
                                             style={{
                                                 position: "absolute",
                                                 top: 0,
@@ -564,6 +648,9 @@ const GamePage = () => {
             <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={'error'}
                              message={LabelsSnackbar.ERROR_LOGIN_COLLECTION}
                              openSnack={openSnackBarErrorLogin}/>
+            <SnackBarGeekify handleClose={handleCloseSnackComment}
+                             message={LabelsSnackbar.COMMENTED_SUCCESSFULLY}
+                             openSnack={openSnackBarComment}/>
         </>
     )
 }

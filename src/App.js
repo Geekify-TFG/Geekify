@@ -112,7 +112,7 @@ const RouteMain = ({component: Component, select}) => {
 
 
     const logout = () => {
-        storageManager.removeToken()
+        storageManager.clear()
         setOpenSnackLogoutSuccess(true)
         setSelected(0)
         setTimeout(() => {
