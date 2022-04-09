@@ -37,17 +37,18 @@ const CommentCard = props => {
             <CardHeader
                 avatar={
                     <Avatar sx={{bgcolor: AppColors.RED}} aria-label="recipe">
+                        <img style={{width: '40px', height: '40px'}} src={comment.image_user}/>
 
                     </Avatar>
                 }
 
-                title={<Typography style={{fontSize: '20px', color: AppColors.PRIMARY}}>{title}</Typography>}
-                subheader={<Typography style={{fontSize: '16px', color: AppColors.GRAY}}>{time}</Typography>}
+                title={<Typography style={{fontSize: '20px', color: AppColors.PRIMARY}}>{comment.user}</Typography>}
+                subheader={<Typography style={{fontSize: '16px', color: AppColors.GRAY}}>{comment.date}</Typography>}
             />
 
             <CardContent>
                 <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>
-                    {comment}
+                    {comment.content}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>

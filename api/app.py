@@ -51,11 +51,11 @@ api.add_resource(GameDetail, '/game/<string:id>')
 api.add_resource(GamesByTitle, '/games/title/<string:title>')
 api.add_resource(GamesByOrder, '/games/filter/<string:order>')
 api.add_resource(GameFilters, '/games/filters')
-api.add_resource(GameCommentsList, '/gameComments/id/<string:id>')
+api.add_resource(GameCommentsList, '/gameComments/<string:id>')
 
 # Comments
 api.add_resource(CommentsList, '/comments')
-api.add_resource(Comments, '/comment/id/<string:id>')
+api.add_resource(Comments, '/comment/<string:id>')
 
 # Collections
 api.add_resource(Collections, '/collection', '/collection/<string:id>', '/collections/<string:email>/')

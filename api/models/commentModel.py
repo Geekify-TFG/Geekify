@@ -3,9 +3,9 @@ from api.models.abstract.model_definition import DocumentModel
 
 class CommentModel(DocumentModel):
     # definition of the document columns
-    __column_names__ = ['date', 'content', 'user', 'game_id']  # likes
+    __column_names__ = ['date', 'content', 'user', 'game_id', 'image_user']  # likes
 
-    def __init__(self, date=None, content=None, user=None, game_id=None, doc=None):
+    def __init__(self, date=None, content=None, user=None, game_id=None,image_user=None, doc=None):
         super(CommentModel, self).__init__(doc)
         if doc:
             dic = dict.fromkeys(self.__column_names__)
@@ -16,6 +16,7 @@ class CommentModel(DocumentModel):
                 self.content = self.doc_ref['content']
                 self.user = self.doc_ref['user']
                 self.game_id = self.doc_ref['game_id']
+                self.image_user = self.doc_ref['image_user']
                 # self.likes = self.doc_ref['likes']
             except Exception as e:
                 raise Exception('document does not exists! \n Error  {}:{}'.format(type(e), e))
@@ -24,6 +25,7 @@ class CommentModel(DocumentModel):
             self.content = content
             self.user = user
             self.game_id = game_id
+            self.image_user = image_user
             # self.likes = []
             self.set_doc_ref(self.json()['None'])
 
@@ -34,6 +36,7 @@ class CommentModel(DocumentModel):
                 u'user': u'{}'.format(self.user),
                 u'content': u'{}'.format(self.content),
                 u'game_id': u'{}'.format(self.game_id),
+                u'image_user': u'{}'.format(self.image_user),
                 # u'likes': self.likes
             }
         }
@@ -53,5 +56,3 @@ class CommentModel(DocumentModel):
         for comment_id, comment in comments.items():
             comment.delete_from_db()
         return comments
-
-

@@ -2,7 +2,7 @@ import requests
 from flask_restful import Resource, reqparse
 
 from api.lock import lock
-from api.models.accountModel import AccountModel
+from api.models.accountModel import  AccountModel, auth
 from api.models.commentModel import CommentModel
 
 API_KEY = '40f3cb2ff2c94a5889d3d6c865415ec5'
@@ -29,6 +29,7 @@ class Comments(Resource):
             except Exception as e:
                 return {'message': 'Internal server error. Error {}:{}'.format(type(e), e)}, 500
 
+    @auth.login_required(role=['user', 'admin'])
     def post(self, id=None):
         with lock.lock:
             parser = reqparse.RequestParser()
@@ -47,12 +48,15 @@ class Comments(Resource):
 
                 if user:
                     accounts = AccountModel.find_account(email=user)
+                    username = accounts.json().get('value').get('name')
+                    image_user = accounts.json().get('value').get('photo')
+
                     if accounts.exists:
                         api_game = "https://api.rawg.io/api/games/" + id + "?key=" + API_KEY
                         response = requests.get(api_game)
                         if response.status_code == 200:
                             try:
-                                comment = CommentModel(date, content, user, game_id)
+                                comment = CommentModel(date, content, username, game_id,image_user)
                                 my_json = comment.save_to_db()
                                 if comment and comment.exists:
                                     try:
