@@ -19,7 +19,7 @@ from api.models.accountModel import AccountModel
 from api.models.collectionModel import CollectionModel
 from api.models.commentModel import CommentModel
 # resources imports
-from resources.account import Accounts
+from resources.account import Accounts, AccountLike, AccountsInfo
 from resources.login import LogIn
 from resources.games import Games, GamesByTitle, GamesByOrder, GameDetail, GameFilters, GameCommentsList
 
@@ -42,8 +42,10 @@ CONNECTION_STRING = "mongodb+srv://jromero:050899@geekify.q6113.mongodb.net/test
 mongo = pymongo.MongoClient(CONNECTION_STRING, tls=True, tlsAllowInvalidCertificates=True)
 
 # Account
+
 api.add_resource(Accounts, '/account/email/<string:email>', '/account/id/<string:id>', '/account/user')
 api.add_resource(LogIn, '/login')
+api.add_resource(AccountLike, '/account/like/<string:id>')
 
 # Games
 api.add_resource(Games, '/games')
