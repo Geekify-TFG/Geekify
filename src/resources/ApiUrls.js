@@ -1,7 +1,7 @@
 // Base
 const _DOMAIN = "https://api.rawg.io/api"; // Domain of the server
-//const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
-const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
+const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
+//const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
 
 export const MY_BASE_PATH = `${_MY_DOMAIN}`; // Base URL of the backend
 
@@ -10,9 +10,11 @@ export const MY_BASE_PATH = `${_MY_DOMAIN}`; // Base URL of the backend
 //Login/Register paths
 const _LOGIN_PATH = "/login";
 const _REGISTER_PATH = "/account/user";
+const _USER_PATH = "/account/email";
 
 export const LOGIN_URL = `${MY_BASE_PATH}${_LOGIN_PATH}`
 export const REGISTER_URL = `${MY_BASE_PATH}${_REGISTER_PATH}`
+export const USER_URL =(email)=> `${_USER_PATH}/${email}`
 
 //Games paths
 const _MY_GAMES_PATH = "/games";
@@ -26,8 +28,10 @@ export const MY_GAMES_FILTER = (filter) => `${_MY_GAMES_PATH}${_FILTER_PATH}/${f
 
 //Game paths
 const _GAME_PATH = "/game";
-export const GAME = (id) => `${_GAME_PATH}/${id}`
+const _RATE_PATH = "/account/like";
 
+export const GAME = (id) => `${_GAME_PATH}/${id}`
+export const RATE_GAME = (id)=>`${_RATE_PATH}/${id}`
 //Comments paths
 const _GAME_COMMENT_PATH = "/gameComments";
 const _COMMENT_PATH = "/comment";

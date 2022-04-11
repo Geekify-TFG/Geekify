@@ -21,7 +21,9 @@ export const LabelsSnackbar = {
     ERROR_LOGIN_COLLECTION: 'You must be login to save to the collection!',
     COLLECTION_DELETED: 'Collection deleted successfully!',
     COLLECTION_EDITED: 'Collection edited successfully!',
-    COMMENTED_SUCCESSFULLY : 'You have commented the game!'
+    COMMENTED_SUCCESSFULLY : 'You have commented the game!',
+    RATED_SUCCESSFULLY : 'You rated the game!',
+    RATED_ERROR_LOGGED: 'You must be logged to rate a game',
 }
 
 export const LabelsDrawer = {
