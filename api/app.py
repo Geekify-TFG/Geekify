@@ -1,10 +1,6 @@
 import pymongo
-import requests
 from decouple import config as config_decouple
-from flask import Flask, request, jsonify, Response
-from werkzeug.security import generate_password_hash, check_password_hash
-from bson import json_util
-from bson.objectid import ObjectId
+from flask import Flask
 from flask_restful import Api
 
 from api.resources.collections import Collections, CollectionsList, CollectionGame
@@ -19,7 +15,7 @@ from api.models.accountModel import AccountModel
 from api.models.collectionModel import CollectionModel
 from api.models.commentModel import CommentModel
 # resources imports
-from resources.account import Accounts
+from resources.account import Accounts, AccountLike, AccountsInfo
 from resources.login import LogIn
 from resources.games import Games, GamesByTitle, GamesByOrder, GameDetail, GameFilters, GameCommentsList
 
@@ -42,8 +38,10 @@ CONNECTION_STRING = "mongodb+srv://jromero:050899@geekify.q6113.mongodb.net/test
 mongo = pymongo.MongoClient(CONNECTION_STRING, tls=True, tlsAllowInvalidCertificates=True)
 
 # Account
+
 api.add_resource(Accounts, '/account/email/<string:email>', '/account/id/<string:id>', '/account/user')
 api.add_resource(LogIn, '/login')
+api.add_resource(AccountLike, '/account/like/<string:id>')
 
 # Games
 api.add_resource(Games, '/games')

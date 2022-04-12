@@ -116,13 +116,14 @@ const LoginPage = () => {
             await axios.post(LOGIN_URL, params)
                 .then(res => {
                     if (res.status === 200) {
+                        console.log(res.data["account"].token)
                         storageManager.storeEmail(params.email)
-                        storageManager.storeToken(res.data.token)
+                        storageManager.storeToken(res.data["account"].token)
                         setOpenSnackLoginSuccessfully(true)
                         setTimeout(() => {
                             history.push({
                                 pathname: '/',
-                                state: {logged: true, token: res.data.token}
+                                state: {logged: true, token: res.data["account"].token}
                             })
                         }, 1000)
 

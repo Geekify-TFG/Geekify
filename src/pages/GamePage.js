@@ -22,7 +22,9 @@ import {
     COMMENTS_OF_GAME,
     GAME,
     MY_BASE_PATH,
-    MY_COLLECTIONS
+    MY_COLLECTIONS,
+    RATE_GAME,
+    USER_URL
 } from "../resources/ApiUrls";
 import axios from "axios";
 import {useHistory, useLocation} from "react-router-dom";
@@ -157,7 +159,7 @@ function AddToCollection({
     const handleClickSubmit = async () => {
         try {
             var gameBody = {'game_id': gameId}
-            const response = await axios.put(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
+            await axios.put(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
             setOpenSnackAddToCollection(true)
             setShowAddToCollectionModal(-999)
         } catch (e) {
@@ -195,20 +197,35 @@ const GamePage = () => {
     const [images, setImages] = useState();
     const location = useLocation();
     const classes = useStyles();
-    const history = useHistory()
     const idGame = location.state.detail
     const [rating, setRating] = useState("");
     const [collections, setCollections] = useState()
+    const [likes, setLikes] = useState()
     const storageManager = new StorageManager()
     const [openSnackAddToCollection, setOpenSnackAddToCollection] = useState(false)
     const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
     const [openSnackBarComment, setOpenSnackBarComment] = useState(false)
+    const [openSnackRateNotLogged, setOpenSnackRateNotLogged] = useState(false)
+    const [openSnackRateLogged, setOpenSnackRateLogged] = useState(false)
     const [loading, setLoading] = useState(false)
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
-    const handleChange = (event) => {
-        setRating(event.target.value);
-    };
+    const handleChange = async (event) => {
+        try {
+            if (rating === "") {
+                var gameBody = {'rate': event.target.value, 'user': storageManager.getEmail()}
+                await axios.post(`${MY_BASE_PATH}${RATE_GAME(idGame)}`, gameBody)
+                setOpenSnackRateLogged(true)
+            } else {
+                var gameBody = {'rate': event.target.value, 'user': storageManager.getEmail()}
+                await axios.put(`${MY_BASE_PATH}${RATE_GAME(idGame)}`, gameBody)
+                setOpenSnackRateLogged(true)
+            }
+            setRating(event.target.value);
+        } catch (e) {
+            console.log('Error: ', e)
+        }
 
+    };
     const handleCloseSnackAddToCollection = async () => {
         setOpenSnackAddToCollection(false)
     }
@@ -220,6 +237,14 @@ const GamePage = () => {
 
     const handleCloseSnackComment = async () => {
         setOpenSnackBarComment(false)
+    }
+
+    const handleCloseSnackRateNotLogged = async () => {
+        setOpenSnackRateNotLogged(false)
+    }
+
+    const handleCloseSnackRateLogged = async () => {
+        setOpenSnackRateLogged(false)
     }
 
 
@@ -235,7 +260,7 @@ const GamePage = () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${GAME(idGame)}`);
             setGame(response.data.gameDetail[0])
-            if ((Object.values(response.data.gameDetail[1])[0]).length=== 0) {
+            if ((Object.values(response.data.gameDetail[1])[0]).length === 0) {
                 setAchievements(undefined)
             } else {
                 setAchievements(Object.values(response.data.gameDetail[1])[0])
@@ -276,6 +301,20 @@ const GamePage = () => {
         }
     }
 
+    const getUser = async () => {
+        try {
+            const response = await axios.get(`${MY_BASE_PATH}${USER_URL(storageManager.getEmail())}`);
+            var rate = response.data.account.likes
+            let obj = rate.find(o => o.game_id === `${idGame}`);
+            if (obj) {
+                setRating(obj.rating)
+            }
+            setLikes(response.data.account.likes)
+
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
 
     const postComment = async () => {
         let today = new Date();
@@ -290,8 +329,10 @@ const GamePage = () => {
                 user: storageManager.getEmail(),
                 game_id: idGame
             };
+            console.log(body)
             const config = {auth: {username: storageManager.getToken()}}
             const response = await axios.post(`${MY_BASE_PATH}${COMMENT_GAME(idGame)}`, body, config);
+            console.log(response)
             setLoading(true)
             setOpenSnackBarComment(true)
             getComments()
@@ -305,6 +346,7 @@ const GamePage = () => {
         getComments()
         if (storageManager.getToken()) {
             getCollections()
+            getUser()
         }
     }, []);
 
@@ -350,18 +392,20 @@ const GamePage = () => {
                                          style={{width: '9.75em'}}>
                                 <InputLabel className={classes.select}
                                             id="demo-simple-select-label"/>
-                                <Select className={classes.select} IconComponent={Icons.ARROW_DOWN}
+                                <Select data-testid={"selectRate"} className={classes.select} IconComponent={Icons.ARROW_DOWN}
                                         value={rating}
                                         displayEmpty
+                                        disabled={!storageManager.getToken()}
                                         renderValue={rating !== "" ? undefined : () => "Not rated yet"}
                                         onChange={handleChange}
+                                        onClick={() => (!storageManager.getToken() ? setOpenSnackRateNotLogged(true) : null)}
                                         label="Rating"
                                         style={{width: 280}}
                                 >
 
-                                    <MenuItem style={{color: AppColors.PRIMARY}}
+                                    <MenuItem data-testid={"menuItemRate4"} style={{color: AppColors.PRIMARY}}
                                               value={4}>{LabelsGamePage.MASTERPIECE}</MenuItem>
-                                    <MenuItem style={{color: AppColors.PRIMARY}}
+                                    <MenuItem data-testid={"menuItemRate3"} style={{color: AppColors.PRIMARY}}
                                               value={3}>{LabelsGamePage.VERY_GOOD}</MenuItem>
                                     <MenuItem style={{color: AppColors.PRIMARY}}
                                               value={2}>{LabelsGamePage.FINE}</MenuItem>
@@ -486,7 +530,7 @@ const GamePage = () => {
                                                       primary={LabelsGamePage.DEVELOPER}
                                         />
                                         <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.developers !== [] ? "-" : game.developers[0].name}
+                                                      primary={game.developers == [] ? "-" : game.developers[0].name}
                                         />
                                     </ListItem>
 
@@ -512,20 +556,20 @@ const GamePage = () => {
                             }}>{LabelsGamePage.ACHIEVEMENTS}</Typography>
 
                         {achievements ?
-                        achievements.map(elem => (
-                            <Grid item style={{marginBottom: '1em'}} key={achievements.indexOf(elem)}
-                            >
-                                <CardAchievements
-                                    bg={AppColors.BACKGROUND_DRAWER}
-                                    width={'350px'}
-                                    title={elem.name}
-                                    description={elem.description}
-                                    percent={elem.percent}
-                                    image={elem.image}
+                            achievements.map(elem => (
+                                <Grid item style={{marginBottom: '1em'}} key={achievements.indexOf(elem)}
+                                >
+                                    <CardAchievements
+                                        bg={AppColors.BACKGROUND_DRAWER}
+                                        width={'350px'}
+                                        title={elem.name}
+                                        description={elem.description}
+                                        percent={elem.percent}
+                                        image={elem.image}
 
-                                />
-                            </Grid>
-                        )):<Grid container style={{width: '350px', marginBottom: '1em'}}
+                                    />
+                                </Grid>
+                            )) : <Grid container style={{width: '350px', marginBottom: '1em'}}
                             >
                                 <Typography style={{
                                     fontSize: '30px',
@@ -543,6 +587,7 @@ const GamePage = () => {
                                     color: AppColors.WHITE
                                 }}>{LabelsGamePage.COMMUNITY}</Typography>
                             <TextField
+                                data-testid="textfieldComment"
                                 style={{width: '350px'}}
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
@@ -565,7 +610,7 @@ const GamePage = () => {
                                     endAdornment: (
                                         <InputAdornment position="end">
 
-                                            <IconButton style={{color: AppColors.PRIMARY}}
+                                            <IconButton data-testid={"postComment"} style={{color: AppColors.PRIMARY}}
                                                         onClick={() => postComment()}>
                                                 <CheckIcon/>
                                             </IconButton>
@@ -645,12 +690,18 @@ const GamePage = () => {
             <SnackBarGeekify handleClose={handleCloseSnackAddToCollection}
                              message={LabelsSnackbar.ADDED_TO_COLLECTION}
                              openSnack={openSnackAddToCollection}/>
-            <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={'error'}
+            <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={'warning'}
                              message={LabelsSnackbar.ERROR_LOGIN_COLLECTION}
                              openSnack={openSnackBarErrorLogin}/>
             <SnackBarGeekify handleClose={handleCloseSnackComment}
                              message={LabelsSnackbar.COMMENTED_SUCCESSFULLY}
                              openSnack={openSnackBarComment}/>
+            <SnackBarGeekify data-testid={"snackbarRate"} handleClose={handleCloseSnackRateLogged}
+                             message={LabelsSnackbar.RATED_SUCCESSFULLY}
+                             openSnack={openSnackRateLogged}/>
+            <SnackBarGeekify data-test handleClose={handleCloseSnackRateNotLogged} severity={'warning'}
+                             message={LabelsSnackbar.RATED_ERROR_LOGGED}
+                             openSnack={openSnackRateNotLogged}/>
         </>
     )
 }

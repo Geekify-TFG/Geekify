@@ -102,10 +102,10 @@ class CollectionModel(DocumentModel):
             if image:
                 self.__update_column__(self.image_col_name, str(image))
             if num_games:
-                self.__update_column__(self.num_games_col_name, num_games)
+                self.__update_column__(self.num_games_col_name, games)
             if games:
                 self.__update_column__(self.games_col_name, games)
-            if games:
+            if user_email:
                 self.__update_column__(self.user_email_col_name, user_email)
             self.collection.find_one_and_update(
                 {'_id': self.id},
@@ -144,6 +144,7 @@ class CollectionModel(DocumentModel):
 
             }
         )
+
 
     @classmethod
     def find_by_useremail(cls, user_email) -> dict:
