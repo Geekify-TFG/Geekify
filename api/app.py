@@ -1,10 +1,6 @@
 import pymongo
-import requests
 from decouple import config as config_decouple
-from flask import Flask, request, jsonify, Response
-from werkzeug.security import generate_password_hash, check_password_hash
-from bson import json_util
-from bson.objectid import ObjectId
+from flask import Flask
 from flask_restful import Api
 
 from api.resources.collections import Collections, CollectionsList, CollectionGame

@@ -182,16 +182,6 @@ class AccountModel(DocumentModel):
         print(my_likes)
         my_likes.remove({"key": game})
 
-        # self.collection.find_one_and_update(
-        #     {'_id': self.id},
-        #     {
-        #         '$pull': {
-        #             'likes': {game:5}
-        #         }
-        #
-        #     }
-        # )
-
         self.update_document(likes=my_likes)
 
     @classmethod

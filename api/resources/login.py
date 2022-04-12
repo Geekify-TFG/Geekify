@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from api.lock import lock
-from api.models.accountModel import  AccountModel, auth
+from api.models.accountModel import AccountModel, auth
 
 
 class LogIn(Resource):
@@ -25,10 +25,8 @@ class LogIn(Resource):
             data = parser.parse_args()
             if data:
                 try:
-                    # if any of them not given = fail and the code will raise and exception
                     eml = data['email']
                     password = data['password']
-                    # check if optional args are given
                     _id = None
                     try:
                         _id = data['id']
@@ -38,8 +36,8 @@ class LogIn(Resource):
                     if account and account.exists:
                         if account.verify_password(password=password):
                             token = account.generate_auth_token()
-                            #return {'token': token.decode('ascii')}, 200
-                            return {'account': {'value': account.json().get('value'),'token': token.decode('ascii')}}, 200
+                            return {'account': {'value': account.json().get('value'),
+                                                'token': token.decode('ascii')}}, 200
                         return {'message': 'Incorrect password for email [{}] '.format(eml)}, 400
                     return {'message': "An error occurred. Account not found"}, 404
                 except Exception as e:

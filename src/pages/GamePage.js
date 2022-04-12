@@ -392,7 +392,7 @@ const GamePage = () => {
                                          style={{width: '9.75em'}}>
                                 <InputLabel className={classes.select}
                                             id="demo-simple-select-label"/>
-                                <Select className={classes.select} IconComponent={Icons.ARROW_DOWN}
+                                <Select data-testid={"selectRate"} className={classes.select} IconComponent={Icons.ARROW_DOWN}
                                         value={rating}
                                         displayEmpty
                                         disabled={!storageManager.getToken()}
@@ -403,9 +403,9 @@ const GamePage = () => {
                                         style={{width: 280}}
                                 >
 
-                                    <MenuItem style={{color: AppColors.PRIMARY}}
+                                    <MenuItem data-testid={"menuItemRate4"} style={{color: AppColors.PRIMARY}}
                                               value={4}>{LabelsGamePage.MASTERPIECE}</MenuItem>
-                                    <MenuItem style={{color: AppColors.PRIMARY}}
+                                    <MenuItem data-testid={"menuItemRate3"} style={{color: AppColors.PRIMARY}}
                                               value={3}>{LabelsGamePage.VERY_GOOD}</MenuItem>
                                     <MenuItem style={{color: AppColors.PRIMARY}}
                                               value={2}>{LabelsGamePage.FINE}</MenuItem>
@@ -587,6 +587,7 @@ const GamePage = () => {
                                     color: AppColors.WHITE
                                 }}>{LabelsGamePage.COMMUNITY}</Typography>
                             <TextField
+                                data-testid="textfieldComment"
                                 style={{width: '350px'}}
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
@@ -609,7 +610,7 @@ const GamePage = () => {
                                     endAdornment: (
                                         <InputAdornment position="end">
 
-                                            <IconButton style={{color: AppColors.PRIMARY}}
+                                            <IconButton data-testid={"postComment"} style={{color: AppColors.PRIMARY}}
                                                         onClick={() => postComment()}>
                                                 <CheckIcon/>
                                             </IconButton>
@@ -695,10 +696,10 @@ const GamePage = () => {
             <SnackBarGeekify handleClose={handleCloseSnackComment}
                              message={LabelsSnackbar.COMMENTED_SUCCESSFULLY}
                              openSnack={openSnackBarComment}/>
-            <SnackBarGeekify handleClose={handleCloseSnackRateLogged}
+            <SnackBarGeekify data-testid={"snackbarRate"} handleClose={handleCloseSnackRateLogged}
                              message={LabelsSnackbar.RATED_SUCCESSFULLY}
                              openSnack={openSnackRateLogged}/>
-            <SnackBarGeekify handleClose={handleCloseSnackRateNotLogged} severity={'warning'}
+            <SnackBarGeekify data-test handleClose={handleCloseSnackRateNotLogged} severity={'warning'}
                              message={LabelsSnackbar.RATED_ERROR_LOGGED}
                              openSnack={openSnackRateNotLogged}/>
         </>
