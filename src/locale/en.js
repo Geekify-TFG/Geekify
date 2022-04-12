@@ -1,12 +1,13 @@
 export const LabelsGameCard = {}
 
 
-export const LabelsSnackbar={
+export const LabelsSnackbar = {
     COMMON_ERROR: "Something went wrong, try it again later",
     REGISTER_SUCCESSFULLY: "Register successfully",
     EMPTY_FIELDS: "Make sure to fill all the fields",
     ACCEPT_TERMS: "Please accept our Terms & Conditions",
     PASSWORD_NOT_MATCH: "The passwords do not match",
+    ACCOUNT_REPEATED: "An account with this email already exists",
     CHANGES_SAVED: "Changes saved successfully!",
     PASSWORD_SAVED: "Password changed successfully!",
     LOGIN_ERROR:
@@ -15,20 +16,30 @@ export const LabelsSnackbar={
         "Login successfully",
     LOGOUT_SUCCESS:
         "Logout successfully",
+    COLLECTION_CREATED: 'Collection created successfully!',
+    ADDED_TO_COLLECTION: 'Added to collection successfully!',
+    ERROR_LOGIN_COLLECTION: 'You must be login to save to the collection!',
+    COLLECTION_DELETED: 'Collection deleted successfully!',
+    COLLECTION_EDITED: 'Collection edited successfully!',
+    COMMENTED_SUCCESSFULLY : 'You have commented the game!',
+    RATED_SUCCESSFULLY : 'You rated the game!',
+    RATED_ERROR_LOGGED: 'You must be logged to rate a game',
 }
 
 export const LabelsDrawer = {
     HOME: "Home",
     SEARCH: "Search",
     CALENDAR: "Release Calendar",
-    LIBRARY: "My library",
+    COLLECTIONS: "My collections",
     FORUMS: "Forums",
-    LOGIN:"Login",
-    SIGNUP:"Sign up",
-    SIGN_OUT:"Sign out",
+    NEWS: "News",
+    LOGIN: "Login",
+    SIGNUP: "Sign up",
+    SIGN_OUT: "Sign out",
 }
 
 export const LabelsMain = {
+    WELCOME:'Welcome to Geekify',
     LOREM: "Lorem ipsum",
     DOLOR: "Dolor sit amet",
     DISCOVERY: "Start the discovery",
@@ -55,7 +66,9 @@ export const LabelsGamePage = {
     FINE: 'Fine',
     MEH: 'Meh',
     NOT_RECOMMENDED: 'Not recommended',
-    NOT_RATED: 'Not rated'
+    NOT_RATED: 'Not rated',
+    NO_ACHIEVEMENTS:'This game has no achievements',
+    NO_COMMENTS: 'This game has no comments. Write the first comment!'
 }
 
 export const LabelsSearchPage = {
@@ -82,7 +95,7 @@ export const LabelsSearchPage = {
     ONLY_ME: 'Only me',
     COOP: 'Cooperative',
     MULTIPLAYER: 'Multiplayer',
-        APPLY_FILTERS: 'Apply filters'
+    APPLY_FILTERS: 'Apply filters'
 }
 
 export const LabelsCollection = {
@@ -97,25 +110,50 @@ export const LabelsForumsPage = {
 }
 
 
+export const LabelsNewsPage = {
+    NEWS: 'More news',
+    SEE_MORE: 'See more'
+}
+
 export const LabelsProfilePage = {
     FOLLOWING: 'Following',
     COMMENT_EXAMPLE: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a hendrerit quam, in sollicitudin sapien.',
     NAME: 'Lorem Ipsum'
 }
 
-export const LabelsLoginPage={
+export const LabelsLoginPage = {
     LOGIN: 'Log in',
-    EMAIL:'E-mail',
-    PASSWORD:'Password',
-    REMEMBER:'I don\'t remember my password'
+    EMAIL: 'E-mail',
+    PASSWORD: 'Password',
+    REMEMBER: 'I don\'t remember my password'
 }
 
-export const LabelsSignUpPage={
-    SIGNUP:'Sign up',
-    NAME:'Name',
-    EMAIL:'E-mail',
-    PASSWORD:'Password',
-    REPEAT_PASSWORD:' Confirm password',
+export const LabelsSignUpPage = {
+    SIGNUP: 'Sign up',
+    NAME: 'Name',
+    EMAIL: 'E-mail',
+    PASSWORD: 'Password',
+    REPEAT_PASSWORD: ' Confirm password',
     CONFIRM_AGREE: 'By creating your account you confirm that you accept our Terms & Conditions and have read our Privacy Policy',
-    ALREADY_ACCOUNT:'I already have an account, so log in'
+    ALREADY_ACCOUNT: 'I already have an account, so log in'
+}
+
+export const DialogTexts = {
+    CANCEL: 'Cancel',
+    SAVE: 'Save',
+    DELETE: 'Delete',
+    ADD_TO_COLLECTIONS: 'Add to collections',
+    CREATE_COLLECTION: 'Create collection',
+    EDIT_COLLECTION: 'Edit collection',
+    DELETE_COLLECTION: 'Delete collection'
+}
+
+export const ErrorTexts = {
+    CREATE_COLLECTION: 'Error to create the collection',
+    URL_COLLECTION: 'The URL of the image is incorrect'
+}
+
+export const menuOptions = {
+    EDIT: 'Edit',
+    DELETE: 'Delete'
 }

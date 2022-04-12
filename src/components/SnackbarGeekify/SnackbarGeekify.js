@@ -14,7 +14,7 @@ const SnackBarGeekify = ({message, openSnack, handleClose, severity}) => {
 
     return (
         <div>
-            <Snackbar style={{paddingTop: '2em'}} anchorOrigin={{
+            <Snackbar id={"alert"} style={{paddingTop: '2em'}} anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
             }} open={openSnack} autoHideDuration={5000} onClose={handleClose}>

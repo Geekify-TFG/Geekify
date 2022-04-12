@@ -110,7 +110,7 @@ const ProfileButton = () => {
 
     return (
         <>
-            {logged&&<Button onClick={() => history.push('/profile')} style={{
+            {logged && <Button id="myProfile" onClick={() => history.push('/profile')} style={{
                 backgroundColor: AppColors.BACKGROUND_DRAWER,
                 borderRadius: 30,
                 border: '2px solid #6563FF',
@@ -120,7 +120,11 @@ const ProfileButton = () => {
             }}>
                 <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
                 </Avatar>
-                <Typography style={{fontSize: '12px', color: AppColors.WHITE, paddingLeft: '1em'}}>{storageManager.getEmail()}</Typography>
+                <Typography style={{
+                    fontSize: '12px',
+                    color: AppColors.WHITE,
+                    paddingLeft: '1em'
+                }}>{storageManager.getEmail()}</Typography>
 
             </Button>}
         </>

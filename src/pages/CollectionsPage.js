@@ -6,15 +6,17 @@ import {AppColors} from "../resources/AppColors";
 import {LabelsCollection} from "../locale/en";
 import styled from "@emotion/styled";
 import GridCollections from "../components/GridCollections/GridCollections";
-import {collectionsMock} from "../mocks/CollectionsMock";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
+import axios from "axios";
+import {MY_BASE_PATH, MY_COLLECTIONS} from "../resources/ApiUrls";
+import {StorageManager} from "../utils";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-          active &&
-          `opacity: 1;
+    active &&
+    `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {
@@ -61,24 +63,24 @@ const useStyles = makeStyles((theme) => ({
 const CollectionsPage = () => {
     const [collections, setCollections] = useState();
     const [loading, setLoading] = useState(false);
+    const classes = useStyles();
+    const storageManager = new StorageManager()
 
-    /*  //Function to get all the games
-      const getCollections = async () => {
-          try {
-              var data = []
-              const response = await axios.get(`${BASE_PATH}${GAMES}`);
-              setCollections(response.data.results)
-              setLoading(false)
+    const getCollections = async () => {
+        try {
+            const config = {auth: {username: storageManager.getToken()}}
 
-          } catch (err) {
-              console.log(err.message)
-          }
-      }
-  */
-
+            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`, config);
+            setCollections(response.data.collections)
+            setLoading(false)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
     useEffect(() => {
-        setCollections(collectionsMock)
-        // getCollections()
+        //setCollections(collectionsMock)
+        if (storageManager.getToken())
+            getCollections()
 
     }, []);
 
@@ -120,8 +122,11 @@ const CollectionsPage = () => {
                             </div>
                             :
                             <Grid item>
-                                {collections && <GridCollections collections={collections}/>}
+                                {collections && <GridCollections loading={loading} setLoading={setLoading}
+                                                                 getCollections={getCollections}
+                                                                 collections={collections}/>}
                             </Grid>}
+
                 </Grid>
             </Grid>
         </>

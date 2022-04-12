@@ -1,15 +1,20 @@
 export default class MyStorageManager {
     _EMAIL = 'email';
+    _USER = 'user';
     _PWD = 'pwd';
     _TOKEN = 'token';
-    _LOGGED= 'logged';
-    _GOOGLE= 'google';
+    _LOGGED = 'logged';
+    _GOOGLE = 'google';
     _EXPIRATION_DATE = 'token-expiration';
     _localStorage = window.localStorage;
 
     // Get and store the username
     getEmail = () => this._localStorage.getItem(this._EMAIL,) || "";
     storeEmail = email => this._localStorage.setItem(this._EMAIL, email);
+
+    // Get and store the username
+    getUser = () => this._localStorage.getItem(this._USER,) || "";
+    storeUser = user => this._localStorage.setItem(this._USER, user);
 
     // Get and store the password
     getPwd = () => this._localStorage.getItem(this._PWD) || "";

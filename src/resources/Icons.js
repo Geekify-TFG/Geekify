@@ -12,7 +12,6 @@ const Icons = {
     'BOOKMARK': BookmarkIcon,
     'ARROW_DOWN': KeyboardArrowDownIcon,
     'ARROW_RIGHT': ArrowForwardIosIcon,
-
 }
 
 export default Icons

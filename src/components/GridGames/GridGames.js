@@ -3,8 +3,6 @@ import {Container, Grid} from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles'
 import {useTextStyles} from "../../resources/AppTexts";
-import {BASE_PATH, GAMES} from "../../resources/ApiUrls";
-import axios from "axios";
 import GameCard from "../Cards/GameCard";
 
 /**
@@ -25,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const GridGames = ({games}) => {
+const GridGames = ({games, mainPage}) => {
     const history = useHistory()
     const texts = useTextStyles();
     const classes = useStyles();
@@ -33,18 +31,6 @@ const GridGames = ({games}) => {
 
 
     const [game, setGame] = useState(games);
-
-    //Function to get all the games
-    const getGames = async () => {
-        try {
-            var data = []
-            const response = await axios.get(`${BASE_PATH}${GAMES}`);
-            console.log(response.data.results)
-            setGame(response.data.results)
-        } catch (err) {
-            console.log(err.message)
-        }
-    }
 
 
     if (redirectTo[0]) {
@@ -118,6 +104,7 @@ const GridGames = ({games}) => {
                                     gameTitle={elem.name}
                                     gameImage={elem.background_image}
                                     gameRating={elem.rating}
+                                    mainPage={mainPage}
                                 />
                             </Grid>
                         ))}
