@@ -73,7 +73,6 @@ const ForumCard = ({
     }
     const theme = useTheme();
 
-
     return (
         <Card elevation={0} className={classes.root}>
             <CardActionArea style={{marginRight: '2em', height: '120px', width: '120px'}} onClick={onClickHandler}>

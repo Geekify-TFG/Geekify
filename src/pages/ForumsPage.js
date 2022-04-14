@@ -16,12 +16,13 @@ import {AppColors} from "../resources/AppColors";
 import {LabelsForumsPage} from "../locale/en";
 import styled from "@emotion/styled";
 import ForumCard from "../components/Cards/ForumCard";
-import {forumsMock} from "../mocks/ForumsMock";
 import CardGeekify from "../components/Cards/CardGeekify";
 import {followingGroupMock} from "../mocks/FollowingGroupMock";
 import Icons from "../resources/Icons";
 import IconProvider from "../components/IconProvider/IconProvider";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
+import axios from "axios";
+import {ALL_FORUMS} from "../resources/ApiUrls";
 
 const ButtonToggle = styled(Button)`
   opacity: 1;
@@ -74,27 +75,26 @@ const useStyles = makeStyles((theme) => ({
 
 const ForumsPage = () => {
     const [forums, setForums] = useState();
+    const [forums2, setForums2] = useState();
     const [followingGroups, setFollowingGroups] = useState();
     const [loading, setLoading] = useState(false);
 
-    /*  //Function to get all the games
-      const getCollections = async () => {
-          try {
-              var data = []
-              const response = await axios.get(`${BASE_PATH}${GAMES}`);
-              setCollections(response.data.results)
-              setLoading(false)
+    //Function to get all the games
+    const getForums = async () => {
+        try {
+            var data = []
+            const response = await axios.get(`${ALL_FORUMS}`);
+            setForums(response.data.forums)
+            setLoading(false)
 
-          } catch (err) {
-              console.log(err.message)
-          }
-      }
-  */
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
 
     useEffect(() => {
-        setForums(forumsMock)
         setFollowingGroups(followingGroupMock)
-        // getCollections()
+        getForums()
     }, []);
 
     return (
@@ -133,25 +133,24 @@ const ForumsPage = () => {
                             }}>{LabelsForumsPage.FORUMS}</Typography>
 
                         {forums &&
-                        forums.map(elem => (
-                            <Grid item style={{paddingLeft: 0, paddingBottom: '2em'}} key={forums.indexOf(elem)}
+                        Object.entries(forums)
+                            .map(([key, value]) =>
+                                <>
+                                    <ForumCard
+                                        bg={AppColors.BACKGROUND_DRAWER}
+                                        forumId={key}
+                                        forumTitle={value.title}
+                                        forumDescription={value.description}
+                                        forumNumUsers={value.num_users}
+                                        forumImage={value.image}
+                                        forumGenre={value.tag}
 
-                            >
-                                <ForumCard
-                                    bg={AppColors.BACKGROUND_DRAWER}
-                                    forumId={elem.id}
-                                    forumTitle={elem.title}
-                                    forumDescription={elem.description}
-                                    forumNumUsers={elem.numUsers}
-                                    forumImage={elem.image}
-                                    forumGenre={elem.genre}
+                                    />
+                                    <Divider style={{width: '45em', backgroundColor: AppColors.GRAY}}/>
+                                </>
+                            )
+                        }
 
-                                />
-                                <Divider style={{width: '45em', backgroundColor: AppColors.GRAY}}/>
-
-                            </Grid>
-
-                        ))}
 
                     </Grid>
                     <Grid item style={{marginLeft: '2em'}}>

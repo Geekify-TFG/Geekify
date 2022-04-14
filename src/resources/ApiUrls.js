@@ -1,7 +1,7 @@
 // Base
 const _DOMAIN = "https://api.rawg.io/api"; // Domain of the server
-//const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
-const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
+const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
+//const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
 
 export const MY_BASE_PATH = `${_MY_DOMAIN}`; // Base URL of the backend
 
@@ -49,6 +49,11 @@ export const MY_COLLECTIONS = (useremail) => `${_COLLECTIONS_PATH}${_USEREMAIL_P
 export const CREATE_COLLECTION = `${_COLLECTION_PATH}`
 export const COLLECTION_GAME = (id) => `${_COLLECTION_GAME_PATH}/${id}`
 export const MY_COLLECTION = (id) => `${_COLLECTION_PATH}/${id}`
+
+//Forums paths
+const _FORUMS_PATH = "/forums"
+const _FORUM_PATH = "/forum"
+export const ALL_FORUMS = `${MY_BASE_PATH}${_FORUMS_PATH}`
 
 
 //News
