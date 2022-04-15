@@ -14,21 +14,6 @@ import {followingGroupMock} from "../mocks/FollowingGroupMock";
 import {useLocation} from "react-router-dom";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 
-const ButtonToggle = styled(Button)`
-  opacity: 1;
-  background-color: #1D1D1D;
-  color: #6563FF ${({active}) =>
-    active &&
-    `opacity: 1;
-        background-color: ${AppColors.PRIMARY};
-        color: white;
-        &:hover {
-            color: white;
-            background-color: #6563FF;
-          }
-        `};
-
-`;
 
 
 const useStyles = makeStyles((theme) => ({

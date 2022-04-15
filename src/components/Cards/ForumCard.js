@@ -57,6 +57,7 @@ const ForumCard = ({
                        forumNumUsers,
                        forumImage,
                        forumGenre,
+                       forumGame,
                        height, width,
                        paddingLeft
                    }) => {
@@ -135,6 +136,7 @@ const ForumCard = ({
                             {forumGenre.toUpperCase()}
                         </Typography>
                     </Paper>
+
                 </div>
             </div>
 

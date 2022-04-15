@@ -30,6 +30,7 @@ import {StorageManager} from "./utils";
 import {GoogleLogout} from "react-google-login";
 import SnackBarGeekify from "./components/SnackbarGeekify/SnackbarGeekify";
 import NewsPage from "./pages/NewsPage";
+import NewForumPage from "./pages/NewForumPage";
 
 
 const drawerWidth = 240;
@@ -289,6 +290,7 @@ function App() {
                 <RouteMain path={"/collections"} component={() => <CollectionsPage/>}/>
                 <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>
                 <RouteMain path={"/forums"} component={() => <ForumsPage/>}/>
+                <RouteMain path={"/forum"} component={() => <NewForumPage/>}/>
                 <RouteMain path={"/forum/:id"} component={() => <ForumPage/>}/>
 
                 <RouteMain path={"/news"} component={() => <NewsPage/>}/>

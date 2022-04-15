@@ -237,9 +237,7 @@ const CollectionPage = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const handleDeleteCollection = () => {
-        //setShowAddToCollectionModal(1)
-    }
+
 
     const handleOnEdit = () => {
         setShowEditCollectionModal(1)

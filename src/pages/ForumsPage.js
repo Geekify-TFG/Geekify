@@ -23,22 +23,9 @@ import IconProvider from "../components/IconProvider/IconProvider";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
 import {ALL_FORUMS} from "../resources/ApiUrls";
+import {useHistory} from "react-router-dom";
+import {StorageManager} from "../utils";
 
-const ButtonToggle = styled(Button)`
-  opacity: 1;
-  background-color: #1D1D1D;
-  color: #6563FF ${({active}) =>
-          active &&
-          `opacity: 1;
-        background-color: ${AppColors.PRIMARY};
-        color: white;
-        &:hover {
-            color: white;
-            background-color: #6563FF;
-          }
-        `};
-
-`;
 
 
 const useStyles = makeStyles((theme) => ({
@@ -78,6 +65,8 @@ const ForumsPage = () => {
     const [forums2, setForums2] = useState();
     const [followingGroups, setFollowingGroups] = useState();
     const [loading, setLoading] = useState(false);
+    const history = useHistory()
+    const storageManager = new StorageManager()
 
     //Function to get all the games
     const getForums = async () => {
@@ -90,6 +79,12 @@ const ForumsPage = () => {
         } catch (err) {
             console.log(err.message)
         }
+    }
+
+    const handleCreateForum = async ()=>{
+        history.push({
+            pathname: `/forum`,
+        })
     }
 
     useEffect(() => {
@@ -123,15 +118,29 @@ const ForumsPage = () => {
                 <Grid container
                       direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '2em'}}>
-
-
-                        <Typography
-                            style={{
-                                fontSize: '40px',
-                                color: AppColors.WHITE,
-                                fontWeight: 'bold'
-                            }}>{LabelsForumsPage.FORUMS}</Typography>
-
+                        <Grid container direction={"row"} justifyContent={"space-between"}>
+                            <Typography
+                                style={{
+                                    fontSize: '40px',
+                                    color: AppColors.WHITE,
+                                    fontWeight: 'bold'
+                                }}>{LabelsForumsPage.FORUMS}</Typography>
+                            {storageManager.getToken() && <Button
+                                data-testid={"BtnCreateForum"}
+                                style={{
+                                    backgroundColor: AppColors.PRIMARY,
+                                    borderRadius: 20,
+                                    maxWidth: '10em'
+                                }}
+                                onClick={handleCreateForum}
+                            >
+                                <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
+                                            gutterBottom
+                                >
+                                    {LabelsForumsPage.CREATE_FORUM}
+                                </Typography>
+                            </Button>}
+                        </Grid>
                         {forums &&
                         Object.entries(forums)
                             .map(([key, value]) =>
@@ -144,6 +153,7 @@ const ForumsPage = () => {
                                         forumNumUsers={value.num_users}
                                         forumImage={value.image}
                                         forumGenre={value.tag}
+                                        forumGame={value.game}
 
                                     />
                                     <Divider style={{width: '45em', backgroundColor: AppColors.GRAY}}/>

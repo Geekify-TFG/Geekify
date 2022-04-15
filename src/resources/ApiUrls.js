@@ -29,9 +29,12 @@ export const MY_GAMES_FILTER = (filter) => `${_MY_GAMES_PATH}${_FILTER_PATH}/${f
 //Game paths
 const _GAME_PATH = "/game";
 const _RATE_PATH = "/account/like";
+const _LIST_PATH = "/listGames";
 
 export const GAME = (id) => `${_GAME_PATH}/${id}`
 export const RATE_GAME = (id)=>`${_RATE_PATH}/${id}`
+export const LIST_GAMES = `${MY_BASE_PATH}${_LIST_PATH}`
+
 //Comments paths
 const _GAME_COMMENT_PATH = "/gameComments";
 const _COMMENT_PATH = "/comment";
@@ -54,6 +57,7 @@ export const MY_COLLECTION = (id) => `${_COLLECTION_PATH}/${id}`
 const _FORUMS_PATH = "/forums"
 const _FORUM_PATH = "/forum"
 export const ALL_FORUMS = `${MY_BASE_PATH}${_FORUMS_PATH}`
+export const CREATE_FORUM = `${MY_BASE_PATH}${_FORUM_PATH}`
 
 
 //News

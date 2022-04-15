@@ -24,6 +24,7 @@ export const LabelsSnackbar = {
     COMMENTED_SUCCESSFULLY : 'You have commented the game!',
     RATED_SUCCESSFULLY : 'You rated the game!',
     RATED_ERROR_LOGGED: 'You must be logged to rate a game',
+    FORUM_CREATED_SUCCESSFULLY: 'Forum created successfully'
 }
 
 export const LabelsDrawer = {
@@ -106,10 +107,21 @@ export const LabelsForumsPage = {
     FORUMS: 'Forums',
     JOIN_FORUM: 'Join the forum',
     FOLLOWING_GROUPS: 'Following groups',
-    SEE_MORE: 'See more'
+    SEE_MORE: 'See more',
+    CREATE_FORUM: 'Create new forum',
+    CREATE_OWN_FORUM: 'Create your own forum'
 }
 
-
+export const LabelsCreateForumPage = {
+    TITLE:'Title',
+    DESCRIPTION: 'Description',
+    IMAGE:'Image',
+    TAG:'Tag',
+    GAME:'Game',
+    CREATE_FORUM: 'Create your forum!',
+    GAMING:'Gaming',
+    DISCUSSION:'Discussion'
+}
 export const LabelsNewsPage = {
     NEWS: 'More news',
     SEE_MORE: 'See more'
