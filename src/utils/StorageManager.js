@@ -4,7 +4,7 @@ export default class MyStorageManager {
     _PWD = 'pwd';
     _TOKEN = 'token';
     _LOGGED = 'logged';
-    _IMAGE= 'image'
+    _IMAGE = 'image'
     _GOOGLE = 'google';
     _EXPIRATION_DATE = 'token-expiration';
     _localStorage = window.localStorage;

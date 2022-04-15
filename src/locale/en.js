@@ -21,8 +21,8 @@ export const LabelsSnackbar = {
     ERROR_LOGIN_COLLECTION: 'You must be login to save to the collection!',
     COLLECTION_DELETED: 'Collection deleted successfully!',
     COLLECTION_EDITED: 'Collection edited successfully!',
-    COMMENTED_SUCCESSFULLY : 'You have commented the game!',
-    RATED_SUCCESSFULLY : 'You rated the game!',
+    COMMENTED_SUCCESSFULLY: 'You have commented the game!',
+    RATED_SUCCESSFULLY: 'You rated the game!',
     RATED_ERROR_LOGGED: 'You must be logged to rate a game',
     FORUM_CREATED_SUCCESSFULLY: 'Forum created successfully',
     FORUM_DELETED: 'Forum deleted successfully'
@@ -41,7 +41,7 @@ export const LabelsDrawer = {
 }
 
 export const LabelsMain = {
-    WELCOME:'Welcome to Geekify',
+    WELCOME: 'Welcome to Geekify',
     LOREM: "Lorem ipsum",
     DOLOR: "Dolor sit amet",
     DISCOVERY: "Start the discovery",
@@ -69,7 +69,7 @@ export const LabelsGamePage = {
     MEH: 'Meh',
     NOT_RECOMMENDED: 'Not recommended',
     NOT_RATED: 'Not rated',
-    NO_ACHIEVEMENTS:'This game has no achievements',
+    NO_ACHIEVEMENTS: 'This game has no achievements',
     NO_COMMENTS: 'This game has no comments. Write the first comment!'
 }
 
@@ -115,14 +115,14 @@ export const LabelsForumsPage = {
 }
 
 export const LabelsCreateForumPage = {
-    TITLE:'Title',
+    TITLE: 'Title',
     DESCRIPTION: 'Description',
-    IMAGE:'Image',
-    TAG:'Tag',
-    GAME:'Game',
+    IMAGE: 'Image',
+    TAG: 'Tag',
+    GAME: 'Game',
     CREATE_FORUM: 'Create your forum!',
-    GAMING:'Gaming',
-    DISCUSSION:'Discussion'
+    GAMING: 'Gaming',
+    DISCUSSION: 'Discussion'
 }
 export const LabelsNewsPage = {
     NEWS: 'More news',

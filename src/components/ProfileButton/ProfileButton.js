@@ -118,7 +118,8 @@ const ProfileButton = () => {
                 height: '3.5em'
 
             }}>
-                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}} src={storageManager.getImage()}>
+                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}
+                        src={storageManager.getImage()}>
                 </Avatar>
                 <Typography style={{
                     fontSize: '12px',

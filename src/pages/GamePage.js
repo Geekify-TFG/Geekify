@@ -27,7 +27,7 @@ import {
     USER_URL
 } from "../resources/ApiUrls";
 import axios from "axios";
-import {useHistory, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
 import {DialogTexts, LabelsGamePage, LabelsSnackbar} from "../locale/en";
@@ -392,7 +392,8 @@ const GamePage = () => {
                                          style={{width: '9.75em'}}>
                                 <InputLabel className={classes.select}
                                             id="demo-simple-select-label"/>
-                                <Select data-testid={"selectRate"} className={classes.select} IconComponent={Icons.ARROW_DOWN}
+                                <Select data-testid={"selectRate"} className={classes.select}
+                                        IconComponent={Icons.ARROW_DOWN}
                                         value={rating}
                                         displayEmpty
                                         disabled={!storageManager.getToken()}

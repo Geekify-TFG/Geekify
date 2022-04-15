@@ -76,7 +76,7 @@ const ForumCard = ({
 
     return (
         <Card elevation={0} className={classes.root}>
-            <CardActionArea  style={{marginRight: '2em', height: '120px', width: '120px'}} onClick={onClickHandler}>
+            <CardActionArea style={{marginRight: '2em', height: '120px', width: '120px'}} onClick={onClickHandler}>
 
                 <CardMedia
                     data-testid={"btnEnterForum"}

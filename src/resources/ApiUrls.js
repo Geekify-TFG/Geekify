@@ -14,7 +14,7 @@ const _USER_PATH = "/account/email";
 
 export const LOGIN_URL = `${MY_BASE_PATH}${_LOGIN_PATH}`
 export const REGISTER_URL = `${MY_BASE_PATH}${_REGISTER_PATH}`
-export const USER_URL =(email)=> `${_USER_PATH}/${email}`
+export const USER_URL = (email) => `${_USER_PATH}/${email}`
 
 //Games paths
 const _MY_GAMES_PATH = "/games";
@@ -32,7 +32,7 @@ const _RATE_PATH = "/account/like";
 const _LIST_PATH = "/listGames";
 
 export const GAME = (id) => `${_GAME_PATH}/${id}`
-export const RATE_GAME = (id)=>`${_RATE_PATH}/${id}`
+export const RATE_GAME = (id) => `${_RATE_PATH}/${id}`
 export const LIST_GAMES = `${MY_BASE_PATH}${_LIST_PATH}`
 
 //Comments paths
@@ -58,7 +58,7 @@ const _FORUMS_PATH = "/forums"
 const _FORUM_PATH = "/forum"
 export const ALL_FORUMS = `${MY_BASE_PATH}${_FORUMS_PATH}`
 export const CREATE_FORUM = `${MY_BASE_PATH}${_FORUM_PATH}`
-export const DELETE_FORUM =(id)=> `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
+export const DELETE_FORUM = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
 
 
 //News

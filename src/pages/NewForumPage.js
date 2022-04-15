@@ -273,13 +273,14 @@ const NewForumPage = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item>
-                                        <FormControl data-testid={"selectTag"} className={classes.select} variant="outlined" margin='normal'
+                                        <FormControl data-testid={"selectTag"} className={classes.select}
+                                                     variant="outlined" margin='normal'
                                                      style={{width: '30em'}}
                                         >
                                             <InputLabel required
                                                         className={classes.select}
                                                         id="demo-simple-select-label"/>
-                                            <Select  className={classes.select}
+                                            <Select className={classes.select}
                                                     IconComponent={Icons.ARROW_DOWN}
                                                     value={tag}
                                                     displayEmpty
@@ -304,7 +305,8 @@ const NewForumPage = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item>
-                                        <FormControl data-testid={"formControlGame"} className={classes.select} variant="outlined" margin='normal'
+                                        <FormControl data-testid={"formControlGame"} className={classes.select}
+                                                     variant="outlined" margin='normal'
                                                      style={{width: '30em'}}
                                         >
                                             <AutocompleteGeekify game={game} setGame={setGame} list={listGames}/>

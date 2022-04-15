@@ -14,7 +14,6 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
 import {LabelsForumsPage} from "../locale/en";
-import styled from "@emotion/styled";
 import ForumCard from "../components/Cards/ForumCard";
 import CardGeekify from "../components/Cards/CardGeekify";
 import {followingGroupMock} from "../mocks/FollowingGroupMock";
@@ -25,7 +24,6 @@ import axios from "axios";
 import {ALL_FORUMS} from "../resources/ApiUrls";
 import {useHistory} from "react-router-dom";
 import {StorageManager} from "../utils";
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -81,7 +79,7 @@ const ForumsPage = () => {
         }
     }
 
-    const handleCreateForum = async ()=>{
+    const handleCreateForum = async () => {
         history.push({
             pathname: `/forum`,
         })

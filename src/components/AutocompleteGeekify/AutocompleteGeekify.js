@@ -68,7 +68,7 @@ function sleep(delay = 0) {
     });
 }
 
-const AutocompleteGeekify = ({list,game,setGame}) => {
+const AutocompleteGeekify = ({list, game, setGame}) => {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);

@@ -133,7 +133,8 @@ const DialogGeekify = props => {
                                                   variant="outlined">
                             {props.textCancelButton}
                         </Button>}
-                        <Button data-testid={"confirmButton"} onClick={handleConfirm} style={{backgroundColor: props.buttonColor, minWidth: '8em'}}
+                        <Button data-testid={"confirmButton"} onClick={handleConfirm}
+                                style={{backgroundColor: props.buttonColor, minWidth: '8em'}}
                                 color="primary" variant="contained">
                             {props.textConfirmButton}
                         </Button>

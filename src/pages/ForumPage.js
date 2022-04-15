@@ -14,7 +14,7 @@ import {useHistory, useLocation} from "react-router-dom";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import {StorageManager} from "../utils";
 import axios from "axios";
-import {DELETE_FORUM, MY_BASE_PATH, MY_COLLECTION} from "../resources/ApiUrls";
+import {DELETE_FORUM} from "../resources/ApiUrls";
 import DialogGeekify from "../components/DialogGeekify";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 
