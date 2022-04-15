@@ -118,13 +118,13 @@ const ProfileButton = () => {
                 height: '3.5em'
 
             }}>
-                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}>
+                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}} src={storageManager.getImage()}>
                 </Avatar>
                 <Typography style={{
                     fontSize: '12px',
                     color: AppColors.WHITE,
                     paddingLeft: '1em'
-                }}>{storageManager.getEmail()}</Typography>
+                }}>{storageManager.getEmail().split('@')[0]}</Typography>
 
             </Button>}
         </>
