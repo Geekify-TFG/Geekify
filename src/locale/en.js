@@ -24,7 +24,8 @@ export const LabelsSnackbar = {
     COMMENTED_SUCCESSFULLY : 'You have commented the game!',
     RATED_SUCCESSFULLY : 'You rated the game!',
     RATED_ERROR_LOGGED: 'You must be logged to rate a game',
-    FORUM_CREATED_SUCCESSFULLY: 'Forum created successfully'
+    FORUM_CREATED_SUCCESSFULLY: 'Forum created successfully',
+    FORUM_DELETED: 'Forum deleted successfully'
 }
 
 export const LabelsDrawer = {
@@ -109,6 +110,7 @@ export const LabelsForumsPage = {
     FOLLOWING_GROUPS: 'Following groups',
     SEE_MORE: 'See more',
     CREATE_FORUM: 'Create new forum',
+    DELETE_FORUM: 'Delete forum',
     CREATE_OWN_FORUM: 'Create your own forum'
 }
 
@@ -157,7 +159,8 @@ export const DialogTexts = {
     ADD_TO_COLLECTIONS: 'Add to collections',
     CREATE_COLLECTION: 'Create collection',
     EDIT_COLLECTION: 'Edit collection',
-    DELETE_COLLECTION: 'Delete collection'
+    DELETE_COLLECTION: 'Delete collection',
+    DELETE_FORUM: 'Delete forum'
 }
 
 export const ErrorTexts = {

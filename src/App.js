@@ -290,8 +290,8 @@ function App() {
                 <RouteMain path={"/collections"} component={() => <CollectionsPage/>}/>
                 <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>
                 <RouteMain path={"/forums"} component={() => <ForumsPage/>}/>
-                <RouteMain path={"/forum"} component={() => <NewForumPage/>}/>
                 <RouteMain path={"/forum/:id"} component={() => <ForumPage/>}/>
+                <RouteMain path={"/forum"} component={() => <NewForumPage/>}/>
 
                 <RouteMain path={"/news"} component={() => <NewsPage/>}/>
             </Switch>

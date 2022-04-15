@@ -118,8 +118,10 @@ const AutocompleteGeekify = ({list,game,setGame}) => {
             getOptionLabel={(option) => option.name}
             options={options}
             loading={loading}
+            data-testid={"menuItemGame"}
             renderInput={(params) => (
                 <TextField
+                    data-testid={"textFieldGame"}
                     className={classes.textFieldLabel}
                     {...params}
                     required

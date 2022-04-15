@@ -3,17 +3,20 @@ import {Avatar, Button, Grid, List, ListItem, ListItemAvatar, ListItemText, Typo
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
-import {LabelsForumsPage} from "../locale/en";
-import styled from "@emotion/styled";
+import {DialogTexts, LabelsForumsPage, LabelsSnackbar} from "../locale/en";
 import CardGeekify from "../components/Cards/CardGeekify";
 import IconProvider from "../components/IconProvider/IconProvider";
 import Icons from "../resources/Icons";
 import {forumPostsMock} from "../mocks/ForumPostsMock";
 import CommentCard from "../components/Cards/CommentCard";
 import {followingGroupMock} from "../mocks/FollowingGroupMock";
-import {useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
-
+import {StorageManager} from "../utils";
+import axios from "axios";
+import {DELETE_FORUM, MY_BASE_PATH, MY_COLLECTION} from "../resources/ApiUrls";
+import DialogGeekify from "../components/DialogGeekify";
+import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,13 +51,69 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
+
+function DeleteForumModal({
+                              showDeleteForumModal,
+                              setShowDeleteForumModal,
+                              loading,
+                              setLoading,
+                              forumId,
+                              setOpenSnackDeleteForum,
+                              openSnackDeleteForum,
+                          }) {
+    const history = useHistory()
+
+    const handleClickSubmit = async () => {
+        try {
+            const response = await axios.delete(`${DELETE_FORUM(forumId)}`)
+
+            setShowDeleteForumModal(false)
+            setLoading(true)
+            setOpenSnackDeleteForum(true)
+            setTimeout(() => {
+                history.push({
+                    pathname: '/forums',
+                })
+            }, 1000)
+        } catch (e) {
+            console.log('Error: ', e)
+        }
+    }
+
+
+    return (
+        <DialogGeekify
+            textCancelButton={DialogTexts.CANCEL}
+            textConfirmButton={DialogTexts.DELETE}
+            handleShow={setShowDeleteForumModal}
+            handleConfirm={handleClickSubmit}
+            title={DialogTexts.DELETE_COLLECTION}
+            buttonColor={AppColors.RED}
+            body={
+                <>
+                    <Typography variant="subtitle1" style={{color: AppColors.WHITE}} gutterBottom>
+                        {"Are you sure you want to delete this forum?"}
+                    </Typography>
+                </>
+            }
+            show={showDeleteForumModal}
+
+        />
+    )
+}
+
+
 const ForumPage = () => {
     const [forumPosts, setForumPosts] = useState();
     const [loading, setLoading] = useState(false);
     const [followingGroups, setFollowingGroups] = useState();
+    const [showDeleteForumModal, setShowDeleteForumModal] = useState();
+    const [openSnackDeleteForum, setOpenSnackDeleteForum] = useState();
     const location = useLocation();
     const forumTitle = location.state.title
+    const forumId = location.state.detail
 
+    const storageManager = new StorageManager()
 
     useEffect(() => {
         setForumPosts(forumPostsMock)
@@ -62,6 +121,15 @@ const ForumPage = () => {
         // getCollections()
 
     }, []);
+
+    const handleDeleteForum = () => {
+        setShowDeleteForumModal(true)
+    }
+
+    const handleCloseSnackDeleteForum = async () => {
+        setOpenSnackDeleteForum(false)
+    }
+
 
     return (
         <>
@@ -89,11 +157,29 @@ const ForumPage = () => {
                 <Grid container
                       direction={"row"} style={{marginTop: '2em', marginLeft: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '2em'}}>
-                        <Typography
-                            style={{
-                                fontSize: '40px',
-                                color: AppColors.WHITE
-                            }}>{(`${forumTitle} Forum`).toUpperCase()}</Typography>
+                        <Grid container direction={"row"} justifyContent={"space-between"}>
+
+                            <Typography
+                                style={{
+                                    fontSize: '40px',
+                                    color: AppColors.WHITE
+                                }}>{(`${forumTitle} Forum`).toUpperCase()}</Typography>
+                            {storageManager.getToken() && <Button //TODO Cambiar a quien tenga permisos del foro
+                                data-testid={"btnDeleteForum"}
+                                style={{
+                                    backgroundColor: AppColors.PRIMARY,
+                                    borderRadius: 20,
+                                    maxWidth: '10em'
+                                }}
+                                onClick={handleDeleteForum}
+                            >
+                                <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
+                                            gutterBottom
+                                >
+                                    {LabelsForumsPage.DELETE_FORUM}
+                                </Typography>
+                            </Button>}
+                        </Grid>
 
                         {forumPosts &&
                         forumPosts.map(elem => (
@@ -168,14 +254,23 @@ const ForumPage = () => {
 
                             </CardGeekify>
                         </Grid>
-
-
                     </Grid>
-
                 </Grid>
-
-
             </Grid>
+            <SnackBarGeekify handleClose={handleCloseSnackDeleteForum}
+                             message={LabelsSnackbar.FORUM_DELETED}
+                             openSnack={openSnackDeleteForum}/>
+            {showDeleteForumModal && (
+                <DeleteForumModal
+                    showDeleteForumModal={showDeleteForumModal}
+                    setShowDeleteForumModal={setShowDeleteForumModal}
+                    loading={loading}
+                    setLoading={setLoading}
+                    forumId={forumId}
+                    setOpenSnackDeleteForum={setOpenSnackDeleteForum}
+                    openSnackDeleteForum={openSnackDeleteForum}
+                />
+            )}
         </>
     )
 }

@@ -221,6 +221,7 @@ const NewForumPage = () => {
                                                      style={{width: '30em'}}
                                         >
                                             <TextField
+                                                data-testid={"titleForum"}
                                                 required
                                                 id={"title"}
                                                 style={{width: '30em'}}
@@ -241,6 +242,7 @@ const NewForumPage = () => {
                                         >
                                             <TextField
                                                 required
+                                                data-testid={"descriptionForum"}
                                                 id={"description"}
                                                 style={{width: '30em'}}
                                                 onChange={(e) => setDescription(e.target.value)}
@@ -271,13 +273,13 @@ const NewForumPage = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item>
-                                        <FormControl className={classes.select} variant="outlined" margin='normal'
+                                        <FormControl data-testid={"selectTag"} className={classes.select} variant="outlined" margin='normal'
                                                      style={{width: '30em'}}
                                         >
                                             <InputLabel required
                                                         className={classes.select}
                                                         id="demo-simple-select-label"/>
-                                            <Select data-testid={"selectTag"} className={classes.select}
+                                            <Select  className={classes.select}
                                                     IconComponent={Icons.ARROW_DOWN}
                                                     value={tag}
                                                     displayEmpty
@@ -286,7 +288,7 @@ const NewForumPage = () => {
                                                     style={{width: 280}}
                                             >
 
-                                                <MenuItem data-testid={"menuItemRate4"}
+                                                <MenuItem data-testid={"menuItemTagGaming"}
                                                           style={{color: AppColors.PRIMARY}}
                                                           value={'Gaming'}>{LabelsCreateForumPage.GAMING}</MenuItem>
                                                 <MenuItem data-testid={"menuItemRate3"}
@@ -302,7 +304,7 @@ const NewForumPage = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item>
-                                        <FormControl className={classes.select} variant="outlined" margin='normal'
+                                        <FormControl data-testid={"formControlGame"} className={classes.select} variant="outlined" margin='normal'
                                                      style={{width: '30em'}}
                                         >
                                             <AutocompleteGeekify game={game} setGame={setGame} list={listGames}/>
