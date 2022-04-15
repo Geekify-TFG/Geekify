@@ -11,6 +11,7 @@ export const MY_BASE_PATH = `${_MY_DOMAIN}`; // Base URL of the backend
 const _LOGIN_PATH = "/login";
 const _REGISTER_PATH = "/account/user";
 const _USER_PATH = "/account/email";
+const _ACCOUNT_FORUM_PATH = "/account/forums";
 
 export const LOGIN_URL = `${MY_BASE_PATH}${_LOGIN_PATH}`
 export const REGISTER_URL = `${MY_BASE_PATH}${_REGISTER_PATH}`
@@ -59,6 +60,7 @@ const _FORUM_PATH = "/forum"
 export const ALL_FORUMS = `${MY_BASE_PATH}${_FORUMS_PATH}`
 export const CREATE_FORUM = `${MY_BASE_PATH}${_FORUM_PATH}`
 export const DELETE_FORUM = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
+export const JOIN_FORUM =(email)=> `${MY_BASE_PATH}${_ACCOUNT_FORUM_PATH}/${email}`
 
 
 //News

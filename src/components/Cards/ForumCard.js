@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppColors} from "../../resources/AppColors";
 import {useHistory} from "react-router-dom";
 import {makeStyles} from "@mui/styles";
 import {Avatar, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Paper, Typography} from '@material-ui/core';
 import {useTheme} from '@mui/material/styles';
+import axios from "axios";
+import {CREATE_COLLECTION, JOIN_FORUM, MY_BASE_PATH} from "../../resources/ApiUrls";
+import {StorageManager} from "../../utils";
+import {LabelsSnackbar} from "../../locale/en";
+import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,16 +68,29 @@ const ForumCard = ({
                    }) => {
     const classes = useStyles();
     const history = useHistory()
+    const storageManager = new StorageManager()
+    const [openSnackFollowedForum,setOpenSnackFollowedForum]= useState()
+    const theme = useTheme();
 
     const onClickHandler = () => {
         history.push({
             pathname: `/forum/${forumId}`,
             state: {detail: forumId, title: forumTitle}
         })
-
-
     }
-    const theme = useTheme();
+    const handleClickJoinForum =async()=>{
+        try {
+            var body = {'forums_followed': forumId}
+            const config = {auth: {username: storageManager.getToken()}}
+            const response = await axios.post(`${JOIN_FORUM(storageManager.getEmail())}`, body, config)
+            setOpenSnackFollowedForum(true)
+        } catch (e) {
+            console.log('Error: ', e)
+        }
+    }
+    const handleCloseSnackDeleteCollection = async () => {
+        setOpenSnackFollowedForum(false)
+    }
 
     return (
         <Card elevation={0} className={classes.root}>
@@ -125,9 +143,9 @@ const ForumCard = ({
                         height: '2em',
                         textTransform: 'none',
                         marginRight: '1em',
-                    }}>
+                    }} onClick={handleClickJoinForum}>
                         <Typography style={{fontSize: '20px', color: AppColors.WHITE}}>
-                            Unirse al grupo
+                            Join the forum
                         </Typography>
                     </Button>
                     <Paper
@@ -140,8 +158,11 @@ const ForumCard = ({
 
                 </div>
             </div>
-
+            <SnackBarGeekify handleClose={handleCloseSnackDeleteCollection}
+                             message={LabelsSnackbar.FOLLOW_FORUM}
+                             openSnack={openSnackFollowedForum}/>
         </Card>
+
     )
 
 
