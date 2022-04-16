@@ -26,7 +26,8 @@ export const LabelsSnackbar = {
     RATED_ERROR_LOGGED: 'You must be logged to rate a game',
     FORUM_CREATED_SUCCESSFULLY: 'Forum created successfully',
     FORUM_DELETED: 'Forum deleted successfully',
-    FOLLOW_FORUM: 'Now you follow this forum'
+    FOLLOW_FORUM: 'Now you follow this forum',
+    FOLLOW_FORUM_LOGIN: 'You must be login to follow a forum'
 }
 
 export const LabelsDrawer = {

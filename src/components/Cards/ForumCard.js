@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {AppColors} from "../../resources/AppColors";
 import {useHistory} from "react-router-dom";
 import {makeStyles} from "@mui/styles";
 import {Avatar, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Paper, Typography} from '@material-ui/core';
 import {useTheme} from '@mui/material/styles';
 import axios from "axios";
-import {CREATE_COLLECTION, JOIN_FORUM, MY_BASE_PATH} from "../../resources/ApiUrls";
+import {JOIN_FORUM} from "../../resources/ApiUrls";
 import {StorageManager} from "../../utils";
 import {LabelsSnackbar} from "../../locale/en";
 import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
@@ -71,7 +71,8 @@ const ForumCard = ({
     const classes = useStyles();
     const history = useHistory()
     const storageManager = new StorageManager()
-    const [openSnackFollowedForum,setOpenSnackFollowedForum]= useState()
+    const [openSnackFollowedForum, setOpenSnackFollowedForum] = useState()
+    const [openSnackFollowLogin, setOpenSnackFollowLogin] = useState()
     const theme = useTheme();
 
     const onClickHandler = () => {
@@ -80,20 +81,27 @@ const ForumCard = ({
             state: {detail: forumId, title: forumTitle}
         })
     }
-    const handleClickJoinForum =async()=>{
-        try {
-            var body = {'forums_followed': forumId}
-            const config = {auth: {username: storageManager.getToken()}}
-            const response = await axios.post(`${JOIN_FORUM(storageManager.getEmail())}`, body, config)
-            setOpenSnackFollowedForum(true)
-            getForumsFollowed()
-        } catch (e) {
-            console.log('Error: ', e)
+    const handleClickJoinForum = async () => {
+        if (storageManager.getToken()) {
+            try {
+                var body = {'forums_followed': forumId}
+                const config = {auth: {username: storageManager.getToken()}}
+                const response = await axios.post(`${JOIN_FORUM(storageManager.getEmail())}`, body, config)
+                setOpenSnackFollowedForum(true)
+                getForumsFollowed()
+            } catch (e) {
+                console.log('Error: ', e)
+            }
+        } else {
+            setOpenSnackFollowLogin(true)
         }
     }
 
-    const handleCloseSnackDeleteCollection = async () => {
+    const handleCloseSnackFollowedForum = async () => {
         setOpenSnackFollowedForum(false)
+    }
+    const handleCloseSnackFollowLogin = async () => {
+        setOpenSnackFollowLogin(false)
     }
 
     return (
@@ -149,8 +157,8 @@ const ForumCard = ({
                         marginRight: '1em',
                     }} onClick={handleClickJoinForum}>
                         {!followingForums ? <Typography style={{fontSize: '20px', color: AppColors.WHITE}}>
-                            Join the forum
-                        </Typography>:
+                                Join the forum
+                            </Typography> :
                             <Typography style={{fontSize: '20px', color: AppColors.WHITE}}>
                                 You are in the forum
                             </Typography>}
@@ -165,9 +173,12 @@ const ForumCard = ({
 
                 </div>
             </div>
-            <SnackBarGeekify handleClose={handleCloseSnackDeleteCollection}
+            <SnackBarGeekify handleClose={handleCloseSnackFollowedForum}
                              message={LabelsSnackbar.FOLLOW_FORUM}
                              openSnack={openSnackFollowedForum}/>
+            <SnackBarGeekify handleClose={handleCloseSnackFollowLogin} severity={'warning'}
+                             message={LabelsSnackbar.FOLLOW_FORUM_LOGIN}
+                             openSnack={openSnackFollowLogin}/>
         </Card>
 
     )

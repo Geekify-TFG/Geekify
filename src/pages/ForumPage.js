@@ -120,6 +120,9 @@ const ForumPage = () => {
     const getForum = async () => {
         try {
             const response = await axios.get(`${INFO_FORUM(forumId)}`);
+            console.log(Object.values(response.data.forum.value.posts))
+            console.log((response.data.forum.value.posts))
+            setForumPosts(Object.values(response.data.forum.value.posts))
             setForum(response.data.forum.value)
             setLoading(false)
 
@@ -129,7 +132,7 @@ const ForumPage = () => {
     }
 
     useEffect(() => {
-        setForumPosts(forumPostsMock)
+        //setForumPosts(forumPostsMock)
         setFollowingGroups(followingGroupMock)
         getForum()
     }, []);
@@ -198,11 +201,12 @@ const ForumPage = () => {
                             <Grid item style={{paddingLeft: 0, paddingBottom: '2em'}} key={forumPosts.indexOf(elem)}
 
                             >
+                                {console.log(Object.values(elem)[0].date)}
                                 <CommentCard width={'40em'}
                                              bg={AppColors.BACKGROUND_DRAWER}
-                                             title={elem.username}
-                                             time={elem.timeAgo}
-                                             comment={elem.comment}
+                                             title={Object.values(elem)[0].user}
+                                             time={Object.values(elem)[0].date}
+                                             comment={Object.values(elem)[0]}
                                 />
 
                             </Grid>

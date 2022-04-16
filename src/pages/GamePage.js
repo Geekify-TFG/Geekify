@@ -275,6 +275,7 @@ const GamePage = () => {
     const getComments = async () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${COMMENTS_OF_GAME(idGame)}`);
+            console.log(Object.values(response.data.comments))
             setComments(Object.values(response.data.comments))
             setLoading(false)
         } catch (err) {
