@@ -60,6 +60,7 @@ const _FORUM_PATH = "/forum"
 export const ALL_FORUMS = `${MY_BASE_PATH}${_FORUMS_PATH}`
 export const CREATE_FORUM = `${MY_BASE_PATH}${_FORUM_PATH}`
 export const DELETE_FORUM = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
+export const INFO_FORUM = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
 export const JOIN_FORUM =(email)=> `${MY_BASE_PATH}${_ACCOUNT_FORUM_PATH}/${email}`
 
 

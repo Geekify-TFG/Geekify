@@ -64,7 +64,9 @@ const ForumCard = ({
                        forumGenre,
                        forumGame,
                        height, width,
-                       paddingLeft
+                       paddingLeft,
+                       followingForums,
+                       getForumsFollowed
                    }) => {
     const classes = useStyles();
     const history = useHistory()
@@ -84,10 +86,12 @@ const ForumCard = ({
             const config = {auth: {username: storageManager.getToken()}}
             const response = await axios.post(`${JOIN_FORUM(storageManager.getEmail())}`, body, config)
             setOpenSnackFollowedForum(true)
+            getForumsFollowed()
         } catch (e) {
             console.log('Error: ', e)
         }
     }
+
     const handleCloseSnackDeleteCollection = async () => {
         setOpenSnackFollowedForum(false)
     }
@@ -144,9 +148,12 @@ const ForumCard = ({
                         textTransform: 'none',
                         marginRight: '1em',
                     }} onClick={handleClickJoinForum}>
-                        <Typography style={{fontSize: '20px', color: AppColors.WHITE}}>
+                        {!followingForums ? <Typography style={{fontSize: '20px', color: AppColors.WHITE}}>
                             Join the forum
-                        </Typography>
+                        </Typography>:
+                            <Typography style={{fontSize: '20px', color: AppColors.WHITE}}>
+                                You are in the forum
+                            </Typography>}
                     </Button>
                     <Paper
                         style={{width: 'auto', borderRadius: 20, backgroundColor: AppColors.BACKGROUND_DRAWER}}>

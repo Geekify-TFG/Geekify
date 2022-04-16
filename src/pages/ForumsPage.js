@@ -21,7 +21,7 @@ import Icons from "../resources/Icons";
 import IconProvider from "../components/IconProvider/IconProvider";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
-import {ALL_FORUMS} from "../resources/ApiUrls";
+import {ALL_FORUMS, JOIN_FORUM} from "../resources/ApiUrls";
 import {useHistory} from "react-router-dom";
 import {StorageManager} from "../utils";
 
@@ -62,6 +62,7 @@ const ForumsPage = () => {
     const [forums, setForums] = useState();
     const [forums2, setForums2] = useState();
     const [followingGroups, setFollowingGroups] = useState();
+    const [followingForums, setFollowingForums] = useState();
     const [loading, setLoading] = useState(false);
     const history = useHistory()
     const storageManager = new StorageManager()
@@ -78,6 +79,15 @@ const ForumsPage = () => {
             console.log(err.message)
         }
     }
+    const getForumsFollowed = async () => {
+        try {
+            const config = {auth: {username: storageManager.getToken()}}
+            const response = await axios.get(`${JOIN_FORUM(storageManager.getEmail())}`, config)
+            setFollowingForums(response.data.forums_followed)
+        } catch (e) {
+            console.log('Error: ', e)
+        }
+    }
 
     const handleCreateForum = async () => {
         history.push({
@@ -88,6 +98,9 @@ const ForumsPage = () => {
     useEffect(() => {
         setFollowingGroups(followingGroupMock)
         getForums()
+        if (storageManager.getToken())
+            getForumsFollowed()
+
     }, []);
 
     return (
@@ -152,6 +165,8 @@ const ForumsPage = () => {
                                         forumImage={value.image}
                                         forumGenre={value.tag}
                                         forumGame={value.game}
+                                        followingForums={followingForums ? (!!followingForums.find(element => element === key)) : null}
+                                        getForumsFollowed={getForumsFollowed}
 
                                     />
                                     <Divider style={{width: '45em', backgroundColor: AppColors.GRAY}}/>

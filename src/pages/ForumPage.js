@@ -14,7 +14,7 @@ import {useHistory, useLocation} from "react-router-dom";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import {StorageManager} from "../utils";
 import axios from "axios";
-import {DELETE_FORUM} from "../resources/ApiUrls";
+import {DELETE_FORUM, INFO_FORUM} from "../resources/ApiUrls";
 import DialogGeekify from "../components/DialogGeekify";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 
@@ -105,6 +105,7 @@ function DeleteForumModal({
 
 const ForumPage = () => {
     const [forumPosts, setForumPosts] = useState();
+    const [forum, setForum] = useState();
     const [loading, setLoading] = useState(false);
     const [followingGroups, setFollowingGroups] = useState();
     const [showDeleteForumModal, setShowDeleteForumModal] = useState();
@@ -115,11 +116,22 @@ const ForumPage = () => {
 
     const storageManager = new StorageManager()
 
+    //Function to get all the games
+    const getForum = async () => {
+        try {
+            const response = await axios.get(`${INFO_FORUM(forumId)}`);
+            setForum(response.data.forum.value)
+            setLoading(false)
+
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
     useEffect(() => {
         setForumPosts(forumPostsMock)
         setFollowingGroups(followingGroupMock)
-        // getCollections()
-
+        getForum()
     }, []);
 
     const handleDeleteForum = () => {
@@ -164,7 +176,7 @@ const ForumPage = () => {
                                     fontSize: '40px',
                                     color: AppColors.WHITE
                                 }}>{(`${forumTitle} Forum`).toUpperCase()}</Typography>
-                            {storageManager.getToken() && <Button //TODO Cambiar a quien tenga permisos del foro
+                            {forum  && storageManager.getEmail() === forum.admin  && <Button //TODO Cambiar a quien tenga permisos del foro
                                 data-testid={"btnDeleteForum"}
                                 style={{
                                     backgroundColor: AppColors.PRIMARY,
