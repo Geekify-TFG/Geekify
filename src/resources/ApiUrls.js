@@ -63,6 +63,13 @@ export const DELETE_FORUM = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
 export const INFO_FORUM = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
 export const JOIN_FORUM =(email)=> `${MY_BASE_PATH}${_ACCOUNT_FORUM_PATH}/${email}`
 
+//Publications paths
+const _PUBLICATION_PATH = "/publication"
+const _PUBLICATIONS_PATH = "/publications"
+const _PUBLICATION_LIKE_PATH = "/publicationLike"
+export const POST_PUBLICATION = (id)=>`${MY_BASE_PATH}${_FORUM_PATH}/${id}${_PUBLICATION_PATH}`
+export const GET_PUBLICATIONS = (id)=>`${MY_BASE_PATH}${_FORUM_PATH}/${id}${_PUBLICATIONS_PATH}`
+export const LIKE_PUBLICATION = (id)=>`${MY_BASE_PATH}${_PUBLICATION_LIKE_PATH}/${id}`
 
 //News
 const _NEWS_PATH = "/news";

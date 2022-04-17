@@ -1,8 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import {Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {AppColors} from "../../resources/AppColors";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import axios from "axios";
+import {LIKE_PUBLICATION} from "../../resources/ApiUrls";
+import {StorageManager} from "../../utils";
+import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
+import {LabelsSnackbar} from "../../locale/en";
 
 /**
  * Component to create comment cards.
@@ -21,7 +27,48 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
  * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
 const PublicationCard = props => {
-    const {children, bg, height, width, title, time, publication} = props;
+    const {publicationKey, bg, height, width, title, time, publication, getPublications, favorited} = props;
+    const storageManager = new StorageManager()
+    const [openSnackLikeLogin, setOpenSnackLikeLogin] = useState();
+    const [openSnackLike, setOpenSnackLike] = useState();
+    const [openSnackRemoveLike, setOpenSnackRemoveLike] = useState();
+    const [liked, setLiked] = useState(favorited)
+
+    const handleClickLikePublication = async () => {
+        if (storageManager.getToken()) {
+            try {
+                var body = {'email': storageManager.getEmail()}
+                const config = {auth: {username: storageManager.getToken()}}
+                const response = await axios.post(`${LIKE_PUBLICATION(publicationKey)}`, body, config)
+                console.log((Object.values(response.data.publications)[0].likes).includes(storageManager.getEmail()))
+                if ((Object.values(response.data.publications)[0].likes).includes(storageManager.getEmail())) {
+                    setOpenSnackLike(true)
+                } else {
+                    setOpenSnackRemoveLike(true)
+                }
+                setLiked(!liked)
+
+                getPublications()
+            } catch (e) {
+                console.log('Error: ', e)
+            }
+        } else {
+            setOpenSnackLikeLogin(true)
+        }
+    }
+
+    const handleCloseSnackLike = async () => {
+        setOpenSnackLike(false)
+    }
+
+    const handleCloseSnackLikeLogin = async () => {
+        setOpenSnackLikeLogin(false)
+    }
+
+    const handleCloseSnackRemoveLike = async () => {
+        setOpenSnackRemoveLike(false)
+    }
+
     return (
         <Card
             data-testid={"commentCard"}
@@ -44,20 +91,35 @@ const PublicationCard = props => {
                 }
 
                 title={<Typography style={{fontSize: '20px', color: AppColors.PRIMARY}}>{publication.user}</Typography>}
-                subheader={<Typography style={{fontSize: '16px', color: AppColors.GRAY}}>{publication.date}</Typography>}
+                subheader={<Typography
+                    style={{fontSize: '16px', color: AppColors.GRAY}}>{publication.date}</Typography>}
             />
 
             <CardContent>
                 <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>
                     {publication.content}
                 </Typography>
+
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon/>
+
+                <IconButton onClick={() => handleClickLikePublication()} aria-label="add to favorites">
+
+                    {liked ? <FavoriteIcon/> : <FavoriteBorderIcon/>}
+                    <Typography
+                        style={{fontSize: '20px', color: AppColors.PRIMARY}}>{publication.likes.length}</Typography>
                 </IconButton>
 
             </CardActions>
+            <SnackBarGeekify handleClose={handleCloseSnackLikeLogin}
+                             message={LabelsSnackbar.LIKE_PUBLICATION_LOGIN}
+                             openSnack={openSnackLikeLogin}/>
+            <SnackBarGeekify handleClose={handleCloseSnackLike}
+                             message={LabelsSnackbar.LIKE_PUBLICATION}
+                             openSnack={openSnackLike}/>
+            <SnackBarGeekify handleClose={handleCloseSnackRemoveLike}
+                             message={LabelsSnackbar.REMOVE_LIKE_PUBLICATION}
+                             openSnack={openSnackRemoveLike}/>
         </Card>
     )
 }
