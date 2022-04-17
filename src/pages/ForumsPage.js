@@ -191,23 +191,33 @@ const ForumsPage = () => {
                                         }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
 
 
-                                    <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
-                                        {followingForums &&
-                                        followingForums.map(elem => (
-                                            <ListItem>
-                                                <ListItemAvatar>
-                                                    <Avatar alt="Remy Sharp" src={elem.value.image}/>
-                                                </ListItemAvatar>
-                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                              primary={elem.value.title}
-                                                />
-                                                <ListItemText style={{color: AppColors.GRAY}}
-                                                              primary={elem.value.game}
-                                                />
-                                            </ListItem>
+                                    {followingForums ? <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
+                                            {followingForums &&
+                                            followingForums.map(elem => (
+                                                <ListItem>
+                                                    <ListItemAvatar>
+                                                        <Avatar alt="Remy Sharp" src={elem.value.image}/>
+                                                    </ListItemAvatar>
+                                                    <ListItemText
+                                                                  style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                                  primary={elem.value.title}
+                                                    />
+                                                    <ListItemText style={{color: AppColors.GRAY}}
+                                                                  primary={elem.value.game}
+                                                    />
+                                                </ListItem>
 
-                                        ))}
-                                    </List>
+                                            ))}
+
+                                        </List> :
+                                        <Typography
+                                            style={{
+                                                fontSize: '30px',
+                                                color: AppColors.PRIMARY,
+                                                marginLeft: '1.5em',
+                                                marginTop: '1em'
+                                            }}>{LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
+                                    }
                                 </Grid>
 
                             </CardGeekify>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar} from '@material-ui/core'
+import {Avatar, Fade, Menu, MenuItem} from '@material-ui/core'
 
 import {makeStyles} from '@material-ui/core/styles'
 import {AppColors} from "../../resources/AppColors"
@@ -7,6 +7,7 @@ import {useHistory} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {Button, Typography} from "@mui/material";
 import {StorageManager} from "../../utils";
+import {profileOptions} from "../../locale/en";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -77,11 +78,12 @@ const useStyles = makeStyles((theme) => ({
     iconRoot: {
         textAlign: 'center'
     },
+    menuPaper: {
+        backgroundColor: AppColors.BACKGROUND_DRAWER
+    }
 }));
 
 const ProfileButton = () => {
-    //const authContext = useContext(AuthContext)
-    //const {logout,signOut} = authContext;
     const storageManager = new StorageManager();
 
     const classes = useStyles();
@@ -89,6 +91,17 @@ const ProfileButton = () => {
     const [alertOpen, setAlertOpen] = React.useState(false);
     const [showExitModal, setShowExitModal] = useState(false);
     const [logged, setLogged] = useState(false)
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
 
     const handleClickOpen = () => {
@@ -102,6 +115,26 @@ const ProfileButton = () => {
         setShowExitModal(!showExitModal)
     }
 
+
+    const toProfile = () => {
+
+        history.push({
+            pathname: `/profile`,
+        })
+    }
+    const logout = () => {
+        console.log('log out')
+        storageManager.clear()
+        setAnchorEl(false)
+        setLogged(false)
+        // window.location.reload();
+        window.setTimeout(() => {
+            window.location.reload();
+        }, 1500)
+    }
+
+
+
     useEffect(() => {
         if (storageManager.getToken() !== "") {
             setLogged(true)
@@ -110,7 +143,7 @@ const ProfileButton = () => {
 
     return (
         <>
-            {logged && <Button id="myProfile" onClick={() => history.push('/profile')} style={{
+            {logged && <Button id="myProfile" /*onClick={() => history.push('/profile')}*/ onClick={handleClick} style={{
                 backgroundColor: AppColors.BACKGROUND_DRAWER,
                 borderRadius: 30,
                 border: '2px solid #6563FF',
@@ -128,6 +161,27 @@ const ProfileButton = () => {
                 }}>{storageManager.getEmail().split('@')[0]}</Typography>
 
             </Button>}
+            <Menu
+                classes={{ paper: classes.menuPaper }}
+                id="fade-menu"
+                anchorEl={anchorEl}
+                anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                keepMounted
+                open={open}
+                onClose={handleClose}
+                TransitionComponent={Fade}>
+                <MenuItem data-testid="MyProfileButton" style={{color: AppColors.PRIMARY}}
+                          onClick={() => {
+                              toProfile()
+
+                          }}> {profileOptions.PROFILE} </MenuItem>
+
+                <MenuItem style={{color: AppColors.PRIMARY}}
+                          onClick={() => {
+                              logout()
+                          }}> {profileOptions.CLOSE_SESSION} </MenuItem>
+
+            </Menu>
         </>
     )
 }

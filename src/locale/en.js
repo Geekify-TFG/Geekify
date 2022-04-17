@@ -180,3 +180,8 @@ export const menuOptions = {
     EDIT: 'Edit',
     DELETE: 'Delete'
 }
+
+export const profileOptions = {
+    PROFILE:'Profile',
+    CLOSE_SESSION: 'Log out'
+}

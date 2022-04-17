@@ -28,6 +28,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CardGeekify from "../components/Cards/CardGeekify";
 import IconProvider from "../components/IconProvider/IconProvider";
 import Icons from "../resources/Icons";
+import eldenImage from "../img/elden_background.jpeg";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -151,10 +152,10 @@ function DeleteForumModal({
 
 
 const ForumPage = () => {
-    const [forumPosts2, setForumPosts2] = useState();
+    const [forumPosts2, setForumPosts2] = useState([]);
     const [forum, setForum] = useState();
     const [loading, setLoading] = useState(false);
-    const [followingForums, setFollowingForums] = useState();
+    const [followingForums, setFollowingForums] = useState(null);
     const [showDeleteForumModal, setShowDeleteForumModal] = useState();
     const [publication, setPublication] = useState();
     const [openSnackDeleteForum, setOpenSnackDeleteForum] = useState();
@@ -172,6 +173,7 @@ const ForumPage = () => {
         try {
             const response = await axios.get(`${INFO_FORUM(forumId)}`);
             setForum(response.data.forum.value)
+            console.log(response.data.forum.value)
             setLoading(false)
 
         } catch (err) {
@@ -258,11 +260,12 @@ const ForumPage = () => {
 
     return (
         <>
-            <Grid container alignItems={"center"}>
+            {forum &&<Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                       direction={"column"} style={{
+                    height: '20em',
+                    backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${forum.image})`,
                     backgroundSize: "cover",
-
                 }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
                         <Grid item style={{margin: '2em'}}>
@@ -355,7 +358,8 @@ const ForumPage = () => {
                             </Grid>
                         ))}
                     </Grid>
-                    <Grid item style={{marginLeft: '5em'}}>
+
+                    <Grid item style={{marginLeft: '4em'}}>
                         <Grid item style={{marginBottom: '4em',}}>
                             <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={50} height={'auto'}
                                          width={'350px'}>
@@ -371,25 +375,25 @@ const ForumPage = () => {
                                         }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
 
 
-                                    {followingForums ?<List style={{marginLeft: '1em', marginTop: '0.5em'}}>
-                                        {followingForums &&
-                                        followingForums.map(elem => (
-                                            <ListItem>
-                                                <ListItemAvatar>
-                                                    <Avatar alt="Remy Sharp" src={elem.value.image}/>
-                                                </ListItemAvatar>
-                                                <ListItemText onClick={() => handleGoForum(elem)}
-                                                              style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                              primary={elem.value.title}
-                                                />
-                                                <ListItemText style={{color: AppColors.GRAY}}
-                                                              primary={elem.value.game}
-                                                />
-                                            </ListItem>
+                                    {followingForums ? <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
+                                            {followingForums &&
+                                            followingForums.map(elem => (
+                                                <ListItem>
+                                                    <ListItemAvatar>
+                                                        <Avatar alt="Remy Sharp" src={elem.value.image}/>
+                                                    </ListItemAvatar>
+                                                    <ListItemText onClick={() => handleGoForum(elem)}
+                                                                  style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                                  primary={elem.value.title}
+                                                    />
+                                                    <ListItemText style={{color: AppColors.GRAY}}
+                                                                  primary={elem.value.game}
+                                                    />
+                                                </ListItem>
 
-                                        ))}
+                                            ))}
 
-                                    </List>:
+                                        </List> :
                                         <Typography
                                             style={{
                                                 fontSize: '30px',
@@ -404,7 +408,7 @@ const ForumPage = () => {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+            </Grid>}
             <SnackBarGeekify handleClose={handleCloseSnackDeleteForum}
                              message={LabelsSnackbar.FORUM_DELETED}
                              openSnack={openSnackDeleteForum}/>
