@@ -1,20 +1,33 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Grid, IconButton, InputAdornment, TextField, Typography} from "@material-ui/core";
+import {
+    Avatar,
+    Button,
+    Grid,
+    IconButton,
+    InputAdornment,
+    List,
+    ListItem,
+    ListItemAvatar, ListItemText,
+    TextField,
+    Typography
+} from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
 import {DialogTexts, LabelsForumsPage, LabelsSnackbar} from "../locale/en";
-import {followingGroupMock} from "../mocks/FollowingGroupMock";
 import {useHistory, useLocation} from "react-router-dom";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import {StorageManager} from "../utils";
 import axios from "axios";
-import {DELETE_FORUM, GET_PUBLICATIONS, INFO_FORUM, POST_PUBLICATION} from "../resources/ApiUrls";
+import {DELETE_FORUM, GET_PUBLICATIONS, INFO_FORUM, JOIN_FORUM, POST_PUBLICATION} from "../resources/ApiUrls";
 import DialogGeekify from "../components/DialogGeekify";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 import PublicationCard from "../components/Cards/PublicationCard";
 import accountIcon from "../img/account_icon.svg";
 import CheckIcon from "@mui/icons-material/Check";
+import CardGeekify from "../components/Cards/CardGeekify";
+import IconProvider from "../components/IconProvider/IconProvider";
+import Icons from "../resources/Icons";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -141,7 +154,7 @@ const ForumPage = () => {
     const [forumPosts2, setForumPosts2] = useState();
     const [forum, setForum] = useState();
     const [loading, setLoading] = useState(false);
-    const [followingGroups, setFollowingGroups] = useState();
+    const [followingForums, setFollowingForums] = useState();
     const [showDeleteForumModal, setShowDeleteForumModal] = useState();
     const [publication, setPublication] = useState();
     const [openSnackDeleteForum, setOpenSnackDeleteForum] = useState();
@@ -150,7 +163,8 @@ const ForumPage = () => {
     const forumTitle = location.state.title
     const forumId = location.state.detail
     const classes = useStyles();
-
+    const history = useHistory()
+    const [flag,setFlag] = useState(false)
     const storageManager = new StorageManager()
 
     //Function to get all the games
@@ -175,6 +189,16 @@ const ForumPage = () => {
 
         } catch (err) {
             console.log(err.message)
+        }
+    }
+
+    const getForumsFollowed = async () => {
+        try {
+            const config = {auth: {username: storageManager.getToken()}}
+            const response = await axios.get(`${JOIN_FORUM(storageManager.getEmail())}`, config)
+            setFollowingForums(response.data.forums_followed)
+        } catch (e) {
+            console.log('Error: ', e)
         }
     }
 
@@ -203,7 +227,14 @@ const ForumPage = () => {
     useEffect(() => {
         getForum()
         getPublications()
+        getForumsFollowed()
     }, []);
+
+    useEffect(() => {
+        getForum()
+        getPublications()
+        getForumsFollowed()
+    }, [flag]);
 
     const handleDeleteForum = () => {
         setShowDeleteForumModal(true)
@@ -214,6 +245,14 @@ const ForumPage = () => {
     }
     const handleCloseSnackPublication = async () => {
         setOpenSnackBarPublication(false)
+    }
+
+    const handleGoForum =(elem) =>{
+        setFlag(true)
+        history.push({
+            pathname: `/forum/${elem.id}`,
+            state: {title: elem.value.title,detail:elem.id}
+        })
     }
 
 
@@ -232,16 +271,13 @@ const ForumPage = () => {
 
                         <Grid item style={{margin: '2em'}}>
                             <ProfileButton/>
-
                         </Grid>
-
-
                     </Grid>
 
                 </Grid>
 
                 <Grid container
-                      direction={"row"} justifyContent={"center"} style={{marginTop: '2em', marginBottom: '2em'}}>
+                      direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '2em'}}>
                         <Grid container direction={"row"} justifyContent={"space-between"}>
 
@@ -317,10 +353,56 @@ const ForumPage = () => {
                                                  favorited={publication[1].likes.includes(storageManager.getEmail())}
                                 />
                             </Grid>
-                        ))
-                        }
+                        ))}
                     </Grid>
+                    <Grid item style={{marginLeft: '5em'}}>
+                        <Grid item style={{marginBottom: '4em',}}>
+                            <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={50} height={'auto'}
+                                         width={'350px'}>
+                                <Grid
+                                    container
+                                >
+                                    <Typography
+                                        style={{
+                                            fontSize: '20px',
+                                            color: AppColors.WHITE,
+                                            marginLeft: '3em',
+                                            marginTop: '1em'
+                                        }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
 
+
+                                    {followingForums ?<List style={{marginLeft: '1em', marginTop: '0.5em'}}>
+                                        {followingForums &&
+                                        followingForums.map(elem => (
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar alt="Remy Sharp" src={elem.value.image}/>
+                                                </ListItemAvatar>
+                                                <ListItemText onClick={() => handleGoForum(elem)}
+                                                              style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                              primary={elem.value.title}
+                                                />
+                                                <ListItemText style={{color: AppColors.GRAY}}
+                                                              primary={elem.value.game}
+                                                />
+                                            </ListItem>
+
+                                        ))}
+
+                                    </List>:
+                                        <Typography
+                                            style={{
+                                                fontSize: '30px',
+                                                color: AppColors.PRIMARY,
+                                                marginLeft: '1.5em',
+                                                marginTop: '1em'
+                                            }}>{LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
+                                    }
+                                </Grid>
+
+                            </CardGeekify>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
             <SnackBarGeekify handleClose={handleCloseSnackDeleteForum}

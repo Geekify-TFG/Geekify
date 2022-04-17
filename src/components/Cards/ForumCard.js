@@ -72,9 +72,9 @@ const ForumCard = ({
     const history = useHistory()
     const storageManager = new StorageManager()
     const [openSnackFollowedForum, setOpenSnackFollowedForum] = useState()
+    const [openSnackUnfollowedForum, setOpenSnackUnfollowedForum] = useState()
     const [openSnackFollowLogin, setOpenSnackFollowLogin] = useState()
     const theme = useTheme();
-
     const onClickHandler = () => {
         history.push({
             pathname: `/forum/${forumId}`,
@@ -87,7 +87,13 @@ const ForumCard = ({
                 var body = {'forums_followed': forumId}
                 const config = {auth: {username: storageManager.getToken()}}
                 const response = await axios.post(`${JOIN_FORUM(storageManager.getEmail())}`, body, config)
-                setOpenSnackFollowedForum(true)
+                if(response.data.account.value.forums_followed.includes(forumId)){
+                    setOpenSnackFollowedForum(true)
+
+                }else{
+                    setOpenSnackUnfollowedForum(true)
+
+                }
                 getForumsFollowed()
             } catch (e) {
                 console.log('Error: ', e)
@@ -99,6 +105,9 @@ const ForumCard = ({
 
     const handleCloseSnackFollowedForum = async () => {
         setOpenSnackFollowedForum(false)
+    }
+    const handleCloseSnackUnfollowedForum = async () => {
+        setOpenSnackUnfollowedForum(false)
     }
     const handleCloseSnackFollowLogin = async () => {
         setOpenSnackFollowLogin(false)
@@ -176,6 +185,9 @@ const ForumCard = ({
             <SnackBarGeekify handleClose={handleCloseSnackFollowedForum}
                              message={LabelsSnackbar.FOLLOW_FORUM}
                              openSnack={openSnackFollowedForum}/>
+            <SnackBarGeekify handleClose={handleCloseSnackUnfollowedForum} severity={"warning"}
+                             message={LabelsSnackbar.UNFOLLOW_FORUM}
+                             openSnack={openSnackUnfollowedForum}/>
             <SnackBarGeekify handleClose={handleCloseSnackFollowLogin} severity={'warning'}
                              message={LabelsSnackbar.FOLLOW_FORUM_LOGIN}
                              openSnack={openSnackFollowLogin}/>

@@ -112,7 +112,7 @@ const PublicationCard = props => {
 
             </CardActions>
             <SnackBarGeekify handleClose={handleCloseSnackLikeLogin}
-                             message={LabelsSnackbar.LIKE_PUBLICATION_LOGIN}
+                             message={LabelsSnackbar.LIKE_PUBLICATION_LOGIN} severity={'warning'}
                              openSnack={openSnackLikeLogin}/>
             <SnackBarGeekify handleClose={handleCloseSnackLike}
                              message={LabelsSnackbar.LIKE_PUBLICATION}

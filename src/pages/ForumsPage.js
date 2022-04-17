@@ -17,8 +17,6 @@ import {LabelsForumsPage} from "../locale/en";
 import ForumCard from "../components/Cards/ForumCard";
 import CardGeekify from "../components/Cards/CardGeekify";
 import {followingGroupMock} from "../mocks/FollowingGroupMock";
-import Icons from "../resources/Icons";
-import IconProvider from "../components/IconProvider/IconProvider";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
 import {ALL_FORUMS, JOIN_FORUM} from "../resources/ApiUrls";
@@ -88,6 +86,7 @@ const ForumsPage = () => {
             console.log('Error: ', e)
         }
     }
+
 
     const handleCreateForum = async () => {
         history.push({
@@ -161,11 +160,11 @@ const ForumsPage = () => {
                                         forumId={key}
                                         forumTitle={value.title}
                                         forumDescription={value.description}
-                                        forumNumUsers={value.num_users}
+                                        forumNumUsers={value.users.length}
                                         forumImage={value.image}
                                         forumGenre={value.tag}
                                         forumGame={value.game}
-                                        followingForums={followingForums ? (!!followingForums.find(element => element === key)) : null}
+                                        followingForums={followingForums ? (!!followingForums.find(element => element.id === key)) : null}
                                         getForumsFollowed={getForumsFollowed}
 
                                     />
@@ -193,40 +192,21 @@ const ForumsPage = () => {
 
 
                                     <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
-                                        {followingGroups &&
-                                        followingGroups.map(elem => (
+                                        {followingForums &&
+                                        followingForums.map(elem => (
                                             <ListItem>
                                                 <ListItemAvatar>
-                                                    <Avatar alt="Remy Sharp" src={elem.image}/>
+                                                    <Avatar alt="Remy Sharp" src={elem.value.image}/>
                                                 </ListItemAvatar>
                                                 <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                              primary={elem.groupName}
+                                                              primary={elem.value.title}
                                                 />
                                                 <ListItemText style={{color: AppColors.GRAY}}
-                                                              primary={elem.numParticipants}
+                                                              primary={elem.value.game}
                                                 />
                                             </ListItem>
 
                                         ))}
-                                        <Grid container direction={"row"}>
-                                            <Grid item>
-                                                <Typography
-                                                    style={{
-                                                        fontSize: '20px',
-                                                        color: AppColors.PRIMARY,
-                                                        marginLeft: '3em',
-                                                        marginTop: '1em'
-                                                    }}>{LabelsForumsPage.SEE_MORE}</Typography>
-                                            </Grid>
-                                            <Grid item style={{paddingLeft: '2em', paddingTop: '1em'}}>
-                                                <IconProvider icon={<Icons.ARROW_RIGHT style={{
-                                                    verticalAlign: "middle",
-                                                    display: "inline-flex",
-                                                    color: AppColors.PRIMARY,
-                                                    fontSize: '1.5em'
-                                                }} size="100px"/>}/>
-                                            </Grid>
-                                        </Grid>
                                     </List>
                                 </Grid>
 
