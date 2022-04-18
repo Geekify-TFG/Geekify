@@ -44,6 +44,7 @@ import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
 import {StorageManager} from "../utils";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 import CheckIcon from '@mui/icons-material/Check';
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -305,6 +306,7 @@ const GamePage = () => {
     const getUser = async () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${USER_URL(storageManager.getEmail())}`);
+            console.log(response.data.account)
             var rate = response.data.account.likes
             let obj = rate.find(o => o.game_id === `${idGame}`);
             if (obj) {
@@ -604,8 +606,8 @@ const GamePage = () => {
                                     startAdornment: (
                                         <InputAdornment position="start">
 
-                                            <img alt='icon'
-                                                 src={accountIcon}/>
+                                            <img style={{borderRadius:20,width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}
+                                                 src={storageManager.getImage()}/>
                                         </InputAdornment>
 
                                     ),
@@ -614,7 +616,7 @@ const GamePage = () => {
 
                                             <IconButton data-testid={"postComment"} style={{color: AppColors.PRIMARY}}
                                                         onClick={() => postComment()}>
-                                                <CheckIcon/>
+                                                <KeyboardReturnIcon/>
                                             </IconButton>
                                         </InputAdornment>
 

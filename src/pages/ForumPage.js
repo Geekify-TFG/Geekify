@@ -7,7 +7,8 @@ import {
     InputAdornment,
     List,
     ListItem,
-    ListItemAvatar, ListItemText,
+    ListItemAvatar,
+    ListItemText,
     TextField,
     Typography
 } from "@material-ui/core";
@@ -26,10 +27,7 @@ import PublicationCard from "../components/Cards/PublicationCard";
 import accountIcon from "../img/account_icon.svg";
 import CheckIcon from "@mui/icons-material/Check";
 import CardGeekify from "../components/Cards/CardGeekify";
-import IconProvider from "../components/IconProvider/IconProvider";
-import Icons from "../resources/Icons";
-import eldenImage from "../img/elden_background.jpeg";
-
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -165,7 +163,7 @@ const ForumPage = () => {
     const forumId = location.state.detail
     const classes = useStyles();
     const history = useHistory()
-    const [flag,setFlag] = useState(false)
+    const [flag, setFlag] = useState(false)
     const storageManager = new StorageManager()
 
     //Function to get all the games
@@ -242,6 +240,13 @@ const ForumPage = () => {
         setShowDeleteForumModal(true)
     }
 
+    const handleEditForum = () => {
+        history.push({
+            pathname: `/forum/${forumId}/edit`,
+            state: {detail: forumId}
+        })
+    }
+
     const handleCloseSnackDeleteForum = async () => {
         setOpenSnackDeleteForum(false)
     }
@@ -249,18 +254,18 @@ const ForumPage = () => {
         setOpenSnackBarPublication(false)
     }
 
-    const handleGoForum =(elem) =>{
+    const handleGoForum = (elem) => {
         setFlag(true)
         history.push({
             pathname: `/forum/${elem.id}`,
-            state: {title: elem.value.title,detail:elem.id}
+            state: {title: elem.value.title, detail: elem.id}
         })
     }
 
 
     return (
         <>
-            {forum &&<Grid container alignItems={"center"}>
+            {forum && <Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                       direction={"column"} style={{
                     height: '20em',
@@ -289,11 +294,29 @@ const ForumPage = () => {
                                     fontSize: '40px',
                                     color: AppColors.WHITE
                                 }}>{(`${forumTitle} Forum`).toUpperCase()}</Typography>
+
                             {forum && storageManager.getEmail() === forum.admin &&
                             <Button
                                 data-testid={"btnDeleteForum"}
                                 style={{
                                     backgroundColor: AppColors.PRIMARY,
+                                    borderRadius: 20,
+                                    maxWidth: '10em'
+                                }}
+                                onClick={handleEditForum}
+                            >
+                                <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
+                                            gutterBottom
+                                >
+                                    {LabelsForumsPage.EDIT_FORUM}
+                                </Typography>
+                            </Button>}
+
+                            {forum && storageManager.getEmail() === forum.admin &&
+                            <Button
+                                data-testid={"btnDeleteForum"}
+                                style={{
+                                    backgroundColor: AppColors.RED,
                                     borderRadius: 20,
                                     maxWidth: '10em'
                                 }}
@@ -335,7 +358,7 @@ const ForumPage = () => {
                                             <IconButton data-testid={"postPublication"}
                                                         style={{color: AppColors.PRIMARY}}
                                                         onClick={() => postPublication()}>
-                                                <CheckIcon/>
+                                                <KeyboardReturnIcon/>
                                             </IconButton>
                                         </InputAdornment>
 

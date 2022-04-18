@@ -31,6 +31,7 @@ import {GoogleLogout} from "react-google-login";
 import SnackBarGeekify from "./components/SnackbarGeekify/SnackbarGeekify";
 import NewsPage from "./pages/NewsPage";
 import NewForumPage from "./pages/NewForumPage";
+import EditForumPage from "./pages/EditForumPage";
 
 
 const drawerWidth = 240;
@@ -290,6 +291,7 @@ function App() {
                 <RouteMain path={"/collections"} component={() => <CollectionsPage/>}/>
                 <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>
                 <RouteMain path={"/forums"} component={() => <ForumsPage/>}/>
+                <RouteMain path={"/forum/:id/edit"} component={() => <EditForumPage/>}/>
                 <RouteMain path={"/forum/:id"} component={() => <ForumPage/>}/>
                 <RouteMain path={"/forum"} component={() => <NewForumPage/>}/>
 

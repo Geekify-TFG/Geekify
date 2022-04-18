@@ -40,7 +40,6 @@ const PublicationCard = props => {
                 var body = {'email': storageManager.getEmail()}
                 const config = {auth: {username: storageManager.getToken()}}
                 const response = await axios.post(`${LIKE_PUBLICATION(publicationKey)}`, body, config)
-                console.log((Object.values(response.data.publications)[0].likes).includes(storageManager.getEmail()))
                 if ((Object.values(response.data.publications)[0].likes).includes(storageManager.getEmail())) {
                     setOpenSnackLike(true)
                 } else {
@@ -105,7 +104,7 @@ const PublicationCard = props => {
 
                 <IconButton onClick={() => handleClickLikePublication()} aria-label="add to favorites">
 
-                    {liked ? <FavoriteIcon/> : <FavoriteBorderIcon/>}
+                    {liked ? <FavoriteIcon style={{fill: AppColors.PRIMARY}}/> : <FavoriteBorderIcon style={{fill: AppColors.PRIMARY}}/>}
                     <Typography
                         style={{fontSize: '20px', color: AppColors.PRIMARY}}>{publication.likes.length}</Typography>
                 </IconButton>

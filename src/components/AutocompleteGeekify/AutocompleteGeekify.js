@@ -100,7 +100,6 @@ const AutocompleteGeekify = ({list, game, setGame}) => {
             setOptions([]);
         }
     }, [open]);
-
     return (
         <Autocomplete
             className={classes.select}
