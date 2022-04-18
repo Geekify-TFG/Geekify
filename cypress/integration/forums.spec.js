@@ -6,7 +6,7 @@ describe('Rating tests', () => {
         cy.visit(Cypress.env('url'))
     })
 
-    it('Create forum game', function () {
+    it('Create forum ', function () {
         cy.get('[id="Login"]').should('be.visible').click()
         cy.get('[id="email"]').should('be.visible').type(this.testDataUser.email)
         cy.get('[id="password"]').should('be.visible').type(this.testDataUser.password)
@@ -24,7 +24,23 @@ describe('Rating tests', () => {
 
     })
 
-    it('Delete forum game', function () {
+
+    it('Post a publication on the forum ', function () {
+        cy.get('[id="Login"]').should('be.visible').click()
+        cy.get('[id="email"]').should('be.visible').type(this.testDataUser.email)
+        cy.get('[id="password"]').should('be.visible').type(this.testDataUser.password)
+        cy.get('button').contains("Log in").should('be.visible').click()
+        cy.wait(500)
+        cy.get('[id="Forums"]').should('be.visible').click()
+        cy.get('[data-testid="btnEnterForum"]').eq(2).click()
+        cy.get('[data-testid="textfieldPublication"]').should('be.visible').type("Good forum")
+        cy.get('[data-testid="postPublication"]').should('be.visible').click()
+        cy.wait(1000)
+        cy.window().scrollTo('bottom')
+        cy.get('[data-testid="publicationCard"]').should('be.visible').contains("Good forum")
+    })
+
+    it('Delete forum ', function () {
         cy.get('[id="Login"]').should('be.visible').click()
         cy.get('[id="email"]').should('be.visible').type(this.testDataUser.email)
         cy.get('[id="password"]').should('be.visible').type(this.testDataUser.password)
@@ -35,6 +51,4 @@ describe('Rating tests', () => {
         cy.get('[data-testid="btnDeleteForum"]').should('be.visible').click()
         cy.get('[data-testid="confirmButton"]').should('be.visible').click()
     })
-
-
 })

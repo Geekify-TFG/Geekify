@@ -70,7 +70,7 @@ const PublicationCard = props => {
 
     return (
         <Card
-            data-testid={"commentCard"}
+            data-testid={"publicationCard"}
             className="w-100 mb-3"
             style={{
                 boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)",

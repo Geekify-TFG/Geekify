@@ -297,7 +297,7 @@ const ForumPage = () => {
 
                             {forum && storageManager.getEmail() === forum.admin &&
                             <Button
-                                data-testid={"btnDeleteForum"}
+                                data-testid={"btnEditForum"}
                                 style={{
                                     backgroundColor: AppColors.PRIMARY,
                                     borderRadius: 20,
