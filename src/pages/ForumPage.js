@@ -28,6 +28,14 @@ import accountIcon from "../img/account_icon.svg";
 import CheckIcon from "@mui/icons-material/Check";
 import CardGeekify from "../components/Cards/CardGeekify";
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    TwitterIcon,
+    TwitterShareButton,
+    WhatsappIcon,
+    WhatsappShareButton
+} from "react-share";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -158,9 +166,7 @@ const ForumPage = () => {
     const [publication, setPublication] = useState();
     const [openSnackDeleteForum, setOpenSnackDeleteForum] = useState();
     const [openSnackBarPublication, setOpenSnackBarPublication] = useState();
-    const location = useLocation();
-    const forumTitle = location.state.title
-    const forumId = location.state.detail
+    const forumId = new URL(window.location).pathname.split('/')[2]
     const classes = useStyles();
     const history = useHistory()
     const [flag, setFlag] = useState(false)
@@ -283,7 +289,6 @@ const ForumPage = () => {
                     </Grid>
 
                 </Grid>
-
                 <Grid container
                       direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '2em'}}>
@@ -293,7 +298,7 @@ const ForumPage = () => {
                                 style={{
                                     fontSize: '40px',
                                     color: AppColors.WHITE
-                                }}>{(`${forumTitle} Forum`).toUpperCase()}</Typography>
+                                }}>{(`${forum.title}`).toUpperCase()}</Typography>
 
                             {forum && storageManager.getEmail() === forum.admin &&
                             <Button
@@ -328,6 +333,29 @@ const ForumPage = () => {
                                     {LabelsForumsPage.DELETE_FORUM}
                                 </Typography>
                             </Button>}
+                        </Grid>
+                        <Grid container style={{marginTop:'1em'}} direction={"row"}>
+                            <FacebookShareButton
+                                url={`https://localhost:3000/forum/${forumId}`}
+                                quote={"Look what forum I just discovered"}
+                                hashtag={"#Geekify"}
+                            >
+                                <FacebookIcon size={48} round />
+                            </FacebookShareButton>
+                            <WhatsappShareButton
+                                title={"Look what forum I just discovered"}
+                                url={`https://localhost:3000/forum/${forumId}`}
+                                hashtags={"#Geekify"}
+                            >
+                                <WhatsappIcon size={48} round />
+                            </WhatsappShareButton>
+                            <TwitterShareButton
+                                title={"Look what forum I just discovered"}
+                                url={`https://localhost:3000/forum/${forumId}`}
+                                hashtags={"#Geekify"}
+                            >
+                                <TwitterIcon size={48} round />
+                            </TwitterShareButton>
                         </Grid>
                         {!loading && <Grid item>
 

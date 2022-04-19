@@ -26,7 +26,7 @@ import {
     USER_URL
 } from "../resources/ApiUrls";
 import axios from "axios";
-import {useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
 import {DialogTexts, LabelsGamePage, LabelsSnackbar} from "../locale/en";
@@ -49,6 +49,14 @@ import linuxIcon from "../img/platforms/linux_icon.svg"
 import nintendoIcon from "../img/platforms/nintendo_icon.svg"
 import {Rating} from "@material-ui/lab";
 import accountIcon from "../img/account_icon.svg"
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    TwitterIcon,
+    TwitterShareButton,
+    WhatsappIcon,
+    WhatsappShareButton
+} from "react-share";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -214,7 +222,7 @@ const GamePage = () => {
     const [images, setImages] = useState();
     const location = useLocation();
     const classes = useStyles();
-    const idGame = location.state.detail
+    const idGame = new URL(window.location).pathname.split('/')[2]
     const [rating, setRating] = useState("");
     const [hover, setHover] = React.useState(-1);
     const [collections, setCollections] = useState()
@@ -445,6 +453,29 @@ const GamePage = () => {
                                 />
 
                             </Card>
+                            <Grid container justifyContent={"space-evenly"} style={{marginTop:'1em'}} direction={"row"}>
+                                <FacebookShareButton
+                                    url={`https://localhost:3000/${idGame}`}
+                                    quote={"Look what game I just discovered"}
+                                    hashtag={"#Geekify"}
+                                >
+                                    <FacebookIcon size={48} round />
+                                </FacebookShareButton>
+                                <WhatsappShareButton
+                                    title={"Look what game I just discovered"}
+                                    url={`https://localhost:3000/game/${idGame}`}
+                                    hashtags={"#Geekify"}
+                                >
+                                    <WhatsappIcon size={48} round />
+                                </WhatsappShareButton>
+                                <TwitterShareButton
+                                    title={"Look what game I just discovered"}
+                                    url={`https://localhost:3000/game/${idGame}`}
+                                    hashtags={"#Geekify"}
+                                >
+                                    <TwitterIcon size={48} round />
+                                </TwitterShareButton>
+                            </Grid>
                             <Typography
                                 style={{color: AppColors.WHITE, marginBottom: 0, marginTop: '1em', fontSize: '20px'}}
                                 gutterBottom
