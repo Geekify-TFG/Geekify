@@ -182,6 +182,8 @@ const ForumsPage = () => {
                                 <Grid
                                     container
                                 >
+                                    <Grid item style={{backgroundColor: AppColors.PRIMARY, width: '350px', height: '60px'}}>
+
                                     <Typography
                                         style={{
                                             fontSize: '20px',
@@ -189,7 +191,7 @@ const ForumsPage = () => {
                                             marginLeft: '3em',
                                             marginTop: '1em'
                                         }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
-
+                                    </Grid>
 
                                     {followingForums ? <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
                                             {followingForums &&
