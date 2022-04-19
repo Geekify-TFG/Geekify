@@ -1,20 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {
+    Box,
     ButtonGroup,
     Card,
     CardMedia,
-    FormControl,
     Grid,
     Icon,
     IconButton,
     InputAdornment,
-    InputLabel,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
-    MenuItem,
-    Select,
     TextField
 } from "@material-ui/core";
 import {Button, Typography} from "@mui/material";
@@ -36,7 +33,6 @@ import {DialogTexts, LabelsGamePage, LabelsSnackbar} from "../locale/en";
 import {makeStyles} from "@mui/styles";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import CommentCard from "../components/Cards/CommentCard";
-import Icons from "../resources/Icons";
 import CardGeekify from "../components/Cards/CardGeekify";
 import CardAchievements from "../components/Cards/AchievementsCard";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
@@ -51,6 +47,8 @@ import xboxIcon from "../img/platforms/xbox_icon.svg"
 import iosIcon from "../img/platforms/ios_icon.svg"
 import linuxIcon from "../img/platforms/linux_icon.svg"
 import nintendoIcon from "../img/platforms/nintendo_icon.svg"
+import {Rating} from "@material-ui/lab";
+import accountIcon from "../img/account_icon.svg"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -153,6 +151,13 @@ const useStyles = makeStyles((theme) => ({
     }, imageIcon: {
         height: "100%",
     },
+    buttonGroup: {
+        display: "flex",
+        flexDirection: "row",
+        "& > *:not(:last-child)": {
+            marginRight: '1em'
+        }
+    }
 
 }));
 
@@ -211,6 +216,7 @@ const GamePage = () => {
     const classes = useStyles();
     const idGame = location.state.detail
     const [rating, setRating] = useState("");
+    const [hover, setHover] = React.useState(-1);
     const [collections, setCollections] = useState()
     const [likes, setLikes] = useState()
     const storageManager = new StorageManager()
@@ -389,6 +395,19 @@ const GamePage = () => {
         }
     }, []);
 
+
+    const labels = {
+        1: LabelsGamePage.NOT_RECOMMENDED,
+        2: LabelsGamePage.MEH,
+        3: LabelsGamePage.FINE,
+        4: LabelsGamePage.VERY_GOOD,
+        5: LabelsGamePage.MASTERPIECE,
+    };
+
+    function getLabelText(value) {
+        return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+    }
+
     return (
         <>
             {game && <Grid container alignItems={"center"}>
@@ -432,7 +451,35 @@ const GamePage = () => {
                             >
                                 {"Rate the game!"}
                             </Typography>
-                            <FormControl className={classes.select} variant="outlined" margin='normal'
+                            <Box
+                                onClick={() => (!storageManager.getToken() ? setOpenSnackRateNotLogged(true) : null)}
+
+                                sx={{
+                                    color: AppColors.BACKGROUND_DRAWER,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Rating
+                                    name="simple-controlled"
+                                    value={rating}
+                                    onChange={handleChange}
+                                    disabled={!storageManager.getToken()}
+                                    size="large"
+                                    getLabelText={getLabelText}
+                                    onChangeActive={(event, newHover) => {
+                                        setHover(newHover);
+                                    }}
+                                />
+                                {rating !== null && (
+                                    <Box sx={{ml: 2}}><Typography style={{
+                                        color: AppColors.WHITE,
+                                        marginBottom: 0,
+                                        fontSize: '20px'
+                                    }}>{labels[hover !== -1 ? hover : rating]}</Typography></Box>
+                                )}
+                            </Box>
+                            {/*<FormControl className={classes.select} variant="outlined" margin='normal'
                                          style={{width: '9.75em'}}>
                                 <InputLabel className={classes.select}
                                             id="demo-simple-select-label"/>
@@ -459,7 +506,7 @@ const GamePage = () => {
                                     <MenuItem style={{color: AppColors.PRIMARY}}
                                               value={0}>{LabelsGamePage.NOT_RECOMMENDED}</MenuItem>
                                 </Select>
-                            </FormControl>
+                            </FormControl>*/}
                         </Grid>
                         <Grid container direction={"column"} item style={{margin: '4em', marginLeft: 0}}>
                             <Grid item style={{marginBottom: '1em'}}>
@@ -503,7 +550,7 @@ const GamePage = () => {
                             </Grid>
                             <Grid item style={{marginBottom: '1em'}}>
 
-                                <ButtonGroup style={{width: '500px', height: '40px'}} color="primary"
+                                <ButtonGroup style={{width: '500px', height: '40px'}} className={classes.buttonGroup} color="primary"
                                              aria-label="outlined primary button group">
                                     {game.tags.slice(0, 3).map((type) => (
                                         <Button style={{backgroundColor: AppColors.WHITE, borderRadius: 20,}}
@@ -540,7 +587,7 @@ const GamePage = () => {
                                 }
 
                                 <Button style={{
-                                    borderColor: AppColors.RED, border: '2px solid #37393B',
+                                    fontWeight:'bold',
                                     color: AppColors.BACKGROUND_DRAWER
                                 }}
                                         onClick={() => setShowMore(!showMore)}>{showMore ? "Show less" : "Show more"}</Button>
@@ -593,7 +640,7 @@ const GamePage = () => {
                                                       primary={LabelsGamePage.DURATION}
                                         />
                                         <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.playtime}
+                                                      primary={game.playtime + " hours"}
                                         />
                                     </ListItem>
                                     <ListItem>
@@ -679,7 +726,7 @@ const GamePage = () => {
                                                 height: '36px',
                                                 backgroundColor: AppColors.PRIMARY
                                             }}
-                                                 src={storageManager.getImage()}/>
+                                                 src={storageManager.getToken ? storageManager.getImage(): accountIcon}/>
                                         </InputAdornment>
 
                                     ),
