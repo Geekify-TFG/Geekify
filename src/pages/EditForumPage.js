@@ -124,7 +124,6 @@ const EditForumPage = () => {
     const [forum, setForum] = useState()
     const [loading, setLoading] = useState()
 
-    console.log(forum)
 
     const getListGames = async () => {
         try {
@@ -140,7 +139,6 @@ const EditForumPage = () => {
         try {
             const response = await axios.get(`${INFO_FORUM(forumId)}`);
             setForum(response.data.forum.value)
-            console.log(response.data.forum.value)
             setTitle(response.data.forum.value.title)
             setDescription(response.data.forum.value.description)
             setImage(response.data.forum.value.image)
@@ -217,11 +215,11 @@ const EditForumPage = () => {
                       direction={"row"} style={{marginTop: '2em', marginLeft: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '2em'}}>
 
-                        <Typography
+                        {forum &&<Typography
                             style={{
                                 fontSize: '40px',
                                 color: AppColors.WHITE
-                            }}>{`Editing ${forum.title} forum`}</Typography>
+                            }}>{`Editing ${forum.title} forum`}</Typography>}
                         <Card
                             className="w-100 mb-3"
                             style={{

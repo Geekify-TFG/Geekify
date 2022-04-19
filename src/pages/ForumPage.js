@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {
     Avatar,
-    Button,
+    Button, Fade,
     Grid,
     IconButton,
     InputAdornment,
     List,
     ListItem,
     ListItemAvatar,
-    ListItemText,
+    ListItemText, Menu, MenuItem,
     TextField,
     Typography
 } from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
-import {DialogTexts, LabelsForumsPage, LabelsSnackbar} from "../locale/en";
+import {DialogTexts, LabelsForumsPage, LabelsSnackbar, menuOptions} from "../locale/en";
 import {useHistory, useLocation} from "react-router-dom";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import {StorageManager} from "../utils";
@@ -36,6 +36,8 @@ import {
     WhatsappIcon,
     WhatsappShareButton
 } from "react-share";
+import IconProvider from "../components/IconProvider/IconProvider";
+import Icons from "../resources/Icons";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -171,6 +173,15 @@ const ForumPage = () => {
     const history = useHistory()
     const [flag, setFlag] = useState(false)
     const storageManager = new StorageManager()
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     //Function to get all the games
     const getForum = async () => {
@@ -247,6 +258,7 @@ const ForumPage = () => {
     }
 
     const handleEditForum = () => {
+        console.log(forumId)
         history.push({
             pathname: `/forum/${forumId}/edit`,
             state: {detail: forumId}
@@ -299,8 +311,44 @@ const ForumPage = () => {
                                     fontSize: '40px',
                                     color: AppColors.WHITE
                                 }}>{(`${forum.title}`).toUpperCase()}</Typography>
+                            <Button data-testid={"menuButton"} style={{
+                                color: AppColors.WHITE,
+                                marginTop: '1em',
+                                backgroundColor: AppColors.BACKGROUND_DRAWER
+                            }} aria-controls="fade-menu"
+                                    aria-haspopup="true" onClick={handleClick}>
+                                <IconProvider icon={<Icons.MORE style={{
+                                    verticalAlign: "middle",
+                                    display: "inline-flex",
+                                }} size="4em"/>}/>
+                            </Button>
 
-                            {forum && storageManager.getEmail() === forum.admin &&
+                            <Menu
+                                style={{
+                                    boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)"
+                                }}
+                                color={AppColors.WHITE}
+                                id="fade-menu"
+                                anchorEl={anchorEl}
+                                anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                                keepMounted
+                                open={open}
+                                onClose={handleClose}
+                                TransitionComponent={Fade}>
+                                <MenuItem data-testid="editOption" style={{color: AppColors.PRIMARY}}
+                                          onClick={() => {
+                                              handleEditForum();
+                                              handleClose()
+                                          }}> {menuOptions.EDIT} </MenuItem>
+
+                                <MenuItem data-testid="deleteOption" style={{color: AppColors.PRIMARY}}
+                                          onClick={() => {
+                                              handleDeleteForum();
+                                              handleClose()
+                                          }}> {menuOptions.DELETE}</MenuItem>
+                            </Menu>
+
+                            {/*{forum && storageManager.getEmail() === forum.admin &&
                             <Button
                                 data-testid={"btnEditForum"}
                                 style={{
@@ -332,7 +380,7 @@ const ForumPage = () => {
                                 >
                                     {LabelsForumsPage.DELETE_FORUM}
                                 </Typography>
-                            </Button>}
+                            </Button>}*/}
                         </Grid>
                         <Grid container style={{marginTop:'1em'}} direction={"row"}>
                             <FacebookShareButton
@@ -340,21 +388,21 @@ const ForumPage = () => {
                                 quote={"Look what forum I just discovered"}
                                 hashtag={"#Geekify"}
                             >
-                                <FacebookIcon size={48} round />
+                                <FacebookIcon size={32} round />
                             </FacebookShareButton>
                             <WhatsappShareButton
                                 title={"Look what forum I just discovered"}
                                 url={`https://localhost:3000/forum/${forumId}`}
                                 hashtags={"#Geekify"}
                             >
-                                <WhatsappIcon size={48} round />
+                                <WhatsappIcon size={32} round />
                             </WhatsappShareButton>
                             <TwitterShareButton
                                 title={"Look what forum I just discovered"}
                                 url={`https://localhost:3000/forum/${forumId}`}
                                 hashtags={"#Geekify"}
                             >
-                                <TwitterIcon size={48} round />
+                                <TwitterIcon size={32} round />
                             </TwitterShareButton>
                         </Grid>
                         {!loading && <Grid item>

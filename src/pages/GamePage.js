@@ -453,29 +453,6 @@ const GamePage = () => {
                                 />
 
                             </Card>
-                            <Grid container justifyContent={"space-evenly"} style={{marginTop:'1em'}} direction={"row"}>
-                                <FacebookShareButton
-                                    url={`https://localhost:3000/${idGame}`}
-                                    quote={"Look what game I just discovered"}
-                                    hashtag={"#Geekify"}
-                                >
-                                    <FacebookIcon size={48} round />
-                                </FacebookShareButton>
-                                <WhatsappShareButton
-                                    title={"Look what game I just discovered"}
-                                    url={`https://localhost:3000/game/${idGame}`}
-                                    hashtags={"#Geekify"}
-                                >
-                                    <WhatsappIcon size={48} round />
-                                </WhatsappShareButton>
-                                <TwitterShareButton
-                                    title={"Look what game I just discovered"}
-                                    url={`https://localhost:3000/game/${idGame}`}
-                                    hashtags={"#Geekify"}
-                                >
-                                    <TwitterIcon size={48} round />
-                                </TwitterShareButton>
-                            </Grid>
                             <Typography
                                 style={{color: AppColors.WHITE, marginBottom: 0, marginTop: '1em', fontSize: '20px'}}
                                 gutterBottom
@@ -576,6 +553,30 @@ const GamePage = () => {
                                             {"Add to your collection"}
                                         </Typography>
                                     </Button>
+                                        <Grid container justifyContent={'flex-end'} style={{marginTop:'1em'}} direction={"row"}>
+                                            <FacebookShareButton
+                                                url={`https://localhost:3000/${idGame}`}
+                                                quote={"Look what game I just discovered"}
+                                                hashtag={"#Geekify"}
+                                            >
+                                                <FacebookIcon size={32} round />
+                                            </FacebookShareButton>
+                                            <WhatsappShareButton
+                                                title={"Look what game I just discovered"}
+                                                url={`https://localhost:3000/game/${idGame}`}
+                                                hashtags={"#Geekify"}
+                                            >
+                                                <WhatsappIcon size={32} round />
+                                            </WhatsappShareButton>
+                                            <TwitterShareButton
+                                                title={"Look what game I just discovered"}
+                                                url={`https://localhost:3000/game/${idGame}`}
+                                                hashtags={"#Geekify"}
+                                            >
+                                                <TwitterIcon size={32} round />
+                                            </TwitterShareButton>
+                                    </Grid>
+
 
                                 </Grid>
                             </Grid>
