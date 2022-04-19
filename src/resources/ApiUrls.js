@@ -11,11 +11,13 @@ export const MY_BASE_PATH = `${_MY_DOMAIN}`; // Base URL of the backend
 const _LOGIN_PATH = "/login";
 const _REGISTER_PATH = "/account/user";
 const _USER_PATH = "/account/email";
+const _INFO_PATH = "/account/info";
 const _ACCOUNT_FORUM_PATH = "/account/forums";
 
 export const LOGIN_URL = `${MY_BASE_PATH}${_LOGIN_PATH}`
 export const REGISTER_URL = `${MY_BASE_PATH}${_REGISTER_PATH}`
 export const USER_URL = (email) => `${_USER_PATH}/${email}`
+export const INFO_URL = (email) => `${MY_BASE_PATH}${_INFO_PATH}/${email}`
 
 //Games paths
 const _MY_GAMES_PATH = "/games";

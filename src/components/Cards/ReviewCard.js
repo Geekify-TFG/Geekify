@@ -39,7 +39,7 @@ const ReviewCard = props => {
             <CardHeader
                 title={
                     <Paper
-                        style={{width: '8em', borderRadius: 20, backgroundColor: AppColors.PRIMARY}}>
+                        style={{width: '10em', borderRadius: 20, backgroundColor: AppColors.PRIMARY}}>
                         <Typography
                             style={{marginLeft: '1em', marginRight: '1em', fontSize: '20px', color: AppColors.WHITE}}>
                             {game}
@@ -50,7 +50,7 @@ const ReviewCard = props => {
             <CardContent>
                 <Grid container spacing={2}>
                     <Grid item xs={2}>
-                        <Avatar sx={{bgcolor: AppColors.RED}} aria-label="recipe">
+                        <Avatar sx={{bgcolor: AppColors.RED}} src={avatar} aria-label="recipe">
                         </Avatar>
                     </Grid>
                     <Grid item xs={10}>

@@ -143,7 +143,12 @@ export const LabelsNewsPage = {
 export const LabelsProfilePage = {
     FOLLOWING: 'Following',
     COMMENT_EXAMPLE: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a hendrerit quam, in sollicitudin sapien.',
-    NAME: 'Lorem Ipsum'
+    NAME: 'Lorem Ipsum',
+    GENDER:'Gender',
+    BIRTHDAY:'Birthday',
+    LOCATION:'Location',
+    FAV_CATEGORIES:'Favorites categories',
+    TOP_GAMES:'TOP 3 games',
 }
 
 export const LabelsLoginPage = {

@@ -693,8 +693,6 @@ const GamePage = () => {
                                         />
                                     </ListItem>
                                 </List>
-
-
                             </Grid>
 
                         </CardGeekify>
