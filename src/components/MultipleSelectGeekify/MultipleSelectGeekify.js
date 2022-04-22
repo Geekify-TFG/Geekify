@@ -63,7 +63,7 @@ const MultipleSelectGeekify = ({value, handleChange, options, label, borderRadiu
     const classes = useStyles();
     return (
         <FormControl className={classes.select} variant="outlined" margin='normal'
-                     style={{width: '9.75em'}}>
+                     style={{width: `${width}`}}>
             <InputLabel className={classes.select}
                         id="demo-simple-select-label">{label}</InputLabel>
             <Select className={classes.select} IconComponent={Icons.ARROW_DOWN}
@@ -82,7 +82,7 @@ const MultipleSelectGeekify = ({value, handleChange, options, label, borderRadiu
                     )}
                     MenuProps={MenuProps}
             >
-                {options.map((item) => (
+                {options && options.map((item) => (
                     <MenuItem key={item.value} value={item}>
                         <Checkbox style={{color: AppColors.PRIMARY}} checked={value.indexOf(item) > -1}/>
                         <ListItemText primary={item.label}/>

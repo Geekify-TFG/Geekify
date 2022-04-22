@@ -1,19 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {
     Avatar,
-    ButtonGroup,
+    ButtonGroup, CircularProgress,
+    FormControl,
     Grid,
-    Icon,
+    InputLabel,
     List,
     ListItem,
     ListItemAvatar,
-    ListItemIcon,
-    ListItemText, ListSubheader
+    ListItemText,
+    MenuItem,
+    Select,
+    TextField
 } from "@material-ui/core";
 import {Button, Typography} from "@mui/material";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
-import {LabelsProfilePage} from "../locale/en";
+import {DialogTexts, LabelsProfilePage} from "../locale/en";
 import {makeStyles} from "@mui/styles";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import {followingUsersMock} from "../mocks/FollowingUsersMock";
@@ -22,8 +25,18 @@ import ImagesCard from "../components/Cards/ImagesCard";
 import ReviewCard from "../components/Cards/ReviewCard";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
-import {COMMENTS_OF_GAME, INFO_URL, MY_BASE_PATH} from "../resources/ApiUrls";
+import {INFO_URL, LIST_GAMES} from "../resources/ApiUrls";
 import {StorageManager} from "../utils";
+import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
+import DialogGeekify from "../components/DialogGeekify";
+import Icons from "../resources/Icons";
+
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import MultipleSelectGeekify from "../components/MultipleSelectGeekify/MultipleSelectGeekify";
+import {genresMock} from "../mocks/SearchMocks";
+import AutocompleteMultipleGeekify from "../components/AutocompleteGeekify/AutocompleteMultipleGeekify";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
             height: '25em',
         },
         color: AppColors.PRIMARY,
-        backgroundColor: AppColors.BACKGROUND_DRAWER,
+        backgroundColor: AppColors.BACKGROUND,
         borderRadius: 10,
     },
     select: {
@@ -112,18 +125,195 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+
+function EditProfile({
+                         infoUser,
+                         showEditProfileModal,
+                         setShowEditProfileModal,
+                         openSnackEditProfile, setOpenSnackEditProfile
+                     }) {
+    const classes = useStyles();
+    const [photo, setPhoto] = useState()
+    const [name, setName] = useState()
+    const [gender, setGender] = useState()
+    const [birthday, setBirthday] = useState()
+    const [location, setLocation] = useState()
+    const [favCategories, setFavCategories] = useState([])
+    const [favGames, setFavGames] = useState([])
+    const [game, setGame] = useState([])
+    const [listGames, setListGames] = useState()
+    const storageManager = new StorageManager()
+    const getListGames = async () => {
+        try {
+            const response = await axios.get(`${LIST_GAMES}`);
+            setListGames(response.data.games)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+    const handleClickSubmit = async () => {
+        let fav_categories = favCategories.map(a => a.value);
+        let top_games = favGames.map(a => a.id);
+
+        try {
+            var body = {
+                'name': name,
+                'photo': photo,
+                'gender': gender,
+                'birthday': birthday,
+                'location': location,
+                'fav_categories': fav_categories,
+                'top_games': top_games
+            }
+            console.log(body)
+            const config = {auth: {username: storageManager.getToken()}}
+            //const response = await axios.post(`${JOIN_FORUM(storageManager.getEmail())}`, body, config)
+        } catch (e) {
+            console.log('Error: ', e)
+        }
+    }
+
+    const handleChangeGender = (event) => {
+        setGender(event.target.value);
+    };
+
+    const handleChangeFavCategories = (event) => {
+        setFavCategories(event.target.value);
+    };
+    const handleChangeGame = (event, value) => {
+        setFavGames(value)
+    };
+    useEffect(() => {
+        getListGames()
+    }, [])
+
+    return (
+        <DialogGeekify
+            textCancelButton={DialogTexts.CANCEL}
+            textConfirmButton={DialogTexts.SAVE}
+            handleShow={setShowEditProfileModal}
+            handleConfirm={handleClickSubmit}
+            title={DialogTexts.EDIT_PROFILE}
+            buttonColor={AppColors.PRIMARY}
+            body={
+
+                <Grid container xs={6}
+                      direction={"column"}>
+                            <Avatar style={{width: '100px', height: '100px', backgroundColor: AppColors.PRIMARY}}
+                                    src={infoUser.photo}/>
+
+                    <FormControl variant="outlined" margin='normal'
+                                 style={{width: '30em'}}
+                    >
+                        <TextField
+                            data-testid={"nameUser"}
+                            required
+                            id={"title"}
+                            style={{width: '30em'}}
+                            onChange={(e) => setName(e.target.value)}
+                            type="text"
+                            label={LabelsProfilePage.NAME}
+                            margin="normal"
+                            variant="standard"
+                            //defaultValue={forum.title}
+                            className={classes.textFieldLabel}
+                            InputLabelProps={{shrink: true}}
+
+                        />
+                    </FormControl>
+                    <FormControl data-testid={"selectTag"} className={classes.select}
+                                 variant="outlined" margin='normal' style={{width: '20em'}}
+                    >
+                        <InputLabel style={{width: '20em'}}
+                                    className={classes.select}
+                                    id="demo-simple-select-label">{LabelsProfilePage.GENDER}</InputLabel>
+                        <Select className={classes.select}
+                                IconComponent={Icons.ARROW_DOWN}
+                            //value={tag ? tag : forum.tag}
+                                displayEmpty
+                                onChange={handleChangeGender}
+                                label={LabelsProfilePage.GENDER}
+
+                        >
+                            <MenuItem data-testid={"menuItemMale"}
+                                      style={{color: AppColors.PRIMARY}}
+                                      value={'Male'}>{LabelsProfilePage.MALE}</MenuItem>
+                            <MenuItem data-testid={"menuItemFemale"}
+                                      style={{color: AppColors.PRIMARY}}
+                                      value={'Female'}>{LabelsProfilePage.FEMALE}</MenuItem>
+                            <MenuItem style={{color: AppColors.PRIMARY}}
+                                      value={'Other'}>{LabelsProfilePage.OTHER}</MenuItem>
+
+                        </Select>
+                    </FormControl>
+                    <FormControl className={classes.select} margin='normal' style={{width: '170px'}}>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                inputFormat="dd/MM/yyyy"
+                                label="Basic example"
+                                value={birthday}
+                                onChange={(newValue) => {
+                                    setBirthday(newValue.toLocaleDateString("en-US"));
+                                    //setValues({...values, ['birthdate']: newValue.toLocaleDateString("en-US")})
+
+                                }}
+                                renderInput={(params) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </FormControl>
+
+                    <FormControl variant="outlined" margin='normal'
+                                 style={{width: '30em'}}
+                    >
+                        <TextField
+                            id={"image"}
+                            style={{width: '30em'}}
+                            onChange={(e) => setLocation(e.target.value)}
+                            type="text"
+                            label={LabelsProfilePage.LOCATION}
+                            margin="normal"
+                            variant="standard"
+                            //defaultValue={forum.image}
+                            className={classes.textFieldLabel}
+                            InputLabelProps={{shrink: true}}
+                        />
+                    </FormControl>
+                    <MultipleSelectGeekify value={favCategories} handleChange={handleChangeFavCategories}
+                                           options={genresMock} width={'20em'}
+                                           label={LabelsProfilePage.FAV_CATEGORIES}/>
+
+                    <FormControl data-testid={"formControlGame"} className={classes.select}
+                                 variant="outlined" margin='normal'
+                                 style={{width: '20em'}}
+                    >
+                        <AutocompleteMultipleGeekify game={game} handleChange={handleChangeGame}
+                                                     setGame={setGame} list={listGames}/>
+                    </FormControl>
+
+                </Grid>
+            }
+            show={showEditProfileModal}
+
+        />
+    )
+}
+
+
 const ProfilePage = () => {
     const storageManager = new StorageManager();
     const email = storageManager.getEmail()
     const classes = useStyles();
-    const [infoUser,setInfoUser] = useState()
+    const [infoUser, setInfoUser] = useState()
     const [followingUsers, setFollowingUsers] = useState();
-
+    const [showEditProfileModal, setShowEditProfileModal] = useState(-999)
+    const [openSnackEditProfile, setOpenSnackEditProfile] = useState(-999)
+    const [loading,setLoading] = useState(true)
     const getInfouser = async () => {
         try {
             const response = await axios.get(`${INFO_URL(email)}`);
-            console.log(response.data.account.value)
+            console.log(response)
             setInfoUser(response.data.account.value)
+            setLoading(false)
         } catch (err) {
             console.log(err.message)
         }
@@ -135,10 +325,15 @@ const ProfilePage = () => {
         getInfouser()
     }, []);
 
-
+    const handleClickEdit = () => {
+        setShowEditProfileModal(true)
+    }
     return (
         <>
-            {infoUser &&<Grid container justifyContent={"space-between"} alignItems={"center"}>
+            {loading ? (
+                <div style={{display: "flex", justifyContent: "center"}}>
+                    <CircularProgress/>
+                </div>) :<Grid container justifyContent={"space-between"} alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                       direction={"column"} style={{
                     backgroundSize: "cover",
@@ -165,16 +360,22 @@ const ProfilePage = () => {
                     <Grid item style={{marginLeft: '2em'}}>
                         <Grid container alignItems={"center"} spacing={8}
                         >
-                            <Grid item>
+                            {infoUser.photo && <Grid item xs={4}>
                                 <Avatar style={{width: '150px', height: '150px', backgroundColor: AppColors.PRIMARY}}
                                         src={infoUser.photo}/>
-                            </Grid>
-                            <Grid item>
+                            </Grid>}
+                            {infoUser.name && <Grid item xs={6}>
                                 <Typography
                                     style={{
                                         fontSize: '40px',
                                         color: AppColors.WHITE
                                     }}>{infoUser.name}</Typography>
+                            </Grid>}
+
+                            <Grid item xs={2}>
+                                <ButtonFilled onClick={handleClickEdit} text={LabelsProfilePage.EDIT_PROFILE}
+                                />
+
                             </Grid>
                         </Grid>
                     </Grid>
@@ -243,7 +444,7 @@ const ProfilePage = () => {
                                             <li>
                                                 <ul style={{paddingLeft: '15px'}}>
                                                     <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                                  primary={LabelsProfilePage.FAV_CATEGORIES}
+                                                                  primary={LabelsProfilePage.TOP_GAMES}
                                                     />
                                                     <ButtonGroup className={classes.buttonGroup} color="primary"
                                                                  aria-label="outlined primary button group">
@@ -326,6 +527,15 @@ const ProfilePage = () => {
                     </Grid>
                 </Grid>
             </Grid>}
+            {showEditProfileModal >= 0 && (
+                <EditProfile
+                    showEditProfileModal={showEditProfileModal}
+                    setShowEditProfileModal={setShowEditProfileModal}
+                    infoUser={infoUser}
+                    setOpenSnackEditProfile={setOpenSnackEditProfile}
+                    openSnackEditProfile={openSnackEditProfile}
+                />
+            )}
         </>
     )
 }

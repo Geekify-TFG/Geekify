@@ -143,12 +143,17 @@ export const LabelsNewsPage = {
 export const LabelsProfilePage = {
     FOLLOWING: 'Following',
     COMMENT_EXAMPLE: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a hendrerit quam, in sollicitudin sapien.',
-    NAME: 'Lorem Ipsum',
     GENDER:'Gender',
     BIRTHDAY:'Birthday',
     LOCATION:'Location',
     FAV_CATEGORIES:'Favorites categories',
     TOP_GAMES:'TOP 3 games',
+    EDIT_PROFILE:'Edit profile',
+    NAME: 'Name',
+    MALE:'Male',
+    FEMALE:'Female',
+    OTHER:'Other',
+
 }
 
 export const LabelsLoginPage = {
@@ -173,6 +178,7 @@ export const DialogTexts = {
     SAVE: 'Save',
     DELETE: 'Delete',
     ADD_TO_COLLECTIONS: 'Add to collections',
+    EDIT_PROFILE: 'Edit profile',
     CREATE_COLLECTION: 'Create collection',
     EDIT_COLLECTION: 'Edit collection',
     DELETE_COLLECTION: 'Delete collection',
