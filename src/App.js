@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
     drawerHeader: {
         display: "flex",
         alignItems: "center",
+        padding: theme.spacing(0, -10),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: "flex-end",
@@ -195,10 +196,10 @@ const RouteMain = ({component: Component, select}) => {
                 }}
             >
                 <div className={classes.drawerHeader}>
-                    <Grid style={{marginLeft:'10em',marginTop:'5em'}}>
+                    <Grid style={{marginTop:'5em'}}>
                         <img style={{height: '20em', width: '20em'}} src={geekifyIcon}
                              alt="loading..."/>
-                    </Grid>
+                    </Grid >
 
                 </div>
 

@@ -81,7 +81,6 @@ const CalendarPage = () => {
     const [endMonth, setEndMonth] = useState(todayOneMonth)
     const [gamesMonth, setGamesMonth] = useState()
     const [loading, setLoading] = useState(true)
-    // #FOLD_BLOCK
 
     useEffect(() => {
         setFollowingGroups(followingGroupMock)
