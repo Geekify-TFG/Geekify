@@ -26,7 +26,6 @@ import {
     USER_URL
 } from "../resources/ApiUrls";
 import axios from "axios";
-import {useHistory, useLocation} from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {AppColors} from "../resources/AppColors";
 import {DialogTexts, LabelsGamePage, LabelsSnackbar} from "../locale/en";
@@ -220,7 +219,6 @@ const GamePage = () => {
     const [platforms, setPlatforms] = useState()
     const [showMore, setShowMore] = useState()
     const [images, setImages] = useState();
-    const location = useLocation();
     const classes = useStyles();
     const idGame = new URL(window.location).pathname.split('/')[2]
     const [rating, setRating] = useState("");
@@ -236,13 +234,14 @@ const GamePage = () => {
     const [loading, setLoading] = useState(false)
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
     const handleChange = async (event) => {
+        var gameBody = {}
         try {
             if (rating === "") {
-                var gameBody = {'rate': event.target.value, 'user': storageManager.getEmail()}
+                gameBody = {'rate': event.target.value, 'user': storageManager.getEmail()}
                 await axios.post(`${MY_BASE_PATH}${RATE_GAME(idGame)}`, gameBody)
                 setOpenSnackRateLogged(true)
             } else {
-                var gameBody = {'rate': event.target.value, 'user': storageManager.getEmail()}
+                gameBody = {'rate': event.target.value, 'user': storageManager.getEmail()}
                 await axios.put(`${MY_BASE_PATH}${RATE_GAME(idGame)}`, gameBody)
                 setOpenSnackRateLogged(true)
             }
@@ -382,10 +381,8 @@ const GamePage = () => {
                 user: storageManager.getEmail(),
                 game_id: idGame
             };
-            console.log(body)
             const config = {auth: {username: storageManager.getToken()}}
-            const response = await axios.post(`${MY_BASE_PATH}${COMMENT_GAME(idGame)}`, body, config);
-            console.log(response)
+            await axios.post(`${MY_BASE_PATH}${COMMENT_GAME(idGame)}`, body, config);
             setLoading(true)
             setOpenSnackBarComment(true)
             getComments()
@@ -487,34 +484,6 @@ const GamePage = () => {
                                     }}>{labels[hover !== -1 ? hover : rating]}</Typography></Box>
                                 )}
                             </Box>
-                            {/*<FormControl className={classes.select} variant="outlined" margin='normal'
-                                         style={{width: '9.75em'}}>
-                                <InputLabel className={classes.select}
-                                            id="demo-simple-select-label"/>
-                                <Select data-testid={"selectRate"} className={classes.select}
-                                        IconComponent={Icons.ARROW_DOWN}
-                                        value={rating}
-                                        displayEmpty
-                                        disabled={!storageManager.getToken()}
-                                        renderValue={rating !== "" ? undefined : () => "Not rated yet"}
-                                        onChange={handleChange}
-                                        onClick={() => (!storageManager.getToken() ? setOpenSnackRateNotLogged(true) : null)}
-                                        label="Rating"
-                                        style={{width: 280}}
-                                >
-
-                                    <MenuItem data-testid={"menuItemRate4"} style={{color: AppColors.PRIMARY}}
-                                              value={4}>{LabelsGamePage.MASTERPIECE}</MenuItem>
-                                    <MenuItem data-testid={"menuItemRate3"} style={{color: AppColors.PRIMARY}}
-                                              value={3}>{LabelsGamePage.VERY_GOOD}</MenuItem>
-                                    <MenuItem style={{color: AppColors.PRIMARY}}
-                                              value={2}>{LabelsGamePage.FINE}</MenuItem>
-                                    <MenuItem style={{color: AppColors.PRIMARY}}
-                                              value={1}>{LabelsGamePage.MEH}</MenuItem>
-                                    <MenuItem style={{color: AppColors.PRIMARY}}
-                                              value={0}>{LabelsGamePage.NOT_RECOMMENDED}</MenuItem>
-                                </Select>
-                            </FormControl>*/}
                         </Grid>
                         <Grid container direction={"column"} item style={{margin: '4em', marginLeft: 0}}>
                             <Grid item style={{marginBottom: '1em'}}>
@@ -553,28 +522,29 @@ const GamePage = () => {
                                             {"Add to your collection"}
                                         </Typography>
                                     </Button>
-                                        <Grid container justifyContent={'flex-end'} style={{marginTop:'1em'}} direction={"row"}>
-                                            <FacebookShareButton
-                                                url={`https://localhost:3000/${idGame}`}
-                                                quote={"Look what game I just discovered"}
-                                                hashtag={"#Geekify"}
-                                            >
-                                                <FacebookIcon size={32} round />
-                                            </FacebookShareButton>
-                                            <WhatsappShareButton
-                                                title={"Look what game I just discovered"}
-                                                url={`https://localhost:3000/game/${idGame}`}
-                                                hashtags={"#Geekify"}
-                                            >
-                                                <WhatsappIcon size={32} round />
-                                            </WhatsappShareButton>
-                                            <TwitterShareButton
-                                                title={"Look what game I just discovered"}
-                                                url={`https://localhost:3000/game/${idGame}`}
-                                                hashtags={"#Geekify"}
-                                            >
-                                                <TwitterIcon size={32} round />
-                                            </TwitterShareButton>
+                                    <Grid container justifyContent={'flex-end'} style={{marginTop: '1em'}}
+                                          direction={"row"}>
+                                        <FacebookShareButton
+                                            url={`https://localhost:3000/${idGame}`}
+                                            quote={"Look what game I just discovered"}
+                                            hashtag={"#Geekify"}
+                                        >
+                                            <FacebookIcon size={32} round/>
+                                        </FacebookShareButton>
+                                        <WhatsappShareButton
+                                            title={"Look what game I just discovered"}
+                                            url={`https://localhost:3000/game/${idGame}`}
+                                            hashtags={"#Geekify"}
+                                        >
+                                            <WhatsappIcon size={32} round/>
+                                        </WhatsappShareButton>
+                                        <TwitterShareButton
+                                            title={"Look what game I just discovered"}
+                                            url={`https://localhost:3000/game/${idGame}`}
+                                            hashtags={"#Geekify"}
+                                        >
+                                            <TwitterIcon size={32} round/>
+                                        </TwitterShareButton>
                                     </Grid>
 
 
@@ -582,7 +552,8 @@ const GamePage = () => {
                             </Grid>
                             <Grid item style={{marginBottom: '1em'}}>
 
-                                <ButtonGroup style={{width: '500px', height: '40px'}} className={classes.buttonGroup} color="primary"
+                                <ButtonGroup style={{width: '500px', height: '40px'}} className={classes.buttonGroup}
+                                             color="primary"
                                              aria-label="outlined primary button group">
                                     {game.tags.slice(0, 3).map((type) => (
                                         <Button style={{backgroundColor: AppColors.WHITE, borderRadius: 20,}}
@@ -619,7 +590,7 @@ const GamePage = () => {
                                 }
 
                                 <Button style={{
-                                    fontWeight:'bold',
+                                    fontWeight: 'bold',
                                     color: AppColors.BACKGROUND_DRAWER
                                 }}
                                         onClick={() => setShowMore(!showMore)}>{showMore ? "Show less" : "Show more"}</Button>
@@ -628,7 +599,6 @@ const GamePage = () => {
                         </Grid>
 
                     </Grid>
-
                 </Grid>
                 <Grid container
                       direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
@@ -680,7 +650,7 @@ const GamePage = () => {
                                                       primary={LabelsGamePage.DEVELOPER}
                                         />
                                         <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.developers == [] ? "-" : game.developers[0].name}
+                                                      primary={game.developers === [] ? "-" : game.developers[0].name}
                                         />
                                     </ListItem>
 
@@ -689,12 +659,11 @@ const GamePage = () => {
                                                       primary={LabelsGamePage.PUBLISHER}
                                         />
                                         <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.publishers[0].name}
+                                                      primary={game.publishers.length === 0 ? "-" : game.publishers[0].name}
                                         />
                                     </ListItem>
                                 </List>
                             </Grid>
-
                         </CardGeekify>
 
                         <Typography
@@ -756,7 +725,7 @@ const GamePage = () => {
                                                 height: '36px',
                                                 backgroundColor: AppColors.PRIMARY
                                             }}
-                                                 src={storageManager.getToken ? storageManager.getImage(): accountIcon}/>
+                                                 src={storageManager.getToken ? storageManager.getImage() : accountIcon}/>
                                         </InputAdornment>
 
                                     ),

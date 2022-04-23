@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useTextStyles} from "./resources/AppTexts";
 import clsx from "clsx";
-import {Button, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import {Button, Drawer, Grid, Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import {LabelsDrawer, LabelsSnackbar} from "./locale/en";
 import {AppColors} from "./resources/AppColors";
 import {BrowserRouter as Router, Link, Route, Switch, useHistory,} from "react-router-dom";
@@ -32,6 +32,7 @@ import SnackBarGeekify from "./components/SnackbarGeekify/SnackbarGeekify";
 import NewsPage from "./pages/NewsPage";
 import NewForumPage from "./pages/NewForumPage";
 import EditForumPage from "./pages/EditForumPage";
+import geekifyIcon from "./img/geekify_gif.gif"
 
 
 const drawerWidth = 240;
@@ -57,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
     drawerHeader: {
         display: "flex",
         alignItems: "center",
-        padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: "flex-end",
@@ -195,6 +195,10 @@ const RouteMain = ({component: Component, select}) => {
                 }}
             >
                 <div className={classes.drawerHeader}>
+                    <Grid style={{marginLeft:'10em',marginTop:'5em'}}>
+                        <img style={{height: '20em', width: '20em'}} src={geekifyIcon}
+                             alt="loading..."/>
+                    </Grid>
 
                 </div>
 

@@ -199,3 +199,7 @@ export const profileOptions = {
     PROFILE:'Profile',
     CLOSE_SESSION: 'Log out'
 }
+
+export const LabelsCalendarPage={
+    CALENDAR:'Calendar'
+}

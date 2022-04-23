@@ -77,3 +77,8 @@ export const LIKE_PUBLICATION = (id)=>`${MY_BASE_PATH}${_PUBLICATION_LIKE_PATH}/
 //News
 const _NEWS_PATH = "/news";
 export const NEWS = `${_NEWS_PATH}`
+
+//Calendar
+const _CALENDAR_PATH = "/calendar";
+export const CALENDAR = `${MY_BASE_PATH}${_CALENDAR_PATH}`
+
