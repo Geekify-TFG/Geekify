@@ -80,5 +80,7 @@ export const NEWS = `${_NEWS_PATH}`
 
 //Calendar
 const _CALENDAR_PATH = "/calendar";
+const _ACCOUNT_CALENDAR_PATH = "/account/calendar";
 export const CALENDAR = `${MY_BASE_PATH}${_CALENDAR_PATH}`
+export const MY_CALENDAR =(email)=>  `${MY_BASE_PATH}${_ACCOUNT_CALENDAR_PATH}/${email}`
 

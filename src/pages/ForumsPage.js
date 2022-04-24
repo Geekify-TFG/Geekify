@@ -58,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ForumsPage = () => {
     const [forums, setForums] = useState();
-    const [forums2, setForums2] = useState();
     const [followingGroups, setFollowingGroups] = useState();
     const [followingForums, setFollowingForums] = useState();
     const [loading, setLoading] = useState(false);
@@ -68,7 +67,6 @@ const ForumsPage = () => {
     //Function to get all the games
     const getForums = async () => {
         try {
-            var data = []
             const response = await axios.get(`${ALL_FORUMS}`);
             setForums(response.data.forums)
             setLoading(false)
@@ -182,15 +180,16 @@ const ForumsPage = () => {
                                 <Grid
                                     container
                                 >
-                                    <Grid item style={{backgroundColor: AppColors.PRIMARY, width: '350px', height: '60px'}}>
+                                    <Grid item
+                                          style={{backgroundColor: AppColors.PRIMARY, width: '350px', height: '60px'}}>
 
-                                    <Typography
-                                        style={{
-                                            fontSize: '20px',
-                                            color: AppColors.WHITE,
-                                            marginLeft: '3em',
-                                            marginTop: '1em'
-                                        }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
+                                        <Typography
+                                            style={{
+                                                fontSize: '20px',
+                                                color: AppColors.WHITE,
+                                                marginLeft: '3em',
+                                                marginTop: '1em'
+                                            }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
                                     </Grid>
 
                                     {followingForums ? <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
@@ -201,8 +200,8 @@ const ForumsPage = () => {
                                                         <Avatar alt="Remy Sharp" src={elem.value.image}/>
                                                     </ListItemAvatar>
                                                     <ListItemText
-                                                                  style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                                  primary={elem.value.title}
+                                                        style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                        primary={elem.value.title}
                                                     />
                                                     <ListItemText style={{color: AppColors.GRAY}}
                                                                   primary={elem.value.game}

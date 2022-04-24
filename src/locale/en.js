@@ -18,7 +18,10 @@ export const LabelsSnackbar = {
         "Logout successfully",
     COLLECTION_CREATED: 'Collection created successfully!',
     ADDED_TO_COLLECTION: 'Added to collection successfully!',
+    ADDED_TO_CALENDAR_RELEASES: 'Added to your calendar successfully!',
+    REMOVE_TO_CALENDAR_RELEASES: 'Removed from your calendar successfully!',
     ERROR_LOGIN_COLLECTION: 'You must be login to save to the collection!',
+    ERROR_LOGIN_CALENDAR: 'You must be login to save a game to your calendar!',
     COLLECTION_DELETED: 'Collection deleted successfully!',
     COLLECTION_EDITED: 'Collection edited successfully!',
     COMMENTED_SUCCESSFULLY: 'You have commented the game!',
@@ -201,5 +204,6 @@ export const profileOptions = {
 }
 
 export const LabelsCalendarPage={
-    CALENDAR:'Calendar'
+    CALENDAR:'Calendar',
+    MY_CALENDAR:'My calendar'
 }

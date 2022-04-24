@@ -78,8 +78,6 @@ function EditCollectionModal({
     const storageManager = new StorageManager()
 
     const handleClickSubmit = async () => {
-        console.log(imageCollection, collection.image)
-        console.log(imageCollection === undefined ? collection.image : imageCollection)
         var image = imageCollection === undefined ? collection.image : imageCollection
         if (isValidURL(image)) {
             try {

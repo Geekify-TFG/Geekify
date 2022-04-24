@@ -2,11 +2,11 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import {CircularProgress, Grid} from "@material-ui/core";
+import {Button, ButtonGroup, CircularProgress, Grid} from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import {AppColors} from "../resources/AppColors";
-import {LabelsCalendarPage} from "../locale/en";
+import {LabelsCalendarPage, LabelsMain} from "../locale/en";
 import {followingGroupMock} from "../mocks/FollowingGroupMock";
 
 
@@ -18,8 +18,10 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 
 import styled from "@emotion/styled"
 import axios from "axios";
-import {CALENDAR} from "../resources/ApiUrls";
+import {CALENDAR, MY_CALENDAR} from "../resources/ApiUrls";
 import CalendarCard from "../components/Cards/CalendarCard";
+import * as PropTypes from "prop-types";
+import {StorageManager} from "../utils";
 
 // add styles as css
 export const StyleWrapper = styled.div`
@@ -71,6 +73,27 @@ export const StyleWrapper = styled.div`
 
 `
 
+const ButtonToggle = styled(Button)`
+  opacity: 1;
+  background-color: #1D1D1D;
+  color: #6563FF ${({active}) =>
+    active &&
+    `opacity: 1;
+        background-color: ${AppColors.PRIMARY};
+        color: white;
+        &:hover {
+            color: white;
+            background-color: #6563FF;
+          }
+        `};
+
+`;
+
+ButtonToggle.propTypes = {
+    onClick: PropTypes.func,
+    active: PropTypes.bool,
+    children: PropTypes.node
+};
 const CalendarPage = () => {
     const [followingGroups, setFollowingGroups] = useState();
     let today = new Date().toISOString().split('T')[0]
@@ -81,11 +104,14 @@ const CalendarPage = () => {
     const [endMonth, setEndMonth] = useState(todayOneMonth)
     const [gamesMonth, setGamesMonth] = useState()
     const [loading, setLoading] = useState(true)
-
+    const sort_text = {calendar: LabelsCalendarPage.CALENDAR, myCalendar: LabelsCalendarPage.MY_CALENDAR};
+    const [sortActive, setSortActive] = useState("calendar");
+    const storageManager = new StorageManager()
+    console.log(sortActive)
     useEffect(() => {
         setFollowingGroups(followingGroupMock)
-        // getCollectionsu
         getGamesMonth()
+
     }, [startMonth]);
 
 
@@ -93,7 +119,19 @@ const CalendarPage = () => {
         try {
             var body = {'startMonth': startMonth, 'endMonth': endMonth}
             const response = await axios.post(`${CALENDAR}`, body);
+            //console.log(response.data.games)
             setGamesMonth(response.data.games)
+            setLoading(false)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    const getCalendarReleases = async () => {
+        try {
+            const response = await axios.get(`${MY_CALENDAR(storageManager.getEmail())}`)
+            //console.log((response.data.calendar_releases))
+            setGamesMonth(response.data.calendar_releases)
             setLoading(false)
         } catch (err) {
             console.log(err.message)
@@ -107,11 +145,24 @@ const CalendarPage = () => {
                 gameId={eventInfo.event.id}
                 gameTitle={eventInfo.event.title}
                 gameImage={eventInfo.event.url}
-                inCalendar={true}
+                gameDate={eventInfo.event.startStr}
+                getCalendarReleases={getCalendarReleases}
             />
 
         )
     }
+
+    useEffect(() => {
+        switch (sortActive) {
+            case "calendar":
+                getGamesMonth()
+                break
+            case "myCalendar":
+                getCalendarReleases()
+                break
+        }
+    }, [sortActive]);
+
 
     return (
         <>
@@ -144,7 +195,19 @@ const CalendarPage = () => {
                             color: AppColors.WHITE
                         }}>{LabelsCalendarPage.CALENDAR}</Typography>
 
-                    :
+                    {storageManager.getToken() && <Grid container>
+                        <Grid item>
+                            <ButtonGroup style={{width: '500px'}} color="primary"
+                                         aria-label="outlined primary button group">
+                                {Object.entries(sort_text).map(([key, value]) => (
+                                    <ButtonToggle active={sortActive === key}
+                                                  onClick={() => (setSortActive(key))}>
+                                        {value}
+                                    </ButtonToggle>
+                                ))}
+                            </ButtonGroup>
+                        </Grid>
+                    </Grid>}
                     <Paper style={{
                         width: '100%',
                         height: 'auto',
@@ -154,7 +217,8 @@ const CalendarPage = () => {
                         {loading ? (
                             <div style={{display: "flex", justifyContent: "center"}}>
                                 <CircularProgress/>
-                            </div>) : <StyleWrapper>
+                            </div>) :
+                            <StyleWrapper>
 
                             {gamesMonth && !loading && <FullCalendar
                                 eventColor={AppColors.BACKGROUND}

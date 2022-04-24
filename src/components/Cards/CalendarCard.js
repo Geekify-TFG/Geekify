@@ -1,26 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {AppColors} from "../../resources/AppColors";
 import {useHistory} from "react-router-dom";
 import {AppTextsFontSize, AppTextsFontWeight, useTextStyles} from "../../resources/AppTexts";
 import {makeStyles} from "@mui/styles";
-import {
-    Button,
-    Card,
-    CardActionArea,
-    CardActions,
-    CardContent,
-    CardHeader,
-    CardMedia,
-    Grid,
-    Typography
-} from '@material-ui/core';
+import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography} from '@material-ui/core';
 import Icons from "../../resources/Icons";
 import IconProvider from "../IconProvider/IconProvider";
 import axios from "axios";
-import {COLLECTION_GAME, MY_BASE_PATH, MY_COLLECTIONS} from "../../resources/ApiUrls";
-import DialogGeekify from "../DialogGeekify";
-import {DialogTexts, LabelsSnackbar} from "../../locale/en";
-import SelectGeekify from "../SelectGeekify/SelectGeekify";
+import {MY_CALENDAR} from "../../resources/ApiUrls";
+import {LabelsSnackbar} from "../../locale/en";
 import {StorageManager} from "../../utils";
 import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
 
@@ -62,66 +50,6 @@ const useStyles = makeStyles({
 });
 
 
-function AddToCollection({
-                             handleAddParticipant,
-                             initialValues,
-                             gameId,
-                             showAddToCollectionModal,
-                             setShowAddToCollectionModal,
-                             openSnackAddToCollection, setOpenSnackAddToCollection
-                         }) {
-    const storageManager = new StorageManager()
-    const [collections, setCollections] = useState()
-    const [collection, setCollection] = useState()
-    const handleClickSubmit = async () => {
-        try {
-            var gameBody = {'game_id': gameId}
-            const response = await axios.put(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
-            setOpenSnackAddToCollection(true)
-            setShowAddToCollectionModal(-999)
-        } catch (e) {
-            console.log('Error: ', e)
-        }
-    }
-    const getCollections = async () => {
-        try {
-            const config = {auth: {username: storageManager.getToken()}}
-
-            const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`, config);
-            setCollections(response.data.collections)
-        } catch (err) {
-            console.log(err.message)
-        }
-    }
-
-    const handleChangeCollection = (event) => {
-        setCollection(event.target.value);
-    };
-
-    useEffect(() => {
-        getCollections()
-    }, [])
-
-    return (
-        <>
-            {collections && <DialogGeekify
-                textCancelButton={DialogTexts.CANCEL}
-                textConfirmButton={DialogTexts.SAVE}
-                handleShow={setShowAddToCollectionModal}
-                handleConfirm={handleClickSubmit}
-                title={DialogTexts.ADD_TO_COLLECTIONS}
-                buttonColor={AppColors.PRIMARY}
-                body={
-                    <SelectGeekify value={collection} handleChange={handleChangeCollection} options={collections}
-                                   borderRadius={30} width={'3px'} label={"Collections"}/>
-                }
-                show={showAddToCollectionModal}
-
-            />}
-        </>
-    )
-}
-
 /**
  * @component
  * Component to create the card of the game
@@ -142,10 +70,10 @@ const CalendarCard = ({
                           gameImage,
                           gameRating,
                           mainPage,
-
+                          gameDate,
+    getCalendarReleases
                       }) => {
     const storageManager = new StorageManager()
-
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -154,8 +82,8 @@ const CalendarCard = ({
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
-    const [openSnackAddToCollection, setOpenSnackAddToCollection] = useState(false)
+    const [openSnackAddToCalendarReleases, setOpenSnackAddToCalendarReleases] = useState(false)
+    const [openSnackRemoveToCalendarReleases, setOpenSnackRemoveToCalendarReleases] = useState(false)
     const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
 
 
@@ -168,17 +96,39 @@ const CalendarCard = ({
 
     }
 
-    const handleCloseSnackAddToCollection = async () => {
-        setOpenSnackAddToCollection(false)
+    const handleCloseSnackAddToCalendarReleases = async () => {
+        setOpenSnackAddToCalendarReleases(false)
+    }
+    const handleCloseSnackRemoveToCalendarReleases = async () => {
+        setOpenSnackRemoveToCalendarReleases(false)
     }
 
     const handleCloseSnackErrorLogin = async () => {
         setOpenSnackBarErrorLogin(false)
     }
 
-    const handleAddToCollection = () => {
+    const handleAddToCalendarReleases = async () => {
         if (storageManager.getToken()) {
-            setShowAddToCollectionModal(1)
+            try {
+                var gameBody = {
+                    "game_id": gameId,
+                    "game_title": gameTitle,
+                    "game_image": gameImage,
+                    "game_date": gameDate
+                }
+                console.log(gameBody)
+                const response = await axios.post(`${MY_CALENDAR(storageManager.getEmail())}`, gameBody)
+                if (response.data.account.some(e => e.id === parseInt(gameId))) {
+                    setOpenSnackAddToCalendarReleases(true)
+                } else {
+                    setOpenSnackRemoveToCalendarReleases(true)
+                    setTimeout(() => {
+                        getCalendarReleases()
+                    }, 500)
+                }
+            } catch (e) {
+                console.log('Error: ', e)
+            }
         } else {
             setOpenSnackBarErrorLogin(true)
         }
@@ -190,7 +140,7 @@ const CalendarCard = ({
                   style={{height: '150px', width: '150px', position: "relative", borderRadius: 20}}
                   className={classes.card}>
 
-                <CardActionArea style={{position: 'relative', height: '150px', width: '150px'}}
+                <CardActionArea style={{position: 'relative', height: '110px', width: '150px'}}
                                 onClick={onClickHandler}>
 
                     <CardMedia
@@ -215,7 +165,12 @@ const CalendarCard = ({
                         <Grid container alignItems={"center"}>
                             <Grid item xs>
                                 <Typography
-                                    style={{overflowWrap:"hidden",color: AppColors.WHITE, height: '64px', fontWeight: 'bold'}}
+                                    style={{
+                                        overflowWrap: "hidden",
+                                        color: AppColors.WHITE,
+                                        height: '64px',
+                                        fontWeight: 'bold'
+                                    }}
                                     variant="h5" component="h2">
                                     {gameTitle}
                                 </Typography> </Grid>
@@ -224,13 +179,13 @@ const CalendarCard = ({
 
                     </CardContent>
                 </CardActionArea>
-                {mainPage && <CardActions style={{
+                <CardActions style={{
                     position: "relative",
                     backgroundColor: "transparent",
                     paddingTop: 0
                 }}>
-                    <Grid onClick={() => handleAddToCollection()} item
-                          style={{paddingLeft: '11em', paddingTop: '0.8em'}}>
+                    <Grid onClick={() => handleAddToCalendarReleases()} item
+                    >
                         <Button style={{
                             backgroundColor: AppColors.BACKGROUND,
                             borderRadius: 30,
@@ -249,21 +204,16 @@ const CalendarCard = ({
                         </Button>
 
                     </Grid>
-                </CardActions>}
+                </CardActions>
 
             </Card>
-            {showAddToCollectionModal >= 0 && (
-                <AddToCollection
-                    showAddToCollectionModal={showAddToCollectionModal}
-                    setShowAddToCollectionModal={setShowAddToCollectionModal}
-                    gameId={gameId}
-                    setOpenSnackAddToCollection={setOpenSnackAddToCollection}
-                    openSnackAddToCollection={openSnackAddToCollection}
-                />
-            )}
-            <SnackBarGeekify handleClose={handleCloseSnackAddToCollection}
-                             message={LabelsSnackbar.ADDED_TO_COLLECTION}
-                             openSnack={openSnackAddToCollection}/>
+
+            <SnackBarGeekify handleClose={handleCloseSnackAddToCalendarReleases}
+                             message={LabelsSnackbar.ADDED_TO_CALENDAR_RELEASES}
+                             openSnack={openSnackAddToCalendarReleases}/>
+            <SnackBarGeekify handleClose={handleCloseSnackRemoveToCalendarReleases} severity={'warning'}
+                             message={LabelsSnackbar.REMOVE_TO_CALENDAR_RELEASES}
+                             openSnack={openSnackRemoveToCalendarReleases}/>
             <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={'error'}
                              message={LabelsSnackbar.ERROR_LOGIN_COLLECTION}
                              openSnack={openSnackBarErrorLogin}/>

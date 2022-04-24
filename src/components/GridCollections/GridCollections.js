@@ -138,7 +138,7 @@ const GridCollections = ({loading, setLoading, getCollections, collections}) => 
                             >
                                 <CollectionCard paddingLeft={'23em'} width={'400px'} collectionId={elem.id}
                                                 collectionTitle={elem.value.title}
-                                                collectionNumGames={elem.value.numGames}
+                                                collectionNumGames={(elem.value.games).length}
                                                 collectionImage={elem.value.image}/>
 
                             </Grid>

@@ -188,7 +188,6 @@ const ForumPage = () => {
         try {
             const response = await axios.get(`${INFO_FORUM(forumId)}`);
             setForum(response.data.forum.value)
-            console.log(response.data.forum.value)
             setLoading(false)
 
         } catch (err) {
