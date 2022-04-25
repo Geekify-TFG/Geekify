@@ -22,7 +22,6 @@ import {makeStyles} from "@mui/styles";
 import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
 import {followingUsersMock} from "../mocks/FollowingUsersMock";
 import CardGeekify from "../components/Cards/CardGeekify";
-import ImagesCard from "../components/Cards/ImagesCard";
 import ReviewCard from "../components/Cards/ReviewCard";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
@@ -38,6 +37,9 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import MultipleSelectGeekify from "../components/MultipleSelectGeekify/MultipleSelectGeekify";
 import {genresMock} from "../mocks/SearchMocks";
 import AutocompleteMultipleGeekify from "../components/AutocompleteGeekify/AutocompleteMultipleGeekify";
+
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import {Carousel} from 'react-responsive-carousel';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -164,13 +166,13 @@ function EditProfile({
                 'gender': gender ? gender : infoUser.gender,
                 'birthday': birthday ? birthday : infoUser.birthday,
                 'location': location ? location : infoUser.location,
-                'fav_categories': fav_categories ? fav_categories :infoUser.fav_categories,
+                'fav_categories': fav_categories ? fav_categories : infoUser.fav_categories,
                 'top_games': top_games ? top_games : infoUser.top_games
             }
             console.log(body)
             const config = {auth: {username: storageManager.getToken()}}
             const response = await axios.put(`${INFO_URL(storageManager.getEmail())}`, body, config)
-            setShowEditProfileModal(false)
+            setShowEditProfileModal(-999)
             console.log(response)
         } catch (e) {
             console.log('Error: ', e)
@@ -219,7 +221,7 @@ function EditProfile({
                             label={LabelsProfilePage.NAME}
                             margin="normal"
                             variant="standard"
-                            defaultValue={infoUser ? infoUser.name: undefined}
+                            defaultValue={infoUser ? infoUser.name : undefined}
                             className={classes.textFieldLabel}
                             InputLabelProps={{shrink: true}}
 
@@ -233,7 +235,7 @@ function EditProfile({
                                     id="demo-simple-select-label">{LabelsProfilePage.GENDER}</InputLabel>
                         <Select className={classes.select}
                                 IconComponent={Icons.ARROW_DOWN}
-                                defaultValue={infoUser ? infoUser.gender: undefined}
+                                defaultValue={infoUser ? infoUser.gender : undefined}
                                 displayEmpty
                                 onChange={handleChangeGender}
                                 label={LabelsProfilePage.GENDER}
@@ -256,7 +258,7 @@ function EditProfile({
                                 inputFormat="dd/MM/yyyy"
                                 label="Birthday"
                                 value={birthday}
-                                defaultValue={infoUser ? infoUser.birthday: undefined}
+                                defaultValue={infoUser ? infoUser.birthday : undefined}
                                 onChange={(newValue) => {
                                     setBirthday(newValue.toLocaleDateString("en-US"));
                                     //setValues({...values, ['birthdate']: newValue.toLocaleDateString("en-US")})
@@ -283,9 +285,9 @@ function EditProfile({
                             InputLabelProps={{shrink: true}}
                         />
                     </FormControl>
-                    <MultipleSelectGeekify value={ favCategories} handleChange={handleChangeFavCategories}
+                    <MultipleSelectGeekify value={favCategories} handleChange={handleChangeFavCategories}
                                            options={genresMock} width={'20em'}
-                                           label={LabelsProfilePage.FAV_CATEGORIES} />
+                                           label={LabelsProfilePage.FAV_CATEGORIES}/>
 
                     <FormControl data-testid={"formControlGame"} className={classes.select}
                                  variant="outlined" margin='normal'
@@ -313,11 +315,10 @@ const ProfilePage = () => {
     const [showEditProfileModal, setShowEditProfileModal] = useState(-999)
     const [openSnackEditProfile, setOpenSnackEditProfile] = useState(-999)
     const [loading, setLoading] = useState(true)
-
+    console.log(showEditProfileModal)
     const getInfouser = async () => {
         try {
             const response = await axios.get(`${INFO_URL(email)}`);
-            console.log(response.data.account.value)
             setInfoUser(response.data.account.value)
             setLoading(false)
         } catch (err) {
@@ -446,22 +447,7 @@ const ProfilePage = () => {
                                                     </ul>
                                                 </li>
                                             </List>
-                                            <List style={{paddingLeft: 0}} subheader={<li/>}>
-                                                <li>
-                                                    <ul style={{paddingLeft: '15px'}}>
-                                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                                      primary={LabelsProfilePage.TOP_GAMES}
-                                                        />
-                                                        <ButtonGroup className={classes.buttonGroup} color="primary"
-                                                                     aria-label="outlined primary button group">
-                                                            {infoUser.all_games.map(elem => (
-                                                                <ImagesCard width={'75px'} height={'75px'}
-                                                                            images={elem.background_image}/>
-                                                            ))}
-                                                        </ButtonGroup>
-                                                    </ul>
-                                                </li>
-                                            </List>
+
 
                                         </List>
                                     </Grid> :
@@ -470,23 +456,31 @@ const ProfilePage = () => {
                                             style={{
                                                 fontSize: '40px',
                                                 color: AppColors.WHITE
-                                            }}>{"You dont have profile info yet.\nEdit your profile" }</Typography>
+                                            }}>{"You dont have profile info yet.\nEdit your profile"}</Typography>
                                     </Grid>}
 
                             </CardGeekify>
                         </Grid>
                         <Grid item container
                               direction={"row"} spacing={2} style={{marginBottom: '2em', width: 0}}>
-                            <Grid item xs style={{marginLeft: '2em'}}>
-                                <ImagesCard width={'450px'} height={'228px'}
-                                            images={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'}/>
+                            <Grid item style={{marginLeft: '1em'}}>
+                                <Carousel width={'30em'} showThumbs={false}>
+                                    {infoUser.all_games.map((elem) => (
+                                        <div>
+                                            <img
+                                                alt="icon"
+                                                src={elem.background_image}
+                                            />
+                                        </div>
+                                    ))}</Carousel>
                             </Grid>
                             <Grid item style={{marginLeft: '2em'}}>
-                                {infoUser.comment != null &&
+                                {Object.keys(infoUser.comment)[0] !== 'None' &&
                                 <ReviewCard width={'450px'} height={'228px'}
                                             game={Object.values(infoUser.comment)[0].game_comment['name']}
                                             comment={Object.values(infoUser.comment)[0].content} avatar={infoUser.photo}
-                                            bg={AppColors.BACKGROUND_DRAWER}/>}
+                                            bg={AppColors.BACKGROUND_DRAWER}/>
+                                }
                             </Grid>
 
                         </Grid>
