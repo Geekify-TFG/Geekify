@@ -102,6 +102,7 @@ const AutocompleteGeekify = ({list, game, setGame}) => {
     }, [open]);
     return (
         <Autocomplete
+            freeSolo
             className={classes.select}
             onChange={(event, value) => setGame(value.name)} // prints the selected value
             id="asynchronous-demo"

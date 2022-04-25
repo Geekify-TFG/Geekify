@@ -59,7 +59,7 @@ const MenuProps = {
     },
 };
 
-const MultipleSelectGeekify = ({value, handleChange, options, label, borderRadius, width, textRender}) => {
+const MultipleSelectGeekify = ({value, handleChange, options, label, borderRadius, width, textRender,fav_categories}) => {
     const classes = useStyles();
     return (
         <FormControl className={classes.select} variant="outlined" margin='normal'
@@ -71,6 +71,7 @@ const MultipleSelectGeekify = ({value, handleChange, options, label, borderRadiu
                     value={value}
                     onChange={handleChange}
                     input={<OutlinedInput label="Tag"/>}
+                    defaultValue={fav_categories}
                 /*renderValue={(selected) => selected.map((x) => x.label).join(', ')}*/
                     renderValue={(selected) => (
                         <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>

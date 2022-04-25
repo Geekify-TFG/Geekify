@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
     Avatar,
-    ButtonGroup, CircularProgress,
+    ButtonGroup,
+    CircularProgress,
     FormControl,
     Grid,
     InputLabel,
@@ -143,6 +144,7 @@ function EditProfile({
     const [game, setGame] = useState([])
     const [listGames, setListGames] = useState()
     const storageManager = new StorageManager()
+
     const getListGames = async () => {
         try {
             const response = await axios.get(`${LIST_GAMES}`);
@@ -157,17 +159,19 @@ function EditProfile({
 
         try {
             var body = {
-                'name': name,
-                'photo': photo,
-                'gender': gender,
-                'birthday': birthday,
-                'location': location,
-                'fav_categories': fav_categories,
-                'top_games': top_games
+                'name': name ? name : infoUser.name,
+                'photo': photo ? photo : infoUser.photo,
+                'gender': gender ? gender : infoUser.gender,
+                'birthday': birthday ? birthday : infoUser.birthday,
+                'location': location ? location : infoUser.location,
+                'fav_categories': fav_categories ? fav_categories :infoUser.fav_categories,
+                'top_games': top_games ? top_games : infoUser.top_games
             }
             console.log(body)
             const config = {auth: {username: storageManager.getToken()}}
-            //const response = await axios.post(`${JOIN_FORUM(storageManager.getEmail())}`, body, config)
+            const response = await axios.put(`${INFO_URL(storageManager.getEmail())}`, body, config)
+            setShowEditProfileModal(false)
+            console.log(response)
         } catch (e) {
             console.log('Error: ', e)
         }
@@ -199,8 +203,8 @@ function EditProfile({
 
                 <Grid container xs={6}
                       direction={"column"}>
-                            <Avatar style={{width: '100px', height: '100px', backgroundColor: AppColors.PRIMARY}}
-                                    src={infoUser.photo}/>
+                    <Avatar style={{width: '100px', height: '100px', backgroundColor: AppColors.PRIMARY}}
+                            src={infoUser.photo}/>
 
                     <FormControl variant="outlined" margin='normal'
                                  style={{width: '30em'}}
@@ -215,7 +219,7 @@ function EditProfile({
                             label={LabelsProfilePage.NAME}
                             margin="normal"
                             variant="standard"
-                            //defaultValue={forum.title}
+                            defaultValue={infoUser ? infoUser.name: undefined}
                             className={classes.textFieldLabel}
                             InputLabelProps={{shrink: true}}
 
@@ -229,7 +233,7 @@ function EditProfile({
                                     id="demo-simple-select-label">{LabelsProfilePage.GENDER}</InputLabel>
                         <Select className={classes.select}
                                 IconComponent={Icons.ARROW_DOWN}
-                            //value={tag ? tag : forum.tag}
+                                defaultValue={infoUser ? infoUser.gender: undefined}
                                 displayEmpty
                                 onChange={handleChangeGender}
                                 label={LabelsProfilePage.GENDER}
@@ -250,8 +254,9 @@ function EditProfile({
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 inputFormat="dd/MM/yyyy"
-                                label="Basic example"
+                                label="Birthday"
                                 value={birthday}
+                                defaultValue={infoUser ? infoUser.birthday: undefined}
                                 onChange={(newValue) => {
                                     setBirthday(newValue.toLocaleDateString("en-US"));
                                     //setValues({...values, ['birthdate']: newValue.toLocaleDateString("en-US")})
@@ -273,14 +278,14 @@ function EditProfile({
                             label={LabelsProfilePage.LOCATION}
                             margin="normal"
                             variant="standard"
-                            //defaultValue={forum.image}
+                            defaultValue={infoUser.location}
                             className={classes.textFieldLabel}
                             InputLabelProps={{shrink: true}}
                         />
                     </FormControl>
-                    <MultipleSelectGeekify value={favCategories} handleChange={handleChangeFavCategories}
+                    <MultipleSelectGeekify value={ favCategories} handleChange={handleChangeFavCategories}
                                            options={genresMock} width={'20em'}
-                                           label={LabelsProfilePage.FAV_CATEGORIES}/>
+                                           label={LabelsProfilePage.FAV_CATEGORIES} />
 
                     <FormControl data-testid={"formControlGame"} className={classes.select}
                                  variant="outlined" margin='normal'
@@ -307,11 +312,12 @@ const ProfilePage = () => {
     const [followingUsers, setFollowingUsers] = useState();
     const [showEditProfileModal, setShowEditProfileModal] = useState(-999)
     const [openSnackEditProfile, setOpenSnackEditProfile] = useState(-999)
-    const [loading,setLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
+
     const getInfouser = async () => {
         try {
             const response = await axios.get(`${INFO_URL(email)}`);
-            console.log(response)
+            console.log(response.data.account.value)
             setInfoUser(response.data.account.value)
             setLoading(false)
         } catch (err) {
@@ -333,7 +339,7 @@ const ProfilePage = () => {
             {loading ? (
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <CircularProgress/>
-                </div>) :<Grid container justifyContent={"space-between"} alignItems={"center"}>
+                </div>) : <Grid container justifyContent={"space-between"} alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                       direction={"column"} style={{
                     backgroundSize: "cover",
@@ -384,81 +390,88 @@ const ProfilePage = () => {
                         <Grid item style={{marginLeft: '2em'}}>
                             <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={20} height={'auto'}
                                          width={'20em'}>
-                                <Grid
-                                    container
-                                >
-                                    {infoUser && <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
-                                        <ListItem>
-                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                          primary={LabelsProfilePage.GENDER}
-                                            />
-                                            <ListItemText style={{color: AppColors.PRIMARY}}
-                                                          primary={infoUser.gender}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                          primary={LabelsProfilePage.BIRTHDAY}
-                                            />
-                                            <ListItemText style={{color: AppColors.PRIMARY}}
-                                                          primary={infoUser.birthday}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                          primary={LabelsProfilePage.LOCATION}
-                                            />
-                                            <ListItemText style={{color: AppColors.PRIMARY}}
-                                                          primary={infoUser.location}
-                                            />
-                                        </ListItem>
-                                        <List style={{paddingLeft: 0}} subheader={<li/>}>
-                                            <li>
-                                                <ul style={{paddingLeft: '15px'}}>
-                                                    <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                                  primary={LabelsProfilePage.FAV_CATEGORIES}
-                                                    />
-                                                    <ButtonGroup className={classes.buttonGroup} color="primary"
-                                                                 aria-label="outlined primary button group">
-                                                        {infoUser.fav_categories.map(elem => (
+                                {infoUser.gender != null ? <Grid
+                                        container
+                                    >
+                                        <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
+                                            <ListItem>
+                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                              primary={LabelsProfilePage.GENDER}
+                                                />
+                                                <ListItemText style={{color: AppColors.PRIMARY}}
+                                                              primary={infoUser.gender}
+                                                />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                              primary={LabelsProfilePage.BIRTHDAY}
+                                                />
+                                                <ListItemText style={{color: AppColors.PRIMARY}}
+                                                              primary={infoUser.birthday}
+                                                />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                              primary={LabelsProfilePage.LOCATION}
+                                                />
+                                                <ListItemText style={{color: AppColors.PRIMARY}}
+                                                              primary={infoUser.location}
+                                                />
+                                            </ListItem>
+                                            <List style={{paddingLeft: 0}} subheader={<li/>}>
+                                                <li>
+                                                    <ul style={{paddingLeft: '15px'}}>
+                                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                                      primary={LabelsProfilePage.FAV_CATEGORIES}
+                                                        />
+                                                        <ButtonGroup className={classes.buttonGroup} color="primary"
+                                                                     aria-label="outlined primary button group">
+                                                            {infoUser.fav_categories.map(elem => (
 
-                                                            <Button style={{
-                                                                backgroundColor: AppColors.PRIMARY,
-                                                                borderRadius: 20,
-                                                            }}
-                                                                    disabled={true}>
-                                                                <Typography
-                                                                    style={{color: AppColors.WHITE, marginBottom: 0}}
-                                                                    gutterBottom
+                                                                <Button style={{
+                                                                    backgroundColor: AppColors.PRIMARY,
+                                                                    borderRadius: 20,
+                                                                }}
+                                                                        disabled={true}>
+                                                                    <Typography
+                                                                        style={{color: AppColors.WHITE, marginBottom: 0}}
+                                                                        gutterBottom
 
-                                                                >
-                                                                    {elem}
-                                                                </Typography>
-                                                            </Button>
-                                                        ))}
-                                                    </ButtonGroup>
-                                                </ul>
-                                            </li>
+                                                                    >
+                                                                        {elem}
+                                                                    </Typography>
+                                                                </Button>
+                                                            ))}
+                                                        </ButtonGroup>
+                                                    </ul>
+                                                </li>
+                                            </List>
+                                            <List style={{paddingLeft: 0}} subheader={<li/>}>
+                                                <li>
+                                                    <ul style={{paddingLeft: '15px'}}>
+                                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                                      primary={LabelsProfilePage.TOP_GAMES}
+                                                        />
+                                                        <ButtonGroup className={classes.buttonGroup} color="primary"
+                                                                     aria-label="outlined primary button group">
+                                                            {infoUser.all_games.map(elem => (
+                                                                <ImagesCard width={'75px'} height={'75px'}
+                                                                            images={elem.background_image}/>
+                                                            ))}
+                                                        </ButtonGroup>
+                                                    </ul>
+                                                </li>
+                                            </List>
+
                                         </List>
-                                        <List style={{paddingLeft: 0}} subheader={<li/>}>
-                                            <li>
-                                                <ul style={{paddingLeft: '15px'}}>
-                                                    <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                                  primary={LabelsProfilePage.TOP_GAMES}
-                                                    />
-                                                    <ButtonGroup className={classes.buttonGroup} color="primary"
-                                                                 aria-label="outlined primary button group">
-                                                        {infoUser.all_games.map(elem => (
-                                                            <ImagesCard width={'75px'} height={'75px'}
-                                                                        images={elem.background_image}/>
-                                                        ))}
-                                                    </ButtonGroup>
-                                                </ul>
-                                            </li>
-                                        </List>
-
-                                    </List>}
-                                </Grid>
+                                    </Grid> :
+                                    <Grid>
+                                        <Typography
+                                            style={{
+                                                fontSize: '40px',
+                                                color: AppColors.WHITE
+                                            }}>{"You dont have profile info yet.\nEdit your profile" }</Typography>
+                                    </Grid>}
 
                             </CardGeekify>
                         </Grid>
@@ -469,7 +482,7 @@ const ProfilePage = () => {
                                             images={'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'}/>
                             </Grid>
                             <Grid item style={{marginLeft: '2em'}}>
-                                {infoUser &&
+                                {infoUser.comment != null &&
                                 <ReviewCard width={'450px'} height={'228px'}
                                             game={Object.values(infoUser.comment)[0].game_comment['name']}
                                             comment={Object.values(infoUser.comment)[0].content} avatar={infoUser.photo}
