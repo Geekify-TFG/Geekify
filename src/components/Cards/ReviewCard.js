@@ -57,34 +57,7 @@ const ReviewCard = props => {
                         <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>{comment}</Typography>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={2}>
 
-                    </Grid>
-                    <Grid item xs={10}>
-                        <Paper style={{
-                            backgroundColor: AppColors.BACKGROUND,
-                            borderRadius: 20,
-                            width: '5em',
-                            height: '2.5em'
-                        }}
-                        >
-                            <Grid container style={{paddingLeft: '0.5em', paddingTop: '0.15em'}}>
-                                <IconProvider icon={<Icons.STAR style={{
-                                    paddingTop: '0.15em',
-                                    verticalAlign: "middle",
-                                    display: "inline-flex",
-                                    paddingRight: '4px',
-                                    color: AppColors.PRIMARY,
-                                }} size="100px"/>}/>
-                                <Typography style={{color: AppColors.WHITE, marginBottom: 0}} gutterBottom
-                                            variant="h5"
-                                            component="h2">
-                                    {4.9}
-                                </Typography>
-                            </Grid>
-                        </Paper> </Grid>
-                </Grid>
             </CardContent>
 
         </Card>

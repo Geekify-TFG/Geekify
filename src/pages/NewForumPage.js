@@ -296,11 +296,11 @@ const NewForumPage = () => {
                                                           style={{color: AppColors.PRIMARY}}
                                                           value={'Discussion'}>{LabelsCreateForumPage.DISCUSSION}</MenuItem>
                                                 <MenuItem style={{color: AppColors.PRIMARY}}
-                                                          value={2}>{LabelsGamePage.FINE}</MenuItem>
+                                                          value={'Art'}>{LabelsCreateForumPage.ART}</MenuItem>
                                                 <MenuItem style={{color: AppColors.PRIMARY}}
-                                                          value={1}>{LabelsGamePage.MEH}</MenuItem>
+                                                          value={'Music'}>{LabelsCreateForumPage.MUSIC}</MenuItem>
                                                 <MenuItem style={{color: AppColors.PRIMARY}}
-                                                          value={0}>{LabelsGamePage.NOT_RECOMMENDED}</MenuItem>
+                                                          value={'Advice'}>{LabelsCreateForumPage.DISCUSSION}</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>

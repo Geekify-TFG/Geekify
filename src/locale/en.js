@@ -118,7 +118,7 @@ export const LabelsCollection = {
 export const LabelsForumsPage = {
     FORUMS: 'Forums',
     JOIN_FORUM: 'Join the forum',
-    FOLLOWING_GROUPS: 'Following groups',
+    FOLLOWING_GROUPS: 'Following forums',
     FOLLOWING_GROUPS_NOT_LOGGED: 'You don\'t follow any forum yet. Sign up!',
     SEE_MORE: 'See more',
     CREATE_FORUM: 'Create new forum',
@@ -136,7 +136,10 @@ export const LabelsCreateForumPage = {
     CREATE_FORUM: 'Create your forum!',
     EDIT_FORUM: 'Edit your forum!',
     GAMING: 'Gaming',
-    DISCUSSION: 'Discussion'
+    DISCUSSION: 'Discussion',
+    ART:'Art',
+    MUSIC:'Music',
+    ADVICE:'Advice',
 }
 export const LabelsNewsPage = {
     NEWS: 'More news',

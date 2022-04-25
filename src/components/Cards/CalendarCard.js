@@ -194,7 +194,7 @@ const CalendarCard = ({
                             maxWidth: '35px', maxHeight: '35px', minWidth: '35px', minHeight: '35px',
                         }}>
 
-                            <IconProvider icon={<Icons.BOOKMARK style={{
+                            <IconProvider icon={<Icons.CALENDAR style={{
                                 marginTop: '0.1em',
                                 verticalAlign: "middle",
                                 display: "inline-flex",
