@@ -104,6 +104,7 @@ const SearchPage = () => {
     if (location.state)
         title = location.state.value;
 
+    const [firstLoading, setFirstLoading] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [releaseYear, setReleaseYear] = useState([2017, 2022]);
@@ -115,7 +116,7 @@ const SearchPage = () => {
 
     //Function to get all the games
     const getGames = async () => {
-        setLoading(true)
+        setFirstLoading(true)
         try {
             var data = []
             let response
@@ -133,7 +134,7 @@ const SearchPage = () => {
         } catch (err) {
             console.log(err.message)
         }
-        setLoading(false)
+        setFirstLoading(false)
 
     }
 
@@ -153,7 +154,6 @@ const SearchPage = () => {
 
 
     const handleChangePlatform = (event) => {
-        console.log(event.target.value)
         setPlatform(event.target.value);
 
     };
@@ -222,7 +222,12 @@ const SearchPage = () => {
 
     return (
         <>
-            <Grid container alignItems={"center"}>
+            {
+                firstLoading ?
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <CircularProgress/>
+                    </div>
+                    :<Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                       direction={"column"} style={{}}>
                     <Grid container direction={"row"} justifyContent={"flex-end"} spacing={20}>
@@ -312,7 +317,7 @@ const SearchPage = () => {
                                 {games && <GridGames mainPage={true} games={games}/>}
                             </Grid>}
                 </Grid>
-            </Grid>
+            </Grid>}
         </>
     )
 }

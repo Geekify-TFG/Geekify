@@ -114,7 +114,12 @@ const MainPage = () => {
 
     return (
         <>
-            <Grid container alignItems={"center"}>
+            {
+                loading ?
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <CircularProgress/>
+                    </div>
+                    :<Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                       direction={"column"} style={{
                     backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${eldenImage})`,
@@ -174,7 +179,7 @@ const MainPage = () => {
                         </Grid>
 
                     </Grid>
-                    {
+                    {/*{
                         loading ?
                             <div style={{display: 'flex', justifyContent: 'center'}}>
                                 <CircularProgress/>
@@ -182,9 +187,12 @@ const MainPage = () => {
                             :
                             <Grid item>
                                 {games && <GridGames mainPage={true} games={games}/>}
-                            </Grid>}
+                            </Grid>}*/}
+                    <Grid item>
+                        {games && <GridGames mainPage={true} games={games}/>}
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Grid>}
         </>
     )
 }
