@@ -44,7 +44,6 @@ const DialogGeekify = props => {
         handleShow,
         handleConfirm,
         handleDelete,
-        handleConfirmAndContinue,
         handleModalClose,
         handleCloseButton,
         closeButton,
@@ -66,9 +65,7 @@ const DialogGeekify = props => {
             handleShow(-999);
         }
     }
-    const handleModalConfirmAndContinue = () => {
-        handleConfirmAndContinue()
-    }
+
     const spacing = deleteButton ? "space-between" : "flex-end";
 
 
@@ -136,19 +133,13 @@ const DialogGeekify = props => {
                                                   variant="outlined">
                             {props.textCancelButton}
                         </Button>}
-                        <Button onClick={handleConfirm} style={{backgroundColor: props.buttonColor, minWidth: '8em'}}
+                        <Button data-testid={"confirmButton"} onClick={handleConfirm}
+                                style={{backgroundColor: props.buttonColor, minWidth: '8em'}}
                                 color="primary" variant="contained">
                             {props.textConfirmButton}
                         </Button>
                     </Grid>
-                    {
-                        props.textConfirmAndContinue &&
-                        <Button onClick={handleModalConfirmAndContinue}
-                                style={{backgroundColor: AppColors.PRIMARY, minWidth: '17em', marginTop: '1em'}}
-                                color="primary" variant="contained">
-                            {props.textConfirmAndContinue}
-                        </Button>
-                    }
+
                 </Grid>
             </DialogActions>
 

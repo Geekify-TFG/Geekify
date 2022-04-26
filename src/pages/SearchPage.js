@@ -18,8 +18,8 @@ const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-          active &&
-          `opacity: 1;
+    active &&
+    `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {
@@ -104,6 +104,7 @@ const SearchPage = () => {
     if (location.state)
         title = location.state.value;
 
+    const [firstLoading, setFirstLoading] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [releaseYear, setReleaseYear] = useState([2017, 2022]);
@@ -115,7 +116,7 @@ const SearchPage = () => {
 
     //Function to get all the games
     const getGames = async () => {
-        setLoading(true)
+        setFirstLoading(true)
         try {
             var data = []
             let response
@@ -133,7 +134,7 @@ const SearchPage = () => {
         } catch (err) {
             console.log(err.message)
         }
-        setLoading(false)
+        setFirstLoading(false)
 
     }
 
@@ -153,7 +154,6 @@ const SearchPage = () => {
 
 
     const handleChangePlatform = (event) => {
-        console.log(event.target.value)
         setPlatform(event.target.value);
 
     };
@@ -169,7 +169,6 @@ const SearchPage = () => {
     const handleClickApplyFilters = async () => {
         setLoading(true)
 
-        console.log(releaseYear, rating, platforms, genres, numPlayers)
         var dict = []
         dict.push({
             key: "dates",
@@ -191,36 +190,27 @@ const SearchPage = () => {
             key: "tags",
             values: numPlayers
         })
-        console.log(dict)
         var url = "/filters?"
         for (let i = 0; i < dict.length; i++) {
             if (dict[i].value) {
-                console.log(dict[i].value)
                 for (let j = 0; j < dict[i].value.length; j++) {
                     url += `${dict[i].key}`
                     url += `=${dict[i].value[j]}&`
-                    console.log(dict[i].value[j])
                 }
             } else {
                 for (let x = 0; x < dict[i].values.length; x++) {
                     url += `${dict[i].key}`
                     url += `=${dict[i].values[x].value}&`
-
-                    console.log(dict[i].values[x].value)
                 }
 
             }
 
         }
         //{{HOST_MYAPI}}/games/filters?dates=1999&dates=2000&metacritic=80&metacritic=100&parent_platforms=1&parent_platform=2&genres=action&genres=shooter&tags=singleplayer
-        console.log(url)
         const editedText = url.slice(0, -1) //'abcde'
-        console.log(editedText)
 
         try {
             var response = await axios.get(`${MY_BASE_PATH}${MY_GAMES}${editedText}`);
-            console.log(response)
-            console.log(response.data.games.results)
             setGames(response.data.games.results)
         } catch (err) {
             console.log(err.message)
@@ -232,7 +222,12 @@ const SearchPage = () => {
 
     return (
         <>
-            <Grid container alignItems={"center"}>
+            {
+                firstLoading ?
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <CircularProgress/>
+                    </div>
+                    :<Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                       direction={"column"} style={{}}>
                     <Grid container direction={"row"} justifyContent={"flex-end"} spacing={20}>
@@ -291,18 +286,18 @@ const SearchPage = () => {
                         <Grid item style={{marginBottom: '0em', marginLeft: '4em'}}>
                             <MultipleSelectGeekify value={platforms} handleChange={handleChangePlatform}
                                                    options={platformsMock}
-                                                   borderRadius={30} width={'201px'} label={LabelsSearchPage.PLATFORM}/>
+                                                   borderRadius={30} width={'9.75em'} label={LabelsSearchPage.PLATFORM}/>
                         </Grid>
 
                         <Grid item style={{marginBottom: '0em', marginLeft: '4em'}}>
                             <MultipleSelectGeekify value={genres} handleChange={handleChangeGenres} options={genresMock}
-                                                   borderRadius={30} width={'3px'} label={LabelsSearchPage.GENRES}/>
+                                                   borderRadius={30} width={'9.75em'} label={LabelsSearchPage.GENRES}/>
                         </Grid>
 
 
                         <Grid item style={{marginBottom: '0em', marginLeft: '4em'}}>
                             <MultipleSelectGeekify value={numPlayers} handleChange={handleChangeNumPlayers}
-                                                   options={numPlayersMock} borderRadius={30} width={'400px'}
+                                                   options={numPlayersMock} borderRadius={30} width={'9.75em'}
                                                    label={LabelsSearchPage.NUMBER_PLAYERS}/>
                         </Grid>
                         <Grid item style={{marginLeft: '4em'}}>
@@ -322,7 +317,7 @@ const SearchPage = () => {
                                 {games && <GridGames mainPage={true} games={games}/>}
                             </Grid>}
                 </Grid>
-            </Grid>
+            </Grid>}
         </>
     )
 }

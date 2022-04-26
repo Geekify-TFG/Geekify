@@ -116,9 +116,11 @@ const LoginPage = () => {
             await axios.post(LOGIN_URL, params)
                 .then(res => {
                     if (res.status === 200) {
-                        console.log(res.data["account"].token)
+                        console.log(res.data['account'].value.photo)
                         storageManager.storeEmail(params.email)
                         storageManager.storeToken(res.data["account"].token)
+                        storageManager.storeImage(res.data['account'].value.photo)
+
                         setOpenSnackLoginSuccessfully(true)
                         setTimeout(() => {
                             history.push({

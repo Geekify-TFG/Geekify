@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {AppColors} from "../../resources/AppColors";
 import {useHistory} from "react-router-dom";
 import {makeStyles} from "@mui/styles";
 import {Avatar, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Paper, Typography} from '@material-ui/core';
 import {useTheme} from '@mui/material/styles';
+import axios from "axios";
+import {JOIN_FORUM} from "../../resources/ApiUrls";
+import {StorageManager} from "../../utils";
+import {LabelsSnackbar} from "../../locale/en";
+import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,28 +62,63 @@ const ForumCard = ({
                        forumNumUsers,
                        forumImage,
                        forumGenre,
+                       forumGame,
                        height, width,
-                       paddingLeft
+                       paddingLeft,
+                       followingForums,
+                       getForumsFollowed
                    }) => {
     const classes = useStyles();
     const history = useHistory()
-
+    const storageManager = new StorageManager()
+    const [openSnackFollowedForum, setOpenSnackFollowedForum] = useState()
+    const [openSnackUnfollowedForum, setOpenSnackUnfollowedForum] = useState()
+    const [openSnackFollowLogin, setOpenSnackFollowLogin] = useState()
+    const theme = useTheme();
     const onClickHandler = () => {
         history.push({
             pathname: `/forum/${forumId}`,
             state: {detail: forumId, title: forumTitle}
         })
-
-
     }
-    const theme = useTheme();
+    const handleClickJoinForum = async () => {
+        if (storageManager.getToken()) {
+            try {
+                var body = {'forums_followed': forumId}
+                const config = {auth: {username: storageManager.getToken()}}
+                const response = await axios.post(`${JOIN_FORUM(storageManager.getEmail())}`, body, config)
+                if(response.data.account.value.forums_followed.includes(forumId)){
+                    setOpenSnackFollowedForum(true)
 
+                }else{
+                    setOpenSnackUnfollowedForum(true)
+
+                }
+                getForumsFollowed()
+            } catch (e) {
+                console.log('Error: ', e)
+            }
+        } else {
+            setOpenSnackFollowLogin(true)
+        }
+    }
+
+    const handleCloseSnackFollowedForum = async () => {
+        setOpenSnackFollowedForum(false)
+    }
+    const handleCloseSnackUnfollowedForum = async () => {
+        setOpenSnackUnfollowedForum(false)
+    }
+    const handleCloseSnackFollowLogin = async () => {
+        setOpenSnackFollowLogin(false)
+    }
 
     return (
         <Card elevation={0} className={classes.root}>
             <CardActionArea style={{marginRight: '2em', height: '120px', width: '120px'}} onClick={onClickHandler}>
 
                 <CardMedia
+                    data-testid={"btnEnterForum"}
                     className={classes.cover}
                     image={forumImage}
                     style={{height: '120px', width: '120px'}}
@@ -124,10 +164,13 @@ const ForumCard = ({
                         height: '2em',
                         textTransform: 'none',
                         marginRight: '1em',
-                    }}>
-                        <Typography style={{fontSize: '20px', color: AppColors.WHITE}}>
-                            Unirse al grupo
-                        </Typography>
+                    }} onClick={handleClickJoinForum}>
+                        {!followingForums ? <Typography style={{fontSize: '20px', color: AppColors.WHITE}}>
+                                Join the forum
+                            </Typography> :
+                            <Typography style={{fontSize: '20px', color: AppColors.WHITE}}>
+                                You are in the forum
+                            </Typography>}
                     </Button>
                     <Paper
                         style={{width: 'auto', borderRadius: 20, backgroundColor: AppColors.BACKGROUND_DRAWER}}>
@@ -136,10 +179,20 @@ const ForumCard = ({
                             {forumGenre.toUpperCase()}
                         </Typography>
                     </Paper>
+
                 </div>
             </div>
-
+            <SnackBarGeekify handleClose={handleCloseSnackFollowedForum}
+                             message={LabelsSnackbar.FOLLOW_FORUM}
+                             openSnack={openSnackFollowedForum}/>
+            <SnackBarGeekify handleClose={handleCloseSnackUnfollowedForum} severity={"warning"}
+                             message={LabelsSnackbar.UNFOLLOW_FORUM}
+                             openSnack={openSnackUnfollowedForum}/>
+            <SnackBarGeekify handleClose={handleCloseSnackFollowLogin} severity={'warning'}
+                             message={LabelsSnackbar.FOLLOW_FORUM_LOGIN}
+                             openSnack={openSnackFollowLogin}/>
         </Card>
+
     )
 
 

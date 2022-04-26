@@ -1,35 +1,43 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
+import {
+    Avatar,
+    Button, Fade,
+    Grid,
+    IconButton,
+    InputAdornment,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText, Menu, MenuItem,
+    TextField,
+    Typography
+} from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
-import {LabelsForumsPage} from "../locale/en";
-import styled from "@emotion/styled";
+import {DialogTexts, LabelsForumsPage, LabelsSnackbar, menuOptions} from "../locale/en";
+import {useHistory, useLocation} from "react-router-dom";
+import ProfileButton from "../components/ProfileButton/ProfileButton";
+import {StorageManager} from "../utils";
+import axios from "axios";
+import {DELETE_FORUM, GET_PUBLICATIONS, INFO_FORUM, JOIN_FORUM, POST_PUBLICATION} from "../resources/ApiUrls";
+import DialogGeekify from "../components/DialogGeekify";
+import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
+import PublicationCard from "../components/Cards/PublicationCard";
+import accountIcon from "../img/account_icon.svg";
+import CheckIcon from "@mui/icons-material/Check";
 import CardGeekify from "../components/Cards/CardGeekify";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    TwitterIcon,
+    TwitterShareButton,
+    WhatsappIcon,
+    WhatsappShareButton
+} from "react-share";
 import IconProvider from "../components/IconProvider/IconProvider";
 import Icons from "../resources/Icons";
-import {forumPostsMock} from "../mocks/ForumPostsMock";
-import CommentCard from "../components/Cards/CommentCard";
-import {followingGroupMock} from "../mocks/FollowingGroupMock";
-import {useLocation} from "react-router-dom";
-import ProfileButton from "../components/ProfileButton/ProfileButton";
-
-const ButtonToggle = styled(Button)`
-  opacity: 1;
-  background-color: #1D1D1D;
-  color: #6563FF ${({active}) =>
-    active &&
-    `opacity: 1;
-        background-color: ${AppColors.PRIMARY};
-        color: white;
-        &:hover {
-            color: white;
-            background-color: #6563FF;
-          }
-        `};
-
-`;
-
 
 const useStyles = makeStyles((theme) => ({
 
@@ -58,33 +66,228 @@ const useStyles = makeStyles((theme) => ({
         "& > *:not(:last-child)": {
             marginRight: theme.spacing(2)
         }
-    }
+    }, textFieldLabel: {
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: AppColors.PRIMARY,
+                opacity: '0.2',
+                borderRadius: 10,
+            },
+        }, '& .MuiInputBase-root': {
+            color: AppColors.PRIMARY,
+        }, '& .MuiInputLabel-root': {
+            color: AppColors.PRIMARY,
+        }, '& .MuiTextField-root': {
+            height: '25em',
+        },
+        color: AppColors.PRIMARY,
+        backgroundColor: AppColors.BACKGROUND_DRAWER,
+        borderRadius: 10,
+    },
+    textFieldLabelDisabled: {
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+                borderColor: AppColors.PRIMARY,
+                opacity: "0.2",
+                borderRadius: 10,
+            },
+        },
+        "& .MuiInputBase-root": {
+            color: AppColors.SUBTEXT,
+        },
+        "& .MuiInputLabel-root": {
+            color: AppColors.PRIMARY,
+            borderRadius: 10,
+        },
+        color: AppColors.PRIMARY,
+        backgroundColor: AppColors.PRIMARY,
+        borderRadius: 10,
+    },
 
 
 }))
 
-const ForumPage = () => {
-    const [forumPosts, setForumPosts] = useState();
-    const [loading, setLoading] = useState(false);
-    const [followingGroups, setFollowingGroups] = useState();
-    const location = useLocation();
-    const forumTitle = location.state.title
 
+function DeleteForumModal({
+                              showDeleteForumModal,
+                              setShowDeleteForumModal,
+                              loading,
+                              setLoading,
+                              forumId,
+                              setOpenSnackDeleteForum,
+                              openSnackDeleteForum,
+                          }) {
+    const history = useHistory()
+
+    const handleClickSubmit = async () => {
+        try {
+            const response = await axios.delete(`${DELETE_FORUM(forumId)}`)
+
+            setShowDeleteForumModal(false)
+            setLoading(true)
+            setOpenSnackDeleteForum(true)
+            setTimeout(() => {
+                history.push({
+                    pathname: '/forums',
+                })
+            }, 1000)
+        } catch (e) {
+            console.log('Error: ', e)
+        }
+    }
+
+
+    return (
+        <DialogGeekify
+            textCancelButton={DialogTexts.CANCEL}
+            textConfirmButton={DialogTexts.DELETE}
+            handleShow={setShowDeleteForumModal}
+            handleConfirm={handleClickSubmit}
+            title={DialogTexts.DELETE_COLLECTION}
+            buttonColor={AppColors.RED}
+            body={
+                <>
+                    <Typography variant="subtitle1" style={{color: AppColors.WHITE}} gutterBottom>
+                        {"Are you sure you want to delete this forum?"}
+                    </Typography>
+                </>
+            }
+            show={showDeleteForumModal}
+
+        />
+    )
+}
+
+
+const ForumPage = () => {
+    const [forumPosts2, setForumPosts2] = useState([]);
+    const [forum, setForum] = useState();
+    const [loading, setLoading] = useState(false);
+    const [followingForums, setFollowingForums] = useState(null);
+    const [showDeleteForumModal, setShowDeleteForumModal] = useState();
+    const [publication, setPublication] = useState();
+    const [openSnackDeleteForum, setOpenSnackDeleteForum] = useState();
+    const [openSnackBarPublication, setOpenSnackBarPublication] = useState();
+    const forumId = new URL(window.location).pathname.split('/')[2]
+    const classes = useStyles();
+    const history = useHistory()
+    const [flag, setFlag] = useState(false)
+    const storageManager = new StorageManager()
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    //Function to get all the games
+    const getForum = async () => {
+        try {
+            const response = await axios.get(`${INFO_FORUM(forumId)}`);
+            setForum(response.data.forum.value)
+            setLoading(false)
+
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+
+    //Function to get all the games
+    const getPublications = async () => {
+        try {
+            const response2 = await axios.get(`${GET_PUBLICATIONS(forumId)}`);
+            setForumPosts2(response2.data.publications)
+            setLoading(false)
+
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    const getForumsFollowed = async () => {
+        try {
+            const config = {auth: {username: storageManager.getToken()}}
+            const response = await axios.get(`${JOIN_FORUM(storageManager.getEmail())}`, config)
+            setFollowingForums(response.data.forums_followed)
+        } catch (e) {
+            console.log('Error: ', e)
+        }
+    }
+
+    const postPublication = async () => {
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear();
+        let date = dd + '/' + mm + '/' + yyyy;
+        try {
+            const body = {
+                date: date,
+                content: publication,
+                user: storageManager.getEmail(),
+            };
+            const config = {auth: {username: storageManager.getToken()}}
+            const response = await axios.post(`${POST_PUBLICATION(forumId)}`, body, config);
+            setLoading(true)
+            setOpenSnackBarPublication(true)
+            getPublications()
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
 
     useEffect(() => {
-        setForumPosts(forumPostsMock)
-        setFollowingGroups(followingGroupMock)
-        // getCollections()
-
+        getForum()
+        getPublications()
+        getForumsFollowed()
     }, []);
+
+    useEffect(() => {
+        getForum()
+        getPublications()
+        getForumsFollowed()
+    }, [flag]);
+
+    const handleDeleteForum = () => {
+        setShowDeleteForumModal(true)
+    }
+
+    const handleEditForum = () => {
+        console.log(forumId)
+        history.push({
+            pathname: `/forum/${forumId}/edit`,
+            state: {detail: forumId}
+        })
+    }
+
+    const handleCloseSnackDeleteForum = async () => {
+        setOpenSnackDeleteForum(false)
+    }
+    const handleCloseSnackPublication = async () => {
+        setOpenSnackBarPublication(false)
+    }
+
+    const handleGoForum = (elem) => {
+        setFlag(true)
+        history.push({
+            pathname: `/forum/${elem.id}`,
+            state: {title: elem.value.title, detail: elem.id}
+        })
+    }
+
 
     return (
         <>
-            <Grid container alignItems={"center"}>
+            {forum && <Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                       direction={"column"} style={{
+                    height: '20em',
+                    backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${forum.image})`,
                     backgroundSize: "cover",
-
                 }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
                         <Grid item style={{margin: '2em'}}>
@@ -93,47 +296,176 @@ const ForumPage = () => {
 
                         <Grid item style={{margin: '2em'}}>
                             <ProfileButton/>
-
                         </Grid>
-
-
                     </Grid>
 
                 </Grid>
-
                 <Grid container
-                      direction={"row"} style={{marginTop: '2em', marginLeft: '2em', marginBottom: '2em'}}>
+                      direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '2em'}}>
-                        <Typography
-                            style={{
-                                fontSize: '40px',
-                                color: AppColors.WHITE
-                            }}>{(`${forumTitle} Forum`).toUpperCase()}</Typography>
+                        <Grid container direction={"row"} justifyContent={"space-between"}>
 
-                        {forumPosts &&
-                        forumPosts.map(elem => (
-                            <Grid item style={{paddingLeft: 0, paddingBottom: '2em'}} key={forumPosts.indexOf(elem)}
+                            <Typography
+                                style={{
+                                    fontSize: '40px',
+                                    color: AppColors.WHITE
+                                }}>{(`${forum.title}`).toUpperCase()}</Typography>
+                            <Button data-testid={"menuButton"} style={{
+                                color: AppColors.WHITE,
+                                marginTop: '1em',
+                                backgroundColor: AppColors.BACKGROUND_DRAWER
+                            }} aria-controls="fade-menu"
+                                    aria-haspopup="true" onClick={handleClick}>
+                                <IconProvider icon={<Icons.MORE style={{
+                                    verticalAlign: "middle",
+                                    display: "inline-flex",
+                                }} size="4em"/>}/>
+                            </Button>
 
+                            <Menu
+                                style={{
+                                    boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)"
+                                }}
+                                color={AppColors.WHITE}
+                                id="fade-menu"
+                                anchorEl={anchorEl}
+                                anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                                keepMounted
+                                open={open}
+                                onClose={handleClose}
+                                TransitionComponent={Fade}>
+                                <MenuItem data-testid="editOption" style={{color: AppColors.PRIMARY}}
+                                          onClick={() => {
+                                              handleEditForum();
+                                              handleClose()
+                                          }}> {menuOptions.EDIT} </MenuItem>
+
+                                <MenuItem data-testid="deleteOption" style={{color: AppColors.PRIMARY}}
+                                          onClick={() => {
+                                              handleDeleteForum();
+                                              handleClose()
+                                          }}> {menuOptions.DELETE}</MenuItem>
+                            </Menu>
+
+                            {/*{forum && storageManager.getEmail() === forum.admin &&
+                            <Button
+                                data-testid={"btnEditForum"}
+                                style={{
+                                    backgroundColor: AppColors.PRIMARY,
+                                    borderRadius: 20,
+                                    maxWidth: '10em'
+                                }}
+                                onClick={handleEditForum}
                             >
-                                <CommentCard width={'40em'}
-                                             bg={AppColors.BACKGROUND_DRAWER}
-                                             title={elem.username}
-                                             time={elem.timeAgo}
-                                             comment={elem.comment}
+                                <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
+                                            gutterBottom
+                                >
+                                    {LabelsForumsPage.EDIT_FORUM}
+                                </Typography>
+                            </Button>}
+
+                            {forum && storageManager.getEmail() === forum.admin &&
+                            <Button
+                                data-testid={"btnDeleteForum"}
+                                style={{
+                                    backgroundColor: AppColors.RED,
+                                    borderRadius: 20,
+                                    maxWidth: '10em'
+                                }}
+                                onClick={handleDeleteForum}
+                            >
+                                <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
+                                            gutterBottom
+                                >
+                                    {LabelsForumsPage.DELETE_FORUM}
+                                </Typography>
+                            </Button>}*/}
+                        </Grid>
+                        <Grid container style={{marginTop:'1em'}} direction={"row"}>
+                            <FacebookShareButton
+                                url={`https://localhost:3000/forum/${forumId}`}
+                                quote={"Look what forum I just discovered"}
+                                hashtag={"#Geekify"}
+                            >
+                                <FacebookIcon size={32} round />
+                            </FacebookShareButton>
+                            <WhatsappShareButton
+                                title={"Look what forum I just discovered"}
+                                url={`https://localhost:3000/forum/${forumId}`}
+                                hashtags={"#Geekify"}
+                            >
+                                <WhatsappIcon size={32} round />
+                            </WhatsappShareButton>
+                            <TwitterShareButton
+                                title={"Look what forum I just discovered"}
+                                url={`https://localhost:3000/forum/${forumId}`}
+                                hashtags={"#Geekify"}
+                            >
+                                <TwitterIcon size={32} round />
+                            </TwitterShareButton>
+                        </Grid>
+                        {!loading && <Grid item>
+
+                            <TextField
+                                data-testid="textfieldPublication"
+                                style={{width: '45em'}}
+                                onChange={(e) => setPublication(e.target.value)}
+                                type="text"
+                                disabled={!storageManager.getToken()}
+                                placeholder={storageManager.getToken() ? "" : "You must be logged to comment"}
+                                label={`Publish about something`}
+                                margin="normal"
+                                variant="outlined"
+                                multiline
+                                className={classes.textFieldLabel}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+
+                                            <img alt='icon' style={{width: '36px', height: '36px', borderRadius: 20}}
+                                                 src={storageManager.getToken() ? storageManager.getImage() : accountIcon}/>
+                                        </InputAdornment>
+
+                                    ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+
+                                            <IconButton data-testid={"postPublication"}
+                                                        style={{color: AppColors.PRIMARY}}
+                                                        onClick={() => postPublication()}>
+                                                <KeyboardReturnIcon/>
+                                            </IconButton>
+                                        </InputAdornment>
+
+                                    ),
+                                }}
+                            />
+                        </Grid>}
+
+                        {forumPosts2 &&
+                        Object.entries(forumPosts2).map(publication => (
+                            <Grid item style={{paddingLeft: 0, paddingBottom: '2em'}}
+                            >
+                                <PublicationCard width={'45em'}
+                                                 bg={AppColors.BACKGROUND_DRAWER}
+                                                 publicationKey={publication[0]}
+                                                 publication={publication[1]}
+                                                 getPublications={getPublications}
+                                                 favorited={publication[1].likes.includes(storageManager.getEmail())}
                                 />
-
                             </Grid>
-
                         ))}
-
                     </Grid>
-                    <Grid item style={{marginLeft: '5em'}}>
+
+                    <Grid item style={{marginLeft: '4em'}}>
                         <Grid item style={{marginBottom: '4em',}}>
                             <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={50} height={'auto'}
                                          width={'350px'}>
                                 <Grid
                                     container
                                 >
+                                    <Grid item style={{backgroundColor: AppColors.PRIMARY, width: '350px', height: '60px'}}>
+
                                     <Typography
                                         style={{
                                             fontSize: '20px',
@@ -141,56 +473,59 @@ const ForumPage = () => {
                                             marginLeft: '3em',
                                             marginTop: '1em'
                                         }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
+                                    </Grid>
 
+                                    {followingForums ? <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
+                                            {followingForums &&
+                                            followingForums.map(elem => (
+                                                <ListItem>
+                                                    <ListItemAvatar>
+                                                        <Avatar alt="Remy Sharp" src={elem.value.image}/>
+                                                    </ListItemAvatar>
+                                                    <ListItemText onClick={() => handleGoForum(elem)}
+                                                                  style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                                  primary={elem.value.title}
+                                                    />
+                                                    <ListItemText style={{color: AppColors.GRAY}}
+                                                                  primary={elem.value.game}
+                                                    />
+                                                </ListItem>
 
-                                    <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
-                                        {followingGroups &&
-                                        followingGroups.map(elem => (
-                                            <ListItem>
-                                                <ListItemAvatar>
-                                                    <Avatar alt="Remy Sharp" src={elem.image}/>
-                                                </ListItemAvatar>
-                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                              primary={elem.groupName}
-                                                />
-                                                <ListItemText style={{color: AppColors.GRAY}}
-                                                              primary={elem.numParticipants}
-                                                />
-                                            </ListItem>
+                                            ))}
 
-                                        ))}
-                                        <Grid container direction={"row"}>
-                                            <Grid item>
-                                                <Typography
-                                                    style={{
-                                                        fontSize: '20px',
-                                                        color: AppColors.PRIMARY,
-                                                        marginLeft: '3em',
-                                                        marginTop: '1em'
-                                                    }}>{LabelsForumsPage.SEE_MORE}</Typography>
-                                            </Grid>
-                                            <Grid item style={{paddingLeft: '2em', paddingTop: '1em'}}>
-                                                <IconProvider icon={<Icons.ARROW_RIGHT style={{
-                                                    verticalAlign: "middle",
-                                                    display: "inline-flex",
-                                                    color: AppColors.PRIMARY,
-                                                    fontSize: '1.5em'
-                                                }} size="100px"/>}/>
-                                            </Grid>
-                                        </Grid>
-                                    </List>
+                                        </List> :
+                                        <Typography
+                                            style={{
+                                                fontSize: '30px',
+                                                color: AppColors.PRIMARY,
+                                                marginLeft: '1.5em',
+                                                marginTop: '1em'
+                                            }}>{LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
+                                    }
                                 </Grid>
 
                             </CardGeekify>
                         </Grid>
-
-
                     </Grid>
-
                 </Grid>
-
-
-            </Grid>
+            </Grid>}
+            <SnackBarGeekify handleClose={handleCloseSnackDeleteForum}
+                             message={LabelsSnackbar.FORUM_DELETED}
+                             openSnack={openSnackDeleteForum}/>
+            <SnackBarGeekify handleClose={handleCloseSnackPublication}
+                             message={LabelsSnackbar.PUBLICATION_SUCCESSFULLY}
+                             openSnack={openSnackBarPublication}/>
+            {showDeleteForumModal && (
+                <DeleteForumModal
+                    showDeleteForumModal={showDeleteForumModal}
+                    setShowDeleteForumModal={setShowDeleteForumModal}
+                    loading={loading}
+                    setLoading={setLoading}
+                    forumId={forumId}
+                    setOpenSnackDeleteForum={setOpenSnackDeleteForum}
+                    openSnackDeleteForum={openSnackDeleteForum}
+                />
+            )}
         </>
     )
 }
