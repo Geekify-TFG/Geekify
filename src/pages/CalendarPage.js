@@ -166,7 +166,10 @@ const CalendarPage = () => {
 
     return (
         <>
-            <Grid container alignItems={"center"}>
+            {loading ? (
+                <div style={{display: "flex", justifyContent: "center"}}>
+                    <CircularProgress/>
+                </div>) :<Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                       direction={"column"} style={{
                     backgroundSize: "cover",
@@ -214,13 +217,13 @@ const CalendarPage = () => {
                         padding: '0.5em',
                         backgroundColor: AppColors.BACKGROUND
                     }}>
-                        {loading ? (
+                       {/* {loading ? (
                             <div style={{display: "flex", justifyContent: "center"}}>
                                 <CircularProgress/>
-                            </div>) :
+                            </div>) :*/}
                             <StyleWrapper>
 
-                            {gamesMonth && !loading && <FullCalendar
+                            {gamesMonth  && <FullCalendar
                                 eventColor={AppColors.BACKGROUND}
                                 themeSystem={'bootstrap5'}
                                 firstDay={1}
@@ -311,7 +314,7 @@ const CalendarPage = () => {
                 </Grid>
 
 
-            </Grid>
+            </Grid>}
         </>
 
 

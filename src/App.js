@@ -217,7 +217,6 @@ const RouteMain = ({component: Component, select}) => {
                                 key={text}
                                 selected={selected === index}
                                 style={{
-                                    //marginTop: index === drawerLabelsList.length-1 ? `${(window.innerHeight-400)}px`:  0,
                                     marginTop: storageManager.getToken() ? (index === drawerLabelsList.length - 1 ? `${(window.innerHeight - 450)}px` : 0) : (index === drawerLabelsList.length - 2 ? `${(window.innerHeight - 470)}px` : 0),
                                     backgroundColor:
                                         selected === index && AppColors.PRIMARY,
