@@ -48,7 +48,9 @@ describe('Rating tests', () => {
         cy.wait(500)
         cy.get('[id="Forums"]').should('be.visible').click()
         cy.get('[data-testid="btnEnterForum"]').eq(2).click()
-        cy.get('[data-testid="btnDeleteForum"]').should('be.visible').click()
-        cy.get('[data-testid="confirmButton"]').should('be.visible').click()
+        cy.get('[data-testid="menuButton"]').click()
+        cy.get('[data-testid="deleteOption"]').click()
+        cy.get('button').contains('Delete').should('be.visible').click()
+
     })
 })

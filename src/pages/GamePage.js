@@ -466,6 +466,7 @@ const GamePage = () => {
                                 }}
                             >
                                 <Rating
+                                    data-testid={"rating"}
                                     name="simple-controlled"
                                     value={rating}
                                     onChange={handleChange}
