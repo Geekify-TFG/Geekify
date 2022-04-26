@@ -16,8 +16,8 @@ const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-          active &&
-          `opacity: 1;
+    active &&
+    `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {
@@ -135,15 +135,15 @@ const MainPage = () => {
                     <Grid item style={{margin: '4em'}}>
                         <Typography style={{
                             fontSize: '100px',
-                            color: AppColors.WHITE,
+                            color: AppColors.YELLOW_SUBTEXT,
                             fontWeight: 'bold'
                         }}>{LabelsMain.WELCOME}</Typography>
-                        <Typography
+                        {/*<Typography
                             style={{
                                 fontSize: '80px',
                                 color: AppColors.YELLOW_SUBTEXT,
                                 fontWeight: 'bold'
-                            }}>{LabelsMain.DOLOR}</Typography>
+                            }}>{LabelsMain.DOLOR}</Typography>*/}
                     </Grid>
                 </Grid>
                 <Grid container

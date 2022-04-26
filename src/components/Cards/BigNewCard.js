@@ -1,7 +1,7 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
 import {makeStyles} from "@mui/styles";
-import {Button, Card, CardActionArea, CardActions, CardHeader, CardMedia} from '@material-ui/core';
+import {Card, CardHeader, CardMedia} from '@material-ui/core';
 import {useTheme} from '@mui/material/styles';
 import {AppColors} from "../../resources/AppColors";
 import {Typography} from "@mui/material";
@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     root: {
         position: "relative",
         transition: "transform 0.15s ease-in-out",
-        "&:hover": { transform: "scale3d(1.05, 1.05, 1)",cursor:'pointer' },
+        "&:hover": {transform: "scale3d(1.05, 1.05, 1)", cursor: 'pointer'},
     },
     font: {
         position: "absolute",
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 const BigNewCard = ({
                         height, width,
                         article, top,
-                        fontSize,subFontSize
+                        fontSize, subFontSize
                     }) => {
     const classes = useStyles();
     const history = useHistory()
@@ -57,13 +57,14 @@ const BigNewCard = ({
                 alt="Contemplative Reptile"
                 image={article.urlToImage}
                 title="Contemplative Reptile"
-                onClick={()=>toNews(article.url)}
+                onClick={() => toNews(article.url)}
             />
             <CardHeader
                 style={{top: `${top}`}}
                 className={classes.font}
                 title={<Typography style={{fontWeight: 'bold', fontSize: `${fontSize}`}}>{article.title}</Typography>}
-                subheader={<Typography style={{fontWeight: 'bold', fontSize: `${subFontSize}`}}>{article.source.name}</Typography>}
+                subheader={<Typography
+                    style={{fontWeight: 'bold', fontSize: `${subFontSize}`}}>{article.source.name}</Typography>}
             />
 
         </Card>

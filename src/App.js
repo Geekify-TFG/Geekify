@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useTextStyles} from "./resources/AppTexts";
 import clsx from "clsx";
-import {Button, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import {Button, Drawer, Grid, Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import {LabelsDrawer, LabelsSnackbar} from "./locale/en";
 import {AppColors} from "./resources/AppColors";
 import {BrowserRouter as Router, Link, Route, Switch, useHistory,} from "react-router-dom";
@@ -30,6 +30,9 @@ import {StorageManager} from "./utils";
 import {GoogleLogout} from "react-google-login";
 import SnackBarGeekify from "./components/SnackbarGeekify/SnackbarGeekify";
 import NewsPage from "./pages/NewsPage";
+import NewForumPage from "./pages/NewForumPage";
+import EditForumPage from "./pages/EditForumPage";
+import geekifyIcon from "./img/geekify_gif.gif"
 
 
 const drawerWidth = 240;
@@ -55,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     drawerHeader: {
         display: "flex",
         alignItems: "center",
-        padding: theme.spacing(0, 1),
+        padding: theme.spacing(0, -10),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: "flex-end",
@@ -193,6 +196,10 @@ const RouteMain = ({component: Component, select}) => {
                 }}
             >
                 <div className={classes.drawerHeader}>
+                    <Grid style={{marginTop:'5em'}}>
+                        <img style={{height: '20em', width: '20em'}} src={geekifyIcon}
+                             alt="loading..."/>
+                    </Grid >
 
                 </div>
 
@@ -289,7 +296,9 @@ function App() {
                 <RouteMain path={"/collections"} component={() => <CollectionsPage/>}/>
                 <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>
                 <RouteMain path={"/forums"} component={() => <ForumsPage/>}/>
+                <RouteMain path={"/forum/:id/edit"} component={() => <EditForumPage/>}/>
                 <RouteMain path={"/forum/:id"} component={() => <ForumPage/>}/>
+                <RouteMain path={"/forum"} component={() => <NewForumPage/>}/>
 
                 <RouteMain path={"/news"} component={() => <NewsPage/>}/>
             </Switch>

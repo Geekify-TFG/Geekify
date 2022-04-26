@@ -15,8 +15,8 @@ const ButtonToggle = styled(Button)`
   opacity: 1;
   background-color: #1D1D1D;
   color: #6563FF ${({active}) =>
-    active &&
-    `opacity: 1;
+          active &&
+          `opacity: 1;
         background-color: ${AppColors.PRIMARY};
         color: white;
         &:hover {

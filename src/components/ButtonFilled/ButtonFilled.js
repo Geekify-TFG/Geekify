@@ -56,7 +56,7 @@ const ButtonFilled = ({
 
     return (
         <Button
-
+            data-testid={"buttonFilled"}
             variant={variant}
             size={size}
             style={{
@@ -65,7 +65,7 @@ const ButtonFilled = ({
                 width: width,
                 paddingTop: 0,
                 paddingBottom: 0,
-                backgroundColor: backGroundColor
+                backgroundColor: isDisabled ? '#7B7983' : backGroundColor
             }}
             disabled={isDisabled}
             onClick={onClick}>

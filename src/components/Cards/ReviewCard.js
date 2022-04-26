@@ -39,7 +39,7 @@ const ReviewCard = props => {
             <CardHeader
                 title={
                     <Paper
-                        style={{width: '8em', borderRadius: 20, backgroundColor: AppColors.PRIMARY}}>
+                        style={{width: '10em', borderRadius: 20, backgroundColor: AppColors.PRIMARY}}>
                         <Typography
                             style={{marginLeft: '1em', marginRight: '1em', fontSize: '20px', color: AppColors.WHITE}}>
                             {game}
@@ -50,41 +50,14 @@ const ReviewCard = props => {
             <CardContent>
                 <Grid container spacing={2}>
                     <Grid item xs={2}>
-                        <Avatar sx={{bgcolor: AppColors.RED}} aria-label="recipe">
+                        <Avatar sx={{bgcolor: AppColors.RED}} src={avatar} aria-label="recipe">
                         </Avatar>
                     </Grid>
                     <Grid item xs={10}>
                         <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>{comment}</Typography>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={2}>
 
-                    </Grid>
-                    <Grid item xs={10}>
-                        <Paper style={{
-                            backgroundColor: AppColors.BACKGROUND,
-                            borderRadius: 20,
-                            width: '5em',
-                            height: '2.5em'
-                        }}
-                        >
-                            <Grid container style={{paddingLeft: '0.5em', paddingTop: '0.15em'}}>
-                                <IconProvider icon={<Icons.STAR style={{
-                                    paddingTop: '0.15em',
-                                    verticalAlign: "middle",
-                                    display: "inline-flex",
-                                    paddingRight: '4px',
-                                    color: AppColors.PRIMARY,
-                                }} size="100px"/>}/>
-                                <Typography style={{color: AppColors.WHITE, marginBottom: 0}} gutterBottom
-                                            variant="h5"
-                                            component="h2">
-                                    {4.9}
-                                </Typography>
-                            </Grid>
-                        </Paper> </Grid>
-                </Grid>
             </CardContent>
 
         </Card>

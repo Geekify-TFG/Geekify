@@ -1,8 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import {Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {AppColors} from "../../resources/AppColors";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import axios from "axios";
+import {LIKE_PUBLICATION} from "../../resources/ApiUrls";
 
 /**
  * Component to create comment cards.
@@ -22,6 +25,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
  */
 const CommentCard = props => {
     const {children, bg, height, width, title, time, comment} = props;
+    const [liked, setLiked] = useState(false)
+
+    const handleClickLikeComment = async () => {
+
+    }
     return (
         <Card
             data-testid={"commentCard"}
@@ -53,8 +61,12 @@ const CommentCard = props => {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon/>
+
+                <IconButton onClick={() => handleClickLikeComment()} aria-label="add to favorites">
+
+                    {liked ? <FavoriteIcon style={{fill: AppColors.PRIMARY}}/> : <FavoriteBorderIcon style={{fill: AppColors.PRIMARY}}/>}
+                    <Typography
+                        style={{fontSize: '20px', color: AppColors.PRIMARY}}>{0}</Typography>
                 </IconButton>
 
             </CardActions>

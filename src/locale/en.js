@@ -18,12 +18,25 @@ export const LabelsSnackbar = {
         "Logout successfully",
     COLLECTION_CREATED: 'Collection created successfully!',
     ADDED_TO_COLLECTION: 'Added to collection successfully!',
+    ADDED_TO_CALENDAR_RELEASES: 'Added to your calendar successfully!',
+    REMOVE_TO_CALENDAR_RELEASES: 'Removed from your calendar successfully!',
     ERROR_LOGIN_COLLECTION: 'You must be login to save to the collection!',
+    ERROR_LOGIN_CALENDAR: 'You must be login to save a game to your calendar!',
     COLLECTION_DELETED: 'Collection deleted successfully!',
     COLLECTION_EDITED: 'Collection edited successfully!',
-    COMMENTED_SUCCESSFULLY : 'You have commented the game!',
-    RATED_SUCCESSFULLY : 'You rated the game!',
+    COMMENTED_SUCCESSFULLY: 'You have commented the game!',
+    PUBLICATION_SUCCESSFULLY: 'You have post a publication!',
+    RATED_SUCCESSFULLY: 'You rated the game!',
     RATED_ERROR_LOGGED: 'You must be logged to rate a game',
+    FORUM_CREATED_SUCCESSFULLY: 'Forum created successfully',
+    FORUM_EDITED_SUCCESSFULLY: 'Forum edited successfully',
+    FORUM_DELETED: 'Forum deleted successfully',
+    FOLLOW_FORUM: 'You follow this forum',
+    UNFOLLOW_FORUM: 'You unfollowed this forum',
+    FOLLOW_FORUM_LOGIN: 'You must be login to follow a forum',
+    LIKE_PUBLICATION:'You liked the publication',
+    REMOVE_LIKE_PUBLICATION:'You remove the like of the publication',
+    LIKE_PUBLICATION_LOGIN:'You must be logged to like the publication'
 }
 
 export const LabelsDrawer = {
@@ -39,7 +52,7 @@ export const LabelsDrawer = {
 }
 
 export const LabelsMain = {
-    WELCOME:'Welcome to Geekify',
+    WELCOME: 'Welcome to Geekify',
     LOREM: "Lorem ipsum",
     DOLOR: "Dolor sit amet",
     DISCOVERY: "Start the discovery",
@@ -67,7 +80,7 @@ export const LabelsGamePage = {
     MEH: 'Meh',
     NOT_RECOMMENDED: 'Not recommended',
     NOT_RATED: 'Not rated',
-    NO_ACHIEVEMENTS:'This game has no achievements',
+    NO_ACHIEVEMENTS: 'This game has no achievements',
     NO_COMMENTS: 'This game has no comments. Write the first comment!'
 }
 
@@ -105,11 +118,29 @@ export const LabelsCollection = {
 export const LabelsForumsPage = {
     FORUMS: 'Forums',
     JOIN_FORUM: 'Join the forum',
-    FOLLOWING_GROUPS: 'Following groups',
-    SEE_MORE: 'See more'
+    FOLLOWING_GROUPS: 'Following forums',
+    FOLLOWING_GROUPS_NOT_LOGGED: 'You don\'t follow any forum yet. Sign up!',
+    SEE_MORE: 'See more',
+    CREATE_FORUM: 'Create new forum',
+    DELETE_FORUM: 'Delete forum',
+    EDIT_FORUM: 'Edit forum',
+    CREATE_OWN_FORUM: 'Create your own forum'
 }
 
-
+export const LabelsCreateForumPage = {
+    TITLE: 'Title',
+    DESCRIPTION: 'Description',
+    IMAGE: 'Image',
+    TAG: 'Tag',
+    GAME: 'Game',
+    CREATE_FORUM: 'Create your forum!',
+    EDIT_FORUM: 'Edit your forum!',
+    GAMING: 'Gaming',
+    DISCUSSION: 'Discussion',
+    ART:'Art',
+    MUSIC:'Music',
+    ADVICE:'Advice',
+}
 export const LabelsNewsPage = {
     NEWS: 'More news',
     SEE_MORE: 'See more'
@@ -118,7 +149,17 @@ export const LabelsNewsPage = {
 export const LabelsProfilePage = {
     FOLLOWING: 'Following',
     COMMENT_EXAMPLE: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a hendrerit quam, in sollicitudin sapien.',
-    NAME: 'Lorem Ipsum'
+    GENDER:'Gender',
+    BIRTHDAY:'Birthday',
+    LOCATION:'Location',
+    FAV_CATEGORIES:'Favorites categories',
+    TOP_GAMES:'TOP 3 games',
+    EDIT_PROFILE:'Edit profile',
+    NAME: 'Name',
+    MALE:'Male',
+    FEMALE:'Female',
+    OTHER:'Other',
+
 }
 
 export const LabelsLoginPage = {
@@ -143,9 +184,11 @@ export const DialogTexts = {
     SAVE: 'Save',
     DELETE: 'Delete',
     ADD_TO_COLLECTIONS: 'Add to collections',
+    EDIT_PROFILE: 'Edit profile',
     CREATE_COLLECTION: 'Create collection',
     EDIT_COLLECTION: 'Edit collection',
-    DELETE_COLLECTION: 'Delete collection'
+    DELETE_COLLECTION: 'Delete collection',
+    DELETE_FORUM: 'Delete forum'
 }
 
 export const ErrorTexts = {
@@ -156,4 +199,14 @@ export const ErrorTexts = {
 export const menuOptions = {
     EDIT: 'Edit',
     DELETE: 'Delete'
+}
+
+export const profileOptions = {
+    PROFILE:'Profile',
+    CLOSE_SESSION: 'Log out'
+}
+
+export const LabelsCalendarPage={
+    CALENDAR:'Calendar',
+    MY_CALENDAR:'My calendar'
 }

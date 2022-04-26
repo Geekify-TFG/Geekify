@@ -14,30 +14,14 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import {makeStyles} from "@material-ui/core/styles";
 import {AppColors} from "../resources/AppColors";
 import {LabelsForumsPage} from "../locale/en";
-import styled from "@emotion/styled";
 import ForumCard from "../components/Cards/ForumCard";
-import {forumsMock} from "../mocks/ForumsMock";
 import CardGeekify from "../components/Cards/CardGeekify";
 import {followingGroupMock} from "../mocks/FollowingGroupMock";
-import Icons from "../resources/Icons";
-import IconProvider from "../components/IconProvider/IconProvider";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
-
-const ButtonToggle = styled(Button)`
-  opacity: 1;
-  background-color: #1D1D1D;
-  color: #6563FF ${({active}) =>
-          active &&
-          `opacity: 1;
-        background-color: ${AppColors.PRIMARY};
-        color: white;
-        &:hover {
-            color: white;
-            background-color: #6563FF;
-          }
-        `};
-
-`;
+import axios from "axios";
+import {ALL_FORUMS, JOIN_FORUM} from "../resources/ApiUrls";
+import {useHistory} from "react-router-dom";
+import {StorageManager} from "../utils";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -75,26 +59,45 @@ const useStyles = makeStyles((theme) => ({
 const ForumsPage = () => {
     const [forums, setForums] = useState();
     const [followingGroups, setFollowingGroups] = useState();
+    const [followingForums, setFollowingForums] = useState();
     const [loading, setLoading] = useState(false);
+    const history = useHistory()
+    const storageManager = new StorageManager()
 
-    /*  //Function to get all the games
-      const getCollections = async () => {
-          try {
-              var data = []
-              const response = await axios.get(`${BASE_PATH}${GAMES}`);
-              setCollections(response.data.results)
-              setLoading(false)
+    //Function to get all the games
+    const getForums = async () => {
+        try {
+            const response = await axios.get(`${ALL_FORUMS}`);
+            setForums(response.data.forums)
+            setLoading(false)
 
-          } catch (err) {
-              console.log(err.message)
-          }
-      }
-  */
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+    const getForumsFollowed = async () => {
+        try {
+            const config = {auth: {username: storageManager.getToken()}}
+            const response = await axios.get(`${JOIN_FORUM(storageManager.getEmail())}`, config)
+            setFollowingForums(response.data.forums_followed)
+        } catch (e) {
+            console.log('Error: ', e)
+        }
+    }
+
+
+    const handleCreateForum = async () => {
+        history.push({
+            pathname: `/forum`,
+        })
+    }
 
     useEffect(() => {
-        setForums(forumsMock)
         setFollowingGroups(followingGroupMock)
-        // getCollections()
+        getForums()
+        if (storageManager.getToken())
+            getForumsFollowed()
+
     }, []);
 
     return (
@@ -123,35 +126,51 @@ const ForumsPage = () => {
                 <Grid container
                       direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
                     <Grid item style={{marginLeft: '2em'}}>
-
-
-                        <Typography
-                            style={{
-                                fontSize: '40px',
-                                color: AppColors.WHITE,
-                                fontWeight: 'bold'
-                            }}>{LabelsForumsPage.FORUMS}</Typography>
-
-                        {forums &&
-                        forums.map(elem => (
-                            <Grid item style={{paddingLeft: 0, paddingBottom: '2em'}} key={forums.indexOf(elem)}
-
+                        <Grid container direction={"row"} justifyContent={"space-between"}>
+                            <Typography
+                                style={{
+                                    fontSize: '40px',
+                                    color: AppColors.WHITE,
+                                    fontWeight: 'bold'
+                                }}>{LabelsForumsPage.FORUMS}</Typography>
+                            {storageManager.getToken() && <Button
+                                data-testid={"BtnCreateForum"}
+                                style={{
+                                    backgroundColor: AppColors.PRIMARY,
+                                    borderRadius: 20,
+                                    maxWidth: '10em'
+                                }}
+                                onClick={handleCreateForum}
                             >
-                                <ForumCard
-                                    bg={AppColors.BACKGROUND_DRAWER}
-                                    forumId={elem.id}
-                                    forumTitle={elem.title}
-                                    forumDescription={elem.description}
-                                    forumNumUsers={elem.numUsers}
-                                    forumImage={elem.image}
-                                    forumGenre={elem.genre}
+                                <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
+                                            gutterBottom
+                                >
+                                    {LabelsForumsPage.CREATE_FORUM}
+                                </Typography>
+                            </Button>}
+                        </Grid>
+                        {forums &&
+                        Object.entries(forums)
+                            .map(([key, value]) =>
+                                <>
+                                    <ForumCard
+                                        bg={AppColors.BACKGROUND_DRAWER}
+                                        forumId={key}
+                                        forumTitle={value.title}
+                                        forumDescription={value.description}
+                                        forumNumUsers={value.users.length}
+                                        forumImage={value.image}
+                                        forumGenre={value.tag}
+                                        forumGame={value.game}
+                                        followingForums={followingForums ? (!!followingForums.find(element => element.id === key)) : null}
+                                        getForumsFollowed={getForumsFollowed}
 
-                                />
-                                <Divider style={{width: '45em', backgroundColor: AppColors.GRAY}}/>
+                                    />
+                                    <Divider style={{width: '45em', backgroundColor: AppColors.GRAY}}/>
+                                </>
+                            )
+                        }
 
-                            </Grid>
-
-                        ))}
 
                     </Grid>
                     <Grid item style={{marginLeft: '2em'}}>
@@ -161,51 +180,45 @@ const ForumsPage = () => {
                                 <Grid
                                     container
                                 >
-                                    <Typography
-                                        style={{
-                                            fontSize: '20px',
-                                            color: AppColors.WHITE,
-                                            marginLeft: '3em',
-                                            marginTop: '1em'
-                                        }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
+                                    <Grid item
+                                          style={{backgroundColor: AppColors.PRIMARY, width: '350px', height: '60px'}}>
 
+                                        <Typography
+                                            style={{
+                                                fontSize: '20px',
+                                                color: AppColors.WHITE,
+                                                marginLeft: '3em',
+                                                marginTop: '1em'
+                                            }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
+                                    </Grid>
 
-                                    <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
-                                        {followingGroups &&
-                                        followingGroups.map(elem => (
-                                            <ListItem>
-                                                <ListItemAvatar>
-                                                    <Avatar alt="Remy Sharp" src={elem.image}/>
-                                                </ListItemAvatar>
-                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                              primary={elem.groupName}
-                                                />
-                                                <ListItemText style={{color: AppColors.GRAY}}
-                                                              primary={elem.numParticipants}
-                                                />
-                                            </ListItem>
+                                    {followingForums ? <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
+                                            {followingForums &&
+                                            followingForums.map(elem => (
+                                                <ListItem>
+                                                    <ListItemAvatar>
+                                                        <Avatar alt="Remy Sharp" src={elem.value.image}/>
+                                                    </ListItemAvatar>
+                                                    <ListItemText
+                                                        style={{color: AppColors.WHITE, marginRight: '5em'}}
+                                                        primary={elem.value.title}
+                                                    />
+                                                    <ListItemText style={{color: AppColors.GRAY}}
+                                                                  primary={elem.value.game}
+                                                    />
+                                                </ListItem>
 
-                                        ))}
-                                        <Grid container direction={"row"}>
-                                            <Grid item>
-                                                <Typography
-                                                    style={{
-                                                        fontSize: '20px',
-                                                        color: AppColors.PRIMARY,
-                                                        marginLeft: '3em',
-                                                        marginTop: '1em'
-                                                    }}>{LabelsForumsPage.SEE_MORE}</Typography>
-                                            </Grid>
-                                            <Grid item style={{paddingLeft: '2em', paddingTop: '1em'}}>
-                                                <IconProvider icon={<Icons.ARROW_RIGHT style={{
-                                                    verticalAlign: "middle",
-                                                    display: "inline-flex",
-                                                    color: AppColors.PRIMARY,
-                                                    fontSize: '1.5em'
-                                                }} size="100px"/>}/>
-                                            </Grid>
-                                        </Grid>
-                                    </List>
+                                            ))}
+
+                                        </List> :
+                                        <Typography
+                                            style={{
+                                                fontSize: '30px',
+                                                color: AppColors.PRIMARY,
+                                                marginLeft: '1.5em',
+                                                marginTop: '1em'
+                                            }}>{LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
+                                    }
                                 </Grid>
 
                             </CardGeekify>

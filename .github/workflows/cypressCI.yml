@@ -5,7 +5,7 @@ name: Control Tests
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events
-  push:
+  #push:
 #    branches:
 #      - develop
 #      - main
