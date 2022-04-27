@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {Avatar, Fade, Menu, MenuItem} from '@material-ui/core'
+import React, { useEffect, useState } from "react";
+import { Avatar, Fade, Menu, MenuItem } from "@material-ui/core"
 
-import {makeStyles} from '@material-ui/core/styles'
-import {AppColors} from "../../resources/AppColors"
-import {useHistory} from 'react-router-dom'
-import PropTypes from 'prop-types';
-import {Button, Typography} from "@mui/material";
-import {StorageManager} from "../../utils";
-import {profileOptions} from "../../locale/en";
+import { makeStyles } from "@material-ui/core/styles"
+import { AppColors } from "../../resources/AppColors"
+import { useHistory } from "react-router-dom"
+import PropTypes from "prop-types";
+import { Button, Typography } from "@mui/material";
+import { StorageManager } from "../../utils";
+import { profileOptions } from "../../locale/en";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: "flex",
     },
     appBar: {
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     hide: {
-        display: 'none',
+        display: "none",
     },
     drawer: {
         width: drawerWidth,
@@ -42,24 +42,24 @@ const useStyles = makeStyles((theme) => ({
         width: drawerWidth,
     },
     drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
+        display: "flex",
+        alignItems: "center",
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
     },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: -drawerWidth,
     },
     contentShift: {
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
@@ -67,16 +67,16 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
-        textAlign: 'center'
+        textAlign: "center"
     },
     imageIcon: {
-        height: '100%',
+        height: "100%",
     },
     icon: {
-        height: '60px',
+        height: "60px",
     },
     iconRoot: {
-        textAlign: 'center'
+        textAlign: "center"
     },
     menuPaper: {
         backgroundColor: AppColors.BACKGROUND_DRAWER
@@ -88,8 +88,6 @@ const ProfileButton = () => {
 
     const classes = useStyles();
     const history = useHistory()
-    const [alertOpen, setAlertOpen] = React.useState(false);
-    const [showExitModal, setShowExitModal] = useState(false);
     const [logged, setLogged] = useState(false)
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -103,27 +101,13 @@ const ProfileButton = () => {
         setAnchorEl(null);
     };
 
-
-    const handleClickOpen = () => {
-        setShowExitModal(true);
-    };
-
-    const handleOnConfirmExit = () => {
-        // TODO: Duplicate form
-        sessionStorage.removeItem('user')
-        // logout()
-        setShowExitModal(!showExitModal)
-    }
-
-
     const toProfile = () => {
 
         history.push({
-            pathname: `/profile`,
+            pathname: "/profile",
         })
     }
     const logout = () => {
-        console.log('log out')
         storageManager.clear()
         setAnchorEl(false)
         setLogged(false)
@@ -133,8 +117,6 @@ const ProfileButton = () => {
         }, 1500)
     }
 
-
-
     useEffect(() => {
         if (storageManager.getToken() !== "") {
             setLogged(true)
@@ -143,43 +125,43 @@ const ProfileButton = () => {
 
     return (
         <>
-            {logged && <Button id="myProfile" /*onClick={() => history.push('/profile')}*/ onClick={handleClick} style={{
+            {logged && <Button id="myProfile" /*onClick={() => history.push("/profile")}*/ onClick={handleClick} style={{
                 backgroundColor: AppColors.BACKGROUND_DRAWER,
                 borderRadius: 30,
-                border: '2px solid #6563FF',
+                border: "2px solid #6563FF",
                 borderColor: AppColors.PRIMARY,
-                height: '3.5em'
+                height: "3.5em"
 
             }}>
-                <Avatar style={{width: '36px', height: '36px', backgroundColor: AppColors.PRIMARY}}
-                        src={storageManager.getImage()}>
+                <Avatar style={{ width: "36px", height: "36px", backgroundColor: AppColors.PRIMARY }}
+                    src={storageManager.getImage()}>
                 </Avatar>
                 <Typography style={{
-                    fontSize: '12px',
+                    fontSize: "12px",
                     color: AppColors.WHITE,
-                    paddingLeft: '1em'
-                }}>{storageManager.getEmail().split('@')[0]}</Typography>
+                    paddingLeft: "1em"
+                }}>{storageManager.getEmail().split("@")[0]}</Typography>
 
             </Button>}
             <Menu
                 classes={{ paper: classes.menuPaper }}
                 id="fade-menu"
                 anchorEl={anchorEl}
-                anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 keepMounted
                 open={open}
                 onClose={handleClose}
                 TransitionComponent={Fade}>
-                <MenuItem data-testid="MyProfileButton" style={{color: AppColors.PRIMARY}}
-                          onClick={() => {
-                              toProfile()
+                <MenuItem data-testid="MyProfileButton" style={{ color: AppColors.PRIMARY }}
+                    onClick={() => {
+                        toProfile()
 
-                          }}> {profileOptions.PROFILE} </MenuItem>
+                    }}> {profileOptions.PROFILE} </MenuItem>
 
-                <MenuItem style={{color: AppColors.PRIMARY}}
-                          onClick={() => {
-                              logout()
-                          }}> {profileOptions.CLOSE_SESSION} </MenuItem>
+                <MenuItem style={{ color: AppColors.PRIMARY }}
+                    onClick={() => {
+                        logout()
+                    }}> {profileOptions.CLOSE_SESSION} </MenuItem>
 
             </Menu>
         </>

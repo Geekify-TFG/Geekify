@@ -1,10 +1,10 @@
 import React from "react";
-import {IconContext} from "react-icons";
-import PropTypes from 'prop-types';
+import { IconContext } from "react-icons";
+import PropTypes from "prop-types";
 
 /**
  * @component
- * Component that allows displaying a icon from 'react-icons'
+ * Component that allows displaying a icon from "react-icons"
  *
  *
  * @param icon: component to display
@@ -12,10 +12,10 @@ import PropTypes from 'prop-types';
  *
  * @example
  * const icon = <Icons.ADD_FILLED size="3rem"/>;
- * const values = {color: 'white'};
+ * const values = {color: "white"};
  * <IconProvider icon={icon} values={values}/>
  */
-const IconProvider = ({icon, values = {}}) => {
+const IconProvider = ({ icon, values = {} }) => {
     return (
         <IconContext.Provider value={values}>
             {icon}

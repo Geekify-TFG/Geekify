@@ -1,4 +1,7 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+/* eslint-disable camelcase */
+import React, { useEffect, useState } from "react";
 import {
     Avatar,
     ButtonGroup,
@@ -14,41 +17,41 @@ import {
     Select,
     TextField
 } from "@material-ui/core";
-import {Button, Typography} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import SearchBar from "../components/SearchBar/SearchBar";
-import {AppColors} from "../resources/AppColors";
-import {DialogTexts, LabelsProfilePage} from "../locale/en";
-import {makeStyles} from "@mui/styles";
-import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
-import {followingUsersMock} from "../mocks/FollowingUsersMock";
+import { AppColors } from "../resources/AppColors";
+import { DialogTexts, LabelsProfilePage } from "../locale/en";
+import { makeStyles } from "@mui/styles";
+import { AppTextsFontSize, AppTextsFontWeight } from "../resources/AppTexts";
+import { followingUsersMock } from "../mocks/FollowingUsersMock";
 import CardGeekify from "../components/Cards/CardGeekify";
 import ReviewCard from "../components/Cards/ReviewCard";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
-import {INFO_URL, LIST_GAMES} from "../resources/ApiUrls";
-import {StorageManager} from "../utils";
+import { INFO_URL, LIST_GAMES } from "../resources/ApiUrls";
+import { StorageManager } from "../utils";
 import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
 import DialogGeekify from "../components/DialogGeekify";
 import Icons from "../resources/Icons";
 
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import MultipleSelectGeekify from "../components/MultipleSelectGeekify/MultipleSelectGeekify";
-import {genresMock} from "../mocks/SearchMocks";
+import { genresMock } from "../mocks/SearchMocks";
 import AutocompleteMultipleGeekify from "../components/AutocompleteGeekify/AutocompleteMultipleGeekify";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import {Carousel} from 'react-responsive-carousel';
+import { Carousel } from "react-responsive-carousel";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: 275,
     },
     bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
+        display: "inline-block",
+        margin: "0 2px",
+        transform: "scale(0.8)",
     },
     text: {
         fontSize: AppTextsFontSize.SIZE_BODY,
@@ -60,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     link: {
         overflowX: "auto",
         "&:hover": {
-            cursor: 'pointer',
+            cursor: "pointer",
             textDecoration: `underline ${AppColors.WHITE}`
         }
     }, cardHeaderRoot: {
@@ -70,18 +73,18 @@ const useStyles = makeStyles((theme) => ({
         overflow: "hidden"
     },
     textFieldLabel: {
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
                 borderColor: AppColors.PRIMARY,
-                opacity: '0.2',
+                opacity: "0.2",
                 borderRadius: 10,
             },
-        }, '& .MuiInputBase-root': {
+        }, "& .MuiInputBase-root": {
             color: AppColors.PRIMARY,
-        }, '& .MuiInputLabel-root': {
+        }, "& .MuiInputLabel-root": {
             color: AppColors.PRIMARY,
-        }, '& .MuiTextField-root': {
-            height: '25em',
+        }, "& .MuiTextField-root": {
+            height: "25em",
         },
         color: AppColors.PRIMARY,
         backgroundColor: AppColors.BACKGROUND,
@@ -122,19 +125,18 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "row",
         "& > *:not(:last-child)": {
-            marginRight: '1em'
+            marginRight: "1em"
         }
     }
 
 }));
 
-
 function EditProfile({
-                         infoUser,
-                         showEditProfileModal,
-                         setShowEditProfileModal,
-                         openSnackEditProfile, setOpenSnackEditProfile
-                     }) {
+    infoUser,
+    showEditProfileModal,
+    setShowEditProfileModal,
+    openSnackEditProfile, setOpenSnackEditProfile
+}) {
     const classes = useStyles();
     const [photo, setPhoto] = useState()
     const [name, setName] = useState()
@@ -156,26 +158,26 @@ function EditProfile({
         }
     }
     const handleClickSubmit = async () => {
-        let fav_categories = favCategories.map(a => a.value);
-        let top_games = favGames.map(a => a.id);
+        const fav_categories = favCategories.map(a => a.value);
+        const top_games = favGames.map(a => a.id);
 
         try {
             var body = {
-                'name': name ? name : infoUser.name,
-                'photo': photo ? photo : infoUser.photo,
-                'gender': gender ? gender : infoUser.gender,
-                'birthday': birthday ? birthday : infoUser.birthday,
-                'location': location ? location : infoUser.location,
-                'fav_categories': fav_categories ? fav_categories : infoUser.fav_categories,
-                'top_games': top_games ? top_games : infoUser.top_games
+                "name": name ? name : infoUser.name,
+                "photo": photo ? photo : infoUser.photo,
+                "gender": gender ? gender : infoUser.gender,
+                "birthday": birthday ? birthday : infoUser.birthday,
+                "location": location ? location : infoUser.location,
+                "fav_categories": fav_categories ? fav_categories : infoUser.fav_categories,
+                "top_games": top_games ? top_games : infoUser.top_games
             }
             console.log(body)
-            const config = {auth: {username: storageManager.getToken()}}
+            const config = { auth: { username: storageManager.getToken() } }
             const response = await axios.put(`${INFO_URL(storageManager.getEmail())}`, body, config)
             setShowEditProfileModal(-999)
             console.log(response)
         } catch (e) {
-            console.log('Error: ', e)
+            console.log("Error: ", e)
         }
     }
 
@@ -202,20 +204,19 @@ function EditProfile({
             title={DialogTexts.EDIT_PROFILE}
             buttonColor={AppColors.PRIMARY}
             body={
-
                 <Grid container xs={6}
-                      direction={"column"}>
-                    <Avatar style={{width: '100px', height: '100px', backgroundColor: AppColors.PRIMARY}}
-                            src={infoUser.photo}/>
+                    direction={"column"}>
+                    <Avatar style={{ width: "100px", height: "100px", backgroundColor: AppColors.PRIMARY }}
+                        src={infoUser.photo} />
 
-                    <FormControl variant="outlined" margin='normal'
-                                 style={{width: '30em'}}
+                    <FormControl variant="outlined" margin="normal"
+                        style={{ width: "30em" }}
                     >
                         <TextField
                             data-testid={"nameUser"}
                             required
                             id={"title"}
-                            style={{width: '30em'}}
+                            style={{ width: "30em" }}
                             onChange={(e) => setName(e.target.value)}
                             type="text"
                             label={LabelsProfilePage.NAME}
@@ -223,36 +224,36 @@ function EditProfile({
                             variant="standard"
                             defaultValue={infoUser ? infoUser.name : undefined}
                             className={classes.textFieldLabel}
-                            InputLabelProps={{shrink: true}}
+                            InputLabelProps={{ shrink: true }}
 
                         />
                     </FormControl>
                     <FormControl data-testid={"selectTag"} className={classes.select}
-                                 variant="outlined" margin='normal' style={{width: '20em'}}
+                        variant="outlined" margin="normal" style={{ width: "20em" }}
                     >
-                        <InputLabel style={{width: '20em'}}
-                                    className={classes.select}
-                                    id="demo-simple-select-label">{LabelsProfilePage.GENDER}</InputLabel>
+                        <InputLabel style={{ width: "20em" }}
+                            className={classes.select}
+                            id="demo-simple-select-label">{LabelsProfilePage.GENDER}</InputLabel>
                         <Select className={classes.select}
-                                IconComponent={Icons.ARROW_DOWN}
-                                defaultValue={infoUser ? infoUser.gender : undefined}
-                                displayEmpty
-                                onChange={handleChangeGender}
-                                label={LabelsProfilePage.GENDER}
+                            IconComponent={Icons.ARROW_DOWN}
+                            defaultValue={infoUser ? infoUser.gender : undefined}
+                            displayEmpty
+                            onChange={handleChangeGender}
+                            label={LabelsProfilePage.GENDER}
 
                         >
                             <MenuItem data-testid={"menuItemMale"}
-                                      style={{color: AppColors.PRIMARY}}
-                                      value={'Male'}>{LabelsProfilePage.MALE}</MenuItem>
+                                style={{ color: AppColors.PRIMARY }}
+                                value={"Male"}>{LabelsProfilePage.MALE}</MenuItem>
                             <MenuItem data-testid={"menuItemFemale"}
-                                      style={{color: AppColors.PRIMARY}}
-                                      value={'Female'}>{LabelsProfilePage.FEMALE}</MenuItem>
-                            <MenuItem style={{color: AppColors.PRIMARY}}
-                                      value={'Other'}>{LabelsProfilePage.OTHER}</MenuItem>
+                                style={{ color: AppColors.PRIMARY }}
+                                value={"Female"}>{LabelsProfilePage.FEMALE}</MenuItem>
+                            <MenuItem style={{ color: AppColors.PRIMARY }}
+                                value={"Other"}>{LabelsProfilePage.OTHER}</MenuItem>
 
                         </Select>
                     </FormControl>
-                    <FormControl className={classes.select} margin='normal' style={{width: '170px'}}>
+                    <FormControl className={classes.select} margin="normal" style={{ width: "170px" }}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 inputFormat="dd/MM/yyyy"
@@ -261,7 +262,7 @@ function EditProfile({
                                 defaultValue={infoUser ? infoUser.birthday : undefined}
                                 onChange={(newValue) => {
                                     setBirthday(newValue.toLocaleDateString("en-US"));
-                                    //setValues({...values, ['birthdate']: newValue.toLocaleDateString("en-US")})
+                                    //setValues({...values, ["birthdate"]: newValue.toLocaleDateString("en-US")})
 
                                 }}
                                 renderInput={(params) => <TextField {...params} />}
@@ -269,12 +270,12 @@ function EditProfile({
                         </LocalizationProvider>
                     </FormControl>
 
-                    <FormControl variant="outlined" margin='normal'
-                                 style={{width: '30em'}}
+                    <FormControl variant="outlined" margin="normal"
+                        style={{ width: "30em" }}
                     >
                         <TextField
                             id={"image"}
-                            style={{width: '30em'}}
+                            style={{ width: "30em" }}
                             onChange={(e) => setLocation(e.target.value)}
                             type="text"
                             label={LabelsProfilePage.LOCATION}
@@ -282,19 +283,19 @@ function EditProfile({
                             variant="standard"
                             defaultValue={infoUser.location}
                             className={classes.textFieldLabel}
-                            InputLabelProps={{shrink: true}}
+                            InputLabelProps={{ shrink: true }}
                         />
                     </FormControl>
                     <MultipleSelectGeekify value={favCategories} handleChange={handleChangeFavCategories}
-                                           options={genresMock} width={'20em'}
-                                           label={LabelsProfilePage.FAV_CATEGORIES}/>
+                        options={genresMock} width={"20em"}
+                        label={LabelsProfilePage.FAV_CATEGORIES} />
 
                     <FormControl data-testid={"formControlGame"} className={classes.select}
-                                 variant="outlined" margin='normal'
-                                 style={{width: '20em'}}
+                        variant="outlined" margin="normal"
+                        style={{ width: "20em" }}
                     >
                         <AutocompleteMultipleGeekify game={game} handleChange={handleChangeGame}
-                                                     setGame={setGame} list={listGames}/>
+                            setGame={setGame} list={listGames} />
                     </FormControl>
 
                 </Grid>
@@ -304,7 +305,6 @@ function EditProfile({
         />
     )
 }
-
 
 const ProfilePage = () => {
     const storageManager = new StorageManager();
@@ -326,7 +326,6 @@ const ProfilePage = () => {
         }
     }
 
-
     useEffect(() => {
         setFollowingUsers(followingUsersMock)
         getInfouser()
@@ -338,43 +337,41 @@ const ProfilePage = () => {
     return (
         <>
             {loading ? (
-                <div style={{display: "flex", justifyContent: "center"}}>
-                    <CircularProgress/>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <CircularProgress />
                 </div>) : <Grid container justifyContent={"space-between"} alignItems={"center"}>
                 <Grid container alignItems="flex-start"
-                      direction={"column"} style={{
-                    backgroundSize: "cover",
+                    direction={"column"} style={{
+                        backgroundSize: "cover",
 
-                }}>
+                    }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
-                        <Grid item style={{margin: '2em'}}>
-                            <SearchBar/>
+                        <Grid item style={{ margin: "2em" }}>
+                            <SearchBar />
                         </Grid>
 
-                        <Grid item style={{margin: '2em'}}>
-                            <ProfileButton/>
+                        <Grid item style={{ margin: "2em" }}>
+                            <ProfileButton />
 
                         </Grid>
                     </Grid>
                 </Grid>
                 <Grid container alignItems="flex-start"
-                      direction={"column"} style={{
-                    width: '50em',
-                    backgroundColor: AppColors.BACKGROUND,
-
-                }}>
-
-                    <Grid item style={{marginLeft: '2em'}}>
+                    direction={"column"} style={{
+                        width: "50em",
+                        backgroundColor: AppColors.BACKGROUND,
+                    }}>
+                    <Grid item style={{ marginLeft: "2em" }}>
                         <Grid container alignItems={"center"} spacing={8}
                         >
                             {infoUser.photo && <Grid item xs={4}>
-                                <Avatar style={{width: '150px', height: '150px', backgroundColor: AppColors.PRIMARY}}
-                                        src={infoUser.photo}/>
+                                <Avatar style={{ width: "150px", height: "150px", backgroundColor: AppColors.PRIMARY }}
+                                    src={infoUser.photo} />
                             </Grid>}
                             {infoUser.name && <Grid item xs={6}>
                                 <Typography
                                     style={{
-                                        fontSize: '40px',
+                                        fontSize: "40px",
                                         color: AppColors.WHITE
                                     }}>{infoUser.name}</Typography>
                             </Grid>}
@@ -387,74 +384,71 @@ const ProfilePage = () => {
                         </Grid>
                     </Grid>
                     <Grid container
-                          direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
-                        <Grid item style={{marginLeft: '2em'}}>
-                            <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={20} height={'auto'}
-                                         width={'20em'}>
+                        direction={"row"} style={{ marginTop: "2em", marginBottom: "2em" }}>
+                        <Grid item style={{ marginLeft: "2em" }}>
+                            <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={20} height={"auto"}
+                                width={"20em"}>
                                 {infoUser.gender != null ? <Grid
-                                        container
-                                    >
-                                        <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
-                                            <ListItem>
-                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                              primary={LabelsProfilePage.GENDER}
-                                                />
-                                                <ListItemText style={{color: AppColors.PRIMARY}}
-                                                              primary={infoUser.gender}
-                                                />
-                                            </ListItem>
-                                            <ListItem>
-                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                              primary={LabelsProfilePage.BIRTHDAY}
-                                                />
-                                                <ListItemText style={{color: AppColors.PRIMARY}}
-                                                              primary={infoUser.birthday}
-                                                />
-                                            </ListItem>
-                                            <ListItem>
-                                                <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                              primary={LabelsProfilePage.LOCATION}
-                                                />
-                                                <ListItemText style={{color: AppColors.PRIMARY}}
-                                                              primary={infoUser.location}
-                                                />
-                                            </ListItem>
-                                            <List style={{paddingLeft: 0}} subheader={<li/>}>
-                                                <li>
-                                                    <ul style={{paddingLeft: '15px'}}>
-                                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                                      primary={LabelsProfilePage.FAV_CATEGORIES}
-                                                        />
-                                                        <ButtonGroup className={classes.buttonGroup} color="primary"
-                                                                     aria-label="outlined primary button group">
-                                                            {infoUser.fav_categories.map(elem => (
+                                    container
+                                >
+                                    <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
+                                        <ListItem>
+                                            <ListItemText style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                                primary={LabelsProfilePage.GENDER}
+                                            />
+                                            <ListItemText style={{ color: AppColors.PRIMARY }}
+                                                primary={infoUser.gender}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                                primary={LabelsProfilePage.BIRTHDAY}
+                                            />
+                                            <ListItemText style={{ color: AppColors.PRIMARY }}
+                                                primary={infoUser.birthday}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                                primary={LabelsProfilePage.LOCATION}
+                                            />
+                                            <ListItemText style={{ color: AppColors.PRIMARY }}
+                                                primary={infoUser.location}
+                                            />
+                                        </ListItem>
+                                        <List style={{ paddingLeft: 0 }} subheader={<li />}>
+                                            <li>
+                                                <ul style={{ paddingLeft: "15px" }}>
+                                                    <ListItemText style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                                        primary={LabelsProfilePage.FAV_CATEGORIES}
+                                                    />
+                                                    <ButtonGroup className={classes.buttonGroup} color="primary"
+                                                        aria-label="outlined primary button group">
+                                                        {infoUser.fav_categories.map(elem => (
+                                                            <Button key={elem.id} style={{
+                                                                backgroundColor: AppColors.PRIMARY,
+                                                                borderRadius: 20,
+                                                            }}
+                                                                disabled={true}>
+                                                                <Typography
+                                                                    style={{ color: AppColors.WHITE, marginBottom: 0 }}
+                                                                    gutterBottom
 
-                                                                <Button style={{
-                                                                    backgroundColor: AppColors.PRIMARY,
-                                                                    borderRadius: 20,
-                                                                }}
-                                                                        disabled={true}>
-                                                                    <Typography
-                                                                        style={{color: AppColors.WHITE, marginBottom: 0}}
-                                                                        gutterBottom
-
-                                                                    >
-                                                                        {elem}
-                                                                    </Typography>
-                                                                </Button>
-                                                            ))}
-                                                        </ButtonGroup>
-                                                    </ul>
-                                                </li>
-                                            </List>
-
-
+                                                                >
+                                                                    {elem}
+                                                                </Typography>
+                                                            </Button>
+                                                        ))}
+                                                    </ButtonGroup>
+                                                </ul>
+                                            </li>
                                         </List>
-                                    </Grid> :
+                                    </List>
+                                </Grid> :
                                     <Grid>
                                         <Typography
                                             style={{
-                                                fontSize: '40px',
+                                                fontSize: "40px",
                                                 color: AppColors.WHITE
                                             }}>{"You dont have profile info yet.\nEdit your profile"}</Typography>
                                     </Grid>}
@@ -462,11 +456,11 @@ const ProfilePage = () => {
                             </CardGeekify>
                         </Grid>
                         <Grid item container
-                              direction={"row"} spacing={2} style={{marginBottom: '2em', width: 0}}>
-                            <Grid item style={{marginLeft: '1em'}}>
-                                <Carousel width={'30em'} showThumbs={false}>
-                                    {infoUser.all_games.map((elem) => (
-                                        <div>
+                            direction={"row"} spacing={2} style={{ marginBottom: "2em", width: 0 }}>
+                            <Grid item style={{ marginLeft: "1em" }}>
+                                <Carousel width={"30em"} showThumbs={false}>
+                                    {infoUser.all_games.map(elem => (
+                                        <div key={elem.id}>
                                             <img
                                                 alt="icon"
                                                 src={elem.background_image}
@@ -474,12 +468,12 @@ const ProfilePage = () => {
                                         </div>
                                     ))}</Carousel>
                             </Grid>
-                            <Grid item style={{marginLeft: '2em'}}>
-                                {Object.keys(infoUser.comment)[0] !== 'None' &&
-                                <ReviewCard width={'450px'} height={'228px'}
-                                            game={Object.values(infoUser.comment)[0].game_comment['name']}
-                                            comment={Object.values(infoUser.comment)[0].content} avatar={infoUser.photo}
-                                            bg={AppColors.BACKGROUND_DRAWER}/>
+                            <Grid item style={{ marginLeft: "2em" }}>
+                                {Object.keys(infoUser.comment)[0] !== "None" &&
+                                    <ReviewCard width={"450px"} height={"228px"}
+                                        game={Object.values(infoUser.comment)[0].game_comment["name"]}
+                                        comment={Object.values(infoUser.comment)[0].content} avatar={infoUser.photo}
+                                        bg={AppColors.BACKGROUND_DRAWER} />
                                 }
                             </Grid>
 
@@ -488,44 +482,44 @@ const ProfilePage = () => {
                     </Grid>
 
                 </Grid>
-                <Grid item style={{marginRight: '2em'}}>
-                    <Grid item style={{marginBottom: '4em',}}>
-                        <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={50} height={'auto'}
-                                     width={'292px'}>
+                <Grid item style={{ marginRight: "2em" }}>
+                    <Grid item style={{ marginBottom: "4em", }}>
+                        <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={50} height={"auto"}
+                            width={"292px"}>
                             <Grid
                                 container
                             >
-                                <Grid item style={{backgroundColor: AppColors.PRIMARY, width: '292px', height: '60px'}}>
+                                <Grid item style={{ backgroundColor: AppColors.PRIMARY, width: "292px", height: "60px" }}>
                                     <Typography
                                         style={{
-                                            fontSize: '20px',
+                                            fontSize: "20px",
                                             color: AppColors.WHITE,
-                                            marginLeft: '4em',
-                                            marginTop: '1em'
+                                            marginLeft: "4em",
+                                            marginTop: "1em"
                                         }}>{LabelsProfilePage.FOLLOWING.toUpperCase()}</Typography>
                                 </Grid>
 
-                                <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
+                                <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
                                     {followingUsers &&
-                                    followingUsers.map(elem => (
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar alt="Remy Sharp" src={elem.avatar}/>
-                                            </ListItemAvatar>
-                                            <ListItemText style={{color: AppColors.WHITE}}
-                                                          classes={{secondary: AppColors.WHITE}}
-                                                          primary={<Typography style={{
-                                                              fontSize: '18px',
-                                                              color: AppColors.WHITE
-                                                          }}>{elem.username}</Typography>}
-                                                          secondary={<Typography style={{
-                                                              fontSize: '14px',
-                                                              color: AppColors.GRAY
-                                                          }}>{elem.gamesCommon}</Typography>}
-                                            />
-                                        </ListItem>
+                                        followingUsers.map((elem, key) => (
+                                            <ListItem key={elem}>
+                                                <ListItemAvatar>
+                                                    <Avatar alt="Remy Sharp" src={elem.avatar} />
+                                                </ListItemAvatar>
+                                                <ListItemText style={{ color: AppColors.WHITE }}
+                                                    classes={{ secondary: AppColors.WHITE }}
+                                                    primary={<Typography style={{
+                                                        fontSize: "18px",
+                                                        color: AppColors.WHITE
+                                                    }}>{elem.username}</Typography>}
+                                                    secondary={<Typography style={{
+                                                        fontSize: "14px",
+                                                        color: AppColors.GRAY
+                                                    }}>{elem.gamesCommon}</Typography>}
+                                                />
+                                            </ListItem>
 
-                                    ))}
+                                        ))}
 
                                 </List>
                             </Grid>

@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
-import {Container, Grid} from '@material-ui/core';
-import {useHistory} from "react-router-dom";
-import {makeStyles} from '@material-ui/core/styles'
-import {useTextStyles} from "../../resources/AppTexts";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
+import { Container, Grid } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles"
+import { useTextStyles } from "../../resources/AppTexts";
 import GameCard from "../Cards/GameCard";
 
 /**
@@ -23,26 +24,21 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const GridGames = ({games, mainPage}) => {
-    const history = useHistory()
-    const texts = useTextStyles();
+const GridGames = ({ games, mainPage }) => {
     const classes = useStyles();
     const [redirectTo, setRedirectTo] = useState([false, -1]);
-
-
     const [game, setGame] = useState(games);
-
 
     if (redirectTo[0]) {
         return (
-            <Container fluid style={{margin: 0, maxWidth: '100%'}}>
+            <Container fluid style={{ margin: 0, maxWidth: "100%" }}>
                 <div className={classes.root}>
 
                     <Grid container item
-                          style={{marginBottom: '24px'}}
-                          direction={"row"}
-                          alignItems={"flex-end"}
-                          justifyContent={"flex-end"}>
+                        style={{ marginBottom: "24px" }}
+                        direction={"row"}
+                        alignItems={"flex-end"}
+                        justifyContent={"flex-end"}>
 
                     </Grid>
 
@@ -57,11 +53,11 @@ const GridGames = ({games, mainPage}) => {
                         {
                             game.map(elem => (
                                 <Grid item key={game.indexOf(elem)}
-                                      xs={12}
-                                      sm={12}
-                                      md={6}
-                                      lg={4}
-                                      xl={3}
+                                    xs={12}
+                                    sm={12}
+                                    md={6}
+                                    lg={4}
+                                    xl={3}
                                 >
                                     <GameCard
                                         //  gameId={elem.id}
@@ -69,7 +65,6 @@ const GridGames = ({games, mainPage}) => {
                                     />
                                 </Grid>
                             ))}
-
 
                     </Grid>
                 </div>
@@ -79,7 +74,7 @@ const GridGames = ({games, mainPage}) => {
     }
 
     return (
-        <Container fluid style={{margin: 0, maxWidth: '100%'}}>
+        <Container fluid style={{ margin: 0, maxWidth: "100%" }}>
             <div className={classes.root}>
 
                 <Grid
@@ -93,11 +88,11 @@ const GridGames = ({games, mainPage}) => {
                     {
                         game.map(elem => (
                             <Grid item key={game.indexOf(elem)}
-                                  xs={12}
-                                  sm={12}
-                                  md={6}
-                                  lg={3}
-                                  xl={2}
+                                xs={12}
+                                sm={12}
+                                md={6}
+                                lg={3}
+                                xl={2}
                             >
                                 <GameCard
                                     gameId={elem.id}
@@ -108,7 +103,6 @@ const GridGames = ({games, mainPage}) => {
                                 />
                             </Grid>
                         ))}
-
 
                 </Grid>
             </div>

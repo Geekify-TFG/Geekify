@@ -1,49 +1,49 @@
-import {createStyles, fade, makeStyles} from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
-import {useState} from "react";
-import {useHistory} from "react-router-dom";
-import {AppColors} from "../../resources/AppColors";
+import { createStyles, fade, makeStyles } from "@material-ui/core/styles";
+import InputBase from "@material-ui/core/InputBase";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { AppColors } from "../../resources/AppColors";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         search: {
-            position: 'relative',
+            position: "relative",
             borderRadius: 30,
             backgroundColor: fade(AppColors.BACKGROUND_DRAWER, 0.15),
-            '&:hover': {
+            "&:hover": {
                 backgroundColor: fade(AppColors.BACKGROUND_DRAWER, 0.25),
             },
             marginLeft: 0,
-            width: '100%',
-            [theme.breakpoints.up('sm')]: {
+            width: "100%",
+            [theme.breakpoints.up("sm")]: {
                 marginLeft: theme.spacing(1),
-                width: 'auto',
+                width: "auto",
             },
         },
         searchIcon: {
             padding: theme.spacing(0, 2),
-            height: '100%',
-            position: 'absolute',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            height: "100%",
+            position: "absolute",
+            pointerEvents: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
         },
         inputRoot: {
-            color: 'inherit',
+            color: "inherit",
         },
         inputInput: {
             padding: theme.spacing(1, 1, 1, 0),
             // vertical padding + font size from searchIcon
             backgroundColor: AppColors.BACKGROUND_DRAWER,
             paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
-            transition: theme.transitions.create('width'),
-            width: '100%',
-            [theme.breakpoints.up('sm')]: {
-                width: '15em',
-                height: '2em',
-                '&:focus': {
-                    width: '20em',
+            transition: theme.transitions.create("width"),
+            width: "100%",
+            [theme.breakpoints.up("sm")]: {
+                width: "15em",
+                height: "2em",
+                "&:focus": {
+                    width: "20em",
                 },
             },
             borderRadius: 30,
@@ -54,13 +54,13 @@ const useStyles = makeStyles((theme) =>
             backgroundColor: AppColors.BACKGROUND_SEARCH,
             paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
             color: AppColors.GRAY,
-            transition: theme.transitions.create('width'),
-            width: '100%',
-            [theme.breakpoints.up('sm')]: {
-                width: '50em',
-                height: '2.5em',
-                '&:focus': {
-                    width: '50em',
+            transition: theme.transitions.create("width"),
+            width: "100%",
+            [theme.breakpoints.up("sm")]: {
+                width: "50em",
+                height: "2.5em",
+                "&:focus": {
+                    width: "50em",
                 },
             },
             borderRadius: 30,
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-function SearchBar({size, searched, setNewTitle}) {
+function SearchBar({ size, searched }) {
 
     const classes = useStyles();
     const [value, setValue] = useState(searched)
@@ -84,7 +84,7 @@ function SearchBar({size, searched, setNewTitle}) {
             }
             history.push({
                 pathname: `/search/${value}`,
-                state: {value: value}
+                state: { value: value }
             })
 
         }
@@ -93,7 +93,7 @@ function SearchBar({size, searched, setNewTitle}) {
     const myComponentClass = size ? classes.inputBig : classes.inputInput;
 
     return (
-        <div style={{marginLeft: '25px'}}>
+        <div style={{ marginLeft: "25px" }}>
 
             <InputBase
                 data-testid="SearchBar"
@@ -102,8 +102,8 @@ function SearchBar({size, searched, setNewTitle}) {
                     root: classes.inputRoot,
                     input: myComponentClass,
                 }}
-                style={{color: AppColors.WHITE}}
-                inputProps={{'aria-label': 'Search videogames '}}
+                style={{ color: AppColors.WHITE }}
+                inputProps={{ "aria-label": "Search videogames " }}
                 value={value}
                 onKeyDown={keyPress} onChange={handleChange}
             />

@@ -1,7 +1,7 @@
 import React from "react";
-import {Avatar, Card, CardContent, CardHeader, Typography} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import {AppColors} from "../../resources/AppColors";
+import { Avatar, Card, CardContent, CardHeader, Typography } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { AppColors } from "../../resources/AppColors";
 
 /**
  * Component to create comment cards.
@@ -14,13 +14,13 @@ import {AppColors} from "../../resources/AppColors";
  *
  * @example
  * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = 'light';
- * const style = {height: '18rem', width: '18rem'};
+ * const bg = "light";
+ * const style = {height: "18rem", width: "18rem"};
  *
  * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
 const CardAchivements = props => {
-    const {children, bg, height, width, title, percent, description, image} = props;
+    const { bg, height, width, title, percent, description, image } = props;
     return (
         <Card
             className="w-100 mb-3"
@@ -36,17 +36,17 @@ const CardAchivements = props => {
             <CardHeader
                 avatar={
                     <Avatar aria-label="recipe">
-                        <img style={{width: '40px', height: '40px'}} src={image}/>
+                        <img style={{ width: "40px", height: "40px" }} src={image} />
                     </Avatar>
                 }
 
-                title={<Typography style={{fontSize: '20px', color: AppColors.WHITE}}>{title}</Typography>}
+                title={<Typography style={{ fontSize: "20px", color: AppColors.WHITE }}>{title}</Typography>}
                 subheader={<Typography
-                    style={{fontSize: '16px', color: AppColors.PRIMARY}}>{`${percent} %`}</Typography>}
+                    style={{ fontSize: "16px", color: AppColors.PRIMARY }}>{`${percent} %`}</Typography>}
             />
 
             <CardContent>
-                <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>
+                <Typography style={{ fontSize: "16px", color: AppColors.WHITE }}>
                     {description}
                 </Typography>
             </CardContent>
@@ -63,8 +63,6 @@ CardAchivements.propTypes = {
     description: PropTypes.string,
     image: PropTypes.string,
     percent: PropTypes.string,
-
-
 }
 
 CardAchivements.defaultProps = {

@@ -1,7 +1,6 @@
 // Base
-const _DOMAIN = "https://api.rawg.io/api"; // Domain of the server
-//const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
-const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
+const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
+//const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
 
 export const MY_BASE_PATH = `${_MY_DOMAIN}`; // Base URL of the backend
 
@@ -45,7 +44,6 @@ const _COMMENT_PATH = "/comment";
 export const COMMENTS_OF_GAME = (id) => `${_GAME_COMMENT_PATH}/${id}`
 export const COMMENT_GAME = (id) => `${_COMMENT_PATH}/${id}`
 
-
 //Collections paths
 const _COLLECTIONS_PATH = "/collections";
 const _USEREMAIL_PATH = "/user_email";
@@ -61,18 +59,18 @@ const _FORUMS_PATH = "/forums"
 const _FORUM_PATH = "/forum"
 export const ALL_FORUMS = `${MY_BASE_PATH}${_FORUMS_PATH}`
 export const CREATE_FORUM = `${MY_BASE_PATH}${_FORUM_PATH}`
-export const EDIT_FORUM = (id)=>`${MY_BASE_PATH}${_FORUM_PATH}/${id}`
+export const EDIT_FORUM = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
 export const DELETE_FORUM = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
 export const INFO_FORUM = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}`
-export const JOIN_FORUM =(email)=> `${MY_BASE_PATH}${_ACCOUNT_FORUM_PATH}/${email}`
+export const JOIN_FORUM = (email) => `${MY_BASE_PATH}${_ACCOUNT_FORUM_PATH}/${email}`
 
 //Publications paths
 const _PUBLICATION_PATH = "/publication"
 const _PUBLICATIONS_PATH = "/publications"
 const _PUBLICATION_LIKE_PATH = "/publicationLike"
-export const POST_PUBLICATION = (id)=>`${MY_BASE_PATH}${_FORUM_PATH}/${id}${_PUBLICATION_PATH}`
-export const GET_PUBLICATIONS = (id)=>`${MY_BASE_PATH}${_FORUM_PATH}/${id}${_PUBLICATIONS_PATH}`
-export const LIKE_PUBLICATION = (id)=>`${MY_BASE_PATH}${_PUBLICATION_LIKE_PATH}/${id}`
+export const POST_PUBLICATION = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}${_PUBLICATION_PATH}`
+export const GET_PUBLICATIONS = (id) => `${MY_BASE_PATH}${_FORUM_PATH}/${id}${_PUBLICATIONS_PATH}`
+export const LIKE_PUBLICATION = (id) => `${MY_BASE_PATH}${_PUBLICATION_LIKE_PATH}/${id}`
 
 //News
 const _NEWS_PATH = "/news";
@@ -82,5 +80,4 @@ export const NEWS = `${_NEWS_PATH}`
 const _CALENDAR_PATH = "/calendar";
 const _ACCOUNT_CALENDAR_PATH = "/account/calendar";
 export const CALENDAR = `${MY_BASE_PATH}${_CALENDAR_PATH}`
-export const MY_CALENDAR =(email)=>  `${MY_BASE_PATH}${_ACCOUNT_CALENDAR_PATH}/${email}`
-
+export const MY_CALENDAR = (email) => `${MY_BASE_PATH}${_ACCOUNT_CALENDAR_PATH}/${email}`

@@ -1,6 +1,6 @@
 import React from "react";
-import {Card} from '@material-ui/core';
-import PropTypes from 'prop-types';
+import {Card} from "@material-ui/core";
+import PropTypes from "prop-types";
 import {AppColors} from "../../resources/AppColors";
 
 /**
@@ -14,8 +14,8 @@ import {AppColors} from "../../resources/AppColors";
  *
  * @example
  * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = 'light';
- * const style = {height: '18rem', width: '18rem'};
+ * const bg = "light";
+ * const style = {height: "18rem", width: "18rem"};
  *
  * <CardGeekify bg={bg} style={style}> {children} </CardGeekify>
  */

@@ -1,11 +1,10 @@
-import React, {useState} from "react";
-import {Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import {AppColors} from "../../resources/AppColors";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
+import { Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { AppColors } from "../../resources/AppColors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import axios from "axios";
-import {LIKE_PUBLICATION} from "../../resources/ApiUrls";
 
 /**
  * Component to create comment cards.
@@ -18,13 +17,13 @@ import {LIKE_PUBLICATION} from "../../resources/ApiUrls";
  *
  * @example
  * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = 'light';
- * const style = {height: '18rem', width: '18rem'};
+ * const bg = "light";
+ * const style = {height: "18rem", width: "18rem"};
  *
  * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
 const CommentCard = props => {
-    const {children, bg, height, width, title, time, comment} = props;
+    const { bg, height, width, comment } = props;
     const [liked, setLiked] = useState(false)
 
     const handleClickLikeComment = async () => {
@@ -45,18 +44,18 @@ const CommentCard = props => {
             }>
             <CardHeader
                 avatar={
-                    <Avatar sx={{bgcolor: AppColors.RED}} aria-label="recipe">
-                        <img style={{width: '40px', height: '40px'}} src={comment.image_user}/>
+                    <Avatar sx={{ bgcolor: AppColors.RED }} aria-label="recipe">
+                        <img style={{ width: "40px", height: "40px" }} src={comment.image_user} />
 
                     </Avatar>
                 }
 
-                title={<Typography style={{fontSize: '20px', color: AppColors.PRIMARY}}>{comment.user}</Typography>}
-                subheader={<Typography style={{fontSize: '16px', color: AppColors.GRAY}}>{comment.date}</Typography>}
+                title={<Typography style={{ fontSize: "20px", color: AppColors.PRIMARY }}>{comment.user}</Typography>}
+                subheader={<Typography style={{ fontSize: "16px", color: AppColors.GRAY }}>{comment.date}</Typography>}
             />
 
             <CardContent>
-                <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>
+                <Typography style={{ fontSize: "16px", color: AppColors.WHITE }}>
                     {comment.content}
                 </Typography>
             </CardContent>
@@ -64,9 +63,9 @@ const CommentCard = props => {
 
                 <IconButton onClick={() => handleClickLikeComment()} aria-label="add to favorites">
 
-                    {liked ? <FavoriteIcon style={{fill: AppColors.PRIMARY}}/> : <FavoriteBorderIcon style={{fill: AppColors.PRIMARY}}/>}
+                    {liked ? <FavoriteIcon style={{ fill: AppColors.PRIMARY }} /> : <FavoriteBorderIcon style={{ fill: AppColors.PRIMARY }} />}
                     <Typography
-                        style={{fontSize: '20px', color: AppColors.PRIMARY}}>{0}</Typography>
+                        style={{ fontSize: "20px", color: AppColors.PRIMARY }}>{0}</Typography>
                 </IconButton>
 
             </CardActions>

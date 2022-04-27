@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
-import {AppColors} from "../../resources/AppColors";
-import {useHistory} from "react-router-dom";
-import {AppTextsFontSize, AppTextsFontWeight, useTextStyles} from "../../resources/AppTexts";
-import {makeStyles} from "@mui/styles";
-import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography} from '@material-ui/core';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+import React, { useState } from "react";
+import { AppColors } from "../../resources/AppColors";
+import { useHistory } from "react-router-dom";
+import { AppTextsFontSize, AppTextsFontWeight, useTextStyles } from "../../resources/AppTexts";
+import { makeStyles } from "@mui/styles";
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
 import Icons from "../../resources/Icons";
 import IconProvider from "../IconProvider/IconProvider";
 import axios from "axios";
-import {MY_CALENDAR} from "../../resources/ApiUrls";
-import {LabelsSnackbar} from "../../locale/en";
-import {StorageManager} from "../../utils";
+import { MY_CALENDAR } from "../../resources/ApiUrls";
+import { LabelsSnackbar } from "../../locale/en";
+import { StorageManager } from "../../utils";
 import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
 
 const useStyles = makeStyles({
@@ -17,9 +19,9 @@ const useStyles = makeStyles({
         minWidth: 275,
     },
     bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
+        display: "inline-block",
+        margin: "0 2px",
+        transform: "scale(0.8)",
     },
     text: {
         fontSize: AppTextsFontSize.SIZE_BODY,
@@ -31,7 +33,7 @@ const useStyles = makeStyles({
     link: {
         overflowX: "auto",
         "&:hover": {
-            cursor: 'pointer',
+            cursor: "pointer",
             textDecoration: `underline ${AppColors.WHITE}`
         }
     }, cardHeaderRoot: {
@@ -43,12 +45,10 @@ const useStyles = makeStyles({
     card: {
         maxWidth: 310,
         transition: "transform 0.15s ease-in-out",
-        "&:hover": {transform: "scale3d(1.05, 1.05, 1)"},
+        "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
     },
 
-
 });
-
 
 /**
  * @component
@@ -60,39 +60,31 @@ const useStyles = makeStyles({
 
  *
  * @constructor
- * <GameCard gameId={'12'} gameTitle={'TITLE'} gameDescription={'DESCRIPTION'} gameImage={2}/>
+ * <GameCard gameId={"12"} gameTitle={"TITLE"} gameDescription={"DESCRIPTION"} gameImage={2}/>
  *
  */
 const CalendarCard = ({
-                          gameId,
-                          gameTitle,
-                          gameDescription,
-                          gameImage,
-                          gameRating,
-                          mainPage,
-                          gameDate,
+    gameId,
+    gameTitle,
+    gameDescription,
+    gameImage,
+    gameRating,
+    mainPage,
+    gameDate,
     getCalendarReleases
-                      }) => {
+}) => {
     const storageManager = new StorageManager()
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const texts = useTextStyles();
     const history = useHistory()
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
     const [openSnackAddToCalendarReleases, setOpenSnackAddToCalendarReleases] = useState(false)
     const [openSnackRemoveToCalendarReleases, setOpenSnackRemoveToCalendarReleases] = useState(false)
     const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
 
-
     const onClickHandler = () => {
         history.push({
-            pathname: `/game/${gameId}`,
-            state: {detail: gameId}
+            pathname: "/game/${gameId}",
+            state: { detail: gameId }
         })
-
 
     }
 
@@ -116,7 +108,6 @@ const CalendarCard = ({
                     "game_image": gameImage,
                     "game_date": gameDate
                 }
-                console.log(gameBody)
                 const response = await axios.post(`${MY_CALENDAR(storageManager.getEmail())}`, gameBody)
                 if (response.data.account.some(e => e.id === parseInt(gameId))) {
                     setOpenSnackAddToCalendarReleases(true)
@@ -127,7 +118,7 @@ const CalendarCard = ({
                     }, 500)
                 }
             } catch (e) {
-                console.log('Error: ', e)
+                console.log("Error: ", e)
             }
         } else {
             setOpenSnackBarErrorLogin(true)
@@ -137,11 +128,11 @@ const CalendarCard = ({
     return (
         <>
             <Card data-testid={"calendarCard"}
-                  style={{height: '150px', width: '150px', position: "relative", borderRadius: 20}}
-                  className={classes.card}>
+                style={{ height: "150px", width: "150px", position: "relative", borderRadius: 20 }}
+                className={classes.card}>
 
-                <CardActionArea style={{position: 'relative', height: '110px', width: '150px'}}
-                                onClick={onClickHandler}>
+                <CardActionArea style={{ position: "relative", height: "110px", width: "150px" }}
+                    onClick={onClickHandler}>
 
                     <CardMedia
                         media="picture"
@@ -152,14 +143,14 @@ const CalendarCard = ({
                             position: "absolute",
                             top: 0,
                             right: 0,
-                            height: '150px', width: '150px'
+                            height: "150px", width: "150px"
                         }}
                     />
                     <CardContent style={{
                         position: "relative",
                         backgroundColor: "transparent",
                         paddingTop: 0,
-                        height: '150px'
+                        height: "150px"
                     }}>
 
                         <Grid container alignItems={"center"}>
@@ -168,14 +159,13 @@ const CalendarCard = ({
                                     style={{
                                         overflowWrap: "hidden",
                                         color: AppColors.WHITE,
-                                        height: '64px',
-                                        fontWeight: 'bold'
+                                        height: "64px",
+                                        fontWeight: "bold"
                                     }}
                                     variant="h5" component="h2">
                                     {gameTitle}
                                 </Typography> </Grid>
                         </Grid>
-
 
                     </CardContent>
                 </CardActionArea>
@@ -189,17 +179,17 @@ const CalendarCard = ({
                         <Button style={{
                             backgroundColor: AppColors.BACKGROUND,
                             borderRadius: 30,
-                            border: '2px solid #6563FF',
+                            border: "2px solid #6563FF",
                             borderColor: AppColors.PRIMARY,
-                            maxWidth: '35px', maxHeight: '35px', minWidth: '35px', minHeight: '35px',
+                            maxWidth: "35px", maxHeight: "35px", minWidth: "35px", minHeight: "35px",
                         }}>
 
                             <IconProvider icon={<Icons.CALENDAR style={{
-                                marginTop: '0.1em',
+                                marginTop: "0.1em",
                                 verticalAlign: "middle",
                                 display: "inline-flex",
                                 color: AppColors.PRIMARY,
-                            }} size="100px"/>}/>
+                            }} size="100px" />} />
 
                         </Button>
 
@@ -209,17 +199,16 @@ const CalendarCard = ({
             </Card>
 
             <SnackBarGeekify handleClose={handleCloseSnackAddToCalendarReleases}
-                             message={LabelsSnackbar.ADDED_TO_CALENDAR_RELEASES}
-                             openSnack={openSnackAddToCalendarReleases}/>
-            <SnackBarGeekify handleClose={handleCloseSnackRemoveToCalendarReleases} severity={'warning'}
-                             message={LabelsSnackbar.REMOVE_TO_CALENDAR_RELEASES}
-                             openSnack={openSnackRemoveToCalendarReleases}/>
-            <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={'error'}
-                             message={LabelsSnackbar.ERROR_LOGIN_COLLECTION}
-                             openSnack={openSnackBarErrorLogin}/>
+                message={LabelsSnackbar.ADDED_TO_CALENDAR_RELEASES}
+                openSnack={openSnackAddToCalendarReleases} />
+            <SnackBarGeekify handleClose={handleCloseSnackRemoveToCalendarReleases} severity={"warning"}
+                message={LabelsSnackbar.REMOVE_TO_CALENDAR_RELEASES}
+                openSnack={openSnackRemoveToCalendarReleases} />
+            <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={"error"}
+                message={LabelsSnackbar.ERROR_LOGIN_COLLECTION}
+                openSnack={openSnackBarErrorLogin} />
         </>
     )
-
 
 }
 
