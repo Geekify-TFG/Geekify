@@ -1,4 +1,6 @@
-export const LabelsGameCard = {}
+export const LabelsGameCard = {
+
+}
 
 export const LabelsSnackbar = {
     COMMON_ERROR: "Something went wrong, try it again later",
@@ -17,6 +19,8 @@ export const LabelsSnackbar = {
         "Logout successfully",
     COLLECTION_CREATED: "Collection created successfully!",
     ADDED_TO_COLLECTION: "Added to collection successfully!",
+    GAME_IN_COLLECTION: "You have this game on the collection!",
+    REMOVED_FROM_COLLECTION: "Game removed from collection!",
     ADDED_TO_CALENDAR_RELEASES: "Added to your calendar successfully!",
     REMOVE_TO_CALENDAR_RELEASES: "Removed from your calendar successfully!",
     ERROR_LOGIN_COLLECTION: "You must be login to save to the collection!",
@@ -187,7 +191,8 @@ export const DialogTexts = {
     CREATE_COLLECTION: "Create collection",
     EDIT_COLLECTION: "Edit collection",
     DELETE_COLLECTION: "Delete collection",
-    DELETE_FORUM: "Delete forum"
+    DELETE_FORUM: "Delete forum",
+    DELETE_GAME_FROM_COLLECTION: "Are you want to delete this game from the collection?"
 }
 
 export const ErrorTexts = {

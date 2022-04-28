@@ -28,37 +28,6 @@ const ButtonToggle = styled(Button)`
         `};
 
 `;
-/* 
-const useStyles = makeStyles((theme) => ({
-
-    singleBlogBg: {
-        content: "",
-        position: "relative",
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)",
-        opacity: ".5",
-    }, imageIcon: {
-        height: "100%"
-    }, avatar: {
-        border: "1px solid #C6D2E3",
-        "&.MuiAvatar-img": {
-            width: "20px",
-            height: "20px",
-
-        }
-
-    }, root: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        "& > *:not(:last-child)": {
-            marginRight: theme.spacing(2)
-        }
-    }
-
-})) */
 
 const MainPage = () => {
     const [games, setGames] = useState();
@@ -135,12 +104,7 @@ const MainPage = () => {
                                     color: AppColors.YELLOW_SUBTEXT,
                                     fontWeight: "bold"
                                 }}>{LabelsMain.WELCOME}</Typography>
-                                {/*<Typography
-                            style={{
-                                fontSize: "80px",
-                                color: AppColors.YELLOW_SUBTEXT,
-                                fontWeight: "bold"
-                            }}>{LabelsMain.DOLOR}</Typography>*/}
+
                             </Grid>
                         </Grid>
                         <Grid container

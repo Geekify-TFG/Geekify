@@ -181,35 +181,48 @@ function AddToCollection({
     openSnackAddToCollection, setOpenSnackAddToCollection
 }) {
     const [collection, setCollection] = useState()
+    const [openSnackDuplicateCollection, setOpenSnackDuplicateCollection] = useState(false)
     const handleClickSubmit = async () => {
         try {
             var gameBody = { "game_id": gameId }
-            await axios.put(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
+            await axios.post(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
             setOpenSnackAddToCollection(true)
             setShowAddToCollectionModal(-999)
         } catch (e) {
-            console.log("Error: ", e)
+            if (e.response.status === 409) {
+                setOpenSnackDuplicateCollection(true)
+            }
         }
     }
     const handleChangeCollection = (event) => {
         setCollection(event.target.value);
     };
 
-    return (
-        <DialogGeekify
-            textCancelButton={DialogTexts.CANCEL}
-            textConfirmButton={DialogTexts.SAVE}
-            handleShow={setShowAddToCollectionModal}
-            handleConfirm={handleClickSubmit}
-            title={DialogTexts.ADD_TO_COLLECTIONS}
-            buttonColor={AppColors.PRIMARY}
-            body={
-                <SelectGeekify value={collection} handleChange={handleChangeCollection} options={collections}
-                    borderRadius={30} width={"3px"} label={"Collections"} />
-            }
-            show={showAddToCollectionModal}
+    const handleCloseSnackDuplicateCollection = () => {
+        setOpenSnackDuplicateCollection(false);
+    };
 
-        />
+    return (
+        <>
+            <DialogGeekify
+                textCancelButton={DialogTexts.CANCEL}
+                textConfirmButton={DialogTexts.SAVE}
+                handleShow={setShowAddToCollectionModal}
+                handleConfirm={handleClickSubmit}
+                title={DialogTexts.ADD_TO_COLLECTIONS}
+                buttonColor={AppColors.PRIMARY}
+                body={
+                    <SelectGeekify value={collection} handleChange={handleChangeCollection} options={collections}
+                        borderRadius={30} width={"3px"} label={"Collections"} />
+                }
+                show={showAddToCollectionModal}
+
+            />
+            <SnackBarGeekify handleClose={handleCloseSnackDuplicateCollection} severity={"warning"}
+                message={LabelsSnackbar.GAME_IN_COLLECTION}
+                openSnack={openSnackDuplicateCollection} />
+        </>
+
     )
 }
 

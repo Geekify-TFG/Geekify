@@ -62,9 +62,52 @@ const useStyles = makeStyles({
 
 });
 
+function RemoveFromCollection({
+    gameId,
+    collectionId,
+    showDeleteFromCollectionModal,
+    setShowDeleteFromCollectionModal,
+    openSnackRemoveFromCollection, setOpenSnackRemoveFromCollection
+}) {
+    const storageManager = new StorageManager()
+    const [collection, setCollection] = useState(collectionId)
+    const handleClickSubmit = async () => {
+        try {
+            var gameBody = { "game_id": gameId }
+            await axios.put(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
+            setOpenSnackRemoveFromCollection(true)
+            setShowDeleteFromCollectionModal(-999)
+            setTimeout(() => {
+                window.location.reload()
+            }, 1500)
+        } catch (e) {
+            console.log(e.error)
+        }
+    }
+
+    return (
+        <>
+            <DialogGeekify
+                textCancelButton={DialogTexts.CANCEL}
+                textConfirmButton={DialogTexts.DELETE}
+                handleShow={setShowDeleteFromCollectionModal}
+                handleConfirm={handleClickSubmit}
+                title={DialogTexts.ADD_TO_COLLECTIONS}
+                buttonColor={AppColors.PRIMARY}
+                body={
+                    <Typography style={{ color: AppColors.WHITE, fontSize: "16px", }}>
+                        {DialogTexts.DELETE_GAME_FROM_COLLECTION}
+                    </Typography>
+                }
+                show={showDeleteFromCollectionModal}
+
+            />
+
+        </>
+    )
+}
+
 function AddToCollection({
-    handleAddParticipant,
-    initialValues,
     gameId,
     showAddToCollectionModal,
     setShowAddToCollectionModal,
@@ -73,14 +116,17 @@ function AddToCollection({
     const storageManager = new StorageManager()
     const [collections, setCollections] = useState()
     const [collection, setCollection] = useState()
+    const [openSnackDuplicateCollection, setOpenSnackDuplicateCollection] = useState(false)
     const handleClickSubmit = async () => {
         try {
             var gameBody = { "game_id": gameId }
-            const response = await axios.put(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
+            await axios.post(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
             setOpenSnackAddToCollection(true)
             setShowAddToCollectionModal(-999)
         } catch (e) {
-            console.log("Error: ", e)
+            if (e.response.status === 409) {
+                setOpenSnackDuplicateCollection(true)
+            }
         }
     }
     const getCollections = async () => {
@@ -102,6 +148,10 @@ function AddToCollection({
         getCollections()
     }, [])
 
+    const handleCloseSnackDuplicateCollection = () => {
+        setOpenSnackDuplicateCollection(false);
+    };
+
     return (
         <>
             {collections && <DialogGeekify
@@ -118,6 +168,9 @@ function AddToCollection({
                 show={showAddToCollectionModal}
 
             />}
+            <SnackBarGeekify handleClose={handleCloseSnackDuplicateCollection} severity={"warning"}
+                message={LabelsSnackbar.GAME_IN_COLLECTION}
+                openSnack={openSnackDuplicateCollection} />
         </>
     )
 }
@@ -144,12 +197,15 @@ const GameCard = ({
 
 }) => {
     const storageManager = new StorageManager()
-
+    const collectionId = new URL(window.location).pathname.split("/")[2]
+    console.log(collectionId)
     const classes = useStyles();
     const history = useHistory()
 
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
+    const [showDeleteFromCollectionModal, setShowDeleteFromCollectionModal] = useState(-999)
     const [openSnackAddToCollection, setOpenSnackAddToCollection] = useState(false)
+    const [openSnackRemoveFromCollection, setOpenSnackRemoveFromCollection] = useState(false)
     const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
 
     const onClickHandler = () => {
@@ -164,6 +220,10 @@ const GameCard = ({
         setOpenSnackAddToCollection(false)
     }
 
+    const handleCloseSnackRemoveFromCollection = async () => {
+        setOpenSnackRemoveFromCollection(false)
+    }
+
     const handleCloseSnackErrorLogin = async () => {
         setOpenSnackBarErrorLogin(false)
     }
@@ -171,6 +231,14 @@ const GameCard = ({
     const handleAddToCollection = () => {
         if (storageManager.getToken()) {
             setShowAddToCollectionModal(1)
+        } else {
+            setOpenSnackBarErrorLogin(true)
+        }
+    }
+
+    const handleDeleteFromCollection = () => {
+        if (storageManager.getToken()) {
+            setShowDeleteFromCollectionModal(1)
         } else {
             setOpenSnackBarErrorLogin(true)
         }
@@ -245,7 +313,7 @@ const GameCard = ({
                         </Grid>
                     </CardContent>
                 </CardActionArea>
-                {mainPage && <CardActions style={{
+                {mainPage ? <CardActions style={{
                     position: "relative",
                     backgroundColor: "transparent",
                     paddingTop: 0
@@ -270,6 +338,31 @@ const GameCard = ({
                         </Button>
 
                     </Grid>
+                </CardActions> : <CardActions style={{
+                    position: "relative",
+                    backgroundColor: "transparent",
+                    paddingTop: 0
+                }}>
+                    <Grid onClick={() => handleDeleteFromCollection()} item
+                        style={{ paddingLeft: "11em", paddingTop: "0.8em" }}>
+                        <Button style={{
+                            backgroundColor: AppColors.BACKGROUND,
+                            borderRadius: 30,
+                            border: "2px solid #F0142F",
+                            borderColor: AppColors.RED,
+                            maxWidth: "35px", maxHeight: "35px", minWidth: "35px", minHeight: "35px",
+                        }}>
+
+                            <IconProvider icon={<Icons.DELETE style={{
+                                marginTop: "0.1em",
+                                verticalAlign: "middle",
+                                display: "inline-flex",
+                                color: AppColors.RED,
+                            }} size="100px" />} />
+
+                        </Button>
+
+                    </Grid>
                 </CardActions>}
 
             </Card>
@@ -282,9 +375,22 @@ const GameCard = ({
                     openSnackAddToCollection={openSnackAddToCollection}
                 />
             )}
+            {showDeleteFromCollectionModal >= 0 && (
+                <RemoveFromCollection
+                    showDeleteFromCollectionModal={showDeleteFromCollectionModal}
+                    setShowDeleteFromCollectionModal={setShowDeleteFromCollectionModal}
+                    gameId={gameId}
+                    collectionId={collectionId}
+                    setOpenSnackRemoveFromCollection={setOpenSnackRemoveFromCollection}
+                    openSnackRemoveFromCollection={openSnackRemoveFromCollection}
+                />
+            )}
             <SnackBarGeekify handleClose={handleCloseSnackAddToCollection}
                 message={LabelsSnackbar.ADDED_TO_COLLECTION}
                 openSnack={openSnackAddToCollection} />
+            <SnackBarGeekify handleClose={handleCloseSnackRemoveFromCollection}
+                message={LabelsSnackbar.REMOVED_FROM_COLLECTION}
+                openSnack={openSnackRemoveFromCollection} />
             <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={"error"}
                 message={LabelsSnackbar.ERROR_LOGIN_COLLECTION}
                 openSnack={openSnackBarErrorLogin} />

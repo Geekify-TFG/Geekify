@@ -5,6 +5,7 @@ import BookmarkIcon from "@material-ui/icons/Bookmark";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import ArrowForwardIosIcon from "@material-ui/icons//ArrowForwardIos";
 import EventIcon from "@mui/icons-material/Event";
+import DeleteIcon from "@mui/icons-material/Delete";
 const Icons = {
     "HOME": HomeIcon,
     "STAR": StarIcon,
@@ -13,6 +14,7 @@ const Icons = {
     "ARROW_DOWN": KeyboardArrowDownIcon,
     "ARROW_RIGHT": ArrowForwardIosIcon,
     "CALENDAR":EventIcon,
+    "DELETE": DeleteIcon
 }
 
 export default Icons
