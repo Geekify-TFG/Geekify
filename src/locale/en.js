@@ -63,6 +63,7 @@ export const LabelsMain = {
     POPULAR: "Popular",
     RELEASED: "Released date",
     RATING: "Rating",
+    FAV_CATEGORIES: "Favorite categories",
 }
 
 export const LabelsGamePage = {

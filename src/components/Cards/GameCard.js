@@ -198,7 +198,6 @@ const GameCard = ({
 }) => {
     const storageManager = new StorageManager()
     const collectionId = new URL(window.location).pathname.split("/")[2]
-    console.log(collectionId)
     const classes = useStyles();
     const history = useHistory()
 
