@@ -25,7 +25,8 @@ const useStyles = makeStyles({
     },
     text: {
         fontSize: AppTextsFontSize.SIZE_BODY,
-        fontWeight: AppTextsFontWeight.WEIGHT_LIGHT
+        fontWeight: AppTextsFontWeight.WEIGHT_LIGHT,
+
     },
     pos: {
         marginBottom: 12,
@@ -46,6 +47,8 @@ const useStyles = makeStyles({
         maxWidth: 310,
         transition: "transform 0.15s ease-in-out",
         "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+        whiteSpace: "normal",
+        wordBreak: "break-word"
     },
 
 });
@@ -143,7 +146,7 @@ const CalendarCard = ({
                             position: "absolute",
                             top: 0,
                             right: 0,
-                            height: "150px", width: "150px"
+                            height: "150px", width: "150px",
                         }}
                     />
                     <CardContent style={{
@@ -163,7 +166,7 @@ const CalendarCard = ({
                                         fontWeight: "bold"
                                     }}
                                     variant="h5" component="h2">
-                                    {gameTitle}
+                                    {`${gameTitle.substring(0, 20)} ...`}
                                 </Typography> </Grid>
                         </Grid>
 
