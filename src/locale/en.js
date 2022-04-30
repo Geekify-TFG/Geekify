@@ -167,6 +167,9 @@ export const LabelsProfilePage = {
     FEMALE: "Female",
     OTHER: "Other",
     PHOTO: "Photo",
+    FOLLOW_USER:"Follow user",
+    NO_INFO_YET: "You dont have profile info yet.\nEdit your profile",
+    NO_INFO_YET_USER: "This user not have profile info yet",
 
 }
 

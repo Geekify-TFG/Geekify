@@ -34,6 +34,7 @@ import NewsPage from "./pages/NewsPage";
 import NewForumPage from "./pages/NewForumPage";
 import EditForumPage from "./pages/EditForumPage";
 import geekifyIcon from "./img/geekify_gif.gif"
+import UserProfilePage from "./pages/UserProfilePage";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -283,6 +284,7 @@ function App() {
                 <RouteMain exact path="/" component={MainPage} />
                 <RouteMain path={"/game/:id"} component={() => <GamePage />} />
                 <RouteMain path={"/profile"} component={() => <ProfilePage />} />
+                <RouteMain path={"/user/:string"} component={() => <UserProfilePage />} />
                 <RouteMain path={"/calendar"} component={() => <CalendarPage />} />
                 <RouteMain path={"/search/:string"} component={() => <SearchPage />} />
 

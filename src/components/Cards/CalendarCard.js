@@ -85,7 +85,7 @@ const CalendarCard = ({
 
     const onClickHandler = () => {
         history.push({
-            pathname: "/game/${gameId}",
+            pathname: `/game/${gameId}`,
             state: { detail: gameId }
         })
 

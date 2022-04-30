@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { AppColors } from "../../resources/AppColors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useHistory } from "react-router-dom";
 
 /**
  * Component to create comment cards.
@@ -25,10 +26,23 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 const CommentCard = props => {
     const { bg, height, width, comment } = props;
     const [liked, setLiked] = useState(false)
-
+    const history = useHistory()
     const handleClickLikeComment = async () => {
 
     }
+
+    const onClickHandler = () => {
+        //localStorage.setItem("userRoute")
+        const newObj = { "detail": comment.user }
+        localStorage.setItem("userDetails", JSON.stringify(newObj));
+
+        history.push({
+            pathname: `/user/${comment.user.split("@")[0]}`,
+            state: { detail: comment.user }
+        })
+
+    }
+
     return (
         <Card
             data-testid={"commentCard"}
@@ -50,7 +64,7 @@ const CommentCard = props => {
                     </Avatar>
                 }
 
-                title={<Typography style={{ fontSize: "20px", color: AppColors.PRIMARY }}>{comment.user}</Typography>}
+                title={<Typography style={{ cursor: "pointer", fontSize: "20px", color: AppColors.PRIMARY }} onClick={() => onClickHandler()}>{comment.user.split("@")[0]}</Typography>}
                 subheader={<Typography style={{ fontSize: "16px", color: AppColors.GRAY }}>{comment.date}</Typography>}
             />
 

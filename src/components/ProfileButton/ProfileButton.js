@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState } from "react";
 import { Avatar, Fade, Menu, MenuItem } from "@material-ui/core"
 
@@ -8,6 +9,8 @@ import PropTypes from "prop-types";
 import { Button, Typography } from "@mui/material";
 import { StorageManager } from "../../utils";
 import { profileOptions } from "../../locale/en";
+import { INFO_URL } from "../../resources/ApiUrls";
+import axios from "axios";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -93,6 +96,15 @@ const ProfileButton = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
+    const getInfouser = async () => {
+        try {
+            const response = await axios.get(`${INFO_URL(storageManager.getEmail())}`);
+            storageManager.storeImage(response.data.account.value.photo)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -121,11 +133,12 @@ const ProfileButton = () => {
         if (storageManager.getToken() !== "") {
             setLogged(true)
         }
+        getInfouser()
     }, [logged]);
 
     return (
         <>
-            {logged && <Button id="myProfile" /*onClick={() => history.push("/profile")}*/ onClick={handleClick} style={{
+            {logged && <Button id="myProfile" onClick={handleClick} style={{
                 backgroundColor: AppColors.BACKGROUND_DRAWER,
                 borderRadius: 30,
                 border: "2px solid #6563FF",
