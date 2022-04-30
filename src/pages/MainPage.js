@@ -72,7 +72,6 @@ const MainPage = () => {
             setGames([])
         }
     }
-    console.log(games)
     useEffect(() => {
         setLoading(true)
         switch (sortActive) {

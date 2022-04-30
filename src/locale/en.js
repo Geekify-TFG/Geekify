@@ -39,7 +39,8 @@ export const LabelsSnackbar = {
     FOLLOW_FORUM_LOGIN: "You must be login to follow a forum",
     LIKE_PUBLICATION: "You liked the publication",
     REMOVE_LIKE_PUBLICATION: "You remove the like of the publication",
-    LIKE_PUBLICATION_LOGIN: "You must be logged to like the publication"
+    LIKE_PUBLICATION_LOGIN: "You must be logged to like the publication",
+    PROFILE_EDITED:"Profile edited successfully!"
 }
 
 export const LabelsDrawer = {
@@ -165,6 +166,7 @@ export const LabelsProfilePage = {
     MALE: "Male",
     FEMALE: "Female",
     OTHER: "Other",
+    PHOTO: "Photo",
 
 }
 
@@ -191,6 +193,7 @@ export const DialogTexts = {
     DELETE: "Delete",
     ADD_TO_COLLECTIONS: "Add to collections",
     EDIT_PROFILE: "Edit profile",
+    EDIT_IMAGE: "Edit image of profile",
     CREATE_COLLECTION: "Create collection",
     EDIT_COLLECTION: "Edit collection",
     DELETE_COLLECTION: "Delete collection",
