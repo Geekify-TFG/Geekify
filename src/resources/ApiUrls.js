@@ -23,12 +23,12 @@ const _MY_GAMES_PATH = "/games";
 const _MY_GAME_PATH = "/games/";
 const _MY_TITLE_PATH = "/title";
 const _FILTER_PATH = "/filter";
-const _FAV_CATEGORIES_PATH = "/gamesFavoriteCategories";
+const _FAV_CATEGORIES_PATH = "/gamesFavCategories";
 export const MY_GAMES = `${_MY_GAMES_PATH}`
 export const MY_GAME = (id) => `${_MY_GAME_PATH}${id}`
 export const MY_GAME_SEARCH = (title) => `${_MY_GAMES_PATH}${_MY_TITLE_PATH}/${title}`
 export const MY_GAMES_FILTER = (filter) => `${_MY_GAMES_PATH}${_FILTER_PATH}/${filter}`
-export const MY_GAMES_CATEGORIES = (email) => `${_MY_GAMES_PATH}${_FAV_CATEGORIES_PATH}/${email}`
+export const MY_GAMES_CATEGORIES = (email) => `${_FAV_CATEGORIES_PATH}/${email}`
 
 //Game paths
 const _GAME_PATH = "/game";

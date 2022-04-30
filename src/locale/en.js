@@ -63,7 +63,9 @@ export const LabelsMain = {
     POPULAR: "Popular",
     RELEASED: "Released date",
     RATING: "Rating",
-    FAV_CATEGORIES: "Favorite categories",
+    FAV_CATEGORIES: "For you",
+    TEXT_FAV_CAT:"These games are displayed based on your chosen favorite games",
+    NO_FAV_CATEGORIES: "You have no favorite categories. Enter your profile and customize it"
 }
 
 export const LabelsGamePage = {

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from "react";
-import { Button, ButtonGroup, CircularProgress, Grid, Typography } from "@material-ui/core";
+import { Button, ButtonGroup, CircularProgress, Grid, Tooltip, Typography } from "@material-ui/core";
 import { MY_BASE_PATH, MY_GAMES, MY_GAMES_FILTER, MY_GAMES_CATEGORIES } from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
@@ -33,9 +33,9 @@ const ButtonToggle = styled(Button)`
 const MainPage = () => {
     const [games, setGames] = useState();
     const storageManager = new StorageManager();
-    const sort_text = { popular: LabelsMain.POPULAR, released: LabelsMain.RELEASED, rating: LabelsMain.RATING };
     const [sortActive, setSortActive] = useState("popular");
     const [loading, setLoading] = useState(false);
+    const sort_text = { popular: LabelsMain.POPULAR, released: LabelsMain.RELEASED, rating: LabelsMain.RATING, favCategories: LabelsMain.FAV_CATEGORIES };
 
     //Function to get all the games
     const getGames = async () => {
@@ -62,15 +62,17 @@ const MainPage = () => {
 
     const getGamesFavCategories = async () => {
         try {
-            const response = await axios.get(`${MY_BASE_PATH}${MY_GAMES_CATEGORIES(sortActive)}`);
-            setGames(response.data.games.results)
+            const response = await axios.get(`${MY_BASE_PATH}${MY_GAMES_CATEGORIES(storageManager.getEmail())}`);
+            setGames(response.data.games)
             setLoading(false)
 
         } catch (err) {
             console.log(err.message)
+            setLoading(false)
+            setGames([])
         }
     }
-
+    console.log(games)
     useEffect(() => {
         setLoading(true)
         switch (sortActive) {
@@ -88,15 +90,6 @@ const MainPage = () => {
                 break
         }
     }, [sortActive]);
-
-    useEffect(() => {
-        console.log(storageManager.getToken())
-        if (storageManager.getToken()) {
-            sort_text.fav_categories = LabelsMain.FAV_CATEGORIES
-        }
-    }, []);
-
-    console.log(sort_text)
 
     return (
         <>
@@ -146,10 +139,20 @@ const MainPage = () => {
                             <ButtonGroup style={{ width: "500px" }} color="primary"
                                 aria-label="outlined primary button group">
                                 {Object.entries(sort_text).map(([key, value]) => (
-                                    <ButtonToggle key={key.id} active={sortActive === key}
-                                        onClick={() => (setSortActive(key))}>
-                                        {value}
-                                    </ButtonToggle>
+                                    <>
+                                        {key == "favCategories" ? <Tooltip title={<Typography>{LabelsMain.TEXT_FAV_CAT}</Typography>}>
+                                            <ButtonToggle key={key.id} active={sortActive === key}
+                                                onClick={() => (setSortActive(key))}>
+                                                {value}
+                                            </ButtonToggle>
+                                        </Tooltip> :
+                                            <ButtonToggle key={key.id} active={sortActive === key}
+                                                onClick={() => (setSortActive(key))}>
+                                                {value}
+                                            </ButtonToggle>
+                                        }
+                                    </>
+
                                 ))}
                             </ButtonGroup>
                         </Grid>
@@ -162,7 +165,14 @@ const MainPage = () => {
                         </div>
                         :
                         <Grid item>
-                            {games && <GridGames mainPage={true} games={games} />}
+                            {games && games.length != 0 ? < GridGames mainPage={true} games={games} /> :
+                                <Grid container justifyContent={"center"}>
+                                    <Typography style={{
+                                        fontSize: "30px",
+                                        color: AppColors.PRIMARY,
+                                        fontWeight: "bold"
+                                    }}>{LabelsMain.NO_FAV_CATEGORIES}</Typography>
+                                </Grid>}
                         </Grid>}
 
                 </Grid>
