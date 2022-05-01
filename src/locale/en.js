@@ -197,6 +197,7 @@ export const DialogTexts = {
     SAVE: "Save",
     DELETE: "Delete",
     ADD_TO_COLLECTIONS: "Add to collections",
+    DELETE_FROM_COLLECTION:"Delete from this collection",
     EDIT_PROFILE: "Edit profile",
     EDIT_IMAGE: "Edit image of profile",
     CREATE_COLLECTION: "Create collection",

@@ -375,7 +375,7 @@ const UserProfilePage = () => {
                                     </Grid>
 
                                     <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
-                                        {infoUser && infoUser.followed_users.length != 0 ?
+                                        {infoUser && infoUser.followed_users != null ?
                                             infoUser.followed_users.map((elem, key) => (
                                                 <ListItem key={elem} onClick={() => onClickHandler(elem.email)}>
                                                     <ListItemAvatar>

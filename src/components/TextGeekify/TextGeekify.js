@@ -14,8 +14,6 @@ import { textType, useTextStyles } from "../../resources/AppTexts";
  * @param {number} marginLeft: margin left
  * @param {number} margin: margin
  *
- * @constructor
- * <TextGeekify margin={"0px"} style={"break-word"} type={textType.SUBTITLE_BOLD} text={AccountTexts.EMAIL} />
  */
 const TextGeekify = ({ style, type, text, color, marginLeft, margin }) => {
     const [styles, setStyles] = useState()

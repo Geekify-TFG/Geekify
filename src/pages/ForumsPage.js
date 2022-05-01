@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
+/**
+ * Forums page to show all forums of the page
+ */
 const ForumsPage = () => {
     const [forums, setForums] = useState();
     const [followingGroups, setFollowingGroups] = useState();
@@ -65,7 +68,9 @@ const ForumsPage = () => {
     const history = useHistory()
     const storageManager = new StorageManager()
 
-    //Function to get all the games
+    /**
+    * Function to get all forums of the page
+    */
     const getForums = async () => {
         try {
             const response = await axios.get(`${ALL_FORUMS}`);
@@ -76,6 +81,10 @@ const ForumsPage = () => {
             console.log(err.message)
         }
     }
+
+    /**
+    * Function to get all the forums followed by the user
+    */
     const getForumsFollowed = async () => {
         try {
             const config = { auth: { username: storageManager.getToken() } }
@@ -86,6 +95,9 @@ const ForumsPage = () => {
         }
     }
 
+    /**
+    * Function to redirect to create a forum
+    */
     const handleCreateForum = async () => {
         history.push({
             pathname: "/forum",

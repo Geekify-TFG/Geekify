@@ -159,6 +159,9 @@ function DeleteForumModal({
     )
 }
 
+/**
+ * Forum page to show all the publications of a forum
+ */
 const ForumPage = () => {
     const [forumPosts2, setForumPosts2] = useState([]);
     const [forum, setForum] = useState();
@@ -183,7 +186,9 @@ const ForumPage = () => {
         setAnchorEl(null);
     };
 
-    //Function to get all the games
+    /**
+    * Function to get all info of the forum
+    */
     const getForum = async () => {
         try {
             const response = await axios.get(`${INFO_FORUM(forumId)}`);
@@ -195,7 +200,9 @@ const ForumPage = () => {
         }
     }
 
-    //Function to get all the games
+    /**
+    * Function to get all the publications of the forum
+    */
     const getPublications = async () => {
         try {
             const response2 = await axios.get(`${GET_PUBLICATIONS(forumId)}`);
@@ -207,6 +214,9 @@ const ForumPage = () => {
         }
     }
 
+    /**
+    * Function to get all the forums followed by the user
+    */
     const getForumsFollowed = async () => {
         try {
             const config = { auth: { username: storageManager.getToken() } }
@@ -217,6 +227,9 @@ const ForumPage = () => {
         }
     }
 
+    /**
+     * Function to post a publication
+     */
     const postPublication = async () => {
         const today = new Date();
         const dd = String(today.getDate()).padStart(2, "0");
@@ -239,6 +252,48 @@ const ForumPage = () => {
         }
     }
 
+    /**
+     * Function to delete the forum
+     */
+    const handleDeleteForum = () => {
+        setShowDeleteForumModal(true)
+    }
+
+    /**
+     * Function to go to the edit forum page
+     */
+    const handleEditForum = () => {
+        history.push({
+            pathname: `/forum/${forumId}/edit`,
+            state: { detail: forumId }
+        })
+    }
+
+    /**
+     * Function to close the snackbar when delete the forum
+     */
+    const handleCloseSnackDeleteForum = async () => {
+        setOpenSnackDeleteForum(false)
+    }
+
+    /**
+     * Function to close the snackbar when create a publication on the forum
+     */
+    const handleCloseSnackPublication = async () => {
+        setOpenSnackBarPublication(false)
+    }
+
+    /**
+     * Function to go to a new forum page
+     */
+    const handleGoForum = (elem) => {
+        setFlag(true)
+        history.push({
+            pathname: `/forum/${elem.id}`,
+            state: { title: elem.value.title, detail: elem.id }
+        })
+    }
+
     useEffect(() => {
         getForum()
         getPublications()
@@ -250,32 +305,6 @@ const ForumPage = () => {
         getPublications()
         getForumsFollowed()
     }, [flag]);
-
-    const handleDeleteForum = () => {
-        setShowDeleteForumModal(true)
-    }
-
-    const handleEditForum = () => {
-        history.push({
-            pathname: `/forum/${forumId}/edit`,
-            state: { detail: forumId }
-        })
-    }
-
-    const handleCloseSnackDeleteForum = async () => {
-        setOpenSnackDeleteForum(false)
-    }
-    const handleCloseSnackPublication = async () => {
-        setOpenSnackBarPublication(false)
-    }
-
-    const handleGoForum = (elem) => {
-        setFlag(true)
-        history.push({
-            pathname: `/forum/${elem.id}`,
-            state: { title: elem.value.title, detail: elem.id }
-        })
-    }
 
     return (
         <>

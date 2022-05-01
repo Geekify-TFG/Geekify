@@ -123,7 +123,7 @@ const LoginPage = () => {
                                 pathname: "/",
                                 state: { logged: true, token: res.data["account"].token }
                             })
-                        }, 1000)
+                        }, 750)
 
                     } else {
                         alert("Couldn\"t sign in this user! sorry!");

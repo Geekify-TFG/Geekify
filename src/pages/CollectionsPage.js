@@ -10,11 +10,18 @@ import axios from "axios";
 import { MY_BASE_PATH, MY_COLLECTIONS } from "../resources/ApiUrls";
 import { StorageManager } from "../utils";
 
+/**
+ * Collections page
+ * On this page you see the all the collections that the user has on his account
+ */
 const CollectionsPage = () => {
     const [collections, setCollections] = useState();
     const [loading, setLoading] = useState(false);
     const storageManager = new StorageManager()
 
+    /**
+     * Get the collections from the user
+     */
     const getCollections = async () => {
         try {
             const config = { auth: { username: storageManager.getToken() } }
@@ -26,6 +33,7 @@ const CollectionsPage = () => {
             console.log(err.message)
         }
     }
+
     useEffect(() => {
         //setCollections(collectionsMock)
         if (storageManager.getToken())

@@ -62,8 +62,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function EditCollectionModal({
-    gameId,
-    collections,
     showEditCollection,
     setShowEditCollection,
     loading, setLoading,
@@ -208,6 +206,10 @@ function DeleteCollectionModal({
     )
 }
 
+/**
+ * Collection page
+ * On this page you see the games that the user has on the collection
+ */
 const CollectionPage = () => {
     const [games, setGames] = useState();
     const location = useLocation();
@@ -229,18 +231,30 @@ const CollectionPage = () => {
         setAnchorEl(null);
     };
 
+    /**
+    * Function to open de edit Modal
+    */
     const handleOnEdit = () => {
         setShowEditCollectionModal(1)
     }
 
+    /**
+    * Function to open de delete Modal
+    */
     const handleOnDelete = () => {
         setShowDeleteCollectionModal(true)
     }
 
+    /**
+    * Function to open de snackbar when delete
+    */
     const handleCloseSnackDeleteCollection = async () => {
         setOpenSnackDeleteCollection(false)
     }
 
+    /**
+    * Function to open de snackbar when delete
+    */
     const handleCloseSnackEditCollection = async () => {
         setOpenSnackEditCollection(false)
     }
@@ -260,7 +274,6 @@ const CollectionPage = () => {
     }
 
     useEffect(() => {
-
         getGames()
     }, []);
 

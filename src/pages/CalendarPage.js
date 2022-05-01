@@ -91,6 +91,12 @@ ButtonToggle.propTypes = {
     active: PropTypes.bool,
     children: PropTypes.node
 };
+
+/**
+ * Calendar Page
+ * It shows the calendar for the user
+ * 
+ */
 const CalendarPage = () => {
     const today = new Date().toISOString().split("T")[0]
     var todayOneMonth = new Date()
@@ -104,22 +110,25 @@ const CalendarPage = () => {
     const [sortActive, setSortActive] = useState("calendar");
     const storageManager = new StorageManager()
 
+    /**
+    * Get the games for the month
+    */
     const getGamesMonth = async () => {
         try {
             var body = { "startMonth": startMonth, "endMonth": endMonth }
             const response = await axios.post(`${CALENDAR}`, body);
-            //console.log(response.data.games)
             setGamesMonth(response.data.games)
             setLoading(false)
         } catch (err) {
             console.log(err.message)
         }
     }
-
+    /**
+     * Get the games for the month of the user have saved
+     */
     const getCalendarReleases = async () => {
         try {
             const response = await axios.get(`${MY_CALENDAR(storageManager.getEmail())}`)
-            //console.log((response.data.calendar_releases))
             setGamesMonth(response.data.calendar_releases)
             setLoading(false)
         } catch (err) {
@@ -240,11 +249,11 @@ const CalendarPage = () => {
                             />}
                         </StyleWrapper>
 
-                    </Paper>
+                    </Paper >
 
-                </Grid>
+                </Grid >
 
-            </Grid>}
+            </Grid >}
         </>
 
     );

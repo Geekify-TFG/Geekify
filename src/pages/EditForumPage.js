@@ -109,6 +109,9 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
+/**
+ * Page for edit the data of the forum
+ */
 const EditForumPage = () => {
     const classes = useStyles();
     const [listGames, setListGames] = useState()
@@ -125,6 +128,9 @@ const EditForumPage = () => {
     const [forum, setForum] = useState()
     const [loading, setLoading] = useState()
 
+    /**
+     * Get lis the most popular games to put on the game select
+     */
     const getListGames = async () => {
         try {
             const response = await axios.get(`${LIST_GAMES}`);
@@ -150,6 +156,9 @@ const EditForumPage = () => {
         }
     }
 
+    /**
+     * Function to create the forum when the button is clicked.
+     */
     const handleClickCreateForum = async () => {
         try {
             const body = {
@@ -173,10 +182,16 @@ const EditForumPage = () => {
         }
     }
 
+    /**
+     * Function to handle the change of the tag
+     */
     const handleChangeTag = (event) => {
         setTag(event.target.value);
     };
 
+    /**
+     * Function to close the snackbar when create forum
+     */
     const handleCloseSnackCreateForum = async () => {
         setOpenSnackEditForum(false)
     }

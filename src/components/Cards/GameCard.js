@@ -92,8 +92,8 @@ function RemoveFromCollection({
                 textConfirmButton={DialogTexts.DELETE}
                 handleShow={setShowDeleteFromCollectionModal}
                 handleConfirm={handleClickSubmit}
-                title={DialogTexts.ADD_TO_COLLECTIONS}
-                buttonColor={AppColors.PRIMARY}
+                title={DialogTexts.DELETE_FROM_COLLECTION}
+                buttonColor={AppColors.RED}
                 body={
                     <Typography style={{ color: AppColors.WHITE, fontSize: "16px", }}>
                         {DialogTexts.DELETE_GAME_FROM_COLLECTION}
