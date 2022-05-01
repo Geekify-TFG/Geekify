@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import {Card, CardMedia} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import {AppColors} from "../../resources/AppColors";
+import { Card, CardMedia } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { AppColors } from "../../resources/AppColors";
+import PropTypes from "prop-types";
 
 /**
  * Component to create comment cards.
@@ -12,17 +14,12 @@ import {AppColors} from "../../resources/AppColors";
  * @param {string} props.bg: color of the card
  * @param {object} props.style: style of the card
  *
- * @example
- * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = 'light';
- * const style = {height: '18rem', width: '18rem'};
- *
- * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
+ * @returns {object} JSX
  */
 const ImageCard = props => {
-    const {children, bg, height, width, title, image} = props;
+    const { children, bg, height, width, title, image } = props;
     return (
-        <Card style={{height: {height}, width: {width}, borderRadius: 20, position: 'relative'}}>
+        <Card style={{ height: { height }, width: { width }, borderRadius: 20, position: "relative" }}>
             <CardMedia
                 media="picture"
                 alt={title}
@@ -32,7 +29,7 @@ const ImageCard = props => {
                     position: "absolute",
                     top: 0,
                     right: 0,
-                    height: {height}, width: {width}
+                    height: { height }, width: { width }
                 }}
             />
 

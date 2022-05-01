@@ -10,10 +10,6 @@ import PropTypes from "prop-types";
  * @param icon: component to display
  * @param values: custom attributes for the icon
  *
- * @example
- * const icon = <Icons.ADD_FILLED size="3rem"/>;
- * const values = {color: "white"};
- * <IconProvider icon={icon} values={values}/>
  */
 const IconProvider = ({ icon, values = {} }) => {
     return (

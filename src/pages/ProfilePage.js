@@ -605,7 +605,7 @@ const ProfilePage = () => {
                                     </Grid>
 
                                     <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
-                                        {infoUser.followed_users &&
+                                        {infoUser && infoUser.followed_users.length != 0 ?
                                             infoUser.followed_users.map((elem, key) => (
                                                 <ListItem key={elem} onClick={() => onClickHandler(elem.email)}>
                                                     <ListItemAvatar>
@@ -622,7 +622,17 @@ const ProfilePage = () => {
                                                     />
                                                 </ListItem>
 
-                                            ))}
+                                            )) :
+                                            <Grid>
+                                                <Typography
+                                                    style={{
+                                                        fontSize: "38px",
+                                                        color: AppColors.WHITE,
+                                                        margin: "1em"
+                                                    }}>{LabelsProfilePage.NO_FOLLOWER_USERS_YET}</Typography>
+                                            </Grid>
+
+                                        }
 
                                     </List>
                                 </Grid>

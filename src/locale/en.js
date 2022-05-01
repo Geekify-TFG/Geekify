@@ -170,6 +170,8 @@ export const LabelsProfilePage = {
     FOLLOW_USER:"Follow user",
     NO_INFO_YET: "You dont have profile info yet.\nEdit your profile",
     NO_INFO_YET_USER: "This user not have profile info yet",
+    NO_FOLLOWER_USERS_YET: "You don't follow any user yet",
+    NO_FOLLOWER_USERS_YET_USER: "This user does not follow any users",
 
 }
 

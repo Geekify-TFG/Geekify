@@ -4,40 +4,25 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import PropTypes from "prop-types";
 import { AppColors } from "../../resources/AppColors"
-//import { makeStyles } from "@mui/styles";
-//import { AppTextsFontSize, AppTextsFontWeight } from "../../resources/AppTexts";
-/* 
-const useStyles = makeStyles({
-    root: {
-        minWidth: 275,
-    },
-    bullet: {
-        display: "inline-block",
-        margin: "0 2px",
-        transform: "scale(0.8)",
-    },
-    text: {
-        fontSize: AppTextsFontSize.SIZE_BODY,
-        fontWeight: AppTextsFontWeight.WEIGHT_LIGHT
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    link: {
-        overflowX: "auto",
-        "&:hover": {
-            cursor: "pointer",
-            textDecoration: `underline ${AppColors.WHITE}`
-        }
-    }, cardHeaderRoot: {
-        overflow: "hidden"
-    },
-    cardHeaderContent: {
-        overflow: "hidden"
-    }
 
-}); */
-
+/**
+ * Component to create the dialogs
+ *
+ * @component
+ *
+ * @param {function} props.handleShow: function to show the dialog
+ * @param {function} props.handleConfirm: function to confirm the dialog 
+ * @param {function} props.handleDelete: function to delete the dialog
+ * @param {function} props.handleModalClose: function to close the dialog
+ * @param {function} props.handleCloseButton: function to close the dialog
+ * @param {boolean} props.closeButton: boolean to show the close button
+ * @param {boolean} props.cancelButton: boolean to show the cancel button
+ * @param {boolean} props.deleteButton: boolean to show the delete button
+ * 
+ * 
+ * @returns {object} JSX
+ *
+ */
 const DialogGeekify = props => {
     const {
         handleShow,
@@ -144,23 +129,22 @@ const DialogGeekify = props => {
     )
 }
 
-DialogGeekify.defaultProps = {
-    show: -999,
-    size: false,
-    backdrop: "static"
-};
 DialogGeekify.propTypes = {
     handleShow: PropTypes.func.isRequired,
     handleConfirm: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
-    body: PropTypes.object.isRequired,
-    buttonColor: PropTypes.string,
-    textCancelButton: PropTypes.string.isRequired,
-    textConfirmButton: PropTypes.string.isRequired,
-    show: PropTypes.number,
-    size: PropTypes.bool,
-    backdrop: PropTypes.string,
+    handleDelete: PropTypes.func.isRequired,
     handleModalClose: PropTypes.func,
+    handleCloseButton: PropTypes.func,
+    closeButton: PropTypes.bool,
+    cancelButton: PropTypes.bool,
+    deleteButton: PropTypes.bool,
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    textConfirmButton: PropTypes.string.isRequired,
+    textCancelButton: PropTypes.string.isRequired,
+    textDeleteButton: PropTypes.string.isRequired,
+    buttonColor: PropTypes.string.isRequired,
+    size: PropTypes.bool,
 }
 
 export default DialogGeekify;

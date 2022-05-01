@@ -86,6 +86,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * @component
+ * Component for the profile button in the navbar
+ * 
+ */
 const ProfileButton = () => {
     const storageManager = new StorageManager();
 

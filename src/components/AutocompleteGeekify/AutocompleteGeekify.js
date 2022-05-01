@@ -5,6 +5,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 import { makeStyles } from "@mui/styles";
 import { AppColors } from "../../resources/AppColors";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles({
     textFieldLabel: {

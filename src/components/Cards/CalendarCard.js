@@ -13,6 +13,7 @@ import { MY_CALENDAR } from "../../resources/ApiUrls";
 import { LabelsSnackbar } from "../../locale/en";
 import { StorageManager } from "../../utils";
 import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles({
     root: {
@@ -54,28 +55,19 @@ const useStyles = makeStyles({
 });
 
 /**
- * @component
- * Component to create the card of the game
+ * Component to create the card of the calendar
  *
+ * @component
+ * 
  * @param {number} gameId: id of the game
  * @param {string} gameTitle: title of the game
- * @param {string} gameDescription: description of the game
-
- *
- * @constructor
- * <GameCard gameId={"12"} gameTitle={"TITLE"} gameDescription={"DESCRIPTION"} gameImage={2}/>
+ * @param {string} gameImage: image of the game
+ *  @param {string} gameDate: date of the game
+ * @param {string} getCalendarReleases: function to get the calendar releases
  *
  */
-const CalendarCard = ({
-    gameId,
-    gameTitle,
-    gameDescription,
-    gameImage,
-    gameRating,
-    mainPage,
-    gameDate,
-    getCalendarReleases
-}) => {
+const CalendarCard = props => {
+    const { gameId, gameTitle, gameImage, gameDate, getCalendarReleases } = props
     const storageManager = new StorageManager()
     const classes = useStyles();
     const history = useHistory()
@@ -215,6 +207,12 @@ const CalendarCard = ({
 
 }
 
-CalendarCard.propTypes = {}
+CalendarCard.propTypes = {
+    gameId: PropTypes.number.isRequired,
+    gameTitle: PropTypes.string.isRequired,
+    gameImage: PropTypes.string.isRequired,
+    gameDate: PropTypes.string.isRequired,
+    getCalendarReleases: PropTypes.func.isRequired
+}
 
 export default CalendarCard;

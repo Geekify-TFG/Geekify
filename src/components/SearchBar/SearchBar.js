@@ -69,7 +69,6 @@ const useStyles = makeStyles((theme) =>
 );
 
 function SearchBar({ size, searched }) {
-
     const classes = useStyles();
     const [value, setValue] = useState(searched)
     const history = useHistory()

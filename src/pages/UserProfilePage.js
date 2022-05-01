@@ -189,6 +189,19 @@ const UserProfilePage = () => {
         getInfouser()
     }, [email.current]);
 
+    const onClickHandler = (userEmail) => {
+        console.log(userEmail)
+        //localStorage.setItem("userRoute")
+        const newObj = { "detail": userEmail }
+        localStorage.setItem("userDetails", JSON.stringify(newObj));
+
+        history.push({
+            pathname: `/user/${userEmail.split("@")[0]}`,
+            state: { detail: userEmail }
+        })
+
+    }
+
     return (
         <>
             {loading ? (
@@ -362,26 +375,34 @@ const UserProfilePage = () => {
                                     </Grid>
 
                                     <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
-                                        {followingUsers &&
-                                            followingUsers.map((elem, key) => (
-                                                <ListItem key={elem}>
+                                        {infoUser && infoUser.followed_users.length != 0 ?
+                                            infoUser.followed_users.map((elem, key) => (
+                                                <ListItem key={elem} onClick={() => onClickHandler(elem.email)}>
                                                     <ListItemAvatar>
-                                                        <Avatar alt="Remy Sharp" src={elem.avatar} />
+                                                        <Avatar style={{ cursor: "pointer" }} alt="Remy Sharp" src={elem.photo} />
                                                     </ListItemAvatar>
                                                     <ListItemText style={{ color: AppColors.WHITE }}
                                                         classes={{ secondary: AppColors.WHITE }}
                                                         primary={<Typography style={{
                                                             fontSize: "18px",
-                                                            color: AppColors.WHITE
-                                                        }}>{elem.username}</Typography>}
-                                                        secondary={<Typography style={{
-                                                            fontSize: "14px",
-                                                            color: AppColors.GRAY
-                                                        }}>{elem.gamesCommon}</Typography>}
+                                                            color: AppColors.WHITE,
+                                                            cursor: "pointer",
+                                                        }}>{elem.email.split("@")[0]}</Typography>}
+
                                                     />
                                                 </ListItem>
 
-                                            ))}
+                                            )) :
+                                            <Grid>
+                                                <Typography
+                                                    style={{
+                                                        fontSize: "38px",
+                                                        color: AppColors.WHITE,
+                                                        margin: "1em"
+                                                    }}>{LabelsProfilePage.NO_FOLLOWER_USERS_YET_USER}</Typography>
+                                            </Grid>
+
+                                        }
 
                                     </List>
                                 </Grid>

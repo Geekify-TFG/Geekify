@@ -46,37 +46,29 @@ const useStyles = makeStyles(() => ({
 
 /**
  * @component
- * Component to create the card of the game
+ * Component to create the card of the forum
  *
- * @param {number} gameId: id of the game
- * @param {string} gameTitle: title of the game
- * @param {string} gameDescription: description of the game
-
- *
- * @constructor
- * <GameCard gameId={"12"} gameTitle={"TITLE"} gameDescription={"DESCRIPTION"} gameImage={2}/>
- *
+ * @param {string} props.forumId: id of the forum
+ * @param {string} props.forumTitle: title of the forum
+ * @param {string} props.forumDescription: description of the forum
+ * @param {string} props.forumNumUsers: num users of the forum
+ * @param {string} props.forumImage: image of the forum
+ * @param {string} props.forumGenre: genre of the forum
+ * @param {string} props.forumGame: game of the forum
+ * @param {string} props.followingForums: forums that the user is following
+ * @param {function} props.getForumsFollowed: function to get the forums that the user is following
+ * 
+ * @returns {object} JSX
  */
-const ForumCard = ({
-    forumId,
-    forumTitle,
-    forumDescription,
-    forumNumUsers,
-    forumImage,
-    forumGenre,
-    forumGame,
-    height, width,
-    paddingLeft,
-    followingForums,
-    getForumsFollowed
-}) => {
+const ForumCard = props => {
+    const { forumId, forumTitle, forumDescription, forumNumUsers, forumImage, forumGenre, followingForums, getForumsFollowed } = props;
     const classes = useStyles();
     const history = useHistory()
     const storageManager = new StorageManager()
     const [openSnackFollowedForum, setOpenSnackFollowedForum] = useState()
     const [openSnackUnfollowedForum, setOpenSnackUnfollowedForum] = useState()
     const [openSnackFollowLogin, setOpenSnackFollowLogin] = useState()
-    const theme = useTheme();
+
     const onClickHandler = () => {
         history.push({
             pathname: `/forum/${forumId}`,

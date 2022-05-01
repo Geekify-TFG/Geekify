@@ -38,8 +38,22 @@ const useStyles = makeStyles(() => ({
         borderRadius: 10,
     },
 }));
-
-const SelectGeekify = ({ value, handleChange, options, label, borderRadius, width, textRender }) => {
+/**
+ * @component
+ * Component to create a select field.
+ *
+ *
+ * @param {object} props.value: value of the select
+ * @param {array} props.options: options of the select
+ * @param {string} props.label: label of the select
+ * @param {function} props.handleChange: function to handle the change of the select
+ * @param {array} props.options: options of the select
+ * @param {string} props.width: width of the select
+ * @param {string} props.fav_categories: favorite categories of the select
+ * 
+ */
+const SelectGeekify = props => {
+    const { value, handleChange, options, label, borderRadius, width, textRender } = props
     const classes = useStyles();
     return (
         <FormControl data-testid={"formControl"} className={classes.select} variant="outlined" margin="normal"

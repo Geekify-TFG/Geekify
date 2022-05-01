@@ -5,20 +5,21 @@ import PropTypes from "prop-types";
 import { AppColors } from "../../resources/AppColors";
 
 /**
- * Component to create comment cards.
+ * Component to create the review card
  *
  * @component
  *
  * @param {object} props.children: content of the card
  * @param {string} props.bg: color of the card
- * @param {object} props.style: style of the card
+ * @param {object} props.height: height of the card
+ * @param {object} props.width: width of the card
+ * @param {object} props.game: game of the review card
+ * @param {object} props.review: review of the review card
+ * @param {object} props.avatar: avatar of the review card
+ * @param {object} props.comment: comment of the review card
+ * 
+ * @returns {object} JSX
  *
- * @example
- * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = "light";
- * const style = {height: "18rem", width: "18rem"};
- *
- * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
 
 const ReviewCard = props => {

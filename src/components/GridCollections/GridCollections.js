@@ -77,17 +77,6 @@ function CreateCollection({
     )
 }
 
-/**
- * @component
- * Component to show all the games
- *
- * @param {object} games: JSON with all the data available of the game
- *
- * @example
- * const games = {your JSON games data}
- * <GridGames games={games}/>
- */
-
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -99,7 +88,18 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const GridCollections = ({ loading, setLoading, getCollections, collections }) => {
+/**
+ * @component
+ * Component to show the grid of the collections
+ *
+ * @param {object} props.collections: The collections to show
+ * @param {function} props.getCollections: Function to get the collections
+ * @param {function} props.setLoading: Function to set the loading
+ * @param {function} props.loading: Boolean - The loading state
+ * 
+ */
+const GridCollections = props => {
+    const { loading, setLoading, getCollections, collections } = props
     const classes = useStyles();
     const [showCreateCollection, setShowCreateCollection] = useState(-999)
     const [openSnackCreateCollection, setopenSnackCreateCollection] = useState(false)

@@ -6,6 +6,7 @@ import { AppColors } from "../../resources/AppColors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useHistory } from "react-router-dom";
+import { StorageManager } from "../../utils";
 
 /**
  * Component to create comment cards.
@@ -15,18 +16,15 @@ import { useHistory } from "react-router-dom";
  * @param {object} props.children: content of the card
  * @param {string} props.bg: color of the card
  * @param {object} props.style: style of the card
- *
- * @example
- * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = "light";
- * const style = {height: "18rem", width: "18rem"};
- *
- * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
+ * @param {object} props.comment: comment of the card
+ * 
+ * @returns {object} JSX
  */
 const CommentCard = props => {
     const { bg, height, width, comment } = props;
     const [liked, setLiked] = useState(false)
     const history = useHistory()
+    const storageManager = new StorageManager()
     const handleClickLikeComment = async () => {
 
     }
@@ -35,12 +33,14 @@ const CommentCard = props => {
         //localStorage.setItem("userRoute")
         const newObj = { "detail": comment.user }
         localStorage.setItem("userDetails", JSON.stringify(newObj));
-
-        history.push({
-            pathname: `/user/${comment.user.split("@")[0]}`,
-            state: { detail: comment.user }
-        })
-
+        if (storageManager.getEmail() === comment.user) {
+            history.push("/profile")
+        } else {
+            history.push({
+                pathname: `/user/${comment.user.split("@")[0]}`,
+                state: { detail: comment.user }
+            })
+        }
     }
 
     return (
@@ -92,9 +92,7 @@ CommentCard.propTypes = {
     bg: PropTypes.string,
     height: PropTypes.string,
     width: PropTypes.string,
-    title: PropTypes.string,
-    time: PropTypes.string,
-    comment: PropTypes.string,
+    comment: PropTypes.array.isRequired,
 }
 
 CommentCard.defaultProps = {

@@ -3,6 +3,7 @@ import { makeStyles } from "@mui/styles";
 import { Card, CardHeader, CardMedia } from "@material-ui/core";
 import { AppColors } from "../../resources/AppColors";
 import { Typography } from "@mui/material";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -23,14 +24,13 @@ const useStyles = makeStyles(() => ({
 /**
  * @component
  * Component to create the card of the game
- *
- * @param {number} gameId: id of the game
- * @param {string} gameTitle: title of the game
- * @param {string} gameDescription: description of the game
-
- *
- * @constructor
- * <GameCard gameId={"12"} gameTitle={"TITLE"} gameDescription={"DESCRIPTION"} gameImage={2}/>
+ * 
+ * @param {number} height: height of the card
+ * @param {number} width: width of the card
+ * @param {string} article: article of the card
+ * @param {string} fontSize: fontSize of the card
+ * @param {string} subFontSize: subFontSize of the card
+ * @param {string} top: marginTop of the card
  *
  */
 const BigNewCard = ({
@@ -67,6 +67,13 @@ const BigNewCard = ({
 
 }
 
-BigNewCard.propTypes = {}
+BigNewCard.propTypes = {
+    height: PropTypes.number,
+    width: PropTypes.number,
+    article: PropTypes.object,
+    top: PropTypes.number,
+    fontSize: PropTypes.string,
+    subFontSize: PropTypes.string,
+}
 
 export default BigNewCard;

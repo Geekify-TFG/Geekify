@@ -12,20 +12,20 @@ import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
 import { LabelsSnackbar } from "../../locale/en";
 
 /**
- * Component to create comment cards.
+ * Component to create publications cards.
  *
  * @component
+ * 
+ * @param {string} props.publicationKey: key of the publication
+ * @param {string} props.bg: background color of the card
+ * @param {string} props.height: height of the card
+ * @param {string} props.width: width of the card
+ * @param {string} props.publication: publication of the forum
+ * @param {function} props.getPublications: function to get the publication
+ * @param {boolean} props.favorited: true if the publication is favorited
+ * 
+ * @returns {object} JSX
  *
- * @param {object} props.children: content of the card
- * @param {string} props.bg: color of the card
- * @param {object} props.style: style of the card
- *
- * @example
- * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = "light";
- * const style = {height: "18rem", width: "18rem"};
- *
- * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
 const PublicationCard = props => {
     const { publicationKey, bg, height, width, publication, getPublications, favorited } = props;
@@ -125,17 +125,13 @@ const PublicationCard = props => {
 }
 
 PublicationCard.propTypes = {
-    children: PropTypes.array.isRequired,
-    bg: PropTypes.string,
+    publicationKey: PropTypes.string.isRequired,
+    bg: PropTypes.string.isRequired,
     height: PropTypes.string,
     width: PropTypes.string,
-    title: PropTypes.string,
-    time: PropTypes.string,
-    comment: PropTypes.string,
+    publication: PropTypes.object.isRequired,
+    getPublications: PropTypes.func.isRequired,
+    favorited: PropTypes.bool.isRequired
 }
-
-PublicationCard.defaultProps = {
-    bg: AppColors.WHITE
-};
 
 export default PublicationCard;

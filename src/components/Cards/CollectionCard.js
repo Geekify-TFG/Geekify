@@ -6,6 +6,7 @@ import { makeStyles } from "@mui/styles";
 import { Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
 import Icons from "../../resources/Icons";
 import IconProvider from "../IconProvider/IconProvider";
+import PropTypes from "prop-types"
 
 const useStyles = makeStyles({
     root: {
@@ -40,25 +41,17 @@ const useStyles = makeStyles({
 
 /**
  * @component
- * Component to create the card of the game
- *
- * @param {number} gameId: id of the game
- * @param {string} gameTitle: title of the game
- * @param {string} gameDescription: description of the game
-
- *
- * @constructor
- * <GameCard gameId={"12"} gameTitle={"TITLE"} gameDescription={"DESCRIPTION"} gameImage={2}/>
+ * Component to create the cards of the collections
+ * @param {string} collectionId: id of the collection
+ * @param {string} collectionTitle: title of the collection
+ * @param {string} collectionNumGames: games on the collection
+ * @param {string} collectionImage: image of the collection
+ * @param {string} width: width of the card
+ * @param {string} paddingLeft: paddingLeft of the card
  *
  */
-const CollectionCard = ({
-    collectionId,
-    collectionTitle,
-    collectionNumGames,
-    collectionImage,
-    width,
-    paddingLeft
-}) => {
+const CollectionCard = props => {
+    const { collectionId, collectionTitle, collectionNumGames, collectionImage, width, paddingLeft } = props
     const classes = useStyles();
     const history = useHistory()
 
@@ -130,6 +123,13 @@ const CollectionCard = ({
 
 }
 
-CollectionCard.propTypes = {}
+CollectionCard.propTypes = {
+    collectionId: PropTypes.string.isRequired,
+    collectionTitle: PropTypes.string.isRequired,
+    collectionNumGames: PropTypes.string.isRequired,
+    collectionImage: PropTypes.string.isRequired,
+    width: PropTypes.string.isRequired,
+    paddingLeft: PropTypes.string.isRequired
+}
 
 export default CollectionCard;

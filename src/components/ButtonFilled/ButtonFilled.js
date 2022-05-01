@@ -23,12 +23,11 @@ import IconProvider from "../IconProvider/IconProvider";
  * @param marginLeft: marginLeft of the text with the icon or button left margin
  * @param margin: margin of all the text with the button
  * @param type: textType of the text
+ * @param variant: variant of the button
+ * @param border: border of the button
  * @returns {JSX.Element}
  *
- * @example
- * <ButtonFilled marginLeft={"0.2em"} onClick={handleChangeArchived} color={AppColors.WHITE} backGroundColor={AppColors.RED}
- icon={<IconProviderUhdaicon={<Icons.ARCHIVE size={"1.5em"} style={{ color: AppColors.WHITE }} />} />} text={LabelsForm.ARCHIVE}/>
- */
+ **/
 
 const ButtonFilled = ({
     backGroundColor,

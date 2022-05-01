@@ -5,18 +5,7 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles"
 import { useTextStyles } from "../../resources/AppTexts";
 import GameCard from "../Cards/GameCard";
-
-/**
- * @component
- * Component to show all the games
- *
- * @param {object} games: JSON with all the data available of the game
- *
- * @example
- * const games = {your JSON games data}
- * <GridGames games={games}/>
- */
-
+import PropTypes from "prop-types";
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -24,7 +13,15 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const GridGames = ({ games, mainPage }) => {
+/**
+ * @component
+ * Component to show the grid of the games
+ *
+ * @param {object} games: JSON with all the data available of the game
+ * @param {boolean} mainPage: boolean to know if the component is in the main page or not
+ */
+const GridGames = props => {
+    const { games, mainPage } = props;
     const classes = useStyles();
     const [redirectTo, setRedirectTo] = useState([false, -1]);
     const [game, setGame] = useState(games);
@@ -111,4 +108,8 @@ const GridGames = ({ games, mainPage }) => {
     )
 }
 
+GridGames.propTypes = {
+    games: PropTypes.array.isRequired,
+    mainPage: PropTypes.bool.isRequired
+}
 export default GridGames;

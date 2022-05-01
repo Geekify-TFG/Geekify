@@ -1,23 +1,17 @@
 import React from "react";
 import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 /**
  * @component
- * Component to create the card of the game
+ * Component to create the card of the article
  *
- * @param {number} gameId: id of the game
- * @param {string} gameTitle: title of the game
- * @param {string} gameDescription: description of the game
-
- *
- * @constructor
- * <GameCard gameId={"12"} gameTitle={"TITLE"} gameDescription={"DESCRIPTION"} gameImage={2}/>
- *
+ * @param {object} props.article: article of the card
+ * 
+ * @returns {object} JSX
  */
-const NewsCard = ({
-    article
-}) => {
-
+const NewsCard = props => {
+    const { article } = props
     const toNews = (urlArticle) => {
         window.open(urlArticle, "_blank")
     }
@@ -47,6 +41,8 @@ const NewsCard = ({
 
 }
 
-NewsCard.propTypes = {}
+NewsCard.propTypes = {
+    article: PropTypes.object,
+}
 
 export default NewsCard;

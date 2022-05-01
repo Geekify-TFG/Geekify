@@ -179,23 +179,17 @@ function AddToCollection({
  * @component
  * Component to create the card of the game
  *
- * @param {number} gameId: id of the game
- * @param {string} gameTitle: title of the game
- * @param {string} gameDescription: description of the game
-
- *
- * @constructor
- * <GameCard gameId={"12"} gameTitle={"TITLE"} gameDescription={"DESCRIPTION"} gameImage={2}/>
- *
+ * @param {string} props.gameId: id of the game
+ * @param {string} props.gameTitle: title of the game
+ * @param {string} props.gameImage: image of the game
+ * @param {string} props.gameRating: rating of the game
+ * @param {boolean} props.mainPage: boolean to check if the card is in the mainPage
+ * 
+ * @returns {object} JSX
+ * 
  */
-const GameCard = ({
-    gameId,
-    gameTitle,
-    gameImage,
-    gameRating,
-    mainPage,
-
-}) => {
+const GameCard = props => {
+    const { gameId, gameTitle, gameImage, gameRating, mainPage } = props
     const storageManager = new StorageManager()
     const collectionId = new URL(window.location).pathname.split("/")[2]
     const classes = useStyles();

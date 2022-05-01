@@ -59,7 +59,22 @@ const MenuProps = {
     },
 };
 
-const MultipleSelectGeekify = ({ value, handleChange, options, label, width, fav_categories }) => {
+/**
+ * @component
+ * Component to create a multiple select field.
+ *
+ *
+ * @param {object} props.value: value of the select
+ * @param {array} props.options: options of the select
+ * @param {string} props.label: label of the select
+ * @param {function} props.handleChange: function to handle the change of the select
+ * @param {array} props.options: options of the select
+ * @param {string} props.width: width of the select
+ * @param {string} props.fav_categories: favorite categories of the select
+ * 
+ */
+const MultipleSelectGeekify = props => {
+    const { value, handleChange, options, label, width, fav_categories } = props;
     const classes = useStyles();
     return (
         <FormControl className={classes.select} variant="outlined" margin="normal"
@@ -95,10 +110,12 @@ const MultipleSelectGeekify = ({ value, handleChange, options, label, width, fav
 }
 
 MultipleSelectGeekify.propTypes = {
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.bool, PropTypes.number]).isRequired,
-    handleChange: PropTypes.func.isRequired,
-    options: PropTypes.array.isRequired,
+    value: PropTypes.array,
+    handleChange: PropTypes.func,
+    options: PropTypes.array,
     label: PropTypes.string,
+    width: PropTypes.string,
+    fav_categories: PropTypes.array,
 }
 
 export default MultipleSelectGeekify

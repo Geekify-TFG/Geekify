@@ -7,8 +7,15 @@ import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const SnackBarGeekify = ({ message, openSnack, handleClose, severity }) => {
+/**
+ * 
+ * @param {string} props.message: message to be displayed
+ * @param {string} props.severity: severity of the message
+ * @param {function} props.openSnack: open the snackbar
+ * @param {function} props.handleClose: close the snackbar 
+ */
+const SnackBarGeekify = props => {
+    const { message, openSnack, handleClose, severity } = props;
     // if (severity == null) severity = "success"
 
     return (
@@ -26,10 +33,10 @@ const SnackBarGeekify = ({ message, openSnack, handleClose, severity }) => {
 }
 
 SnackBarGeekify.propTypes = {
-    severity: PropTypes.string,
-    openSnack: PropTypes.bool.isRequired,
     message: PropTypes.string,
+    openSnack: PropTypes.bool,
     handleClose: PropTypes.func,
+    severity: PropTypes.string,
 }
 
 export default SnackBarGeekify;
