@@ -46,6 +46,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import { Photo } from "@material-ui/icons";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -387,6 +388,7 @@ function EditProfile({
 }
 
 const ProfilePage = () => {
+    const history = useHistory();
     const storageManager = new StorageManager();
     const email = storageManager.getEmail()
     const classes = useStyles();
@@ -423,6 +425,20 @@ const ProfilePage = () => {
     const handleCloseSnackEditProfile = () => {
         setOpenSnackEditProfile(false)
     }
+
+    const onClickHandler = (userEmail) => {
+        console.log(userEmail)
+        //localStorage.setItem("userRoute")
+        const newObj = { "detail": userEmail }
+        localStorage.setItem("userDetails", JSON.stringify(newObj));
+
+        history.push({
+            pathname: `/user/${userEmail.split("@")[0]}`,
+            state: { detail: userEmail }
+        })
+
+    }
+
     return (
         <>
             {loading ? (
@@ -578,6 +594,7 @@ const ProfilePage = () => {
                                     container
                                 >
                                     <Grid item style={{ backgroundColor: AppColors.PRIMARY, width: "292px", height: "60px" }}>
+
                                         <Typography
                                             style={{
                                                 fontSize: "20px",
@@ -588,22 +605,20 @@ const ProfilePage = () => {
                                     </Grid>
 
                                     <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
-                                        {followingUsers &&
-                                            followingUsers.map((elem, key) => (
-                                                <ListItem key={elem}>
+                                        {infoUser.followed_users &&
+                                            infoUser.followed_users.map((elem, key) => (
+                                                <ListItem key={elem} onClick={() => onClickHandler(elem.email)}>
                                                     <ListItemAvatar>
-                                                        <Avatar alt="Remy Sharp" src={elem.avatar} />
+                                                        <Avatar style={{ cursor: "pointer" }} alt="Remy Sharp" src={elem.photo} />
                                                     </ListItemAvatar>
                                                     <ListItemText style={{ color: AppColors.WHITE }}
                                                         classes={{ secondary: AppColors.WHITE }}
                                                         primary={<Typography style={{
                                                             fontSize: "18px",
-                                                            color: AppColors.WHITE
-                                                        }}>{elem.username}</Typography>}
-                                                        secondary={<Typography style={{
-                                                            fontSize: "14px",
-                                                            color: AppColors.GRAY
-                                                        }}>{elem.gamesCommon}</Typography>}
+                                                            color: AppColors.WHITE,
+                                                            cursor: "pointer",
+                                                        }}>{elem.email.split("@")[0]}</Typography>}
+
                                                     />
                                                 </ListItem>
 

@@ -213,7 +213,6 @@ const CollectionPage = () => {
     const location = useLocation();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-
     const [loading, setLoading] = useState(false);
     const [collection, setCollection] = useState(false);
     const [showDeleteCollectionModal, setShowDeleteCollectionModal] = useState(false);

@@ -392,7 +392,6 @@ const GamePage = () => {
                 user: storageManager.getEmail(),
                 game_id: idGame
             };
-            console.log(body)
             const config = { auth: { username: storageManager.getToken() } }
             await axios.post(`${MY_BASE_PATH}${COMMENT_GAME(idGame)}`, body, config);
             setLoading(true)
