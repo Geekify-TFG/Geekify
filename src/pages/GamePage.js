@@ -718,6 +718,14 @@ const GamePage = () => {
                                 style={{ width: "350px" }}
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
+                                onKeyPress={(ev) => {
+                                    console.log(`Pressed keyCode ${ev.key}`);
+                                    if (ev.key === "Enter") {
+                                        // Do code here
+                                        ev.preventDefault();
+                                        postComment()
+                                    }
+                                }}
                                 disabled={!storageManager.getToken()}
                                 placeholder={storageManager.getToken() ? "" : "You must be logged to comment"}
                                 label={`Publish about ${game.name}`}

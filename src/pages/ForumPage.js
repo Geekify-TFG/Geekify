@@ -373,39 +373,6 @@ const ForumPage = () => {
                                     }}> {menuOptions.DELETE}</MenuItem>
                             </Menu>
 
-                            {/*{forum && storageManager.getEmail() === forum.admin &&
-                            <Button
-                                data-testid={"btnEditForum"}
-                                style={{
-                                    backgroundColor: AppColors.PRIMARY,
-                                    borderRadius: 20,
-                                    maxWidth: "10em"
-                                }}
-                                onClick={handleEditForum}
-                            >
-                                <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: "14px"}}
-                                            gutterBottom
-                                >
-                                    {LabelsForumsPage.EDIT_FORUM}
-                                </Typography>
-                            </Button>}
-
-                            {forum && storageManager.getEmail() === forum.admin &&
-                            <Button
-                                data-testid={"btnDeleteForum"}
-                                style={{
-                                    backgroundColor: AppColors.RED,
-                                    borderRadius: 20,
-                                    maxWidth: "10em"
-                                }}
-                                onClick={handleDeleteForum}
-                            >
-                                <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: "14px"}}
-                                            gutterBottom
-                                >
-                                    {LabelsForumsPage.DELETE_FORUM}
-                                </Typography>
-                            </Button>}*/}
                         </Grid>
                         <Grid container style={{ marginTop: "1em" }} direction={"row"}>
                             <FacebookShareButton
@@ -436,6 +403,14 @@ const ForumPage = () => {
                                 data-testid="textfieldPublication"
                                 style={{ width: "45em" }}
                                 onChange={(e) => setPublication(e.target.value)}
+                                onKeyPress={(ev) => {
+                                    console.log(`Pressed keyCode ${ev.key}`);
+                                    if (ev.key === "Enter") {
+                                        // Do code here
+                                        ev.preventDefault();
+                                        postPublication()
+                                    }
+                                }}
                                 type="text"
                                 disabled={!storageManager.getToken()}
                                 placeholder={storageManager.getToken() ? "" : "You must be logged to comment"}
