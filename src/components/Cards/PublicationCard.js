@@ -95,7 +95,7 @@ const PublicationCard = props => {
                     style={{ fontSize: "16px", color: AppColors.GRAY }}>{publication.date}</Typography>}
             />
 
-            <CardContent>
+            <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
                 <Typography style={{ fontSize: "16px", color: AppColors.WHITE }}>
                     {publication.content}
                 </Typography>

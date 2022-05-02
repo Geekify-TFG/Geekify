@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import {
     Avatar,
     Button,
+    CircularProgress,
     Divider,
     Grid,
     List,
@@ -105,6 +106,7 @@ const ForumsPage = () => {
     }
 
     useEffect(() => {
+        setLoading(true)
         setFollowingGroups(followingGroupMock)
         getForums()
         if (storageManager.getToken())
@@ -160,28 +162,33 @@ const ForumsPage = () => {
                                 </Typography>
                             </Button>}
                         </Grid>
-                        {forums &&
-                            Object.entries(forums)
-                                .map(([key, value]) =>
-                                    <>
-                                        <ForumCard
-                                            bg={AppColors.BACKGROUND_DRAWER}
-                                            forumId={key}
-                                            forumTitle={value.title}
-                                            forumDescription={value.description}
-                                            forumNumUsers={value.users.length}
-                                            forumImage={value.image}
-                                            forumGenre={value.tag}
-                                            forumGame={value.game}
-                                            followingForums={followingForums ? (!!followingForums.find(element => element.id === key)) : null}
-                                            getForumsFollowed={getForumsFollowed}
+                        {loading ?
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <CircularProgress />
+                            </div>
+                            : <Grid item>
+                                {forums &&
+                                    Object.entries(forums)
+                                        .map(([key, value]) =>
+                                            <>
+                                                <ForumCard
+                                                    bg={AppColors.BACKGROUND_DRAWER}
+                                                    forumId={key}
+                                                    forumTitle={value.title}
+                                                    forumDescription={value.description}
+                                                    forumNumUsers={value.users.length}
+                                                    forumImage={value.image}
+                                                    forumGenre={value.tag}
+                                                    forumGame={value.game}
+                                                    followingForums={followingForums ? (!!followingForums.find(element => element.id === key)) : null}
+                                                    getForumsFollowed={getForumsFollowed}
 
-                                        />
-                                        <Divider style={{ width: "45em", backgroundColor: AppColors.GRAY }} />
-                                    </>
-                                )
-                        }
-
+                                                />
+                                                <Divider style={{ width: "45em", backgroundColor: AppColors.GRAY }} />
+                                            </>
+                                        )
+                                }
+                            </Grid>}
                     </Grid>
                     <Grid item style={{ marginLeft: "2em" }}>
                         <Grid item style={{ marginBottom: "4em", }}>

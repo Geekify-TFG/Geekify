@@ -123,7 +123,7 @@ const ForumCard = props => {
                 <CardContent className={classes.content}>
                     <Grid container justifyContent={"space-between"} direction={"row"}>
                         <Grid item>
-                            <Typography style={{ color: AppColors.WHITE, fontSize: "25px", fontWeight: "bold" }}>
+                            <Typography onClick={onClickHandler} style={{ cursor: "pointer", color: AppColors.WHITE, fontSize: "25px", fontWeight: "bold" }}>
                                 {forumTitle}
                             </Typography>
                         </Grid>

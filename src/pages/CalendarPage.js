@@ -105,7 +105,7 @@ const CalendarPage = () => {
     const [startMonth, setStartMonth] = useState(today)
     const [endMonth, setEndMonth] = useState(todayOneMonth)
     const [gamesMonth, setGamesMonth] = useState()
-    const [gamesUserMonth, setGamesUserMonth] = useState()
+    const [gamesUserMonth, setGamesUserMonth] = useState([])
     const [loading, setLoading] = useState(true)
     const sort_text = { calendar: LabelsCalendarPage.CALENDAR, myCalendar: LabelsCalendarPage.MY_CALENDAR };
     const [sortActive, setSortActive] = useState("calendar");

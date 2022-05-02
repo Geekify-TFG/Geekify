@@ -93,7 +93,6 @@ const CalendarCard = props => {
     const handleCloseSnackErrorLogin = async () => {
         setOpenSnackBarErrorLogin(false)
     }
-    console.log(sortActive)
     const handleAddToCalendarReleases = async () => {
         if (storageManager.getToken()) {
             try {
@@ -163,9 +162,8 @@ const CalendarCard = props => {
                                 <Typography
                                     style={{
                                         overflowWrap: "hidden",
-                                        color: AppColors.WHITE,
-                                        height: "64px",
-                                        fontWeight: "bold"
+                                        height: "auto",
+                                        fontWeight: "bold", borderRadius: 20, backgroundColor: AppColors.PRIMARY_OPACITY, color: AppColors.WHITE,
                                     }}
                                     variant="h5" component="h2">
                                     {`${gameTitle.substring(0, 20)} ...`}
