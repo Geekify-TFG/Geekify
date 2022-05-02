@@ -205,10 +205,10 @@ const LoginPage = () => {
                                 }}>{LabelsLoginPage.REMEMBER}</Typography>
                         </Link>
                     </Grid>
-                    <Grid item style={{ marginLeft: "13.5em", marginTop: "1em" }}>
+                    <Grid item style={{ marginLeft: "10.5em", marginTop: "1em" }}>
                         <GoogleLogin
                             clientId={clientId}
-                            buttonText="Sign In"
+                            buttonText="Login with google"
                             onSuccess={onLoginSuccess}
                             onFailure={onLoginFailure}
                             cookiePolicy={"single_host_origin"}

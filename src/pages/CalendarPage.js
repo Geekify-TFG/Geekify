@@ -105,6 +105,7 @@ const CalendarPage = () => {
     const [startMonth, setStartMonth] = useState(today)
     const [endMonth, setEndMonth] = useState(todayOneMonth)
     const [gamesMonth, setGamesMonth] = useState()
+    const [gamesUserMonth, setGamesUserMonth] = useState()
     const [loading, setLoading] = useState(true)
     const sort_text = { calendar: LabelsCalendarPage.CALENDAR, myCalendar: LabelsCalendarPage.MY_CALENDAR };
     const [sortActive, setSortActive] = useState("calendar");
@@ -129,8 +130,21 @@ const CalendarPage = () => {
     const getCalendarReleases = async () => {
         try {
             const response = await axios.get(`${MY_CALENDAR(storageManager.getEmail())}`)
+            console.log(response.data.calendar_releases)
             setGamesMonth(response.data.calendar_releases)
             setLoading(false)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    /**
+     * Get the games for the month of the user have saved
+     */
+    const getCalendarUserReleases = async () => {
+        try {
+            const response = await axios.get(`${MY_CALENDAR(storageManager.getEmail())}`)
+            setGamesUserMonth(response.data.calendar_releases)
         } catch (err) {
             console.log(err.message)
         }
@@ -144,6 +158,10 @@ const CalendarPage = () => {
                 gameImage={eventInfo.event.url}
                 gameDate={eventInfo.event.startStr}
                 getCalendarReleases={getCalendarReleases}
+                getGamesMonth={getGamesMonth}
+                gamesUserMonth={gamesUserMonth}
+                getCalendarUserReleases={getCalendarUserReleases}
+                sortActive={sortActive}
             />
 
         )
@@ -162,7 +180,7 @@ const CalendarPage = () => {
 
     useEffect(() => {
         getGamesMonth()
-
+        getCalendarUserReleases()
     }, [startMonth]);
     return (
         <>

@@ -36,6 +36,7 @@ const MainPage = () => {
     const [sortActive, setSortActive] = useState("popular");
     const [loading, setLoading] = useState(false);
     const sort_text = { popular: LabelsMain.POPULAR, released: LabelsMain.RELEASED, rating: LabelsMain.RATING, favCategories: LabelsMain.FAV_CATEGORIES };
+    const text = { popular: LabelsMain.TEXT_POPULAR, released: LabelsMain.TEXT_RELEASED_DATE, rating: LabelsMain.TEXT_RATING, favCategories: LabelsMain.TEXT_FAV_CATEGORIES };
 
     //Function to get all the games
     const getGames = async () => {
@@ -139,17 +140,12 @@ const MainPage = () => {
                                 aria-label="outlined primary button group">
                                 {Object.entries(sort_text).map(([key, value]) => (
                                     <>
-                                        {key == "favCategories" ? <Tooltip title={<Typography>{LabelsMain.TEXT_FAV_CAT}</Typography>}>
+                                        <Tooltip title={<Typography>{text[key]}</Typography>}>
                                             <ButtonToggle key={key.id} active={sortActive === key}
                                                 onClick={() => (setSortActive(key))}>
                                                 {value}
                                             </ButtonToggle>
-                                        </Tooltip> :
-                                            <ButtonToggle key={key.id} active={sortActive === key}
-                                                onClick={() => (setSortActive(key))}>
-                                                {value}
-                                            </ButtonToggle>
-                                        }
+                                        </Tooltip>
                                     </>
 
                                 ))}

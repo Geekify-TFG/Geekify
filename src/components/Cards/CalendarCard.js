@@ -67,7 +67,7 @@ const useStyles = makeStyles({
  *
  */
 const CalendarCard = props => {
-    const { gameId, gameTitle, gameImage, gameDate, getCalendarReleases } = props
+    const { gameId, gameTitle, gameImage, gameDate, getGamesMonth, getCalendarReleases, getCalendarUserReleases, gamesUserMonth, sortActive } = props
     const storageManager = new StorageManager()
     const classes = useStyles();
     const history = useHistory()
@@ -93,7 +93,7 @@ const CalendarCard = props => {
     const handleCloseSnackErrorLogin = async () => {
         setOpenSnackBarErrorLogin(false)
     }
-
+    console.log(sortActive)
     const handleAddToCalendarReleases = async () => {
         if (storageManager.getToken()) {
             try {
@@ -106,11 +106,21 @@ const CalendarCard = props => {
                 const response = await axios.post(`${MY_CALENDAR(storageManager.getEmail())}`, gameBody)
                 if (response.data.account.some(e => e.id === parseInt(gameId))) {
                     setOpenSnackAddToCalendarReleases(true)
+                    getCalendarUserReleases()
                 } else {
                     setOpenSnackRemoveToCalendarReleases(true)
-                    setTimeout(() => {
-                        getCalendarReleases()
-                    }, 500)
+                    if (sortActive == "myCalendar") {
+                        setTimeout(() => {
+                            getCalendarReleases()
+                            getCalendarUserReleases()
+                        }, 500)
+                    } else {
+                        setTimeout(() => {
+                            getCalendarUserReleases()
+                            getGamesMonth()
+                        }, 500)
+                    }
+
                 }
             } catch (e) {
                 console.log("Error: ", e)
@@ -175,15 +185,15 @@ const CalendarCard = props => {
                             backgroundColor: AppColors.BACKGROUND,
                             borderRadius: 30,
                             border: "2px solid #6563FF",
-                            borderColor: AppColors.PRIMARY,
+                            borderColor: gamesUserMonth.some(e => e.id === parseInt(gameId)) ? AppColors.RED : AppColors.PRIMARY,
                             maxWidth: "35px", maxHeight: "35px", minWidth: "35px", minHeight: "35px",
                         }}>
-
+                            {console.log(gamesUserMonth)}
                             <IconProvider icon={<Icons.CALENDAR style={{
                                 marginTop: "0.1em",
                                 verticalAlign: "middle",
                                 display: "inline-flex",
-                                color: AppColors.PRIMARY,
+                                color: gamesUserMonth.some(e => e.id === parseInt(gameId)) ? AppColors.RED : AppColors.PRIMARY,
                             }} size="100px" />} />
 
                         </Button>

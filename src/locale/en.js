@@ -65,7 +65,10 @@ export const LabelsMain = {
     RELEASED: "Released date",
     RATING: "Rating",
     FAV_CATEGORIES: "For you",
-    TEXT_FAV_CAT:"These games are displayed based on your chosen favorite games",
+    TEXT_POPULAR:"Most popular games of all time",
+    TEXT_RELEASED_DATE:"Games released in the last year",
+    TEXT_RATING:"Games with the best rating",
+    TEXT_FAV_CATEGORIES:"These games are displayed based on your chosen favorite games",
     NO_FAV_CATEGORIES: "You have no favorite categories. Enter your profile and customize it"
 }
 
