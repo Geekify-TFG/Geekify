@@ -40,7 +40,7 @@ export const LabelsSnackbar = {
     LIKE_PUBLICATION: "You liked the publication",
     REMOVE_LIKE_PUBLICATION: "You remove the like of the publication",
     LIKE_PUBLICATION_LOGIN: "You must be logged to like the publication",
-    PROFILE_EDITED:"Profile edited successfully!"
+    PROFILE_EDITED: "Profile edited successfully!"
 }
 
 export const LabelsDrawer = {
@@ -65,10 +65,10 @@ export const LabelsMain = {
     RELEASED: "Released date",
     RATING: "Rating",
     FAV_CATEGORIES: "For you",
-    TEXT_POPULAR:"Most popular games of all time",
-    TEXT_RELEASED_DATE:"Games released in the last year",
-    TEXT_RATING:"Games with the best rating",
-    TEXT_FAV_CATEGORIES:"These games are displayed based on your chosen favorite games",
+    TEXT_POPULAR: "Most popular games in the world",
+    TEXT_RELEASED_DATE: "Games released in the last year",
+    TEXT_RATING: "Games with the best rating",
+    TEXT_FAV_CATEGORIES: "These games are displayed based on your chosen favorite games",
     NO_FAV_CATEGORIES: "You have no favorite categories. Enter your profile and customize it"
 }
 
@@ -170,7 +170,7 @@ export const LabelsProfilePage = {
     FEMALE: "Female",
     OTHER: "Other",
     PHOTO: "Photo",
-    FOLLOW_USER:"Follow user",
+    FOLLOW_USER: "Follow user",
     NO_INFO_YET: "You dont have profile info yet.\nEdit your profile",
     NO_INFO_YET_USER: "This user not have profile info yet",
     NO_FOLLOWER_USERS_YET: "You don't follow any user yet",
@@ -200,7 +200,7 @@ export const DialogTexts = {
     SAVE: "Save",
     DELETE: "Delete",
     ADD_TO_COLLECTIONS: "Add to collections",
-    DELETE_FROM_COLLECTION:"Delete from this collection",
+    DELETE_FROM_COLLECTION: "Delete from this collection",
     EDIT_PROFILE: "Edit profile",
     EDIT_IMAGE: "Edit image of profile",
     CREATE_COLLECTION: "Create collection",
