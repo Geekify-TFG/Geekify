@@ -141,9 +141,9 @@ const CalendarCard = props => {
                     <CardMedia
                         media="picture"
                         alt={gameTitle}
-                        image={gameImage}
                         title={gameTitle}
                         style={{
+                            backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${gameImage})`,
                             position: "absolute",
                             top: 0,
                             right: 0,
@@ -163,7 +163,7 @@ const CalendarCard = props => {
                                     style={{
                                         overflowWrap: "hidden",
                                         height: "auto",
-                                        fontWeight: "bold", borderRadius: 20, backgroundColor: AppColors.PRIMARY_OPACITY, color: AppColors.WHITE,
+                                        fontWeight: "bold", color: AppColors.WHITE,
                                     }}
                                     variant="h5" component="h2">
                                     {`${gameTitle.substring(0, 20)} ...`}
@@ -186,7 +186,6 @@ const CalendarCard = props => {
                             borderColor: gamesUserMonth.some(e => e.id === parseInt(gameId)) ? AppColors.RED : AppColors.PRIMARY,
                             maxWidth: "35px", maxHeight: "35px", minWidth: "35px", minHeight: "35px",
                         }}>
-                            {console.log(gamesUserMonth)}
                             <IconProvider icon={<Icons.CALENDAR style={{
                                 marginTop: "0.1em",
                                 verticalAlign: "middle",

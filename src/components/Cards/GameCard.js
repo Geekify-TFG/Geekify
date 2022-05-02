@@ -249,9 +249,9 @@ const GameCard = props => {
                     <CardMedia
                         media="picture"
                         alt={gameTitle}
-                        image={gameImage ? gameImage : "https://via.placeholder.com/222x250"}
                         title={gameTitle}
                         style={{
+                            backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${gameImage ? gameImage : "https://i.imgur.com/XqQXZQZ.png"})`,
                             position: "absolute",
                             top: 0,
                             right: 0,
@@ -296,7 +296,7 @@ const GameCard = props => {
                             <Grid container alignItems="center"
                                 justifyContent="center">
                                 <Grid item style={{ paddingTop: "9em" }}>
-                                    <Typography style={{ borderRadius: 20, backgroundColor: AppColors.PRIMARY_OPACITY, color: AppColors.WHITE, height: "auto", fontWeight: "bold" }}
+                                    <Typography style={{ color: AppColors.WHITE, height: "auto", fontWeight: "bold" }}
                                         variant="h5" component="h2">
                                         {gameTitle}
                                     </Typography>
