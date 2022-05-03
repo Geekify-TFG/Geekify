@@ -180,7 +180,8 @@ const CalendarPage = () => {
 
     useEffect(() => {
         getGamesMonth()
-        getCalendarUserReleases()
+        if (storageManager.getEmail())
+            getCalendarUserReleases()
     }, [startMonth]);
     return (
         <>

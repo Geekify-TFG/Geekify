@@ -137,8 +137,9 @@ const ProfileButton = () => {
     useEffect(() => {
         if (storageManager.getToken() !== "") {
             setLogged(true)
+            getInfouser()
         }
-        getInfouser()
+
     }, [logged]);
 
     return (
