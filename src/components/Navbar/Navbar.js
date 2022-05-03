@@ -1,22 +1,23 @@
-import React, {useState} from 'react';
-import clsx from 'clsx'
-import {AppBar, IconButton, Toolbar} from '@material-ui/core'
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
+import clsx from "clsx"
+import { AppBar, IconButton, Toolbar } from "@material-ui/core"
 
-import {makeStyles} from '@material-ui/core/styles'
-import {AppColors} from "../../resources/AppColors"
-import {useHistory} from 'react-router-dom'
-import PropTypes from 'prop-types';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import { makeStyles } from "@material-ui/core/styles"
+import { AppColors } from "../../resources/AppColors"
+import { useHistory } from "react-router-dom"
+import PropTypes from "prop-types";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: "flex",
     },
     appBar: {
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     hide: {
-        display: 'none',
+        display: "none",
     },
     drawer: {
         width: drawerWidth,
@@ -43,24 +44,24 @@ const useStyles = makeStyles((theme) => ({
         width: drawerWidth,
     },
     drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
+        display: "flex",
+        alignItems: "center",
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
     },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: -drawerWidth,
     },
     contentShift: {
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
@@ -68,16 +69,16 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
-        textAlign: 'center'
+        textAlign: "center"
     },
     imageIcon: {
-        height: '100%',
+        height: "100%",
     },
     icon: {
-        height: '60px',
+        height: "60px",
     },
     iconRoot: {
-        textAlign: 'center'
+        textAlign: "center"
     },
 }));
 
@@ -92,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
  * @constructor
  * <Navbar open={false} setOpen={false} setSelected={null} logged={false}/>
  */
-const Navbar = ({open, setOpen, setSelected, logged}) => {
+const Navbar = ({ open, setOpen, setSelected, logged }) => {
     //const authContext = useContext(AuthContext)
     //const {logout,signOut} = authContext;
     const classes = useStyles();
@@ -107,22 +108,20 @@ const Navbar = ({open, setOpen, setSelected, logged}) => {
         setSelected(null)
     }
 
-
     const handleClickOpen = () => {
         setShowExitModal(true);
     };
 
     const handleOnConfirmExit = () => {
         // TODO: Duplicate form
-        sessionStorage.removeItem('user')
+        sessionStorage.removeItem("user")
         // logout()
         setShowExitModal(!showExitModal)
     }
 
-
     return (
         <AppBar
-            style={{color: AppColors.WHITE, background: AppColors.PRIMARY}}
+            style={{ color: AppColors.WHITE, background: AppColors.PRIMARY }}
             position="fixed"
             className={clsx(classes.appBar, {
                 [classes.appBarShift]: open,
@@ -130,29 +129,29 @@ const Navbar = ({open, setOpen, setSelected, logged}) => {
         >
             <Toolbar>
                 {logged &&
-                < IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="end"
-                    onClick={handleDrawerOpen}
-                    className={clsx(open && classes.hide)}
-                >
+                    < IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="end"
+                        onClick={handleDrawerOpen}
+                        className={clsx(open && classes.hide)}
+                    >
 
-                </IconButton>
+                    </IconButton>
                 }
 
                 {logged &&
-                <IconButton onClick={() => {
-                    history.push('/account');
-                    handleSetSelected()
-                }} color='inherit'>
-                    <AccountCircleOutlinedIcon/>
-                </IconButton>
+                    <IconButton onClick={() => {
+                        history.push("/account");
+                        handleSetSelected()
+                    }} color="inherit">
+                        <AccountCircleOutlinedIcon />
+                    </IconButton>
                 }
                 {logged &&
-                <IconButton onClick={() => handleClickOpen()} color='inherit'>
-                    <ExitToAppIcon/>
-                </IconButton>
+                    <IconButton onClick={() => handleClickOpen()} color="inherit">
+                        <ExitToAppIcon />
+                    </IconButton>
                 }
 
 

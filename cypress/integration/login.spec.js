@@ -14,7 +14,7 @@ describe('Login and sign in tests', () => {
        cy.get('[id="repeatPassword"]').should('be.visible').type(this.testData.takenpassword)
        cy.get('[id="privacyCheck"]').should('be.visible').click()
        cy.get('button').contains('Sign up').should('be.visible').click()
-       cy.get('[id="alert"]').should('be.visible', {timeout: 10000})
+       cy.get('[id="alert"]').should('be.visible', {timeout: 30000})
     })
 
     /*it('Register with wrong email', function () {
@@ -42,7 +42,7 @@ describe('Login and sign in tests', () => {
         cy.get('[id="email"]').should('be.visible').type(this.testData.email)
         cy.get('[id="password"]').should('be.visible').type(this.testData.password)
         cy.get('button').contains("Log in").should('be.visible').click()
-        cy.get('[id="myProfile"]').should('be.visible', {timeout: 10000})
+        cy.get('[id="myProfile"]').should('be.visible', {timeout: 30000})
     })
 
 

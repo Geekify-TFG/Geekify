@@ -1,4 +1,4 @@
-describe('Rating tests', () => {
+describe('Forum tests', () => {
 
     beforeEach(function () {
         cy.fixture('forumInfo.json').as('testData')
@@ -11,7 +11,7 @@ describe('Rating tests', () => {
         cy.get('[id="email"]').should('be.visible').type(this.testDataUser.email)
         cy.get('[id="password"]').should('be.visible').type(this.testDataUser.password)
         cy.get('button').contains("Log in").should('be.visible').click()
-        cy.wait(500)
+        cy.wait(3000)
         cy.get('[id="Forums"]').should('be.visible').click()
         cy.get('[data-testid="BtnCreateForum"]').should('be.visible').click()
         cy.get('[data-testid="titleForum"]').should('be.visible').type(this.testData.title)
@@ -30,12 +30,12 @@ describe('Rating tests', () => {
         cy.get('[id="email"]').should('be.visible').type(this.testDataUser.email)
         cy.get('[id="password"]').should('be.visible').type(this.testDataUser.password)
         cy.get('button').contains("Log in").should('be.visible').click()
-        cy.wait(500)
+        cy.wait(3000)
         cy.get('[id="Forums"]').should('be.visible').click()
         cy.get('[data-testid="btnEnterForum"]').eq(2).click()
         cy.get('[data-testid="textfieldPublication"]').should('be.visible').type("Good forum")
         cy.get('[data-testid="postPublication"]').should('be.visible').click()
-        cy.wait(1000)
+        cy.wait(3000)
         cy.window().scrollTo('bottom')
         cy.get('[data-testid="publicationCard"]').should('be.visible').contains("Good forum")
     })
@@ -45,7 +45,7 @@ describe('Rating tests', () => {
         cy.get('[id="email"]').should('be.visible').type(this.testDataUser.email)
         cy.get('[id="password"]').should('be.visible').type(this.testDataUser.password)
         cy.get('button').contains("Log in").should('be.visible').click()
-        cy.wait(500)
+        cy.wait(3000)
         cy.get('[id="Forums"]').should('be.visible').click()
         cy.get('[data-testid="btnEnterForum"]').eq(2).click()
         cy.get('[data-testid="menuButton"]').click()

@@ -1,12 +1,12 @@
 export default class MyStorageManager {
-    _EMAIL = 'email';
-    _USER = 'user';
-    _PWD = 'pwd';
-    _TOKEN = 'token';
-    _LOGGED = 'logged';
-    _IMAGE = 'image'
-    _GOOGLE = 'google';
-    _EXPIRATION_DATE = 'token-expiration';
+    _EMAIL = "email";
+    _USER = "user";
+    _PWD = "pwd";
+    _TOKEN = "token";
+    _LOGGED = "logged";
+    _IMAGE = "image"
+    _GOOGLE = "google";
+    _EXPIRATION_DATE = "token-expiration";
     _localStorage = window.localStorage;
 
     // Get and store the username
@@ -72,4 +72,3 @@ export default class MyStorageManager {
         this._localStorage.removeItem(this._EXPIRATION_DATE);
     }
 }
-

@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types';
-import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
+import React from "react"
+import PropTypes from "prop-types";
+import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import Icons from "../../resources/Icons";
-import {AppColors} from "../../resources/AppColors";
-import {makeStyles} from "@material-ui/core/styles";
+import { AppColors } from "../../resources/AppColors";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
     select: {
@@ -38,29 +38,42 @@ const useStyles = makeStyles(() => ({
         borderRadius: 10,
     },
 }));
-
-const SelectGeekify = ({value, handleChange, options, label, borderRadius, width, textRender}) => {
+/**
+ * @component
+ * Component to create a select field.
+ *
+ *
+ * @param {object} props.value: value of the select
+ * @param {array} props.options: options of the select
+ * @param {string} props.label: label of the select
+ * @param {function} props.handleChange: function to handle the change of the select
+ * @param {array} props.options: options of the select
+ * @param {string} props.width: width of the select
+ * @param {string} props.fav_categories: favorite categories of the select
+ * 
+ */
+const SelectGeekify = props => {
+    const { value, handleChange, options, label, borderRadius, width, textRender } = props
     const classes = useStyles();
-    console.log(options)
     return (
-        <FormControl data-testid={"formControl"} className={classes.select} variant="outlined" margin='normal'
-                     style={{width: '15em'}}>
+        <FormControl data-testid={"formControl"} className={classes.select} variant="outlined" margin="normal"
+            style={{ width: "15em" }}>
             <InputLabel data-testid={"inputLabel"} className={classes.select}
-                        id="demo-simple-select-label">{label}</InputLabel>
+                id="demo-simple-select-label">{label}</InputLabel>
             <Select data-testid={"selectGeekify"} className={classes.select} IconComponent={Icons.ARROW_DOWN}
-                    value={value}
-                    onChange={handleChange}
-                    label={label}
-                    style={{width: {width}, borderRadius: {borderRadius}}}
-                    renderValue={value !== undefined ? undefined : () => `${textRender}`}
+                value={value}
+                onChange={handleChange}
+                label={label}
+                style={{ width: { width }, borderRadius: { borderRadius } }}
+                renderValue={value !== undefined ? undefined : () => `${textRender}`}
 
             >
                 {options.map(item =>
-                    (
-                        <MenuItem data-testid={"menuItem"} key={item.id} style={{color: AppColors.PRIMARY}}
-                                  value={item.id}>{item.value.title}</MenuItem>
+                (
+                    <MenuItem data-testid={"menuItem"} key={item.id} style={{ color: AppColors.PRIMARY }}
+                        value={item.id}>{item.value.title}</MenuItem>
 
-                    )
+                )
                 )}
             </Select>
         </FormControl>

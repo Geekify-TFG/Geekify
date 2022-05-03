@@ -1,7 +1,7 @@
 import React from "react";
-import {Card} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import {AppColors} from "../../resources/AppColors";
+import { Card } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { AppColors } from "../../resources/AppColors";
 
 /**
  * Component to create custom cards.
@@ -10,17 +10,13 @@ import {AppColors} from "../../resources/AppColors";
  *
  * @param {object} props.children: content of the card
  * @param {string} props.bg: color of the card
- * @param {object} props.style: style of the card
+ * @param {object} props.height: height of the card
+ * @param {object} props.width: width of the card
+ * @param {object} props.borderRadius: border of the card
  *
- * @example
- * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = 'light';
- * const style = {height: '18rem', width: '18rem'};
- *
- * <CardGeekify bg={bg} style={style}> {children} </CardGeekify>
- */
+ **/
 const CardGeekify = props => {
-    const {children, bg, height, width, borderRadius} = props;
+    const { children, bg, height, width, borderRadius } = props;
 
     return (
         <Card
@@ -40,14 +36,10 @@ const CardGeekify = props => {
 }
 
 CardGeekify.propTypes = {
-    children: PropTypes.array.isRequired,
     bg: PropTypes.string,
     height: PropTypes.string,
     width: PropTypes.string,
+    borderRadius: PropTypes.string,
 }
-
-CardGeekify.defaultProps = {
-    bg: AppColors.WHITE
-};
 
 export default CardGeekify;

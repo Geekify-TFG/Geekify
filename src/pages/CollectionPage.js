@@ -1,4 +1,7 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+
+import React, { useEffect, useState } from "react";
 import {
     Button,
     CircularProgress,
@@ -10,41 +13,40 @@ import {
     MenuItem,
     Typography
 } from "@material-ui/core";
-import {MY_BASE_PATH, MY_COLLECTION} from "../resources/ApiUrls";
+import { MY_BASE_PATH, MY_COLLECTION } from "../resources/ApiUrls";
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
-import {useHistory, useLocation} from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
-import {makeStyles} from "@material-ui/core/styles";
-import {AppColors} from "../resources/AppColors";
+import { makeStyles } from "@material-ui/core/styles";
+import { AppColors } from "../resources/AppColors";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import IconProvider from "../components/IconProvider/IconProvider";
 import Icons from "../resources/Icons";
-import {DialogTexts, ErrorTexts, LabelsSnackbar, menuOptions} from "../locale/en";
+import { DialogTexts, ErrorTexts, LabelsSnackbar, menuOptions } from "../locale/en";
 import DialogGeekify from "../components/DialogGeekify";
 import TextFieldGeekify from "../components/TextFieldGeekify/textFieldGeekify";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
-import {StorageManager} from "../utils";
+import { StorageManager } from "../utils";
 import ErrorIcon from "@material-ui/icons/Error";
-
 
 const useStyles = makeStyles((theme) => ({
 
     singleBlogBg: {
-        content: '',
+        content: "",
         position: "relative",
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)',
+        background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)",
         opacity: ".5",
     }, imageIcon: {
-        height: '100%'
+        height: "100%"
     }, avatar: {
-        border: '1px solid #C6D2E3',
+        border: "1px solid #C6D2E3",
         "&.MuiAvatar-img": {
-            width: '20px',
-            height: '20px',
+            width: "20px",
+            height: "20px",
 
         }
 
@@ -57,46 +59,21 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 
-
 }))
 
-
 function EditCollectionModal({
-                                 gameId,
-                                 collections,
-                                 showEditCollection,
-                                 setShowEditCollection,
-                                 loading, setLoading,
-                                 openSnackEditCollection,
-                                 setOpenSnackEditCollection,
-                                 collection,
-                                 collectionId, getCollection
-                             }) {
+    showEditCollection,
+    setShowEditCollection,
+    loading, setLoading,
+    openSnackEditCollection,
+    setOpenSnackEditCollection,
+    collection,
+    collectionId, getCollection
+}) {
     const [titleCollection, setTitleCollection] = useState(collection.title)
     const [imageCollection, setImageCollection] = useState(collection.image)
     const [showErrorURL, setShowErrorURL] = useState(false)
     const storageManager = new StorageManager()
-
-    const handleClickSubmit = async () => {
-        var image = imageCollection === undefined ? collection.image : imageCollection
-        if (isValidURL(image)) {
-            try {
-                const config = {auth: {username: storageManager.getToken()}}
-
-                var collectionBody = {'title': titleCollection, 'image': image}
-                const response = await axios.put(`${MY_BASE_PATH}${MY_COLLECTION(collectionId)}`, collectionBody, config)
-                setShowEditCollection(-999)
-                setLoading(true)
-                setOpenSnackEditCollection(true)
-                getCollection()
-            } catch (e) {
-                console.log('Error: ', e)
-            }
-        } else {
-            setShowErrorURL(true)
-        }
-
-    }
 
     const isValidURL = (string) => {
         var res
@@ -107,13 +84,33 @@ function EditCollectionModal({
         return (res != null)
     }
 
+    const handleClickSubmit = async () => {
+        var image = imageCollection === undefined ? collection.image : imageCollection
+        if (isValidURL(image)) {
+            try {
+                const config = { auth: { username: storageManager.getToken() } }
+
+                var collectionBody = { "title": titleCollection, "image": image }
+                const response = await axios.put(`${MY_BASE_PATH}${MY_COLLECTION(collectionId)}`, collectionBody, config)
+                setShowEditCollection(-999)
+                setLoading(true)
+                setOpenSnackEditCollection(true)
+                getCollection()
+            } catch (e) {
+                console.log("Error: ", e)
+            }
+        } else {
+            setShowErrorURL(true)
+        }
+
+    }
 
     const handleInputChangeTitle = e => {
-        const {name, value} = e.target
+        const { name, value } = e.target
         setTitleCollection(value)
     }
     const handleInputChangeImage = e => {
-        const {name, value} = e.target
+        const { name, value } = e.target
         setImageCollection(value)
     }
     return (
@@ -126,28 +123,28 @@ function EditCollectionModal({
             title={DialogTexts.EDIT_COLLECTION}
             body={
                 <Grid container>
-                    <FormControl margin='normal' style={{width: '100%'}}>
+                    <FormControl margin="normal" style={{ width: "100%" }}>
                         <TextFieldGeekify
                             value={collection.title}
-                            name='Title of collection'
+                            name="Title of collection"
                             default
                             handleChange={handleInputChangeTitle}
-                            label='Title of collection'
+                            label="Title of collection"
                         />
                     </FormControl>
-                    <FormControl margin='normal' style={{width: '100%'}}>
+                    <FormControl margin="normal" style={{ width: "100%" }}>
 
                         <TextFieldGeekify
                             value={collection.image}
-                            name='Link of the background image'
+                            name="Link of the background image"
                             default
                             handleChange={handleInputChangeImage}
-                            label='Link of the background image'
+                            label="Link of the background image"
                             error={showErrorURL}
                             helperText={showErrorURL && ErrorTexts.URL_COLLECTION}
                             inputProps={{
                                 endAdornment: showErrorURL && <InputAdornment position="end"><ErrorIcon
-                                    style={{color: AppColors.RED}}/></InputAdornment>,
+                                    style={{ color: AppColors.RED }} /></InputAdornment>,
                             }}
                         />
                     </FormControl>
@@ -160,16 +157,15 @@ function EditCollectionModal({
     )
 }
 
-
 function DeleteCollectionModal({
-                                   collectionId,
-                                   showDeleteCollection,
-                                   setShowDeleteCollection,
-                                   getCollections,
-                                   loading, setLoading,
-                                   openSnackDeleteCollection,
-                                   setOpenSnackDeleteCollection
-                               }) {
+    collectionId,
+    showDeleteCollection,
+    setShowDeleteCollection,
+    getCollections,
+    loading, setLoading,
+    openSnackDeleteCollection,
+    setOpenSnackDeleteCollection
+}) {
     const history = useHistory()
 
     const handleClickSubmit = async () => {
@@ -181,14 +177,13 @@ function DeleteCollectionModal({
             setOpenSnackDeleteCollection(true)
             setTimeout(() => {
                 history.push({
-                    pathname: '/collections',
+                    pathname: "/collections",
                 })
             }, 1000)
         } catch (e) {
-            console.log('Error: ', e)
+            console.log("Error: ", e)
         }
     }
-
 
     return (
         <DialogGeekify
@@ -200,7 +195,7 @@ function DeleteCollectionModal({
             buttonColor={AppColors.RED}
             body={
                 <>
-                    <Typography variant="subtitle1" style={{color: AppColors.WHITE}} gutterBottom>
+                    <Typography variant="subtitle1" style={{ color: AppColors.WHITE }} gutterBottom>
                         {"Are you sure you want to delete this collection?"}
                     </Typography>
                 </>
@@ -211,21 +206,21 @@ function DeleteCollectionModal({
     )
 }
 
-
+/**
+ * Collection page
+ * On this page you see the games that the user has on the collection
+ */
 const CollectionPage = () => {
     const [games, setGames] = useState();
-    const history = useHistory()
     const location = useLocation();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-
     const [loading, setLoading] = useState(false);
     const [collection, setCollection] = useState(false);
     const [showDeleteCollectionModal, setShowDeleteCollectionModal] = useState(false);
     const [showEditCollectionModal, setShowEditCollectionModal] = useState(-999);
     const [openSnackDeleteCollection, setOpenSnackDeleteCollection] = useState(false);
     const [openSnackEditCollection, setOpenSnackEditCollection] = useState(false);
-    const titleCollection = location.state.title
     const idCollection = location.state.detail
     const storageManager = new StorageManager()
 
@@ -236,19 +231,30 @@ const CollectionPage = () => {
         setAnchorEl(null);
     };
 
-
+    /**
+    * Function to open de edit Modal
+    */
     const handleOnEdit = () => {
         setShowEditCollectionModal(1)
     }
 
+    /**
+    * Function to open de delete Modal
+    */
     const handleOnDelete = () => {
         setShowDeleteCollectionModal(true)
     }
 
+    /**
+    * Function to open de snackbar when delete
+    */
     const handleCloseSnackDeleteCollection = async () => {
         setOpenSnackDeleteCollection(false)
     }
 
+    /**
+    * Function to open de snackbar when delete
+    */
     const handleCloseSnackEditCollection = async () => {
         setOpenSnackEditCollection(false)
     }
@@ -256,8 +262,7 @@ const CollectionPage = () => {
     //Function to get all the games
     const getGames = async () => {
         try {
-            var data = []
-            const config = {auth: {username: storageManager.getToken()}}
+            const config = { auth: { username: storageManager.getToken() } }
             const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTION(idCollection)}`, config);
             setCollection(response.data.collection.value)
             setGames(response.data.collection.value.games)
@@ -268,9 +273,7 @@ const CollectionPage = () => {
         }
     }
 
-
     useEffect(() => {
-
         getGames()
     }, []);
 
@@ -278,41 +281,40 @@ const CollectionPage = () => {
         <>
             <Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
-                      direction={"column"} style={{
-                    backgroundSize: "cover",
+                    direction={"column"} style={{
+                        backgroundSize: "cover",
 
-                }}>
+                    }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
-                        <Grid item style={{margin: '2em'}}>
-                            <SearchBar/>
+                        <Grid item style={{ margin: "2em" }}>
+                            <SearchBar />
                         </Grid>
 
-                        <Grid item style={{margin: '2em'}}>
-                            <ProfileButton/>
+                        <Grid item style={{ margin: "2em" }}>
+                            <ProfileButton />
                         </Grid>
-
 
                     </Grid>
 
                 </Grid>
                 <Grid container
-                      direction={"column"}>
+                    direction={"column"}>
                     <Grid container justifyContent={"space-between"}>
-                        <Grid item style={{marginLeft: '4em'}}>
+                        <Grid item style={{ marginLeft: "4em" }}>
                             <Typography
-                                style={{fontSize: '40px', color: AppColors.WHITE}}>{collection.title}</Typography>
+                                style={{ fontSize: "40px", color: AppColors.WHITE }}>{collection.title}</Typography>
                         </Grid>
-                        <Grid item style={{marginRight: '4em'}}>
+                        <Grid item style={{ marginRight: "4em" }}>
                             <Button data-testid={"menuButton"} style={{
                                 color: AppColors.WHITE,
-                                marginTop: '1em',
+                                marginTop: "1em",
                                 backgroundColor: AppColors.BACKGROUND_DRAWER
                             }} aria-controls="fade-menu"
-                                    aria-haspopup="true" onClick={handleClick}>
+                                aria-haspopup="true" onClick={handleClick}>
                                 <IconProvider icon={<Icons.MORE style={{
                                     verticalAlign: "middle",
                                     display: "inline-flex",
-                                }} size="4em"/>}/>
+                                }} size="4em" />} />
                             </Button>
                             <Menu
                                 style={{
@@ -321,42 +323,42 @@ const CollectionPage = () => {
                                 color={AppColors.WHITE}
                                 id="fade-menu"
                                 anchorEl={anchorEl}
-                                anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                                 keepMounted
                                 open={open}
                                 onClose={handleClose}
                                 TransitionComponent={Fade}>
-                                <MenuItem data-testid="editOption" style={{color: AppColors.PRIMARY}}
-                                          onClick={() => {
-                                              handleOnEdit();
-                                              handleClose()
-                                          }}> {menuOptions.EDIT} </MenuItem>
+                                <MenuItem data-testid="editOption" style={{ color: AppColors.PRIMARY }}
+                                    onClick={() => {
+                                        handleOnEdit();
+                                        handleClose()
+                                    }}> {menuOptions.EDIT} </MenuItem>
 
-                                <MenuItem data-testid="deleteOption" style={{color: AppColors.PRIMARY}}
-                                          onClick={() => {
-                                              handleOnDelete();
-                                              handleClose()
-                                          }}> {menuOptions.DELETE}</MenuItem>
+                                <MenuItem data-testid="deleteOption" style={{ color: AppColors.PRIMARY }}
+                                    onClick={() => {
+                                        handleOnDelete();
+                                        handleClose()
+                                    }}> {menuOptions.DELETE}</MenuItem>
                             </Menu>
                         </Grid>
                     </Grid>
                     {
                         loading ?
-                            <div style={{display: 'flex', justifyContent: 'center'}}>
-                                <CircularProgress/>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <CircularProgress />
                             </div>
                             :
                             <Grid item>
-                                {games && <GridGames games={games}/>}
+                                {games && <GridGames games={games} />}
                             </Grid>}
                 </Grid>
             </Grid>
             <SnackBarGeekify handleClose={handleCloseSnackDeleteCollection}
-                             message={LabelsSnackbar.COLLECTION_DELETED}
-                             openSnack={openSnackDeleteCollection}/>
+                message={LabelsSnackbar.COLLECTION_DELETED}
+                openSnack={openSnackDeleteCollection} />
             <SnackBarGeekify handleClose={handleCloseSnackEditCollection}
-                             message={LabelsSnackbar.COLLECTION_EDITED}
-                             openSnack={openSnackEditCollection}/>
+                message={LabelsSnackbar.COLLECTION_EDITED}
+                openSnack={openSnackEditCollection} />
 
             {showDeleteCollectionModal && (
                 <DeleteCollectionModal
