@@ -1,6 +1,6 @@
 // Base
-//const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
-const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
+const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
+//const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
 
 export const MY_BASE_PATH = `${_MY_DOMAIN}`; // Base URL of the backend
 
@@ -33,10 +33,12 @@ export const MY_GAMES_CATEGORIES = (email) => `${_FAV_CATEGORIES_PATH}/${email}`
 //Game paths
 const _GAME_PATH = "/game";
 const _RATE_PATH = "/account/like";
+const _STATE_PATH = "/account/state";
 const _LIST_PATH = "/listGames";
 
 export const GAME = (id) => `${_GAME_PATH}/${id}`
 export const RATE_GAME = (id) => `${_RATE_PATH}/${id}`
+export const STATE_GAME = (id) => `${_STATE_PATH}/${id}`
 export const LIST_GAMES = `${MY_BASE_PATH}${_LIST_PATH}`
 
 //Comments paths

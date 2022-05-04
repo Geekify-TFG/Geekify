@@ -26,7 +26,7 @@ import {
     MY_BASE_PATH,
     MY_COLLECTIONS,
     RATE_GAME,
-    USER_URL
+    USER_URL, STATE_GAME
 } from "../resources/ApiUrls";
 import axios from "axios";
 import SearchBar from "../components/SearchBar/SearchBar";
@@ -59,6 +59,26 @@ import {
     WhatsappIcon,
     WhatsappShareButton
 } from "react-share";
+import styled from "@emotion/styled";
+
+const ButtonToggle = styled(Button)`
+  opacity: 1;
+  background-color: ${AppColors.BACKGROUND_DRAWER};
+   &:hover {
+            color: white;
+            background-color: ${AppColors.BACKGROUND_DRAWER};
+          }
+  color: ${AppColors.PRIMARY} ${({ active }) =>
+        active &&
+        `opacity: 1;
+        background-color: ${AppColors.PRIMARY_OPACITY};
+        color: white;
+        &:hover {
+            color: white;
+            background-color: ${AppColors.BACKGROUND_DRAWER};
+          }
+        `};
+`;
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -241,6 +261,8 @@ const GamePage = () => {
     const [collections, setCollections] = useState()
     const [likes, setLikes] = useState()
     const storageManager = new StorageManager()
+    const [stateGame, setStateGame] = useState();
+    const textStateGame = { notPlayed: LabelsGamePage.NO_PLAYED, playing: LabelsGamePage.PLAYING, played: LabelsGamePage.PLAYED };
     const [openSnackAddToCollection, setOpenSnackAddToCollection] = useState(false)
     const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
     const [openSnackBarComment, setOpenSnackBarComment] = useState(false)
@@ -248,6 +270,7 @@ const GamePage = () => {
     const [openSnackRateLogged, setOpenSnackRateLogged] = useState(false)
     const [loading, setLoading] = useState(false)
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
+
     const handleChange = async (event) => {
         var gameBody = {}
         try {
@@ -368,9 +391,15 @@ const GamePage = () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${USER_URL(storageManager.getEmail())}`);
             var rate = response.data.account.likes
+            var state = response.data.account.state_game
             const obj = rate.find(o => o.game_id === `${idGame}`);
+            const obj_state = state.find(o => o.game_id === `${idGame}`);
             if (obj) {
                 setRating(obj.rating)
+            }
+            if (obj_state) {
+                console.log(obj_state.state)
+                setStateGame(obj_state.state)
             }
             setLikes(response.data.account.likes)
 
@@ -378,7 +407,6 @@ const GamePage = () => {
             console.log(err.message)
         }
     }
-
     const postComment = async () => {
         const today = new Date();
         const dd = String(today.getDate()).padStart(2, "0");
@@ -401,6 +429,26 @@ const GamePage = () => {
             console.log(err.message)
         }
     }
+
+    const handleChangeStateGame = async (event) => {
+        console.log(stateGame)
+        var gameBody = {}
+        try {
+            /* if (rating === "") { */
+            gameBody = { "stateGame": stateGame, "user": storageManager.getEmail() }
+            await axios.post(`${MY_BASE_PATH}${STATE_GAME(idGame)}`, gameBody)
+            //setOpenSnackRateLogged(true)
+            /* } else {
+                gameBody = { "rate": event.target.value, "user": storageManager.getEmail() }
+                await axios.put(`${MY_BASE_PATH}${RATE_GAME(idGame)}`, gameBody)
+                setOpenSnackRateLogged(true)
+            }
+            setRating(event.target.value); */
+        } catch (e) {
+            console.log("Error: ", e)
+        }
+
+    };
 
     useEffect(() => {
         getGame()
@@ -495,6 +543,18 @@ const GamePage = () => {
                                     }}>{labels[hover !== -1 ? hover : rating]}</Typography></Box>
                                 )}
                             </Box>
+                            <ButtonGroup style={{ width: "300px" }} color="primary"
+                                aria-label="outlined primary button group">
+                                {Object.entries(textStateGame).map(([key, value]) => (
+                                    <>
+                                        <ButtonToggle key={key.id} active={stateGame === key}
+                                            onClick={() => { (setStateGame(key)); handleChangeStateGame }}>
+                                            {value}
+                                        </ButtonToggle>
+                                    </>
+
+                                ))}
+                            </ButtonGroup>
                         </Grid>
                         <Grid container direction={"column"} item style={{ margin: "4em", marginLeft: 0 }}>
                             <Grid item style={{ marginBottom: "1em" }}>
