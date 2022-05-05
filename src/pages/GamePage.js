@@ -268,6 +268,7 @@ const GamePage = () => {
     const [openSnackBarComment, setOpenSnackBarComment] = useState(false)
     const [openSnackRateNotLogged, setOpenSnackRateNotLogged] = useState(false)
     const [openSnackRateLogged, setOpenSnackRateLogged] = useState(false)
+    const [openSnackStateLogged, setOpenSnackStateLogged] = useState(false)
     const [loading, setLoading] = useState(false)
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
 
@@ -307,6 +308,9 @@ const GamePage = () => {
 
     const handleCloseSnackRateLogged = async () => {
         setOpenSnackRateLogged(false)
+    }
+    const handleCloseSnackStateLogged = async () => {
+        setOpenSnackStateLogged(false)
     }
 
     const handleAddToCollection = () => {
@@ -394,11 +398,12 @@ const GamePage = () => {
             var state = response.data.account.state_game
             const obj = rate.find(o => o.game_id === `${idGame}`);
             const obj_state = state.find(o => o.game_id === `${idGame}`);
+            console.log(state)
             if (obj) {
                 setRating(obj.rating)
             }
             if (obj_state) {
-                console.log(obj_state.state)
+                console.log(obj_state)
                 setStateGame(obj_state.state)
             }
             setLikes(response.data.account.likes)
@@ -429,21 +434,19 @@ const GamePage = () => {
             console.log(err.message)
         }
     }
-
-    const handleChangeStateGame = async (event) => {
-        console.log(stateGame)
+    const handleChangeStateGame = async (stateGameKey) => {
         var gameBody = {}
         try {
-            /* if (rating === "") { */
-            gameBody = { "stateGame": stateGame, "user": storageManager.getEmail() }
-            await axios.post(`${MY_BASE_PATH}${STATE_GAME(idGame)}`, gameBody)
-            //setOpenSnackRateLogged(true)
-            /* } else {
-                gameBody = { "rate": event.target.value, "user": storageManager.getEmail() }
-                await axios.put(`${MY_BASE_PATH}${RATE_GAME(idGame)}`, gameBody)
-                setOpenSnackRateLogged(true)
+            if (stateGame === "") {
+                gameBody = { "state": stateGameKey, "user": storageManager.getEmail() }
+                await axios.post(`${MY_BASE_PATH}${STATE_GAME(idGame)}`, gameBody)
+                setOpenSnackStateLogged(true)
+            } else {
+                gameBody = { "state": stateGameKey, "user": storageManager.getEmail() }
+                await axios.put(`${MY_BASE_PATH}${STATE_GAME(idGame)}`, gameBody)
+                setOpenSnackStateLogged(true)
             }
-            setRating(event.target.value); */
+            setStateGame(stateGameKey);
         } catch (e) {
             console.log("Error: ", e)
         }
@@ -543,12 +546,12 @@ const GamePage = () => {
                                     }}>{labels[hover !== -1 ? hover : rating]}</Typography></Box>
                                 )}
                             </Box>
-                            <ButtonGroup style={{ width: "300px" }} color="primary"
+                            <ButtonGroup style={{ width: "300px", marginTop: "1em" }} color="primary"
                                 aria-label="outlined primary button group">
                                 {Object.entries(textStateGame).map(([key, value]) => (
                                     <>
                                         <ButtonToggle key={key.id} active={stateGame === key}
-                                            onClick={() => { (setStateGame(key)); handleChangeStateGame }}>
+                                            onClick={() => { (setStateGame(key)); handleChangeStateGame(key) }}>
                                             {value}
                                         </ButtonToggle>
                                     </>
@@ -897,6 +900,9 @@ const GamePage = () => {
             <SnackBarGeekify data-testid={"snackbarRate"} handleClose={handleCloseSnackRateLogged}
                 message={LabelsSnackbar.RATED_SUCCESSFULLY}
                 openSnack={openSnackRateLogged} />
+            <SnackBarGeekify data-testid={"snackbarState"} handleClose={handleCloseSnackStateLogged}
+                message={LabelsSnackbar.STATE_SUCCESSFULLY}
+                openSnack={openSnackStateLogged} />
             <SnackBarGeekify data-test handleClose={handleCloseSnackRateNotLogged} severity={"warning"}
                 message={LabelsSnackbar.RATED_ERROR_LOGGED}
                 openSnack={openSnackRateNotLogged} />
