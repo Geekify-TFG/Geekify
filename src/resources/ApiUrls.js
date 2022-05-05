@@ -15,6 +15,7 @@ const _ACCOUNT_FORUM_PATH = "/account/forums";
 
 export const LOGIN_URL = `${MY_BASE_PATH}${_LOGIN_PATH}`
 export const REGISTER_URL = `${MY_BASE_PATH}${_REGISTER_PATH}`
+export const CHANGE_PWD_URL = (email) => `${MY_BASE_PATH}${_USER_PATH}/${email}`
 export const USER_URL = (email) => `${_USER_PATH}/${email}`
 export const INFO_URL = (email) => `${MY_BASE_PATH}${_INFO_PATH}/${email}`
 

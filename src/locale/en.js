@@ -189,6 +189,19 @@ export const LabelsLoginPage = {
     REMEMBER: "I don\"t remember my password"
 }
 
+export const ChangePasswordPage = {
+    CHANGE_PWD: "Change password",
+    OLD_PASSWORD: "Old password",
+    NEW_PASSWORD: "New password",
+    REPEAT_NEW_PASSWORD: "Repeat new password",
+}
+
+export const LabelsChangePwdPage = {
+    CHANGE_PWD_SUCCESSFULLY: "Change password successfully",
+    OLD_PASSWORD_ERROR: "Old password doesn't match with our database",
+    NEW_PASSWORD_MATCH_ERROR: "New passwords doesn't match",
+}
+
 export const LabelsSignUpPage = {
     SIGNUP: "Sign up",
     NAME: "Name",
@@ -221,7 +234,9 @@ export const ErrorTexts = {
 
 export const menuOptions = {
     EDIT: "Edit",
-    DELETE: "Delete"
+    DELETE: "Delete",
+    EDIT_PROFILE: "Edit profile",
+    CHANGE_PASSWORD: "Change password",
 }
 
 export const profileOptions = {
