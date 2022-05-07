@@ -373,14 +373,12 @@ const GamePage = () => {
     const getComments = async () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${COMMENTS_OF_GAME(idGame)}`);
-            console.log(response.data.comments)
             setComments(response.data.comments)
             setLoading(false)
         } catch (err) {
             console.log(err.message)
         }
     }
-    console.log(comments)
 
     const getCollections = async () => {
         try {
@@ -782,7 +780,6 @@ const GamePage = () => {
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
                                 onKeyPress={(ev) => {
-                                    console.log(`Pressed keyCode ${ev.key}`);
                                     if (ev.key === "Enter") {
                                         // Do code here
                                         ev.preventDefault();
