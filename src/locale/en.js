@@ -41,6 +41,9 @@ export const LabelsSnackbar = {
     LIKE_PUBLICATION: "You liked the publication",
     REMOVE_LIKE_PUBLICATION: "You remove the like of the publication",
     LIKE_PUBLICATION_LOGIN: "You must be logged to like the publication",
+    LIKE_COMMENT: "You liked the comment",
+    REMOVE_LIKE_COMMENT: "You remove the like of the comment",
+    LIKE_COMMENT_LOGIN: "You must be logged to like the comment",
     PROFILE_EDITED: "Profile edited successfully!"
 }
 

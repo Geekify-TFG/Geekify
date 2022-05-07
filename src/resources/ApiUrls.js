@@ -45,9 +45,11 @@ export const LIST_GAMES = `${MY_BASE_PATH}${_LIST_PATH}`
 //Comments paths
 const _GAME_COMMENT_PATH = "/gameComments";
 const _COMMENT_PATH = "/comment";
+const _COMMENT_LIKE_PATH = "/commentLike"
 
 export const COMMENTS_OF_GAME = (id) => `${_GAME_COMMENT_PATH}/${id}`
 export const COMMENT_GAME = (id) => `${_COMMENT_PATH}/${id}`
+export const LIKE_COMMENT = (id) => `${MY_BASE_PATH}${_COMMENT_LIKE_PATH}/${id}`
 
 //Collections paths
 const _COLLECTIONS_PATH = "/collections";

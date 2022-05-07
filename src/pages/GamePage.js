@@ -249,7 +249,7 @@ function AddToCollection({
 const GamePage = () => {
     const [game, setGame] = useState();
     const [achievements, setAchievements] = useState();
-    const [comments, setComments] = useState()
+    const [comments, setComments] = useState([])
     const [comment, setComment] = useState()
     const [platforms, setPlatforms] = useState()
     const [showMore, setShowMore] = useState()
@@ -373,12 +373,14 @@ const GamePage = () => {
     const getComments = async () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${COMMENTS_OF_GAME(idGame)}`);
-            setComments(Object.values(response.data.comments))
+            console.log(response.data.comments)
+            setComments(response.data.comments)
             setLoading(false)
         } catch (err) {
             console.log(err.message)
         }
     }
+    console.log(comments)
 
     const getCollections = async () => {
         try {
@@ -398,12 +400,10 @@ const GamePage = () => {
             var state = response.data.account.state_game
             const obj = rate.find(o => o.game_id === `${idGame}`);
             const obj_state = state.find(o => o.game_id === `${idGame}`);
-            console.log(state)
             if (obj) {
                 setRating(obj.rating)
             }
             if (obj_state) {
-                console.log(obj_state)
                 setStateGame(obj_state.state)
             }
             setLikes(response.data.account.likes)
@@ -823,11 +823,11 @@ const GamePage = () => {
                                 }}
                             />
 
-                            {comments ? comments.map(elem => (
-                                <Grid item style={{ marginBottom: "1em" }} key={comments.indexOf(elem)}
+                            {comments ? Object.entries(comments).map(elem => (
+                                <Grid item style={{ marginBottom: "1em" }} key={elem[0].id}
                                 >
-                                    <CommentCard width={"350px"} time={"2 minutes ago"} title={"Hola"}
-                                        comment={elem} bg={AppColors.BACKGROUND_DRAWER} />
+                                    <CommentCard getComments={getComments} width={"350px"}
+                                        comment={elem[1]} commentKey={elem[0]} bg={AppColors.BACKGROUND_DRAWER} like={elem[1].likes.includes(storageManager.getEmail())} />
                                 </Grid>
                             )) :
                                 <Grid container style={{ width: "350px", marginBottom: "1em" }}
