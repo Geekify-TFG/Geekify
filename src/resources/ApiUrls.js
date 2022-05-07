@@ -12,13 +12,14 @@ const _REGISTER_PATH = "/account/user";
 const _USER_PATH = "/account/email";
 const _INFO_PATH = "/account/info";
 const _ACCOUNT_FORUM_PATH = "/account/forums";
+const _ACCOUNT_FOLLOW_USER_PATH = "/account/followUser";
 
 export const LOGIN_URL = `${MY_BASE_PATH}${_LOGIN_PATH}`
 export const REGISTER_URL = `${MY_BASE_PATH}${_REGISTER_PATH}`
 export const CHANGE_PWD_URL = (email) => `${MY_BASE_PATH}${_USER_PATH}/${email}`
 export const USER_URL = (email) => `${_USER_PATH}/${email}`
 export const INFO_URL = (email) => `${MY_BASE_PATH}${_INFO_PATH}/${email}`
-
+export const FOLLOW_USER_URL = (email) => `${MY_BASE_PATH}${_ACCOUNT_FOLLOW_USER_PATH}/${email}`
 //Games paths
 const _MY_GAMES_PATH = "/games";
 const _MY_GAME_PATH = "/games/";
