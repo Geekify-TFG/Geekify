@@ -126,25 +126,6 @@ const useStyles = makeStyles(() => ({
         backgroundColor: AppColors.BACKGROUND_DRAWER,
         borderRadius: 10,
     },
-    textFieldLabelDisabled: {
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-                borderColor: AppColors.PRIMARY,
-                opacity: "0.2",
-                borderRadius: 10,
-            },
-        },
-        "& .MuiInputBase-root": {
-            color: AppColors.SUBTEXT,
-        },
-        "& .MuiInputLabel-root": {
-            color: AppColors.PRIMARY,
-            borderRadius: 10,
-        },
-        color: AppColors.PRIMARY,
-        backgroundColor: AppColors.PRIMARY,
-        borderRadius: 10,
-    },
     select: {
         "& .MuiOutlinedInput-root": {
             "& fieldset": {
@@ -267,6 +248,7 @@ const GamePage = () => {
     const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
     const [openSnackBarComment, setOpenSnackBarComment] = useState(false)
     const [openSnackRateNotLogged, setOpenSnackRateNotLogged] = useState(false)
+    const [openSnackStateNotLogged, setOpenSnackStateNotLogged] = useState(false)
     const [openSnackRateLogged, setOpenSnackRateLogged] = useState(false)
     const [openSnackStateLogged, setOpenSnackStateLogged] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -304,6 +286,9 @@ const GamePage = () => {
 
     const handleCloseSnackRateNotLogged = async () => {
         setOpenSnackRateNotLogged(false)
+    }
+    const handleCloseSnackStateNotLogged = async () => {
+        setOpenSnackStateNotLogged(false)
     }
 
     const handleCloseSnackRateLogged = async () => {
@@ -544,18 +529,29 @@ const GamePage = () => {
                                     }}>{labels[hover !== -1 ? hover : rating]}</Typography></Box>
                                 )}
                             </Box>
-                            <ButtonGroup style={{ width: "300px", marginTop: "1em" }} color="primary"
-                                aria-label="outlined primary button group">
-                                {Object.entries(textStateGame).map(([key, value]) => (
-                                    <>
-                                        <ButtonToggle key={key.id} active={stateGame === key}
-                                            onClick={() => { (setStateGame(key)); handleChangeStateGame(key) }}>
-                                            {value}
-                                        </ButtonToggle>
-                                    </>
+                            <Box
+                                onClick={() => (!storageManager.getToken() ? setOpenSnackStateNotLogged(true) : null)}
 
-                                ))}
-                            </ButtonGroup>
+                                sx={{
+                                    color: AppColors.BACKGROUND_DRAWER,
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <ButtonGroup style={{ width: "300px", marginTop: "1em" }} color="primary"
+                                    aria-label="outlined primary button group">
+                                    {Object.entries(textStateGame).map(([key, value]) => (
+                                        <>
+                                            <ButtonToggle disabled={!storageManager.getToken()}
+                                                key={key.id} active={stateGame === key}
+                                                onClick={() => { (setStateGame(key)); handleChangeStateGame(key) }}>
+                                                {value}
+                                            </ButtonToggle>
+                                        </>
+
+                                    ))}
+                                </ButtonGroup>
+                            </Box>
                         </Grid>
                         <Grid container direction={"column"} item style={{ margin: "4em", marginLeft: 0 }}>
                             <Grid item style={{ marginBottom: "1em" }}>
@@ -781,7 +777,6 @@ const GamePage = () => {
                                 type="text"
                                 onKeyPress={(ev) => {
                                     if (ev.key === "Enter") {
-                                        // Do code here
                                         ev.preventDefault();
                                         postComment()
                                     }
@@ -797,13 +792,8 @@ const GamePage = () => {
                                     startAdornment: (
                                         <InputAdornment position="start">
 
-                                            <img style={{
-                                                borderRadius: 20,
-                                                width: "36px",
-                                                height: "36px",
-                                                backgroundColor: AppColors.PRIMARY
-                                            }}
-                                                src={storageManager.getToken ? storageManager.getImage() : accountIcon} />
+                                            <img alt="icon" style={{ width: "36px", height: "36px", borderRadius: 20 }}
+                                                src={storageManager.getToken() ? storageManager.getImage() : accountIcon} />
                                         </InputAdornment>
 
                                     ),
@@ -903,6 +893,10 @@ const GamePage = () => {
             <SnackBarGeekify data-test handleClose={handleCloseSnackRateNotLogged} severity={"warning"}
                 message={LabelsSnackbar.RATED_ERROR_LOGGED}
                 openSnack={openSnackRateNotLogged} />
+
+            <SnackBarGeekify data-test handleClose={handleCloseSnackStateNotLogged} severity={"warning"}
+                message={LabelsSnackbar.STATE_ERROR_LOGGED}
+                openSnack={openSnackStateNotLogged} />
         </>
     )
 }

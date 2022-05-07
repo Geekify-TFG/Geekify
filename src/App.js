@@ -205,7 +205,11 @@ const RouteMain = ({ component: Component, select }) => {
                         <Link key={text}
                             to={drawerLinkList[index]}
                             onClick={() => {
-                                setSelected(index);
+                                if (storageManager.getToken() && index === drawerLabelsList.length - 1) {
+                                    logout()
+                                } else {
+                                    setSelected(index);
+                                }
                             }}
                             style={{ color: AppColors.WHITE, textDecoration: "none" }}
                         >

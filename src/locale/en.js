@@ -32,6 +32,7 @@ export const LabelsSnackbar = {
     RATED_SUCCESSFULLY: "You rated the game!",
     STATE_SUCCESSFULLY: "You changed the state of the game!",
     RATED_ERROR_LOGGED: "You must be logged to rate a game",
+    STATE_ERROR_LOGGED: "You must be logged to change the state of the game",
     FORUM_CREATED_SUCCESSFULLY: "Forum created successfully",
     FORUM_EDITED_SUCCESSFULLY: "Forum edited successfully",
     FORUM_DELETED: "Forum deleted successfully",
