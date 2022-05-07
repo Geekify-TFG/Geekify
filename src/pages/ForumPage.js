@@ -178,6 +178,8 @@ const ForumPage = () => {
     const storageManager = new StorageManager()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const [devicesSize, setDevicesSize] = useState("20em")
+    const [cardWidth, setCardWidth] = useState("45em")
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -306,6 +308,43 @@ const ForumPage = () => {
         getForumsFollowed()
     }, [flag]);
 
+    function debounce(fn, ms) {
+        //This will run the code on every 1 second
+        let timer
+        return _ => {
+            clearTimeout(timer)
+            timer = setTimeout(_ => {
+                timer = null
+                fn.apply(this, arguments)
+            }, ms)
+        };
+    }
+    useEffect(() => {
+        const debouncedHandleResize = debounce(function handleResize() {
+            //give the paddingLeft size base on drawer open or closed and window size
+            if (window.innerWidth >= 1500) {
+                setDevicesSize("15%")
+                setCardWidth("45em")
+            } else {
+                setDevicesSize("0em")
+                setCardWidth("45em")
+
+            }
+
+        }, 300)
+
+        // Add event listener to listen for window sizes 
+        window.addEventListener("resize", debouncedHandleResize);
+        // Call handler right away so state gets updated with initial window size
+
+        debouncedHandleResize()
+        return _ => {
+            window.removeEventListener("resize", debouncedHandleResize)
+
+        }
+
+    }, [])
+
     return (
         <>
             {forum && <Grid container alignItems={"center"}>
@@ -327,7 +366,7 @@ const ForumPage = () => {
 
                 </Grid>
                 <Grid container
-                    direction={"row"} style={{ marginTop: "2em", marginBottom: "2em" }}>
+                    direction={"row"} style={{ marginLeft: devicesSize, marginTop: "2em", marginBottom: "2em" }}>
                     <Grid item style={{ marginLeft: "2em" }}>
                         <Grid container direction={"row"} justifyContent={"space-between"}>
 
@@ -401,7 +440,7 @@ const ForumPage = () => {
 
                             <TextField
                                 data-testid="textfieldPublication"
-                                style={{ width: "45em" }}
+                                style={{ width: cardWidth }}
                                 onChange={(e) => setPublication(e.target.value)}
                                 onKeyPress={(ev) => {
                                     console.log(`Pressed keyCode ${ev.key}`);
@@ -447,12 +486,13 @@ const ForumPage = () => {
                             Object.entries(forumPosts2).map(publication => (
                                 <Grid key={publication[0].id} item style={{ paddingLeft: 0, paddingBottom: "2em" }}
                                 >
-                                    <PublicationCard width={"45em"}
+                                    <PublicationCard
                                         bg={AppColors.BACKGROUND_DRAWER}
                                         publicationKey={publication[0]}
                                         publication={publication[1]}
                                         getPublications={getPublications}
                                         favorited={publication[1].likes.includes(storageManager.getEmail())}
+                                        width={cardWidth}
                                     />
                                 </Grid>
                             ))}

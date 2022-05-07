@@ -253,6 +253,7 @@ const GamePage = () => {
     const [openSnackStateLogged, setOpenSnackStateLogged] = useState(false)
     const [loading, setLoading] = useState(false)
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
+    const [devicesSize, setDevicesSize] = useState("20em")
 
     const handleChange = async (event) => {
         var gameBody = {}
@@ -456,6 +457,40 @@ const GamePage = () => {
     function getLabelText(value) {
         return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
     }
+
+    function debounce(fn, ms) {
+        //This will run the code on every 1 second
+        let timer
+        return _ => {
+            clearTimeout(timer)
+            timer = setTimeout(_ => {
+                timer = null
+                fn.apply(this, arguments)
+            }, ms)
+        };
+    }
+    useEffect(() => {
+        const debouncedHandleResize = debounce(function handleResize() {
+            //give the paddingLeft size base on drawer open or closed and window size
+            if (window.innerWidth >= 1500) {
+                setDevicesSize("15%")
+            } else {
+                setDevicesSize("0em")
+            }
+
+        }, 300)
+
+        // Add event listener to listen for window sizes 
+        window.addEventListener("resize", debouncedHandleResize);
+        // Call handler right away so state gets updated with initial window size
+
+        debouncedHandleResize()
+        return _ => {
+            window.removeEventListener("resize", debouncedHandleResize)
+
+        }
+
+    }, [])
 
     return (
         <>
@@ -668,7 +703,7 @@ const GamePage = () => {
                     </Grid>
                 </Grid>
                 <Grid container
-                    direction={"row"} style={{ marginTop: "2em", marginBottom: "2em" }}>
+                    direction={"row"} style={{ marginLeft: devicesSize, marginTop: "2em", marginBottom: "2em" }}>
                     <Grid item style={{ marginLeft: "4em" }}>
                         <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={20} height={"auto"} width={"350px"}>
                             <Grid
