@@ -35,18 +35,12 @@ import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
 import DialogGeekify from "../components/DialogGeekify";
 import Icons from "../resources/Icons";
 
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import MultipleSelectGeekify from "../components/MultipleSelectGeekify/MultipleSelectGeekify";
-import { genresMock } from "../mocks/SearchMocks";
-import AutocompleteMultipleGeekify from "../components/AutocompleteGeekify/AutocompleteMultipleGeekify";
-
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { Photo } from "@material-ui/icons";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 import eldenImage from "../img/elden_background.jpeg"
+import tlouImage from "../img/tlou_background.jpeg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -201,6 +195,7 @@ const UserProfilePage = () => {
         })
 
     }
+    console.log(infoUser)
 
     return (
         <>
@@ -210,8 +205,9 @@ const UserProfilePage = () => {
                 </div>) : <Grid container justifyContent={"space-between"} alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                     direction={"column"} style={{
+                        height: "15em",
+                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${infoUser.all_games ? infoUser.all_games[0].background_image : tlouImage})`,
                         backgroundSize: "cover",
-
                     }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
                         <Grid item style={{ margin: "2em" }}>
@@ -316,7 +312,7 @@ const UserProfilePage = () => {
                                     <Grid>
                                         <Typography
                                             style={{
-                                                fontSize: "40px",
+                                                fontSize: "20px",
                                                 color: AppColors.WHITE,
                                                 margin: "1em"
                                             }}>{LabelsProfilePage.NO_INFO_YET_USER}</Typography>
@@ -396,7 +392,7 @@ const UserProfilePage = () => {
                                             <Grid>
                                                 <Typography
                                                     style={{
-                                                        fontSize: "38px",
+                                                        fontSize: "20px",
                                                         color: AppColors.WHITE,
                                                         margin: "1em"
                                                     }}>{LabelsProfilePage.NO_FOLLOWER_USERS_YET_USER}</Typography>

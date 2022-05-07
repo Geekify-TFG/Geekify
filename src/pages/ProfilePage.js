@@ -51,6 +51,7 @@ import { Photo } from "@material-ui/icons";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 import { useHistory } from "react-router-dom";
 import IconProvider from "../components/IconProvider/IconProvider";
+import tlouImage from "../img/tlou_background.jpeg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -464,8 +465,9 @@ const ProfilePage = () => {
                 </div>) : <Grid container justifyContent={"space-between"} alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                     direction={"column"} style={{
+                        height: "15em",
+                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${infoUser ? infoUser.all_games[0].background_image : tlouImage})`,
                         backgroundSize: "cover",
-
                     }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
                         <Grid item style={{ margin: "2em" }}>
@@ -486,13 +488,13 @@ const ProfilePage = () => {
                     <Grid item style={{ marginLeft: "2em" }}>
                         <Grid container alignItems={"center"} spacing={8}
                         >
-                            {infoUser.photo && <Grid item xs={4}>
+                            {infoUser.photo && <Grid item xs={6}>
                                 <IconButton onClick={() => handleClickEditImage()}>
                                     <Avatar style={{ width: "150px", height: "150px", backgroundColor: AppColors.PRIMARY }}
                                         src={infoUser.photo} />
                                 </IconButton>
                             </Grid>}
-                            {infoUser.name && <Grid item xs={6}>
+                            {infoUser.name && <Grid item xs={4}>
                                 <Typography
                                     style={{
                                         fontSize: "40px",
@@ -500,7 +502,6 @@ const ProfilePage = () => {
                                     }}>{infoUser.name}</Typography>
                             </Grid>}
                             <Grid item xs={2}>
-
                                 <Button data-testid={"menuButton"} style={{
                                     color: AppColors.WHITE,
                                     marginTop: "1em",
@@ -612,7 +613,7 @@ const ProfilePage = () => {
                                     <Grid>
                                         <Typography
                                             style={{
-                                                fontSize: "38px",
+                                                fontSize: "24px",
                                                 color: AppColors.WHITE,
                                                 margin: "1em"
                                             }}>{"You dont have profile info yet.\nEdit your profile"}</Typography>
@@ -677,7 +678,7 @@ const ProfilePage = () => {
                                             <Grid>
                                                 <Typography
                                                     style={{
-                                                        fontSize: "38px",
+                                                        fontSize: "20px",
                                                         color: AppColors.WHITE,
                                                         margin: "1em"
                                                     }}>{LabelsProfilePage.NO_FOLLOWER_USERS_YET}</Typography>
