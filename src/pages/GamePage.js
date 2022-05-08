@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
+/* eslint-disable no-shadow */
+
 import React, { useEffect, useState } from "react";
 import {
     Box,
@@ -254,6 +256,7 @@ const GamePage = () => {
     const [loading, setLoading] = useState(false)
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
     const [devicesSize, setDevicesSize] = useState("20em")
+    const [cardWidth, setCardWidth] = useState("20em")
 
     const handleChange = async (event) => {
         var gameBody = {}
@@ -472,12 +475,19 @@ const GamePage = () => {
     useEffect(() => {
         const debouncedHandleResize = debounce(function handleResize() {
             //give the paddingLeft size base on drawer open or closed and window size
-            if (window.innerWidth >= 1500) {
+            if (window.innerWidth >= 2560) {
                 setDevicesSize("15%")
-            } else {
-                setDevicesSize("0em")
+                setCardWidth("22em")
+            } else if (window.innerWidth >= 1450) {
+                setDevicesSize("10%")
+                setCardWidth("22em")
+            } else if (window.innerWidth >= 1400) {
+                setDevicesSize("2%")
+                setCardWidth("22em")
+            } else if (window.innerWidth >= 1280) {
+                setDevicesSize("1em")
+                setCardWidth("20em")
             }
-
         }, 300)
 
         // Add event listener to listen for window sizes 
@@ -704,8 +714,8 @@ const GamePage = () => {
                 </Grid>
                 <Grid container
                     direction={"row"} style={{ marginLeft: devicesSize, marginTop: "2em", marginBottom: "2em" }}>
-                    <Grid item style={{ marginLeft: "4em" }}>
-                        <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={20} height={"auto"} width={"350px"}>
+                    <Grid item style={{ marginLeft: devicesSize }}>
+                        <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={20} height={"auto"} width={cardWidth}>
                             <Grid
                                 container
                             >
@@ -780,7 +790,7 @@ const GamePage = () => {
                                 >
                                     <CardAchievements
                                         bg={AppColors.BACKGROUND_DRAWER}
-                                        width={"350px"}
+                                        width={cardWidth}
                                         title={elem.name}
                                         description={elem.description}
                                         percent={elem.percent}
@@ -807,7 +817,7 @@ const GamePage = () => {
                                 }}>{LabelsGamePage.COMMUNITY}</Typography>
                             <TextField
                                 data-testid="textfieldComment"
-                                style={{ width: "350px" }}
+                                style={{ width: cardWidth }}
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
                                 onKeyPress={(ev) => {
@@ -848,7 +858,7 @@ const GamePage = () => {
                             {comments ? Object.entries(comments).map(elem => (
                                 <Grid item style={{ marginBottom: "1em" }} key={elem[0].id}
                                 >
-                                    <CommentCard getComments={getComments} width={"350px"}
+                                    <CommentCard getComments={getComments} width={cardWidth}
                                         comment={elem[1]} commentKey={elem[0]} bg={AppColors.BACKGROUND_DRAWER} like={elem[1].likes.includes(storageManager.getEmail())} />
                                 </Grid>
                             )) :
