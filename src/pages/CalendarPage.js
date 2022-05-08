@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-shadow */
 import * as React from "react";
 import { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper";
@@ -110,7 +112,8 @@ const CalendarPage = () => {
     const sort_text = { calendar: LabelsCalendarPage.CALENDAR, myCalendar: LabelsCalendarPage.MY_CALENDAR };
     const [sortActive, setSortActive] = useState("calendar");
     const storageManager = new StorageManager()
-
+    const [devicesSize, setDevicesSize] = useState("20em")
+    const [cardWidth, setCardWidth] = useState("10em")
     /**
     * Get the games for the month
     */
@@ -153,6 +156,7 @@ const CalendarPage = () => {
     function renderEventContent(eventInfo) {
         return (
             <CalendarCard
+                width={cardWidth}
                 gameId={eventInfo.event.id}
                 gameTitle={eventInfo.event.title}
                 gameImage={eventInfo.event.url}
@@ -183,6 +187,47 @@ const CalendarPage = () => {
         if (storageManager.getEmail())
             getCalendarUserReleases()
     }, [startMonth]);
+
+    function debounce(fn, ms) {
+        //This will run the code on every 1 second
+        let timer
+        return _ => {
+            clearTimeout(timer)
+            timer = setTimeout(_ => {
+                timer = null
+                fn.apply(this, arguments)
+            }, ms)
+        };
+    }
+    useEffect(() => {
+        const debouncedHandleResize = debounce(function handleResize() {
+            //give the paddingLeft size base on drawer open or closed and window size
+            if (window.innerWidth >= 2560) {
+                setDevicesSize("15%")
+                setCardWidth("200px")
+            } else if (window.innerWidth >= 1450) {
+                setDevicesSize("10%")
+                setCardWidth("175px")
+            } else if (window.innerWidth >= 1400) {
+                setDevicesSize("2%")
+                setCardWidth("150px")
+            } else if (window.innerWidth >= 1280) {
+                setDevicesSize("1em")
+                setCardWidth("9em")
+            }
+        }, 300)
+
+        // Add event listener to listen for window sizes 
+        window.addEventListener("resize", debouncedHandleResize);
+        // Call handler right away so state gets updated with initial window size
+
+        debouncedHandleResize()
+        return _ => {
+            window.removeEventListener("resize", debouncedHandleResize)
+
+        }
+
+    }, [])
     return (
         <>
             {loading ? (

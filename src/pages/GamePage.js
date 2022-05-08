@@ -175,7 +175,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 function AddToCollection({
-    handleAddParticipant,
     initialValues,
     gameId,
     collections,
