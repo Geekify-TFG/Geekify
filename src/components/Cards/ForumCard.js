@@ -15,7 +15,6 @@ import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
 const useStyles = makeStyles(() => ({
     root: {
         display: "flex",
-        width: "40em",
         backgroundColor: AppColors.BACKGROUND
     },
     details: {
@@ -61,7 +60,7 @@ const useStyles = makeStyles(() => ({
  * @returns {object} JSX
  */
 const ForumCard = props => {
-    const { forumId, forumTitle, forumDescription, forumNumUsers, forumImage, forumGenre, followingForums, getForumsFollowed } = props;
+    const { forumId, forumTitle, forumDescription, forumNumUsers, forumImage, forumGenre, followingForums, getForumsFollowed, width } = props;
     const classes = useStyles();
     const history = useHistory()
     const storageManager = new StorageManager()
@@ -108,7 +107,7 @@ const ForumCard = props => {
     }
 
     return (
-        <Card elevation={0} className={classes.root}>
+        <Card style={{ width: width }} elevation={0} className={classes.root}>
             <CardActionArea style={{ marginRight: "2em", height: "120px", width: "120px" }} onClick={onClickHandler}>
 
                 <CardMedia

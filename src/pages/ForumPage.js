@@ -322,13 +322,18 @@ const ForumPage = () => {
     useEffect(() => {
         const debouncedHandleResize = debounce(function handleResize() {
             //give the paddingLeft size base on drawer open or closed and window size
-            if (window.innerWidth >= 1500) {
+            if (window.innerWidth >= 1450) {
                 setDevicesSize("15%")
                 setCardWidth("45em")
+            } else if (window.innerWidth >= 1400) {
+                setDevicesSize("0%")
+                setCardWidth("45em")
+            } else if (window.innerWidth >= 1280) {
+                setDevicesSize("0em")
+                setCardWidth("35em")
             } else {
                 setDevicesSize("0em")
-                setCardWidth("45em")
-
+                setCardWidth("30em")
             }
 
         }, 300)

@@ -38,6 +38,7 @@ const ForumsPage = () => {
     const history = useHistory()
     const storageManager = new StorageManager()
     const [devicesSize, setDevicesSize] = useState("20em")
+    const [cardWidth, setCardWidth] = useState("45em")
 
     /**
     * Function to get all forums of the page
@@ -98,10 +99,15 @@ const ForumsPage = () => {
     useEffect(() => {
         const debouncedHandleResize = debounce(function handleResize() {
             //give the paddingLeft size base on drawer open or closed and window size
-            if (window.innerWidth >= 1500) {
+            if (window.innerWidth >= 1450) {
                 setDevicesSize("15%")
-            } else {
+                setCardWidth("45em")
+            } else if (window.innerWidth >= 1400) {
+                setDevicesSize("0%")
+                setCardWidth("45em")
+            } else if (window.innerWidth >= 1280) {
                 setDevicesSize("0em")
+                setCardWidth("35em")
             }
 
         }, 300)
@@ -176,6 +182,7 @@ const ForumsPage = () => {
                                         .map(([key, value]) =>
                                             <>
                                                 <ForumCard
+                                                    width={cardWidth}
                                                     bg={AppColors.BACKGROUND_DRAWER}
                                                     forumId={key}
                                                     forumTitle={value.title}
@@ -188,7 +195,7 @@ const ForumsPage = () => {
                                                     getForumsFollowed={getForumsFollowed}
 
                                                 />
-                                                <Divider style={{ width: "45em", backgroundColor: AppColors.GRAY }} />
+                                                <Divider style={{ width: cardWidth, backgroundColor: AppColors.GRAY }} />
                                             </>
                                         )
                                 }
