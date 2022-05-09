@@ -266,7 +266,7 @@ const CalendarPage = () => {
                             <ButtonGroup style={{ width: "500px" }} color="primary"
                                 aria-label="outlined primary button group">
                                 {Object.entries(sort_text).map(([key, value]) => (
-                                    <ButtonToggle key={key} active={sortActive === key}
+                                    <ButtonToggle data-testid={"ButtonKey"} key={key} active={sortActive === key}
                                         onClick={() => (setSortActive(key))}>
                                         {value}
                                     </ButtonToggle>

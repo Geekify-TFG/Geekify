@@ -177,7 +177,7 @@ const CalendarCard = props => {
                     backgroundColor: "transparent",
                     paddingTop: 0
                 }}>
-                    <Grid onClick={() => handleAddToCalendarReleases()} item
+                    <Grid data-testid={"addGameCalendar"} onClick={() => handleAddToCalendarReleases()} item
                     >
                         <Button style={{
                             backgroundColor: AppColors.BACKGROUND,
