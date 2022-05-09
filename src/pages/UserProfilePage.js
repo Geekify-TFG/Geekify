@@ -29,24 +29,18 @@ import CardGeekify from "../components/Cards/CardGeekify";
 import ReviewCard from "../components/Cards/ReviewCard";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import axios from "axios";
-import { INFO_URL, LIST_GAMES } from "../resources/ApiUrls";
+import { FOLLOW_USER_URL, INFO_URL, LIST_GAMES } from "../resources/ApiUrls";
 import { StorageManager } from "../utils";
 import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
 import DialogGeekify from "../components/DialogGeekify";
 import Icons from "../resources/Icons";
-
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import MultipleSelectGeekify from "../components/MultipleSelectGeekify/MultipleSelectGeekify";
-import { genresMock } from "../mocks/SearchMocks";
-import AutocompleteMultipleGeekify from "../components/AutocompleteGeekify/AutocompleteMultipleGeekify";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { Photo } from "@material-ui/icons";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 import eldenImage from "../img/elden_background.jpeg"
+import tlouImage from "../img/tlou_background.jpeg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -155,10 +149,8 @@ const UserProfilePage = () => {
     // const email = storageManager.getEmail()
     const classes = useStyles();
     const [infoUser, setInfoUser] = useState()
-    const [followingUsers, setFollowingUsers] = useState();
-    const [showEditProfileModal, setShowEditProfileModal] = useState(-999)
-    const [showEditImageModal, setShowEditImageModal] = useState(-999)
-    const [openSnackEditProfile, setOpenSnackEditProfile] = useState(false)
+    const [followedUsers, setFollowedUsers] = useState([]);
+    const [followUser, setFollowUser] = useState(false)
     const [loading, setLoading] = useState(true)
     const email = useRef();
 
@@ -176,7 +168,6 @@ const UserProfilePage = () => {
     const getInfouser = async () => {
         try {
             const response = await axios.get(`${INFO_URL(email.current)}`);
-            console.log(response.data.account.value)
             setInfoUser(response.data.account.value)
             setLoading(false)
         } catch (err) {
@@ -184,8 +175,37 @@ const UserProfilePage = () => {
         }
     }
 
+    const getInfouserLogged = async () => {
+        try {
+            const response = await axios.get(`${INFO_URL(storageManager.getEmail())}`);
+            setFollowUser(response.data.account.value.followed_users.some(e => e.email === email.current))
+            setFollowedUsers(response.data.account.value.followed_users)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
     useEffect(() => {
-        setFollowingUsers(followingUsersMock)
+        if (storageManager.getToken() !== "") {
+            getInfouserLogged()
+        }
+
+    }, []);
+
+    const postFollowUser = async () => {
+        try {
+            var body = { "email_user": email.current }
+            const response = await axios.post(`${FOLLOW_USER_URL(storageManager.getEmail())}`, body)
+            setFollowUser(!followUser)
+        } catch (e) {
+            if (e.response.status === 409) {
+                console.log("Game already exists")
+            }
+        }
+    }
+    console.log(followUser)
+
+    useEffect(() => {
         getInfouser()
     }, [email.current]);
 
@@ -210,8 +230,9 @@ const UserProfilePage = () => {
                 </div>) : <Grid container justifyContent={"space-between"} alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                     direction={"column"} style={{
+                        height: "15em",
+                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${infoUser.all_games ? infoUser.all_games[0].background_image : tlouImage})`,
                         backgroundSize: "cover",
-
                     }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
                         <Grid item style={{ margin: "2em" }}>
@@ -246,7 +267,7 @@ const UserProfilePage = () => {
                                     }}>{infoUser.name}</Typography>
                             </Grid>}
                             <Grid item xs={2}>
-                                <ButtonFilled width={"20em"} text={LabelsProfilePage.FOLLOW_USER}
+                                <ButtonFilled onClick={() => postFollowUser()} width={"20em"} text={followUser ? LabelsProfilePage.UNFOLLOW_USER : LabelsProfilePage.FOLLOW_USER}
                                 />
                             </Grid>
                         </Grid>
@@ -316,7 +337,7 @@ const UserProfilePage = () => {
                                     <Grid>
                                         <Typography
                                             style={{
-                                                fontSize: "40px",
+                                                fontSize: "20px",
                                                 color: AppColors.WHITE,
                                                 margin: "1em"
                                             }}>{LabelsProfilePage.NO_INFO_YET_USER}</Typography>
@@ -396,7 +417,7 @@ const UserProfilePage = () => {
                                             <Grid>
                                                 <Typography
                                                     style={{
-                                                        fontSize: "38px",
+                                                        fontSize: "20px",
                                                         color: AppColors.WHITE,
                                                         margin: "1em"
                                                     }}>{LabelsProfilePage.NO_FOLLOWER_USERS_YET_USER}</Typography>

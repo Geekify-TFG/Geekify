@@ -13,23 +13,6 @@ import axios from "axios";
 import { MY_BASE_PATH, NEWS } from "../resources/ApiUrls";
 import NewsCard from "../components/Cards/NewsCard";
 import BigNewCard from "../components/Cards/BigNewCard";
-
-const ButtonToggle = styled(Button)`
-  opacity: 1;
-  background-color: #1D1D1D;
-  color: #6563FF ${({ active }) =>
-        active &&
-        `opacity: 1;
-        background-color: ${AppColors.PRIMARY};
-        color: white;
-        &:hover {
-            color: white;
-            background-color: #6563FF;
-          }
-        `};
-
-`;
-
 const useStyles = makeStyles((theme) => ({
 
     singleBlogBg: {
@@ -144,14 +127,14 @@ const NewsPage = () => {
 
                 {news && <Grid container justifyContent={"center"}
                     direction={"row"} style={{ marginTop: "2em" }}>
-                    <Grid item style={{ marginLeft: "2em" }} xs={12} container>
+                    <Grid item style={{ marginLeft: "4%" }} xs={12} container>
                         <Grid item xs={6}>
                             <BigNewCard height={"40em"} width={"35em"} top={"70%"} fontSize={"30px"}
                                 subFontSize={"20px"}
                                 article={news[0]}
                             />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={6} >
                             <Grid item xs container direction="column" spacing={2}>
                                 <Grid item xs={12}>
                                     <BigNewCard height={"13em"} width={"30em"} top={"40%"} fontSize={"20px"}
@@ -193,7 +176,6 @@ const NewsPage = () => {
                                     <NewsCard
                                         article={article}
                                     />
-                                    <Divider style={{ width: "45em", backgroundColor: AppColors.GRAY }} />
 
                                 </Grid>
 

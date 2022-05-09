@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
+/* eslint-disable no-shadow */
 
 import React, { useEffect, useState } from "react";
 import {
@@ -27,37 +28,6 @@ import { ALL_FORUMS, JOIN_FORUM } from "../resources/ApiUrls";
 import { useHistory } from "react-router-dom";
 import { StorageManager } from "../utils";
 
-const useStyles = makeStyles((theme) => ({
-
-    singleBlogBg: {
-        content: "",
-        position: "relative",
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)",
-        opacity: ".5",
-    }, imageIcon: {
-        height: "100%"
-    }, avatar: {
-        border: "1px solid #C6D2E3",
-        "&.MuiAvatar-img": {
-            width: "20px",
-            height: "20px",
-
-        }
-
-    }, root: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        "& > *:not(:last-child)": {
-            marginRight: theme.spacing(2)
-        }
-    }
-
-}))
-
 /**
  * Forums page to show all forums of the page
  */
@@ -68,6 +38,8 @@ const ForumsPage = () => {
     const [loading, setLoading] = useState(false);
     const history = useHistory()
     const storageManager = new StorageManager()
+    const [devicesSize, setDevicesSize] = useState("20em")
+    const [cardWidth, setCardWidth] = useState("45em")
 
     /**
     * Function to get all forums of the page
@@ -114,6 +86,45 @@ const ForumsPage = () => {
 
     }, []);
 
+    function debounce(fn, ms) {
+        //This will run the code on every 1 second
+        let timer
+        return _ => {
+            clearTimeout(timer)
+            timer = setTimeout(_ => {
+                timer = null
+                fn.apply(this, arguments)
+            }, ms)
+        };
+    }
+    useEffect(() => {
+        const debouncedHandleResize = debounce(function handleResize() {
+            //give the paddingLeft size base on drawer open or closed and window size
+            if (window.innerWidth >= 1450) {
+                setDevicesSize("15%")
+                setCardWidth("45em")
+            } else if (window.innerWidth >= 1400) {
+                setDevicesSize("0%")
+                setCardWidth("45em")
+            } else if (window.innerWidth >= 1280) {
+                setDevicesSize("0em")
+                setCardWidth("35em")
+            }
+
+        }, 300)
+
+        // Add event listener to listen for window sizes 
+        window.addEventListener("resize", debouncedHandleResize);
+        // Call handler right away so state gets updated with initial window size
+
+        debouncedHandleResize()
+        return _ => {
+            window.removeEventListener("resize", debouncedHandleResize)
+
+        }
+
+    }, [])
+
     return (
         <>
             <Grid container alignItems={"center"}>
@@ -137,7 +148,7 @@ const ForumsPage = () => {
                 </Grid>
 
                 <Grid container
-                    direction={"row"} style={{ marginTop: "2em", marginBottom: "2em" }}>
+                    direction={"row"} style={{ marginLeft: devicesSize, marginTop: "2em", marginBottom: "2em" }}>
                     <Grid item style={{ marginLeft: "2em" }}>
                         <Grid container direction={"row"} justifyContent={"space-between"}>
                             <Typography
@@ -172,6 +183,7 @@ const ForumsPage = () => {
                                         .map(([key, value]) =>
                                             <>
                                                 <ForumCard
+                                                    width={cardWidth}
                                                     bg={AppColors.BACKGROUND_DRAWER}
                                                     forumId={key}
                                                     forumTitle={value.title}
@@ -184,7 +196,7 @@ const ForumsPage = () => {
                                                     getForumsFollowed={getForumsFollowed}
 
                                                 />
-                                                <Divider style={{ width: "45em", backgroundColor: AppColors.GRAY }} />
+                                                <Divider style={{ width: cardWidth, backgroundColor: AppColors.GRAY }} />
                                             </>
                                         )
                                 }

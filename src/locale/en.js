@@ -30,7 +30,9 @@ export const LabelsSnackbar = {
     COMMENTED_SUCCESSFULLY: "You have commented the game!",
     PUBLICATION_SUCCESSFULLY: "You have post a publication!",
     RATED_SUCCESSFULLY: "You rated the game!",
+    STATE_SUCCESSFULLY: "You changed the state of the game!",
     RATED_ERROR_LOGGED: "You must be logged to rate a game",
+    STATE_ERROR_LOGGED: "You must be logged to change the state of the game",
     FORUM_CREATED_SUCCESSFULLY: "Forum created successfully",
     FORUM_EDITED_SUCCESSFULLY: "Forum edited successfully",
     FORUM_DELETED: "Forum deleted successfully",
@@ -40,6 +42,9 @@ export const LabelsSnackbar = {
     LIKE_PUBLICATION: "You liked the publication",
     REMOVE_LIKE_PUBLICATION: "You remove the like of the publication",
     LIKE_PUBLICATION_LOGIN: "You must be logged to like the publication",
+    LIKE_COMMENT: "You liked the comment",
+    REMOVE_LIKE_COMMENT: "You remove the like of the comment",
+    LIKE_COMMENT_LOGIN: "You must be logged to like the comment",
     PROFILE_EDITED: "Profile edited successfully!"
 }
 
@@ -91,7 +96,10 @@ export const LabelsGamePage = {
     NOT_RECOMMENDED: "Not recommended",
     NOT_RATED: "Not rated",
     NO_ACHIEVEMENTS: "This game has no achievements",
-    NO_COMMENTS: "This game has no comments. Write the first comment!"
+    NO_COMMENTS: "This game has no comments. Write the first comment!",
+    NO_PLAYED: "Not played",
+    PLAYED: "Played",
+    PLAYING: "Playing",
 }
 
 export const LabelsSearchPage = {
@@ -171,6 +179,7 @@ export const LabelsProfilePage = {
     OTHER: "Other",
     PHOTO: "Photo",
     FOLLOW_USER: "Follow user",
+    UNFOLLOW_USER: "Unfollow user",
     NO_INFO_YET: "You dont have profile info yet.\nEdit your profile",
     NO_INFO_YET_USER: "This user not have profile info yet",
     NO_FOLLOWER_USERS_YET: "You don't follow any user yet",
@@ -183,6 +192,19 @@ export const LabelsLoginPage = {
     EMAIL: "E-mail",
     PASSWORD: "Password",
     REMEMBER: "I don\"t remember my password"
+}
+
+export const ChangePasswordPage = {
+    CHANGE_PWD: "Change password",
+    OLD_PASSWORD: "Old password",
+    NEW_PASSWORD: "New password",
+    REPEAT_NEW_PASSWORD: "Repeat new password",
+}
+
+export const LabelsChangePwdPage = {
+    CHANGE_PWD_SUCCESSFULLY: "Change password successfully",
+    OLD_PASSWORD_ERROR: "Old password doesn't match with our database",
+    NEW_PASSWORD_MATCH_ERROR: "New passwords doesn't match",
 }
 
 export const LabelsSignUpPage = {
@@ -217,7 +239,9 @@ export const ErrorTexts = {
 
 export const menuOptions = {
     EDIT: "Edit",
-    DELETE: "Delete"
+    DELETE: "Delete",
+    EDIT_PROFILE: "Edit profile",
+    CHANGE_PASSWORD: "Change password",
 }
 
 export const profileOptions = {

@@ -35,6 +35,7 @@ import NewForumPage from "./pages/NewForumPage";
 import EditForumPage from "./pages/EditForumPage";
 import geekifyIcon from "./img/geekify_gif.gif"
 import UserProfilePage from "./pages/UserProfilePage";
+import ChangePwdPage from "./pages/ChangePwdPage";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -204,7 +205,11 @@ const RouteMain = ({ component: Component, select }) => {
                         <Link key={text}
                             to={drawerLinkList[index]}
                             onClick={() => {
-                                setSelected(index);
+                                if (storageManager.getToken() && index === drawerLabelsList.length - 1) {
+                                    logout()
+                                } else {
+                                    setSelected(index);
+                                }
                             }}
                             style={{ color: AppColors.WHITE, textDecoration: "none" }}
                         >
@@ -281,6 +286,8 @@ function App() {
             <Switch>
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/signup" component={SignUpPage} />
+                <Route exact path="/changePassword" component={ChangePwdPage} />
+
                 <RouteMain exact path="/" component={MainPage} />
                 <RouteMain path={"/game/:id"} component={() => <GamePage />} />
                 <RouteMain path={"/profile"} component={() => <ProfilePage />} />

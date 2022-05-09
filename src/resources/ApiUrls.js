@@ -12,12 +12,14 @@ const _REGISTER_PATH = "/account/user";
 const _USER_PATH = "/account/email";
 const _INFO_PATH = "/account/info";
 const _ACCOUNT_FORUM_PATH = "/account/forums";
+const _ACCOUNT_FOLLOW_USER_PATH = "/account/followUser";
 
 export const LOGIN_URL = `${MY_BASE_PATH}${_LOGIN_PATH}`
 export const REGISTER_URL = `${MY_BASE_PATH}${_REGISTER_PATH}`
+export const CHANGE_PWD_URL = (email) => `${MY_BASE_PATH}${_USER_PATH}/${email}`
 export const USER_URL = (email) => `${_USER_PATH}/${email}`
 export const INFO_URL = (email) => `${MY_BASE_PATH}${_INFO_PATH}/${email}`
-
+export const FOLLOW_USER_URL = (email) => `${MY_BASE_PATH}${_ACCOUNT_FOLLOW_USER_PATH}/${email}`
 //Games paths
 const _MY_GAMES_PATH = "/games";
 const _MY_GAME_PATH = "/games/";
@@ -33,18 +35,22 @@ export const MY_GAMES_CATEGORIES = (email) => `${_FAV_CATEGORIES_PATH}/${email}`
 //Game paths
 const _GAME_PATH = "/game";
 const _RATE_PATH = "/account/like";
+const _STATE_PATH = "/account/state";
 const _LIST_PATH = "/listGames";
 
 export const GAME = (id) => `${_GAME_PATH}/${id}`
 export const RATE_GAME = (id) => `${_RATE_PATH}/${id}`
+export const STATE_GAME = (id) => `${_STATE_PATH}/${id}`
 export const LIST_GAMES = `${MY_BASE_PATH}${_LIST_PATH}`
 
 //Comments paths
 const _GAME_COMMENT_PATH = "/gameComments";
 const _COMMENT_PATH = "/comment";
+const _COMMENT_LIKE_PATH = "/commentLike"
 
 export const COMMENTS_OF_GAME = (id) => `${_GAME_COMMENT_PATH}/${id}`
 export const COMMENT_GAME = (id) => `${_COMMENT_PATH}/${id}`
+export const LIKE_COMMENT = (id) => `${MY_BASE_PATH}${_COMMENT_LIKE_PATH}/${id}`
 
 //Collections paths
 const _COLLECTIONS_PATH = "/collections";

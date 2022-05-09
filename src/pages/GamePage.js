@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
+/* eslint-disable no-shadow */
+
 import React, { useEffect, useState } from "react";
 import {
     Box,
@@ -26,7 +28,7 @@ import {
     MY_BASE_PATH,
     MY_COLLECTIONS,
     RATE_GAME,
-    USER_URL
+    USER_URL, STATE_GAME
 } from "../resources/ApiUrls";
 import axios from "axios";
 import SearchBar from "../components/SearchBar/SearchBar";
@@ -59,6 +61,26 @@ import {
     WhatsappIcon,
     WhatsappShareButton
 } from "react-share";
+import styled from "@emotion/styled";
+
+const ButtonToggle = styled(Button)`
+  opacity: 1;
+  background-color: ${AppColors.BACKGROUND_DRAWER};
+   &:hover {
+            color: white;
+            background-color: ${AppColors.BACKGROUND_DRAWER};
+          }
+  color: ${AppColors.PRIMARY} ${({ active }) =>
+        active &&
+        `opacity: 1;
+        background-color: ${AppColors.PRIMARY_OPACITY};
+        color: white;
+        &:hover {
+            color: white;
+            background-color: ${AppColors.BACKGROUND_DRAWER};
+          }
+        `};
+`;
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -104,25 +126,6 @@ const useStyles = makeStyles(() => ({
         },
         color: AppColors.PRIMARY,
         backgroundColor: AppColors.BACKGROUND_DRAWER,
-        borderRadius: 10,
-    },
-    textFieldLabelDisabled: {
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-                borderColor: AppColors.PRIMARY,
-                opacity: "0.2",
-                borderRadius: 10,
-            },
-        },
-        "& .MuiInputBase-root": {
-            color: AppColors.SUBTEXT,
-        },
-        "& .MuiInputLabel-root": {
-            color: AppColors.PRIMARY,
-            borderRadius: 10,
-        },
-        color: AppColors.PRIMARY,
-        backgroundColor: AppColors.PRIMARY,
         borderRadius: 10,
     },
     select: {
@@ -172,7 +175,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 function AddToCollection({
-    handleAddParticipant,
     initialValues,
     gameId,
     collections,
@@ -229,7 +231,7 @@ function AddToCollection({
 const GamePage = () => {
     const [game, setGame] = useState();
     const [achievements, setAchievements] = useState();
-    const [comments, setComments] = useState()
+    const [comments, setComments] = useState([])
     const [comment, setComment] = useState()
     const [platforms, setPlatforms] = useState()
     const [showMore, setShowMore] = useState()
@@ -241,13 +243,20 @@ const GamePage = () => {
     const [collections, setCollections] = useState()
     const [likes, setLikes] = useState()
     const storageManager = new StorageManager()
+    const [stateGame, setStateGame] = useState();
+    const textStateGame = { notPlayed: LabelsGamePage.NO_PLAYED, playing: LabelsGamePage.PLAYING, played: LabelsGamePage.PLAYED };
     const [openSnackAddToCollection, setOpenSnackAddToCollection] = useState(false)
     const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
     const [openSnackBarComment, setOpenSnackBarComment] = useState(false)
     const [openSnackRateNotLogged, setOpenSnackRateNotLogged] = useState(false)
+    const [openSnackStateNotLogged, setOpenSnackStateNotLogged] = useState(false)
     const [openSnackRateLogged, setOpenSnackRateLogged] = useState(false)
+    const [openSnackStateLogged, setOpenSnackStateLogged] = useState(false)
     const [loading, setLoading] = useState(false)
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
+    const [devicesSize, setDevicesSize] = useState("20em")
+    const [cardWidth, setCardWidth] = useState("20em")
+
     const handleChange = async (event) => {
         var gameBody = {}
         try {
@@ -281,9 +290,15 @@ const GamePage = () => {
     const handleCloseSnackRateNotLogged = async () => {
         setOpenSnackRateNotLogged(false)
     }
+    const handleCloseSnackStateNotLogged = async () => {
+        setOpenSnackStateNotLogged(false)
+    }
 
     const handleCloseSnackRateLogged = async () => {
         setOpenSnackRateLogged(false)
+    }
+    const handleCloseSnackStateLogged = async () => {
+        setOpenSnackStateLogged(false)
     }
 
     const handleAddToCollection = () => {
@@ -346,7 +361,7 @@ const GamePage = () => {
     const getComments = async () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${COMMENTS_OF_GAME(idGame)}`);
-            setComments(Object.values(response.data.comments))
+            setComments(response.data.comments)
             setLoading(false)
         } catch (err) {
             console.log(err.message)
@@ -368,9 +383,14 @@ const GamePage = () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${USER_URL(storageManager.getEmail())}`);
             var rate = response.data.account.likes
+            var state = response.data.account.state_game
             const obj = rate.find(o => o.game_id === `${idGame}`);
+            const obj_state = state.find(o => o.game_id === `${idGame}`);
             if (obj) {
                 setRating(obj.rating)
+            }
+            if (obj_state) {
+                setStateGame(obj_state.state)
             }
             setLikes(response.data.account.likes)
 
@@ -378,7 +398,6 @@ const GamePage = () => {
             console.log(err.message)
         }
     }
-
     const postComment = async () => {
         const today = new Date();
         const dd = String(today.getDate()).padStart(2, "0");
@@ -401,6 +420,24 @@ const GamePage = () => {
             console.log(err.message)
         }
     }
+    const handleChangeStateGame = async (stateGameKey) => {
+        var gameBody = {}
+        try {
+            if (stateGame === "") {
+                gameBody = { "state": stateGameKey, "user": storageManager.getEmail() }
+                await axios.post(`${MY_BASE_PATH}${STATE_GAME(idGame)}`, gameBody)
+                setOpenSnackStateLogged(true)
+            } else {
+                gameBody = { "state": stateGameKey, "user": storageManager.getEmail() }
+                await axios.put(`${MY_BASE_PATH}${STATE_GAME(idGame)}`, gameBody)
+                setOpenSnackStateLogged(true)
+            }
+            setStateGame(stateGameKey);
+        } catch (e) {
+            console.log("Error: ", e)
+        }
+
+    };
 
     useEffect(() => {
         getGame()
@@ -422,6 +459,47 @@ const GamePage = () => {
     function getLabelText(value) {
         return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
     }
+
+    function debounce(fn, ms) {
+        //This will run the code on every 1 second
+        let timer
+        return _ => {
+            clearTimeout(timer)
+            timer = setTimeout(_ => {
+                timer = null
+                fn.apply(this, arguments)
+            }, ms)
+        };
+    }
+    useEffect(() => {
+        const debouncedHandleResize = debounce(function handleResize() {
+            //give the paddingLeft size base on drawer open or closed and window size
+            if (window.innerWidth >= 2560) {
+                setDevicesSize("15%")
+                setCardWidth("22em")
+            } else if (window.innerWidth >= 1450) {
+                setDevicesSize("10%")
+                setCardWidth("22em")
+            } else if (window.innerWidth >= 1400) {
+                setDevicesSize("2%")
+                setCardWidth("22em")
+            } else if (window.innerWidth >= 1280) {
+                setDevicesSize("1em")
+                setCardWidth("20em")
+            }
+        }, 300)
+
+        // Add event listener to listen for window sizes 
+        window.addEventListener("resize", debouncedHandleResize);
+        // Call handler right away so state gets updated with initial window size
+
+        debouncedHandleResize()
+        return _ => {
+            window.removeEventListener("resize", debouncedHandleResize)
+
+        }
+
+    }, [])
 
     return (
         <>
@@ -495,6 +573,29 @@ const GamePage = () => {
                                     }}>{labels[hover !== -1 ? hover : rating]}</Typography></Box>
                                 )}
                             </Box>
+                            <Box
+                                onClick={() => (!storageManager.getToken() ? setOpenSnackStateNotLogged(true) : null)}
+
+                                sx={{
+                                    color: AppColors.BACKGROUND_DRAWER,
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <ButtonGroup style={{ width: "300px", marginTop: "1em" }} color="primary"
+                                    aria-label="outlined primary button group">
+                                    {Object.entries(textStateGame).map(([key, value]) => (
+                                        <>
+                                            <ButtonToggle disabled={!storageManager.getToken()}
+                                                key={key.id} active={stateGame === key}
+                                                onClick={() => { (setStateGame(key)); handleChangeStateGame(key) }}>
+                                                {value}
+                                            </ButtonToggle>
+                                        </>
+
+                                    ))}
+                                </ButtonGroup>
+                            </Box>
                         </Grid>
                         <Grid container direction={"column"} item style={{ margin: "4em", marginLeft: 0 }}>
                             <Grid item style={{ marginBottom: "1em" }}>
@@ -536,7 +637,7 @@ const GamePage = () => {
                                     <Grid container justifyContent={"flex-end"} style={{ marginTop: "1em" }}
                                         direction={"row"}>
                                         <FacebookShareButton
-                                            url={`https://localhost:3000/${idGame}`}
+                                            url={`https://geekify-main.web.app/${idGame}`}
                                             quote={"Look what game I just discovered"}
                                             hashtag={"#Geekify"}
                                         >
@@ -544,15 +645,14 @@ const GamePage = () => {
                                         </FacebookShareButton>
                                         <WhatsappShareButton
                                             title={"Look what game I just discovered"}
-                                            url={`https://localhost:3000/game/${idGame}`}
+                                            url={`https://geekify-main.web.app/game/${idGame}`}
                                             hashtags={"#Geekify"}
                                         >
                                             <WhatsappIcon size={32} round />
                                         </WhatsappShareButton>
                                         <TwitterShareButton
                                             title={"Look what game I just discovered"}
-                                            url={`https://localhost:3000/game/${idGame}`}
-                                            hashtags={"#Geekify"}
+                                            url={`https://geekify-main.web.app/game/${idGame}`}
                                         >
                                             <TwitterIcon size={32} round />
                                         </TwitterShareButton>
@@ -611,9 +711,9 @@ const GamePage = () => {
                     </Grid>
                 </Grid>
                 <Grid container
-                    direction={"row"} style={{ marginTop: "2em", marginBottom: "2em" }}>
-                    <Grid item style={{ marginLeft: "4em" }}>
-                        <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={20} height={"auto"} width={"350px"}>
+                    direction={"row"} style={{ marginLeft: devicesSize, marginTop: "2em", marginBottom: "2em" }}>
+                    <Grid item style={{ marginLeft: devicesSize }}>
+                        <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={20} height={"auto"} width={cardWidth}>
                             <Grid
                                 container
                             >
@@ -688,7 +788,7 @@ const GamePage = () => {
                                 >
                                     <CardAchievements
                                         bg={AppColors.BACKGROUND_DRAWER}
-                                        width={"350px"}
+                                        width={cardWidth}
                                         title={elem.name}
                                         description={elem.description}
                                         percent={elem.percent}
@@ -715,13 +815,11 @@ const GamePage = () => {
                                 }}>{LabelsGamePage.COMMUNITY}</Typography>
                             <TextField
                                 data-testid="textfieldComment"
-                                style={{ width: "350px" }}
+                                style={{ width: cardWidth }}
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
                                 onKeyPress={(ev) => {
-                                    console.log(`Pressed keyCode ${ev.key}`);
                                     if (ev.key === "Enter") {
-                                        // Do code here
                                         ev.preventDefault();
                                         postComment()
                                     }
@@ -737,13 +835,8 @@ const GamePage = () => {
                                     startAdornment: (
                                         <InputAdornment position="start">
 
-                                            <img style={{
-                                                borderRadius: 20,
-                                                width: "36px",
-                                                height: "36px",
-                                                backgroundColor: AppColors.PRIMARY
-                                            }}
-                                                src={storageManager.getToken ? storageManager.getImage() : accountIcon} />
+                                            <img alt="icon" style={{ width: "36px", height: "36px", borderRadius: 20 }}
+                                                src={storageManager.getToken() ? storageManager.getImage() : accountIcon} />
                                         </InputAdornment>
 
                                     ),
@@ -760,11 +853,11 @@ const GamePage = () => {
                                 }}
                             />
 
-                            {comments ? comments.map(elem => (
-                                <Grid item style={{ marginBottom: "1em" }} key={comments.indexOf(elem)}
+                            {comments ? Object.entries(comments).map(elem => (
+                                <Grid item style={{ marginBottom: "1em" }} key={elem[0].id}
                                 >
-                                    <CommentCard width={"350px"} time={"2 minutes ago"} title={"Hola"}
-                                        comment={elem} bg={AppColors.BACKGROUND_DRAWER} />
+                                    <CommentCard getComments={getComments} width={cardWidth}
+                                        comment={elem[1]} commentKey={elem[0]} bg={AppColors.BACKGROUND_DRAWER} like={elem[1].likes.includes(storageManager.getEmail())} />
                                 </Grid>
                             )) :
                                 <Grid container style={{ width: "350px", marginBottom: "1em" }}
@@ -837,9 +930,16 @@ const GamePage = () => {
             <SnackBarGeekify data-testid={"snackbarRate"} handleClose={handleCloseSnackRateLogged}
                 message={LabelsSnackbar.RATED_SUCCESSFULLY}
                 openSnack={openSnackRateLogged} />
+            <SnackBarGeekify data-testid={"snackbarState"} handleClose={handleCloseSnackStateLogged}
+                message={LabelsSnackbar.STATE_SUCCESSFULLY}
+                openSnack={openSnackStateLogged} />
             <SnackBarGeekify data-test handleClose={handleCloseSnackRateNotLogged} severity={"warning"}
                 message={LabelsSnackbar.RATED_ERROR_LOGGED}
                 openSnack={openSnackRateNotLogged} />
+
+            <SnackBarGeekify data-test handleClose={handleCloseSnackStateNotLogged} severity={"warning"}
+                message={LabelsSnackbar.STATE_ERROR_LOGGED}
+                openSnack={openSnackStateNotLogged} />
         </>
     )
 }

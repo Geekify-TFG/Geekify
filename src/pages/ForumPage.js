@@ -178,6 +178,8 @@ const ForumPage = () => {
     const storageManager = new StorageManager()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const [devicesSize, setDevicesSize] = useState("20em")
+    const [cardWidth, setCardWidth] = useState("45em")
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -306,6 +308,48 @@ const ForumPage = () => {
         getForumsFollowed()
     }, [flag]);
 
+    function debounce(fn, ms) {
+        //This will run the code on every 1 second
+        let timer
+        return _ => {
+            clearTimeout(timer)
+            timer = setTimeout(_ => {
+                timer = null
+                fn.apply(this, arguments)
+            }, ms)
+        };
+    }
+    useEffect(() => {
+        const debouncedHandleResize = debounce(function handleResize() {
+            //give the paddingLeft size base on drawer open or closed and window size
+            if (window.innerWidth >= 1450) {
+                setDevicesSize("15%")
+                setCardWidth("45em")
+            } else if (window.innerWidth >= 1400) {
+                setDevicesSize("0%")
+                setCardWidth("45em")
+            } else if (window.innerWidth >= 1280) {
+                setDevicesSize("0em")
+                setCardWidth("35em")
+            } else {
+                setDevicesSize("0em")
+                setCardWidth("30em")
+            }
+
+        }, 300)
+
+        // Add event listener to listen for window sizes 
+        window.addEventListener("resize", debouncedHandleResize);
+        // Call handler right away so state gets updated with initial window size
+
+        debouncedHandleResize()
+        return _ => {
+            window.removeEventListener("resize", debouncedHandleResize)
+
+        }
+
+    }, [])
+
     return (
         <>
             {forum && <Grid container alignItems={"center"}>
@@ -327,14 +371,14 @@ const ForumPage = () => {
 
                 </Grid>
                 <Grid container
-                    direction={"row"} style={{ marginTop: "2em", marginBottom: "2em" }}>
+                    direction={"row"} style={{ marginLeft: devicesSize, marginTop: "2em", marginBottom: "2em" }}>
                     <Grid item style={{ marginLeft: "2em" }}>
                         <Grid container direction={"row"} justifyContent={"space-between"}>
 
                             <Typography
                                 style={{
                                     fontSize: "40px",
-                                    color: AppColors.WHITE
+                                    color: AppColors.PRIMARY
                                 }}>{(`${forum.title}`).toUpperCase()}</Typography>
                             <Button data-testid={"menuButton"} style={{
                                 color: AppColors.WHITE,
@@ -374,9 +418,15 @@ const ForumPage = () => {
                             </Menu>
 
                         </Grid>
-                        <Grid container style={{ marginTop: "1em" }} direction={"row"}>
+                        <Typography
+                            style={{
+                                fontSize: "20px",
+                                color: AppColors.WHITE
+                            }}>{(`${forum.description}`).toUpperCase()}</Typography>
+
+                        <Grid container style={{ marginTop: "1em" }} direction={"row"} >
                             <FacebookShareButton
-                                url={`https://localhost:3000/forum/${forumId}`}
+                                url={`https://geekify-main.web.app/forum/${forumId}`}
                                 quote={"Look what forum I just discovered"}
                                 hashtag={"#Geekify"}
                             >
@@ -384,15 +434,14 @@ const ForumPage = () => {
                             </FacebookShareButton>
                             <WhatsappShareButton
                                 title={"Look what forum I just discovered"}
-                                url={`https://localhost:3000/forum/${forumId}`}
+                                url={`https://geekify-main.web.app/forum/${forumId}`}
                                 hashtags={"#Geekify"}
                             >
                                 <WhatsappIcon size={32} round />
                             </WhatsappShareButton>
                             <TwitterShareButton
                                 title={"Look what forum I just discovered"}
-                                url={`https://localhost:3000/forum/${forumId}`}
-                                hashtags={"#Geekify"}
+                                url={`https://geekify-main.web.app/forum/${forumId}`}
                             >
                                 <TwitterIcon size={32} round />
                             </TwitterShareButton>
@@ -401,7 +450,7 @@ const ForumPage = () => {
 
                             <TextField
                                 data-testid="textfieldPublication"
-                                style={{ width: "45em" }}
+                                style={{ width: cardWidth }}
                                 onChange={(e) => setPublication(e.target.value)}
                                 onKeyPress={(ev) => {
                                     console.log(`Pressed keyCode ${ev.key}`);
@@ -447,12 +496,13 @@ const ForumPage = () => {
                             Object.entries(forumPosts2).map(publication => (
                                 <Grid key={publication[0].id} item style={{ paddingLeft: 0, paddingBottom: "2em" }}
                                 >
-                                    <PublicationCard width={"45em"}
+                                    <PublicationCard
                                         bg={AppColors.BACKGROUND_DRAWER}
                                         publicationKey={publication[0]}
                                         publication={publication[1]}
                                         getPublications={getPublications}
                                         favorited={publication[1].likes.includes(storageManager.getEmail())}
+                                        width={cardWidth}
                                     />
                                 </Grid>
                             ))}
@@ -516,17 +566,19 @@ const ForumPage = () => {
             <SnackBarGeekify handleClose={handleCloseSnackPublication}
                 message={LabelsSnackbar.PUBLICATION_SUCCESSFULLY}
                 openSnack={openSnackBarPublication} />
-            {showDeleteForumModal && (
-                <DeleteForumModal
-                    showDeleteForumModal={showDeleteForumModal}
-                    setShowDeleteForumModal={setShowDeleteForumModal}
-                    loading={loading}
-                    setLoading={setLoading}
-                    forumId={forumId}
-                    setOpenSnackDeleteForum={setOpenSnackDeleteForum}
-                    openSnackDeleteForum={openSnackDeleteForum}
-                />
-            )}
+            {
+                showDeleteForumModal && (
+                    <DeleteForumModal
+                        showDeleteForumModal={showDeleteForumModal}
+                        setShowDeleteForumModal={setShowDeleteForumModal}
+                        loading={loading}
+                        setLoading={setLoading}
+                        forumId={forumId}
+                        setOpenSnackDeleteForum={setOpenSnackDeleteForum}
+                        openSnackDeleteForum={openSnackDeleteForum}
+                    />
+                )
+            }
         </>
     )
 }

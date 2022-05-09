@@ -67,7 +67,7 @@ const useStyles = makeStyles({
  *
  */
 const CalendarCard = props => {
-    const { gameId, gameTitle, gameImage, gameDate, getGamesMonth, getCalendarReleases, getCalendarUserReleases, gamesUserMonth, sortActive } = props
+    const { gameId, gameTitle, gameImage, gameDate, getGamesMonth, getCalendarReleases, getCalendarUserReleases, gamesUserMonth, sortActive, width } = props
     const storageManager = new StorageManager()
     const classes = useStyles();
     const history = useHistory()
@@ -132,10 +132,10 @@ const CalendarCard = props => {
     return (
         <>
             <Card data-testid={"calendarCard"}
-                style={{ height: "150px", width: "150px", position: "relative", borderRadius: 20 }}
+                style={{ height: "150px", width: width, position: "relative", borderRadius: 20 }}
                 className={classes.card}>
 
-                <CardActionArea style={{ position: "relative", height: "110px", width: "150px" }}
+                <CardActionArea style={{ position: "relative", height: "110px", width: width }}
                     onClick={onClickHandler}>
 
                     <CardMedia
@@ -147,7 +147,7 @@ const CalendarCard = props => {
                             position: "absolute",
                             top: 0,
                             right: 0,
-                            height: "150px", width: "150px",
+                            height: "150px", width: width,
                         }}
                     />
                     <CardContent style={{
@@ -177,7 +177,7 @@ const CalendarCard = props => {
                     backgroundColor: "transparent",
                     paddingTop: 0
                 }}>
-                    <Grid onClick={() => handleAddToCalendarReleases()} item
+                    <Grid data-testid={"addGameCalendar"} onClick={() => handleAddToCalendarReleases()} item
                     >
                         <Button style={{
                             backgroundColor: AppColors.BACKGROUND,

@@ -45,24 +45,29 @@ const BigNewCard = ({
     }
 
     return (
-        <Card className={classes.root} style={{ height: `${height}`, width: `${width}`, position: "relative" }}>
-            <CardMedia
-                style={{ height: `${height}`, width: `${width}`, position: "relative" }}
-                component="img"
-                alt="Contemplative Reptile"
-                image={article.urlToImage}
-                title="Contemplative Reptile"
-                onClick={() => toNews(article.url)}
-            />
-            <CardHeader
-                style={{ top: `${top}` }}
-                className={classes.font}
-                title={<Typography style={{ fontWeight: "bold", fontSize: `${fontSize}` }}>{article.title}</Typography>}
-                subheader={<Typography
-                    style={{ fontWeight: "bold", fontSize: `${subFontSize}` }}>{article.source.name}</Typography>}
-            />
+        <>
+            <Card className={classes.root} style={{ height: `${height}`, width: `${width}`, position: "relative" }}>
+                <CardMedia
+                    media="picture"
+                    alt={article.title}
+                    title={article.title}
+                    style={{
+                        height: `${height}`, width: `${width}`, position: "absolute",
+                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${article.urlToImage
+                            })`,
+                    }}
+                    onClick={() => toNews(article.url)}
+                />
+                <CardHeader
+                    style={{ top: `${top}` }}
+                    className={classes.font}
+                    title={<Typography style={{ fontWeight: "bold", fontSize: `${fontSize}`, color: AppColors.PRIMARY }}>{article.title}</Typography>}
+                    subheader={<Typography
+                        style={{ fontWeight: "bold", fontSize: `${subFontSize}`, color: AppColors.WHITE }}>{article.source.name}</Typography>}
+                />
 
-        </Card>
+            </Card>
+        </>
     )
 
 }

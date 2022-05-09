@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
+/* eslint-disable quotes */
 import React, { useEffect, useState } from "react";
 import {
     Avatar,
@@ -17,11 +18,13 @@ import {
     Select,
     TextField,
     IconButton,
+    Menu,
+    Fade,
 } from "@material-ui/core";
 import { Button, Typography } from "@mui/material";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { AppColors } from "../resources/AppColors";
-import { DialogTexts, LabelsProfilePage, LabelsSnackbar } from "../locale/en";
+import { DialogTexts, LabelsProfilePage, LabelsSnackbar, menuOptions } from "../locale/en";
 import { makeStyles } from "@mui/styles";
 import { AppTextsFontSize, AppTextsFontWeight } from "../resources/AppTexts";
 import { followingUsersMock } from "../mocks/FollowingUsersMock";
@@ -47,6 +50,8 @@ import { Carousel } from "react-responsive-carousel";
 import { Photo } from "@material-ui/icons";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 import { useHistory } from "react-router-dom";
+import IconProvider from "../components/IconProvider/IconProvider";
+import tlouImage from "../img/tlou_background.jpeg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -398,10 +403,18 @@ const ProfilePage = () => {
     const [showEditImageModal, setShowEditImageModal] = useState(-999)
     const [openSnackEditProfile, setOpenSnackEditProfile] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     const getInfouser = async () => {
         try {
             const response = await axios.get(`${INFO_URL(email)}`);
-            console.log(response.data.account.value)
             setInfoUser(response.data.account.value)
             setLoading(false)
         } catch (err) {
@@ -418,6 +431,12 @@ const ProfilePage = () => {
         setShowEditProfileModal(1)
     }
 
+    const handleClickChangePassword = () => {
+        history.push({
+            pathname: `/changePassword`,
+        })
+    }
+
     const handleClickEditImage = () => {
         setShowEditImageModal(1)
     }
@@ -427,7 +446,6 @@ const ProfilePage = () => {
     }
 
     const onClickHandler = (userEmail) => {
-        console.log(userEmail)
         //localStorage.setItem("userRoute")
         const newObj = { "detail": userEmail }
         localStorage.setItem("userDetails", JSON.stringify(newObj));
@@ -447,8 +465,9 @@ const ProfilePage = () => {
                 </div>) : <Grid container justifyContent={"space-between"} alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                     direction={"column"} style={{
+                        height: "15em",
+                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${infoUser ? infoUser.all_games[0].background_image : tlouImage})`,
                         backgroundSize: "cover",
-
                     }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
                         <Grid item style={{ margin: "2em" }}>
@@ -469,24 +488,64 @@ const ProfilePage = () => {
                     <Grid item style={{ marginLeft: "2em" }}>
                         <Grid container alignItems={"center"} spacing={8}
                         >
-                            {infoUser.photo && <Grid item xs={4}>
+                            {infoUser.photo && <Grid item xs={6}>
                                 <IconButton onClick={() => handleClickEditImage()}>
                                     <Avatar style={{ width: "150px", height: "150px", backgroundColor: AppColors.PRIMARY }}
                                         src={infoUser.photo} />
                                 </IconButton>
                             </Grid>}
-                            {infoUser.name && <Grid item xs={6}>
+                            {infoUser.name && <Grid item xs={4}>
                                 <Typography
                                     style={{
                                         fontSize: "40px",
                                         color: AppColors.WHITE
                                     }}>{infoUser.name}</Typography>
                             </Grid>}
-
                             <Grid item xs={2}>
-                                <ButtonFilled width={"20em"} onClick={handleClickEdit} text={LabelsProfilePage.EDIT_PROFILE}
+                                <Button data-testid={"menuButton"} style={{
+                                    color: AppColors.WHITE,
+                                    marginTop: "1em",
+                                    backgroundColor: AppColors.BACKGROUND_DRAWER
+                                }} aria-controls="fade-menu"
+                                    aria-haspopup="true" onClick={handleClick}>
+                                    <IconProvider icon={<Icons.MORE style={{
+                                        verticalAlign: "middle",
+                                        display: "inline-flex",
+                                    }} size="4em" />} />
+                                </Button>
+                                <Menu
+                                    style={{
+                                        boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)"
+                                    }}
+                                    color={AppColors.WHITE}
+                                    id="fade-menu"
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                                    keepMounted
+                                    open={open}
+                                    onClose={handleClose}
+                                    TransitionComponent={Fade}>
+                                    <MenuItem data-testid="editOption" style={{ color: AppColors.PRIMARY }}
+                                        onClick={() => {
+                                            handleClickEdit();
+                                            handleClose()
+                                        }}> {menuOptions.EDIT_PROFILE} </MenuItem>
+
+                                    <MenuItem data-testid="deleteOption" style={{ color: AppColors.PRIMARY }}
+                                        onClick={() => {
+                                            handleClickChangePassword();
+                                            handleClose()
+                                        }}> {menuOptions.CHANGE_PASSWORD}</MenuItem>
+                                </Menu>
+                            </Grid>
+                            {/* <Grid item xs={2}>
+                                <ButtonFilled width={"15em"} onClick={handleClickEdit} text={LabelsProfilePage.EDIT_PROFILE}
                                 />
                             </Grid>
+                            <Grid item xs={2}>
+                                <ButtonFilled onClick={handleClickEdit} text={LabelsProfilePage.EDIT_PROFILE}
+                                />
+                            </Grid> */}
                         </Grid>
                     </Grid>
                     <Grid container
@@ -554,7 +613,7 @@ const ProfilePage = () => {
                                     <Grid>
                                         <Typography
                                             style={{
-                                                fontSize: "38px",
+                                                fontSize: "24px",
                                                 color: AppColors.WHITE,
                                                 margin: "1em"
                                             }}>{"You dont have profile info yet.\nEdit your profile"}</Typography>
@@ -579,14 +638,7 @@ const ProfilePage = () => {
                                     </div>
                                 ))}</Carousel>
                         </Grid>}
-                        {/* <Grid item style={{ marginLeft: "2em" }}>
-                            {Object.keys(infoUser.comment)[0] !== "None" &&
-                                <ReviewCard width={"450px"} height={"228px"}
-                                    game={Object.values(infoUser.comment)[0].game_comment["name"]}
-                                    comment={Object.values(infoUser.comment)[0].content} avatar={infoUser.photo}
-                                    bg={AppColors.BACKGROUND_DRAWER} />
-                            }
-                        </Grid> */}
+
                         <Grid item style={{ marginBottom: "4em", marginLeft: "1em" }}>
                             <CardGeekify bg={AppColors.BACKGROUND_DRAWER} borderRadius={50} height={"auto"}
                                 width={"292px"}>
@@ -626,7 +678,7 @@ const ProfilePage = () => {
                                             <Grid>
                                                 <Typography
                                                     style={{
-                                                        fontSize: "38px",
+                                                        fontSize: "20px",
                                                         color: AppColors.WHITE,
                                                         margin: "1em"
                                                     }}>{LabelsProfilePage.NO_FOLLOWER_USERS_YET}</Typography>
