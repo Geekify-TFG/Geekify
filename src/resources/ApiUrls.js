@@ -1,6 +1,6 @@
 // Base
-const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
-//const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
+//const _MY_DOMAIN = "http://127.0.0.1:5000"; // Domain of the server
+const _MY_DOMAIN = "https://geekify-be.herokuapp.com"; // Domain of the server
 
 export const MY_BASE_PATH = `${_MY_DOMAIN}`; // Base URL of the backend
 

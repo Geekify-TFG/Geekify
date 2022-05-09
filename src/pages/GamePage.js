@@ -637,7 +637,7 @@ const GamePage = () => {
                                     <Grid container justifyContent={"flex-end"} style={{ marginTop: "1em" }}
                                         direction={"row"}>
                                         <FacebookShareButton
-                                            url={`https://localhost:3000/${idGame}`}
+                                            url={`https://geekify-main.web.app/${idGame}`}
                                             quote={"Look what game I just discovered"}
                                             hashtag={"#Geekify"}
                                         >
@@ -645,15 +645,14 @@ const GamePage = () => {
                                         </FacebookShareButton>
                                         <WhatsappShareButton
                                             title={"Look what game I just discovered"}
-                                            url={`https://localhost:3000/game/${idGame}`}
+                                            url={`https://geekify-main.web.app/game/${idGame}`}
                                             hashtags={"#Geekify"}
                                         >
                                             <WhatsappIcon size={32} round />
                                         </WhatsappShareButton>
                                         <TwitterShareButton
                                             title={"Look what game I just discovered"}
-                                            url={`https://localhost:3000/game/${idGame}`}
-                                            hashtags={"#Geekify"}
+                                            url={`https://geekify-main.web.app/game/${idGame}`}
                                         >
                                             <TwitterIcon size={32} round />
                                         </TwitterShareButton>

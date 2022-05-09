@@ -378,7 +378,7 @@ const ForumPage = () => {
                             <Typography
                                 style={{
                                     fontSize: "40px",
-                                    color: AppColors.WHITE
+                                    color: AppColors.PRIMARY
                                 }}>{(`${forum.title}`).toUpperCase()}</Typography>
                             <Button data-testid={"menuButton"} style={{
                                 color: AppColors.WHITE,
@@ -418,9 +418,15 @@ const ForumPage = () => {
                             </Menu>
 
                         </Grid>
-                        <Grid container style={{ marginTop: "1em" }} direction={"row"}>
+                        <Typography
+                            style={{
+                                fontSize: "20px",
+                                color: AppColors.WHITE
+                            }}>{(`${forum.description}`).toUpperCase()}</Typography>
+
+                        <Grid container style={{ marginTop: "1em" }} direction={"row"} >
                             <FacebookShareButton
-                                url={`https://localhost:3000/forum/${forumId}`}
+                                url={`https://geekify-main.web.app/forum/${forumId}`}
                                 quote={"Look what forum I just discovered"}
                                 hashtag={"#Geekify"}
                             >
@@ -428,15 +434,14 @@ const ForumPage = () => {
                             </FacebookShareButton>
                             <WhatsappShareButton
                                 title={"Look what forum I just discovered"}
-                                url={`https://localhost:3000/forum/${forumId}`}
+                                url={`https://geekify-main.web.app/forum/${forumId}`}
                                 hashtags={"#Geekify"}
                             >
                                 <WhatsappIcon size={32} round />
                             </WhatsappShareButton>
                             <TwitterShareButton
                                 title={"Look what forum I just discovered"}
-                                url={`https://localhost:3000/forum/${forumId}`}
-                                hashtags={"#Geekify"}
+                                url={`https://geekify-main.web.app/forum/${forumId}`}
                             >
                                 <TwitterIcon size={32} round />
                             </TwitterShareButton>
@@ -561,17 +566,19 @@ const ForumPage = () => {
             <SnackBarGeekify handleClose={handleCloseSnackPublication}
                 message={LabelsSnackbar.PUBLICATION_SUCCESSFULLY}
                 openSnack={openSnackBarPublication} />
-            {showDeleteForumModal && (
-                <DeleteForumModal
-                    showDeleteForumModal={showDeleteForumModal}
-                    setShowDeleteForumModal={setShowDeleteForumModal}
-                    loading={loading}
-                    setLoading={setLoading}
-                    forumId={forumId}
-                    setOpenSnackDeleteForum={setOpenSnackDeleteForum}
-                    openSnackDeleteForum={openSnackDeleteForum}
-                />
-            )}
+            {
+                showDeleteForumModal && (
+                    <DeleteForumModal
+                        showDeleteForumModal={showDeleteForumModal}
+                        setShowDeleteForumModal={setShowDeleteForumModal}
+                        loading={loading}
+                        setLoading={setLoading}
+                        forumId={forumId}
+                        setOpenSnackDeleteForum={setOpenSnackDeleteForum}
+                        openSnackDeleteForum={openSnackDeleteForum}
+                    />
+                )
+            }
         </>
     )
 }
