@@ -45,7 +45,10 @@ export const LabelsSnackbar = {
     LIKE_COMMENT: "You liked the comment",
     REMOVE_LIKE_COMMENT: "You remove the like of the comment",
     LIKE_COMMENT_LOGIN: "You must be logged to like the comment",
-    PROFILE_EDITED: "Profile edited successfully!"
+    PROFILE_EDITED: "Profile edited successfully!",
+    FOLLOW_USER: "You are now following this user ",
+    UNFOLLOW_USER: "Now you no longer follow this user",
+    FOLLOW_USER_NOT_LOGGED: "You must be logged to follow a user",
 }
 
 export const LabelsDrawer = {

@@ -678,6 +678,7 @@ const ProfilePage = () => {
                                             <Grid>
                                                 <Typography
                                                     style={{
+                                                        textAlign: "center",
                                                         fontSize: "20px",
                                                         color: AppColors.WHITE,
                                                         margin: "1em"

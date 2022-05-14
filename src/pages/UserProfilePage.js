@@ -153,10 +153,12 @@ const UserProfilePage = () => {
     const [followUser, setFollowUser] = useState(false)
     const [loading, setLoading] = useState(true)
     const email = useRef();
+    const [openSnackFollowNotLogged, setOpenSnackFollowNotLogged] = useState(false)
+    const [openSnackFollowUser, setOpenSnackFollowUser] = useState(false)
+    const [openSnackUnfollowUser, setOpenSnackUnfollowUser] = useState(false)
 
     const retriveStorageData = async () => {
         const newItem = JSON.parse(localStorage.getItem("userDetails"));
-        console.log(newItem.detail)
         email.current = newItem.detail;
     }
 
@@ -196,6 +198,11 @@ const UserProfilePage = () => {
         try {
             var body = { "email_user": email.current }
             const response = await axios.post(`${FOLLOW_USER_URL(storageManager.getEmail())}`, body)
+            if (response.data.account.value.followed_users.includes(email.current)) {
+                setOpenSnackFollowUser(true)
+            } else {
+                setOpenSnackUnfollowUser(true)
+            }
             setFollowUser(!followUser)
         } catch (e) {
             if (e.response.status === 409) {
@@ -203,14 +210,22 @@ const UserProfilePage = () => {
             }
         }
     }
-    console.log(followUser)
 
+    const handleCloseSnackFollowNotLogged = async () => {
+        setOpenSnackFollowNotLogged(false)
+    }
+
+    const handleCloseSnackFollowUser = async () => {
+        setOpenSnackFollowUser(false)
+    }
+    const handleCloseSnackUnfollowUser = async () => {
+        setOpenSnackUnfollowUser(false)
+    }
     useEffect(() => {
         getInfouser()
     }, [email.current]);
 
     const onClickHandler = (userEmail) => {
-        console.log(userEmail)
         //localStorage.setItem("userRoute")
         const newObj = { "detail": userEmail }
         localStorage.setItem("userDetails", JSON.stringify(newObj));
@@ -267,7 +282,7 @@ const UserProfilePage = () => {
                                     }}>{infoUser.name}</Typography>
                             </Grid>}
                             <Grid item xs={2}>
-                                <ButtonFilled onClick={() => postFollowUser()} width={"20em"} text={followUser ? LabelsProfilePage.UNFOLLOW_USER : LabelsProfilePage.FOLLOW_USER}
+                                <ButtonFilled onClick={() => (!storageManager.getToken() ? setOpenSnackFollowNotLogged(true) : postFollowUser())} width={"20em"} text={followUser ? LabelsProfilePage.UNFOLLOW_USER : LabelsProfilePage.FOLLOW_USER}
                                 />
                             </Grid>
                         </Grid>
@@ -436,6 +451,15 @@ const UserProfilePage = () => {
                 </Grid>
 
             </Grid>}
+            <SnackBarGeekify data-test handleClose={handleCloseSnackFollowNotLogged} severity={"warning"}
+                message={LabelsSnackbar.FOLLOW_USER_NOT_LOGGED}
+                openSnack={openSnackFollowNotLogged} />
+            <SnackBarGeekify handleClose={handleCloseSnackFollowUser}
+                message={LabelsSnackbar.FOLLOW_USER}
+                openSnack={openSnackFollowUser} />
+            <SnackBarGeekify handleClose={handleCloseSnackUnfollowUser} severity={"warning"}
+                message={LabelsSnackbar.UNFOLLOW_USER}
+                openSnack={openSnackUnfollowUser} />
 
         </>
     )

@@ -423,6 +423,11 @@ const ForumPage = () => {
                                 fontSize: "20px",
                                 color: AppColors.WHITE
                             }}>{(`${forum.description}`).toUpperCase()}</Typography>
+                        <Typography
+                            style={{
+                                fontSize: "16px",
+                                color: AppColors.YELLOW_SUBTEXT
+                            }}>{(`Game: ${forum.game}`)}</Typography>
 
                         <Grid container style={{ marginTop: "1em" }} direction={"row"} >
                             <FacebookShareButton
@@ -547,10 +552,10 @@ const ForumPage = () => {
                                     </List> :
                                         <Typography
                                             style={{
+                                                textAlign: "center",
                                                 fontSize: "20px",
                                                 color: AppColors.PRIMARY,
-                                                marginLeft: "1.5em",
-                                                marginTop: "1em"
+                                                margin: "1em"
                                             }}>{LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
                                     }
                                 </Grid>

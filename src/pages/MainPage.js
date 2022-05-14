@@ -6,7 +6,6 @@ import { MY_BASE_PATH, MY_GAMES, MY_GAMES_FILTER, MY_GAMES_CATEGORIES } from "..
 import axios from "axios";
 import GridGames from "../components/GridGames/GridGames";
 import SearchBar from "../components/SearchBar/SearchBar";
-//import { makeStyles } from "@material-ui/core/styles";
 import eldenImage from "../img/elden_background.jpeg"
 import { AppColors } from "../resources/AppColors";
 import { LabelsMain } from "../locale/en";

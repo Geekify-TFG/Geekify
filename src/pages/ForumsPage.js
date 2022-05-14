@@ -242,10 +242,10 @@ const ForumsPage = () => {
                                     </List> :
                                         <Typography
                                             style={{
+                                                textAlign: "center",
                                                 fontSize: "20px",
                                                 color: AppColors.PRIMARY,
-                                                marginLeft: "1.5em",
-                                                marginTop: "1em"
+                                                margin: "1em"
                                             }}>{LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
                                     }
                                 </Grid>
