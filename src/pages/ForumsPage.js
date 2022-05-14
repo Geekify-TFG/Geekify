@@ -229,7 +229,7 @@ const ForumsPage = () => {
                                                         <Avatar alt="Remy Sharp" src={elem.value.image} />
                                                     </ListItemAvatar>
                                                     <ListItemText
-                                                        style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                                        style={{ color: AppColors.WHITE, marginRight: "2em", cursor: "pointer" }}
                                                         primary={elem.value.title}
                                                     />
                                                     <ListItemText style={{ color: AppColors.GRAY }}
@@ -242,7 +242,7 @@ const ForumsPage = () => {
                                     </List> :
                                         <Typography
                                             style={{
-                                                fontSize: "30px",
+                                                fontSize: "20px",
                                                 color: AppColors.PRIMARY,
                                                 marginLeft: "1.5em",
                                                 marginTop: "1em"
