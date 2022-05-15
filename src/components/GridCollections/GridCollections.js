@@ -126,7 +126,7 @@ const GridCollections = props => {
                     spacing={2}
                     direction="row"
                     alignItems={"center"}
-                    justify="flex-start">
+                    justifyContent={"flex-start"}>
 
                     {
                         collection.map((elem, index) => (

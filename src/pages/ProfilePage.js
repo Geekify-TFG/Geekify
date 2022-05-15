@@ -415,6 +415,7 @@ const ProfilePage = () => {
     const getInfouser = async () => {
         try {
             const response = await axios.get(`${INFO_URL(email)}`);
+            console.log(response.data.account.value)
             setInfoUser(response.data.account.value)
             setLoading(false)
         } catch (err) {
@@ -466,7 +467,7 @@ const ProfilePage = () => {
                 <Grid container alignItems="flex-start"
                     direction={"column"} style={{
                         height: "15em",
-                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${infoUser ? infoUser.all_games[0].background_image : tlouImage})`,
+                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${infoUser.all_games ? infoUser.all_games[0].background_image : tlouImage})`,
                         backgroundSize: "cover",
                     }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>

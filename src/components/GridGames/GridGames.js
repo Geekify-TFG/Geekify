@@ -45,7 +45,7 @@ const GridGames = props => {
                         spacing={2}
                         direction="row"
                         alignItems={"center"}
-                        justify="flex-start">
+                        justifyContent={"flex-start"}>
 
                         {
                             game.map(elem => (
@@ -80,11 +80,11 @@ const GridGames = props => {
                     spacing={2}
                     direction="row"
                     alignItems={"center"}
-                    justify="flex-start">
+                    justifyContent={"flex-start"}>
 
                     {
                         game.map(elem => (
-                            <Grid item key={game.indexOf(elem)}
+                            <Grid style={{ height: "302px" }} item key={game.indexOf(elem)}
                                 xs={12}
                                 sm={12}
                                 md={6}

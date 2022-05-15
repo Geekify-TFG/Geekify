@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React, { useState } from "react";
-import { Grid, Link, TextField, Typography } from "@material-ui/core";
+import { Grid, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppColors } from "../resources/AppColors";
 import { LabelsLoginPage, LabelsSnackbar } from "../locale/en";
@@ -12,7 +12,7 @@ import { LOGIN_URL } from "../resources/ApiUrls";
 import { useHistory } from "react-router-dom";
 import { StorageManager } from "../utils";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
-import GoogleLogin from "react-google-login";
+//import GoogleLogin from "react-google-login";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -79,7 +79,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const LoginPage = () => {
-    const clientId = "324894202380-fe0leg07j8uv629iul8e98qm06quualo.apps.googleusercontent.com"
+    //const clientId = "324894202380-fe0leg07j8uv629iul8e98qm06quualo.apps.googleusercontent.com"
     const classes = useStyles();
     const storageManager = new StorageManager();
 
@@ -136,22 +136,22 @@ const LoginPage = () => {
         }
     };
 
-    const onLoginSuccess = async (res) => {
-        storageManager.storeGoogle(true)
-        storageManager.storeToken(res.tokenObj.id_token)
-        storageManager.storeEmail(res.Ju.zv)
-        setOpenSnackLoginSuccessfully(true)
-        setTimeout(() => {
-            history.push({
-                pathname: "/",
-                state: { logged: true, token: res.tokenObj.id_token }
-            })
-        }, 2000)
-    }
-
-    const onLoginFailure = async () => {
-        setOpenSnackLoginError(true)
-    }
+    /*  const onLoginSuccess = async (res) => {
+         storageManager.storeGoogle(true)
+         storageManager.storeToken(res.tokenObj.id_token)
+         storageManager.storeEmail(res.Ju.zv)
+         setOpenSnackLoginSuccessfully(true)
+         setTimeout(() => {
+             history.push({
+                 pathname: "/",
+                 state: { logged: true, token: res.tokenObj.id_token }
+             })
+         }, 2000)
+     }
+ 
+     const onLoginFailure = async () => {
+         setOpenSnackLoginError(true)
+     } */
 
     return (
         <>
@@ -194,10 +194,10 @@ const LoginPage = () => {
                         />
                     </Grid>
                     <Grid item style={{ marginLeft: "5.5em", marginTop: "3em" }}>
-                        <ButtonFilled onClick={handleClickLogin} text={LabelsLoginPage.LOGIN} width={"350px"} />
+                        <ButtonFilled onClick={() => handleClickLogin()} text={LabelsLoginPage.LOGIN} width={"350px"} />
 
                     </Grid>
-                    <Grid item style={{ marginLeft: "9.5em", marginTop: "1em" }}>
+                    {/* <Grid item style={{ marginLeft: "9.5em", marginTop: "1em" }}>
                         <Link>
                             <Typography
                                 style={{
@@ -205,8 +205,8 @@ const LoginPage = () => {
                                     color: AppColors.WHITE
                                 }}>{LabelsLoginPage.REMEMBER}</Typography>
                         </Link>
-                    </Grid>
-                    <Grid item style={{ marginLeft: "10.5em", marginTop: "1em" }}>
+                    </Grid> */}
+                    {/* <Grid item style={{ marginLeft: "10.5em", marginTop: "1em" }}>
                         <GoogleLogin
                             clientId={clientId}
                             buttonText="Login with google"
@@ -215,7 +215,7 @@ const LoginPage = () => {
                             cookiePolicy={"single_host_origin"}
                             isSignedIn={true}
                         />
-                    </Grid>
+                    </Grid> */}
                 </Grid>
                 <Grid item xs={6} alignItems="flex-start"
                     className={classes.content}
