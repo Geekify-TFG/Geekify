@@ -121,7 +121,6 @@ const GridCollections = props => {
             <div className={classes.root}>
 
                 <Grid
-                    align="center"
                     container
                     spacing={2}
                     direction="row"

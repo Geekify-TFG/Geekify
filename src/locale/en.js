@@ -96,7 +96,7 @@ export const LabelsGamePage = {
     VERY_GOOD: "Very good",
     FINE: "Fine",
     MEH: "Meh",
-    NOT_RECOMMENDED: "Not recommended",
+    NOT_RECOMMENDED: "Don't like",
     NOT_RATED: "Not rated",
     NO_ACHIEVEMENTS: "This game has no achievements",
     NO_COMMENTS: "This game has no comments. Write the first comment!",
