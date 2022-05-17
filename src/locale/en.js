@@ -141,6 +141,7 @@ export const LabelsForumsPage = {
     JOIN_FORUM: "Join the forum",
     FOLLOWING_GROUPS: "Following forums",
     FOLLOWING_GROUPS_NOT_LOGGED: "You don\"t follow any forum yet. Sign up!",
+    NOT_FOLLOWING_GROUPS: "You don\"t follow any forum yet. Discover new forums",
     SEE_MORE: "See more",
     CREATE_FORUM: "Create new forum",
     DELETE_FORUM: "Delete forum",

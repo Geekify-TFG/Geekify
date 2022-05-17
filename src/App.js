@@ -103,6 +103,7 @@ const RouteMain = ({ component: Component, select }) => {
 
     const texts = useTextStyles();
     const storageManager = new StorageManager();
+    const history = useHistory()
 
     const classes = useStyles();
     const [open, setOpen] = useState(true); //false
@@ -186,7 +187,7 @@ const RouteMain = ({ component: Component, select }) => {
             >
                 <div className={classes.drawerHeader}>
                     <Grid style={{ marginTop: "5em" }}>
-                        <img style={{ height: "20em", width: "20em" }} src={geekifyIcon}
+                        <img onClick={() => history.push("/")} style={{ height: "20em", width: "20em", cursor: "pointer" }} src={geekifyIcon}
                             alt="loading..." />
                     </Grid >
 

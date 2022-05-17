@@ -8,8 +8,8 @@ import GameCard from "../Cards/GameCard";
 import PropTypes from "prop-types";
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1,
-        padding: theme.spacing(2),
+        //flexGrow: 1,
+        padding: "2em"
     }
 }))
 
@@ -29,14 +29,11 @@ const GridGames = props => {
     return (
         <Grid style={{ marginLeft: "2em" }}>
             <div className={classes.root}>
-
                 <Grid
-                    alignItems="center"
                     container
-                    spacing={4}
+                    spacing={2}
                     direction="row"
-                    justifyContent={"flex-start"}>
-
+                >
                     {
                         game.map(elem => (
                             <Grid style={{ height: "322px" }} item key={game.indexOf(elem)}

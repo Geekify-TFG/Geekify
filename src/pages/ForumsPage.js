@@ -221,7 +221,7 @@ const ForumsPage = () => {
                                             }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
                                     </Grid>
 
-                                    {followingForums ? <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
+                                    {followingForums && followingForums.length != 0 ? <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
                                         {followingForums &&
                                             followingForums.map(elem => (
                                                 <ListItem key={elem.value} >
@@ -246,7 +246,7 @@ const ForumsPage = () => {
                                                 fontSize: "20px",
                                                 color: AppColors.PRIMARY,
                                                 margin: "1em"
-                                            }}>{LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
+                                            }}>{storageManager.getToken() ? LabelsForumsPage.NOT_FOLLOWING_GROUPS : LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
                                     }
                                 </Grid>
 

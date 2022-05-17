@@ -70,6 +70,10 @@ const ButtonToggle = styled(Button)`
             color: white;
             background-color: ${AppColors.BACKGROUND_DRAWER};
           }
+          &:disabled {
+            color: white;
+            background-color: ${AppColors.BACKGROUND_DRAWER};
+          }
   color: ${AppColors.PRIMARY} ${({ active }) =>
         active &&
         `opacity: 1;

@@ -300,7 +300,7 @@ const ForumPage = () => {
         getForum()
         getPublications()
         getForumsFollowed()
-    }, []);
+    }, [forumId]);
 
     useEffect(() => {
         getForum()
@@ -372,7 +372,7 @@ const ForumPage = () => {
                 </Grid>
                 <Grid container
                     direction={"row"} style={{ marginLeft: devicesSize, marginTop: "2em", marginBottom: "2em" }}>
-                    <Grid item style={{ marginLeft: "2em" }}>
+                    <Grid item style={{ width: "45em", marginLeft: "2em" }}>
                         <Grid container direction={"row"} justifyContent={"space-between"}>
 
                             <Typography
@@ -380,42 +380,46 @@ const ForumPage = () => {
                                     fontSize: "40px",
                                     color: AppColors.PRIMARY
                                 }}>{(`${forum.title}`).toUpperCase()}</Typography>
-                            <Button data-testid={"menuButton"} style={{
-                                color: AppColors.WHITE,
-                                marginTop: "1em",
-                                backgroundColor: AppColors.BACKGROUND_DRAWER
-                            }} aria-controls="fade-menu"
-                                aria-haspopup="true" onClick={handleClick}>
-                                <IconProvider icon={<Icons.MORE style={{
-                                    verticalAlign: "middle",
-                                    display: "inline-flex",
-                                }} size="4em" />} />
-                            </Button>
+                            {(storageManager.getEmail() === forum.admin) &&
+                                <>
+                                    <Button data-testid={"menuButton"} style={{
+                                        color: AppColors.WHITE,
+                                        marginTop: "1em",
+                                        backgroundColor: AppColors.BACKGROUND_DRAWER
+                                    }} aria-controls="fade-menu"
+                                        aria-haspopup="true" onClick={handleClick}>
+                                        <IconProvider icon={<Icons.MORE style={{
+                                            verticalAlign: "middle",
+                                            display: "inline-flex",
+                                        }} size="4em" />} />
+                                    </Button>
 
-                            <Menu
-                                style={{
-                                    boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)"
-                                }}
-                                color={AppColors.WHITE}
-                                id="fade-menu"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                                keepMounted
-                                open={open}
-                                onClose={handleClose}
-                                TransitionComponent={Fade}>
-                                <MenuItem data-testid="editOption" style={{ color: AppColors.PRIMARY }}
-                                    onClick={() => {
-                                        handleEditForum();
-                                        handleClose()
-                                    }}> {menuOptions.EDIT} </MenuItem>
+                                    <Menu
+                                        style={{
+                                            boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)"
+                                        }}
+                                        color={AppColors.WHITE}
+                                        id="fade-menu"
+                                        anchorEl={anchorEl}
+                                        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                                        keepMounted
+                                        open={open}
+                                        onClose={handleClose}
+                                        TransitionComponent={Fade}>
+                                        <MenuItem data-testid="editOption" style={{ color: AppColors.PRIMARY }}
+                                            onClick={() => {
+                                                handleEditForum();
+                                                handleClose()
+                                            }}> {menuOptions.EDIT} </MenuItem>
 
-                                <MenuItem data-testid="deleteOption" style={{ color: AppColors.PRIMARY }}
-                                    onClick={() => {
-                                        handleDeleteForum();
-                                        handleClose()
-                                    }}> {menuOptions.DELETE}</MenuItem>
-                            </Menu>
+                                        <MenuItem data-testid="deleteOption" style={{ color: AppColors.PRIMARY }}
+                                            onClick={() => {
+                                                handleDeleteForum();
+                                                handleClose()
+                                            }}> {menuOptions.DELETE}</MenuItem>
+                                    </Menu>
+                                </>
+                            }
 
                         </Grid>
                         <Typography
@@ -530,8 +534,8 @@ const ForumPage = () => {
                                                 marginTop: "1em"
                                             }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
                                     </Grid>
-
-                                    {followingForums ? <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
+                                    {console.log(followingForums)}
+                                    {followingForums && followingForums.length != 0 ? <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
                                         {followingForums &&
                                             followingForums.map(elem => (
                                                 <ListItem key={elem.value}>
@@ -556,7 +560,7 @@ const ForumPage = () => {
                                                 fontSize: "20px",
                                                 color: AppColors.PRIMARY,
                                                 margin: "1em"
-                                            }}>{LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
+                                            }}>{storageManager.getToken() ? LabelsForumsPage.NOT_FOLLOWING_GROUPS : LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
                                     }
                                 </Grid>
 
