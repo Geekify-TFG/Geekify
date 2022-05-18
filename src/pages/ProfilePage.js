@@ -249,7 +249,7 @@ function EditProfile({
     const classes = useStyles();
     const [name, setName] = useState()
     const [gender, setGender] = useState()
-    const [birthday, setBirthday] = useState()
+    const [birthday, setBirthday] = useState(infoUser.birthday)
     const [location, setLocation] = useState()
     const [favCategories, setFavCategories] = useState([])
     const [favGames, setFavGames] = useState([])

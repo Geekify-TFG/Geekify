@@ -8,9 +8,10 @@ import { useHistory } from "react-router-dom"
 import PropTypes from "prop-types";
 import { Button, Typography } from "@mui/material";
 import { StorageManager } from "../../utils";
-import { profileOptions } from "../../locale/en";
+import { LabelsSnackbar, profileOptions } from "../../locale/en";
 import { INFO_URL } from "../../resources/ApiUrls";
 import axios from "axios";
+import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center"
     },
     menuPaper: {
-        backgroundColor: AppColors.BACKGROUND_DRAWER
+        backgroundColor: AppColors.WHITE
     }
 }));
 
@@ -97,6 +98,7 @@ const ProfileButton = () => {
     const classes = useStyles();
     const history = useHistory()
     const [logged, setLogged] = useState(false)
+    const [openSnackLogoutSuccess, setOpenSnackLogoutSuccess] = React.useState(false);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -129,10 +131,18 @@ const ProfileButton = () => {
         setAnchorEl(false)
         setLogged(false)
         // window.location.reload();
-        window.setTimeout(() => {
-            window.location.reload();
-        }, 1500)
+        setOpenSnackLogoutSuccess(true)
+        setTimeout(() => {
+
+            history.push({
+                pathname: "/",
+            })
+        }, 2000);
     }
+
+    const handleCloseLogoutSucces = () => {
+        setOpenSnackLogoutSuccess(false);
+    };
 
     useEffect(() => {
         if (storageManager.getToken() !== "") {
@@ -183,6 +193,9 @@ const ProfileButton = () => {
                     }}> {profileOptions.CLOSE_SESSION} </MenuItem>
 
             </Menu>
+            <SnackBarGeekify handleClose={handleCloseLogoutSucces} severity={"success"}
+                message={LabelsSnackbar.LOGOUT_SUCCESS}
+                openSnack={openSnackLogoutSuccess} />
         </>
     )
 }
