@@ -269,7 +269,7 @@ const UserProfilePage = () => {
                         <Grid container alignItems={"center"} spacing={8}
                         >
                             {infoUser.photo && <Grid item xs={4}>
-                                <IconButton>
+                                <IconButton disabled={true}>
                                     <Avatar style={{ width: "150px", height: "150px", backgroundColor: AppColors.PRIMARY }}
                                         src={infoUser.photo} />
                                 </IconButton>

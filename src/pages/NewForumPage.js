@@ -137,7 +137,7 @@ const NewForumPage = () => {
 
     const isValidURL = (string) => {
         var res
-        if (string === undefined) res = null
+        if (string === null) res = null
         else {
             res = string.match(/(https?:\/\/.*\.(?:png|jpg))/i);
         }
@@ -145,7 +145,7 @@ const NewForumPage = () => {
     }
 
     const handleClickCreateForum = async () => {
-        if (isValidURL(image)) {
+        if (image != null ? isValidURL(image) : true) {
             try {
                 const body = {
                     title: title,

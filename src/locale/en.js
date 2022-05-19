@@ -133,7 +133,8 @@ export const LabelsSearchPage = {
 }
 
 export const LabelsCollection = {
-    MY_COLLECTIONS: "My collections"
+    MY_COLLECTIONS: "My collections",
+    NO_GAMES_COLLECTION:"You don't have any games in this collection. Discover new games to add to the collection.",
 }
 
 export const LabelsForumsPage = {

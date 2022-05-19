@@ -577,9 +577,14 @@ const GamePage = () => {
                                     }}>{labels[hover !== -1 ? hover : rating]}</Typography></Box>
                                 )}
                             </Box>
+                            <Typography
+                                style={{ color: AppColors.WHITE, marginBottom: 0, marginTop: "1em", fontSize: "20px" }}
+                                gutterBottom
+                            >
+                                {"Play status!"}
+                            </Typography>
                             <Box
                                 onClick={() => (!storageManager.getToken() ? setOpenSnackStateNotLogged(true) : null)}
-
                                 sx={{
                                     color: AppColors.BACKGROUND_DRAWER,
                                     display: "flex",

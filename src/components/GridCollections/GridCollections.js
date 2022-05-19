@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2)
     },
     card: {
-        minWidth: 275,
+        //minWidth: 275,
         border: "4px solid #7B7983",
     }
 }))
