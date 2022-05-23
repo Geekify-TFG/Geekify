@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2)
     },
     card: {
-        minWidth: 275,
+        //minWidth: 275,
         border: "4px solid #7B7983",
     }
 }))
@@ -121,12 +121,11 @@ const GridCollections = props => {
             <div className={classes.root}>
 
                 <Grid
-                    align="center"
                     container
                     spacing={2}
                     direction="row"
                     alignItems={"center"}
-                    justify="flex-start">
+                    justifyContent={"flex-start"}>
 
                     {
                         collection.map((elem, index) => (

@@ -7,6 +7,7 @@ import {
     CardContent,
     FormControl,
     Grid,
+    InputAdornment,
     InputLabel,
     MenuItem,
     Select,
@@ -16,7 +17,7 @@ import {
 import SearchBar from "../components/SearchBar/SearchBar";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppColors } from "../resources/AppColors";
-import { LabelsCreateForumPage, LabelsForumsPage, LabelsGamePage, LabelsSnackbar } from "../locale/en";
+import { ErrorTexts, LabelsCreateForumPage, LabelsForumsPage, LabelsGamePage, LabelsSnackbar } from "../locale/en";
 import { useHistory, useLocation } from "react-router-dom";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
@@ -27,6 +28,7 @@ import { EDIT_FORUM, INFO_FORUM, LIST_GAMES } from "../resources/ApiUrls";
 import AutocompleteGeekify from "../components/AutocompleteGeekify/AutocompleteGeekify";
 import { StorageManager } from "../utils";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
+import ErrorIcon from "@material-ui/icons/Error";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -127,6 +129,7 @@ const EditForumPage = () => {
     const forumId = location.state.detail
     const [forum, setForum] = useState()
     const [loading, setLoading] = useState()
+    const [showErrorURL, setShowErrorURL] = useState(false)
 
     /**
      * Get lis the most popular games to put on the game select
@@ -156,29 +159,42 @@ const EditForumPage = () => {
         }
     }
 
+    const isValidURL = (string) => {
+        var res
+        if (string === null) res = null
+        else {
+            res = string.match(/(https?:\/\/.*\.(?:png|jpg))/i);
+        }
+        return (res != null)
+    }
+
     /**
      * Function to create the forum when the button is clicked.
      */
     const handleClickCreateForum = async () => {
-        try {
-            const body = {
-                title: title,
-                image: image === undefined ? null : image,
-                description: description,
-                tag: tag,
-                game: game,
-                admin: storageManager.getEmail(),
-            };
-            const config = { auth: { username: storageManager.getToken() } }
-            const response = await axios.put(`${EDIT_FORUM(forumId)}`, body, config);
-            setOpenSnackEditForum(true)
-            setTimeout(() => {
-                history.push({
-                    pathname: "/forums",
-                })
-            }, 1000)
-        } catch (err) {
-            console.log(err.message)
+        if (isValidURL(image)) {
+            try {
+                const body = {
+                    title: title,
+                    image: image === undefined ? null : image,
+                    description: description,
+                    tag: tag,
+                    game: game,
+                    admin: storageManager.getEmail(),
+                };
+                const config = { auth: { username: storageManager.getToken() } }
+                const response = await axios.put(`${EDIT_FORUM(forumId)}`, body, config);
+                setOpenSnackEditForum(true)
+                setTimeout(() => {
+                    history.push({
+                        pathname: "/forums",
+                    })
+                }, 1000)
+            } catch (err) {
+                console.log(err.message)
+            }
+        } else {
+            setShowErrorURL(true)
         }
     }
 
@@ -303,6 +319,12 @@ const EditForumPage = () => {
                                                 defaultValue={forum.image}
                                                 className={classes.textFieldLabel}
                                                 InputLabelProps={{ shrink: true }}
+                                                error={showErrorURL}
+                                                helperText={showErrorURL && ErrorTexts.URL_COLLECTION}
+                                                inputProps={{
+                                                    endAdornment: showErrorURL && <InputAdornment position="end"><ErrorIcon
+                                                        style={{ color: AppColors.RED }} /></InputAdornment>,
+                                                }}
                                             />}
                                         </FormControl>
                                     </Grid>
@@ -330,11 +352,11 @@ const EditForumPage = () => {
                                                     style={{ color: AppColors.PRIMARY }}
                                                     value={"Discussion"}>{LabelsCreateForumPage.DISCUSSION}</MenuItem>
                                                 <MenuItem style={{ color: AppColors.PRIMARY }}
-                                                    value={2}>{LabelsGamePage.FINE}</MenuItem>
+                                                    value={"Art"}>{LabelsCreateForumPage.ART}</MenuItem>
                                                 <MenuItem style={{ color: AppColors.PRIMARY }}
-                                                    value={1}>{LabelsGamePage.MEH}</MenuItem>
+                                                    value={"Music"}>{LabelsCreateForumPage.MUSIC}</MenuItem>
                                                 <MenuItem style={{ color: AppColors.PRIMARY }}
-                                                    value={0}>{LabelsGamePage.NOT_RECOMMENDED}</MenuItem>
+                                                    value={"Advice"}>{LabelsCreateForumPage.DISCUSSION}</MenuItem>
                                             </Select>}
                                         </FormControl>
                                     </Grid>

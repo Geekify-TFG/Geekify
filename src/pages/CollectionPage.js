@@ -23,7 +23,7 @@ import { AppColors } from "../resources/AppColors";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import IconProvider from "../components/IconProvider/IconProvider";
 import Icons from "../resources/Icons";
-import { DialogTexts, ErrorTexts, LabelsSnackbar, menuOptions } from "../locale/en";
+import { DialogTexts, ErrorTexts, LabelsCollection, LabelsSnackbar, menuOptions } from "../locale/en";
 import DialogGeekify from "../components/DialogGeekify";
 import TextFieldGeekify from "../components/TextFieldGeekify/textFieldGeekify";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
@@ -265,6 +265,7 @@ const CollectionPage = () => {
             const config = { auth: { username: storageManager.getToken() } }
             const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTION(idCollection)}`, config);
             setCollection(response.data.collection.value)
+            console.log(response.data.collection.value)
             setGames(response.data.collection.value.games)
             setLoading(false)
 
@@ -282,6 +283,8 @@ const CollectionPage = () => {
             <Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                     direction={"column"} style={{
+                        height: "10em",
+                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${collection.image})`,
                         backgroundSize: "cover",
 
                     }}>
@@ -349,7 +352,15 @@ const CollectionPage = () => {
                             </div>
                             :
                             <Grid item>
-                                {games && <GridGames games={games} />}
+                                {games && games.length != 0 ? <GridGames games={games} /> :
+                                    <Grid container justifyContent={"center"} >
+                                        <Typography style={{
+                                            fontSize: "30px",
+                                            color: AppColors.PRIMARY,
+                                            fontWeight: "bold",
+                                            margin: "2em"
+                                        }}>{LabelsCollection.NO_GAMES_COLLECTION}</Typography>
+                                    </Grid>}
                             </Grid>}
                 </Grid>
             </Grid>

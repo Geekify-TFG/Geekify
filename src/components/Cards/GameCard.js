@@ -55,9 +55,9 @@ const useStyles = makeStyles({
         overflow: "hidden"
     },
     card: {
-        maxWidth: 310,
-        transition: "transform 0.15s ease-in-out",
-        "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+        //maxWidth: 310,
+        /* transition: "transform 0.15s ease-in-out",
+        "&:hover": { transform: "scale3d(1.05, 1.05, 1)" }, */
     },
 
 });

@@ -20,11 +20,13 @@ import {
     IconButton,
     Menu,
     Fade,
+    Tooltip,
+    InputAdornment,
 } from "@material-ui/core";
 import { Button, Typography } from "@mui/material";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { AppColors } from "../resources/AppColors";
-import { DialogTexts, LabelsProfilePage, LabelsSnackbar, menuOptions } from "../locale/en";
+import { DialogTexts, ErrorTexts, LabelsProfilePage, LabelsSnackbar, menuOptions } from "../locale/en";
 import { makeStyles } from "@mui/styles";
 import { AppTextsFontSize, AppTextsFontWeight } from "../resources/AppTexts";
 import { followingUsersMock } from "../mocks/FollowingUsersMock";
@@ -52,6 +54,7 @@ import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 import { useHistory } from "react-router-dom";
 import IconProvider from "../components/IconProvider/IconProvider";
 import tlouImage from "../img/tlou_background.jpeg";
+import ErrorIcon from "@material-ui/icons/Error";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -164,18 +167,32 @@ function EditProfileImage({
     const classes = useStyles();
     const [photo, setPhoto] = useState()
     const storageManager = new StorageManager()
+    const [showErrorURL, setShowErrorURL] = useState(false)
+
+    const isValidURL = (string) => {
+        var res
+        if (string === undefined) res = null
+        else {
+            res = string.match(/(https?:\/\/.*\.(?:png|jpg))/i);
+        }
+        return (res != null)
+    }
 
     const handleClickSubmit = async () => {
-        try {
-            var body = {
-                "photo": photo
+        if (isValidURL(photo)) {
+            try {
+                var body = {
+                    "photo": photo
+                }
+                const config = { auth: { username: storageManager.getToken() } }
+                const response = await axios.put(`${INFO_URL(storageManager.getEmail())}`, body, config)
+                setShowEditImageModal(-999)
+                setOpenSnackEditProfile(true)
+            } catch (e) {
+                console.log("Error: ", e)
             }
-            const config = { auth: { username: storageManager.getToken() } }
-            const response = await axios.put(`${INFO_URL(storageManager.getEmail())}`, body, config)
-            setShowEditImageModal(-999)
-            setOpenSnackEditProfile(true)
-        } catch (e) {
-            console.log("Error: ", e)
+        } else {
+            setShowErrorURL(true)
         }
     }
 
@@ -205,6 +222,12 @@ function EditProfileImage({
                             defaultValue={infoUser ? infoUser.photo : undefined}
                             className={classes.textFieldLabel}
                             InputLabelProps={{ shrink: true }}
+                            error={showErrorURL}
+                            helperText={showErrorURL && ErrorTexts.URL_COLLECTION}
+                            inputProps={{
+                                endAdornment: showErrorURL && <InputAdornment position="end"><ErrorIcon
+                                    style={{ color: AppColors.RED }} /></InputAdornment>,
+                            }}
 
                         />
                     </FormControl>
@@ -226,7 +249,7 @@ function EditProfile({
     const classes = useStyles();
     const [name, setName] = useState()
     const [gender, setGender] = useState()
-    const [birthday, setBirthday] = useState()
+    const [birthday, setBirthday] = useState(infoUser.birthday)
     const [location, setLocation] = useState()
     const [favCategories, setFavCategories] = useState([])
     const [favGames, setFavGames] = useState([])
@@ -415,6 +438,7 @@ const ProfilePage = () => {
     const getInfouser = async () => {
         try {
             const response = await axios.get(`${INFO_URL(email)}`);
+            console.log(response.data.account.value)
             setInfoUser(response.data.account.value)
             setLoading(false)
         } catch (err) {
@@ -466,7 +490,7 @@ const ProfilePage = () => {
                 <Grid container alignItems="flex-start"
                     direction={"column"} style={{
                         height: "15em",
-                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${infoUser ? infoUser.all_games[0].background_image : tlouImage})`,
+                        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(29,29,29,1)),url(${infoUser.all_games ? infoUser.all_games[0].background_image : tlouImage})`,
                         backgroundSize: "cover",
                     }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
@@ -489,10 +513,12 @@ const ProfilePage = () => {
                         <Grid container alignItems={"center"} spacing={8}
                         >
                             {infoUser.photo && <Grid item xs={6}>
-                                <IconButton onClick={() => handleClickEditImage()}>
-                                    <Avatar style={{ width: "150px", height: "150px", backgroundColor: AppColors.PRIMARY }}
-                                        src={infoUser.photo} />
-                                </IconButton>
+                                <Tooltip title={<Typography>Change profile picture</Typography>}>
+                                    <IconButton sx={{ "&:hover": { backgroundColor: AppColors.PRIMARY } }} style={{ cursor: "pointer" }} className={classes.button} onClick={() => handleClickEditImage()}>
+                                        <Avatar style={{ width: "150px", height: "150px", backgroundColor: AppColors.PRIMARY }}
+                                            src={infoUser.photo} />
+                                    </IconButton>
+                                </Tooltip>
                             </Grid>}
                             {infoUser.name && <Grid item xs={4}>
                                 <Typography
@@ -678,6 +704,7 @@ const ProfilePage = () => {
                                             <Grid>
                                                 <Typography
                                                     style={{
+                                                        textAlign: "center",
                                                         fontSize: "20px",
                                                         color: AppColors.WHITE,
                                                         margin: "1em"

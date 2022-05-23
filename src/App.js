@@ -41,13 +41,10 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     content: {
         backgroundColor: AppColors.BACKGROUND,
-        transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
         marginRight: 0,
         flexGrow: 1,
-        minHeight: "100vh !important"
+        minHeight: "100vh !important",
+        marginLeft: drawerWidth,
 
     },
     contentShift: {
@@ -66,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "flex-end",
     },
     drawer: {
+        backgroundColor: AppColors.BACKGROUND_DRAWER,
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: "nowrap",
@@ -105,6 +103,7 @@ const RouteMain = ({ component: Component, select }) => {
 
     const texts = useTextStyles();
     const storageManager = new StorageManager();
+    const history = useHistory()
 
     const classes = useStyles();
     const [open, setOpen] = useState(true); //false
@@ -166,35 +165,29 @@ const RouteMain = ({ component: Component, select }) => {
     }
     return (
         <>
-
             <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open,
-                })}
+                className={classes.content}
             >
-                {/*<div className={classes.drawerHeader}/>*/}
                 <Route
                     render={(props) =>
                         <Component {...props} />
                     }
                 />
-
             </main>
             <Drawer
                 anchor="left"
                 variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                })}
+                className={classes.drawer}
+                /*  className={clsx(classes.drawer, {
+                     [classes.drawerOpen]: open,
+                 })} */
                 classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                    }),
+                    paper: classes.drawer
                 }}
             >
                 <div className={classes.drawerHeader}>
                     <Grid style={{ marginTop: "5em" }}>
-                        <img style={{ height: "20em", width: "20em" }} src={geekifyIcon}
+                        <img onClick={() => history.push("/")} style={{ height: "20em", width: "20em", cursor: "pointer" }} src={geekifyIcon}
                             alt="loading..." />
                     </Grid >
 

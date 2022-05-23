@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) =>
             // vertical padding + font size from searchIcon
             backgroundColor: AppColors.BACKGROUND_SEARCH,
             paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
-            color: AppColors.GRAY,
+            color: AppColors.BLACK,
             transition: theme.transitions.create("width"),
             width: "100%",
             [theme.breakpoints.up("sm")]: {

@@ -221,7 +221,7 @@ const ForumsPage = () => {
                                             }}>{LabelsForumsPage.FOLLOWING_GROUPS.toUpperCase()}</Typography>
                                     </Grid>
 
-                                    {followingForums ? <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
+                                    {followingForums && followingForums.length != 0 ? <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
                                         {followingForums &&
                                             followingForums.map(elem => (
                                                 <ListItem key={elem.value} >
@@ -229,7 +229,7 @@ const ForumsPage = () => {
                                                         <Avatar alt="Remy Sharp" src={elem.value.image} />
                                                     </ListItemAvatar>
                                                     <ListItemText
-                                                        style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                                        style={{ color: AppColors.WHITE, marginRight: "2em", cursor: "pointer" }}
                                                         primary={elem.value.title}
                                                     />
                                                     <ListItemText style={{ color: AppColors.GRAY }}
@@ -242,11 +242,11 @@ const ForumsPage = () => {
                                     </List> :
                                         <Typography
                                             style={{
-                                                fontSize: "30px",
+                                                textAlign: "center",
+                                                fontSize: "20px",
                                                 color: AppColors.PRIMARY,
-                                                marginLeft: "1.5em",
-                                                marginTop: "1em"
-                                            }}>{LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
+                                                margin: "1em"
+                                            }}>{storageManager.getToken() ? LabelsForumsPage.NOT_FOLLOWING_GROUPS : LabelsForumsPage.FOLLOWING_GROUPS_NOT_LOGGED}</Typography>
                                     }
                                 </Grid>
 

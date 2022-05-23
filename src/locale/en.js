@@ -45,7 +45,10 @@ export const LabelsSnackbar = {
     LIKE_COMMENT: "You liked the comment",
     REMOVE_LIKE_COMMENT: "You remove the like of the comment",
     LIKE_COMMENT_LOGIN: "You must be logged to like the comment",
-    PROFILE_EDITED: "Profile edited successfully!"
+    PROFILE_EDITED: "Profile edited successfully!",
+    FOLLOW_USER: "You are now following this user ",
+    UNFOLLOW_USER: "Now you no longer follow this user",
+    FOLLOW_USER_NOT_LOGGED: "You must be logged to follow a user",
 }
 
 export const LabelsDrawer = {
@@ -93,7 +96,7 @@ export const LabelsGamePage = {
     VERY_GOOD: "Very good",
     FINE: "Fine",
     MEH: "Meh",
-    NOT_RECOMMENDED: "Not recommended",
+    NOT_RECOMMENDED: "Don't like",
     NOT_RATED: "Not rated",
     NO_ACHIEVEMENTS: "This game has no achievements",
     NO_COMMENTS: "This game has no comments. Write the first comment!",
@@ -130,7 +133,8 @@ export const LabelsSearchPage = {
 }
 
 export const LabelsCollection = {
-    MY_COLLECTIONS: "My collections"
+    MY_COLLECTIONS: "My collections",
+    NO_GAMES_COLLECTION:"You don't have any games in this collection. Discover new games to add to the collection.",
 }
 
 export const LabelsForumsPage = {
@@ -138,6 +142,7 @@ export const LabelsForumsPage = {
     JOIN_FORUM: "Join the forum",
     FOLLOWING_GROUPS: "Following forums",
     FOLLOWING_GROUPS_NOT_LOGGED: "You don\"t follow any forum yet. Sign up!",
+    NOT_FOLLOWING_GROUPS: "You don\"t follow any forum yet. Discover new forums",
     SEE_MORE: "See more",
     CREATE_FORUM: "Create new forum",
     DELETE_FORUM: "Delete forum",

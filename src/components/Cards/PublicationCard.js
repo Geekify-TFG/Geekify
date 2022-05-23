@@ -10,6 +10,7 @@ import { LIKE_PUBLICATION } from "../../resources/ApiUrls";
 import { StorageManager } from "../../utils";
 import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
 import { LabelsSnackbar } from "../../locale/en";
+import { useHistory } from "react-router-dom";
 
 /**
  * Component to create publications cards.
@@ -29,6 +30,7 @@ import { LabelsSnackbar } from "../../locale/en";
  */
 const PublicationCard = props => {
     const { publicationKey, bg, height, width, publication, getPublications, favorited } = props;
+    const history = useHistory()
     const storageManager = new StorageManager()
     const [openSnackLikeLogin, setOpenSnackLikeLogin] = useState();
     const [openSnackLike, setOpenSnackLike] = useState();
@@ -54,6 +56,20 @@ const PublicationCard = props => {
             }
         } else {
             setOpenSnackLikeLogin(true)
+        }
+    }
+
+    const onClickHandler = () => {
+        //localStorage.setItem("userRoute")
+        const newObj = { "detail": publication.user }
+        localStorage.setItem("userDetails", JSON.stringify(newObj));
+        if (storageManager.getEmail() === publication.user) {
+            history.push("/profile")
+        } else {
+            history.push({
+                pathname: `/user/${publication.user.split("@")[0]}`,
+                state: { detail: publication.user }
+            })
         }
     }
 
@@ -90,7 +106,7 @@ const PublicationCard = props => {
                     </Avatar>
                 }
 
-                title={<Typography style={{ fontSize: "20px", color: AppColors.PRIMARY }}>{publication.user}</Typography>}
+                title={<Typography style={{ fontSize: "20px", color: AppColors.PRIMARY, cursor: "pointer" }} onClick={() => onClickHandler()} >{publication.user.split("@")[0]}</Typography>}
                 subheader={<Typography
                     style={{ fontSize: "16px", color: AppColors.GRAY }}>{publication.date}</Typography>}
             />

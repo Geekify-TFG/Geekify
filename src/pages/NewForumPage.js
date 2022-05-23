@@ -8,6 +8,7 @@ import {
     CardContent,
     FormControl,
     Grid,
+    InputAdornment,
     InputLabel,
     MenuItem,
     Select,
@@ -17,7 +18,7 @@ import {
 import SearchBar from "../components/SearchBar/SearchBar";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppColors } from "../resources/AppColors";
-import { LabelsCreateForumPage, LabelsForumsPage, LabelsGamePage, LabelsSnackbar } from "../locale/en";
+import { ErrorTexts, LabelsCreateForumPage, LabelsForumsPage, LabelsGamePage, LabelsSnackbar } from "../locale/en";
 import { useHistory } from "react-router-dom";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import ButtonFilled from "../components/ButtonFilled/ButtonFilled";
@@ -28,6 +29,7 @@ import { CREATE_FORUM, LIST_GAMES } from "../resources/ApiUrls";
 import AutocompleteGeekify from "../components/AutocompleteGeekify/AutocompleteGeekify";
 import { StorageManager } from "../utils";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
+import ErrorIcon from "@material-ui/icons/Error";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -121,6 +123,7 @@ const NewForumPage = () => {
     const storageManager = new StorageManager()
     const [openSnackCreateForum, setOpenSnackCreateForum] = useState(false);
     const history = useHistory()
+    const [showErrorURL, setShowErrorURL] = useState(false)
 
     const getListGames = async () => {
         try {
@@ -132,26 +135,39 @@ const NewForumPage = () => {
 
     }
 
+    const isValidURL = (string) => {
+        var res
+        if (string === null) res = null
+        else {
+            res = string.match(/(https?:\/\/.*\.(?:png|jpg))/i);
+        }
+        return (res != null)
+    }
+
     const handleClickCreateForum = async () => {
-        try {
-            const body = {
-                title: title,
-                image: image === undefined ? null : image,
-                description: description,
-                tag: tag,
-                game: game,
-                admin: storageManager.getEmail(),
-            };
-            const config = { auth: { username: storageManager.getToken() } }
-            const response = await axios.post(`${CREATE_FORUM}`, body, config);
-            setOpenSnackCreateForum(true)
-            setTimeout(() => {
-                history.push({
-                    pathname: "/forums",
-                })
-            }, 1000)
-        } catch (err) {
-            console.log(err.message)
+        if (image != null ? isValidURL(image) : true) {
+            try {
+                const body = {
+                    title: title,
+                    image: image === undefined ? null : image,
+                    description: description,
+                    tag: tag,
+                    game: game,
+                    admin: storageManager.getEmail(),
+                };
+                const config = { auth: { username: storageManager.getToken() } }
+                const response = await axios.post(`${CREATE_FORUM}`, body, config);
+                setOpenSnackCreateForum(true)
+                setTimeout(() => {
+                    history.push({
+                        pathname: "/forums",
+                    })
+                }, 1000)
+            } catch (err) {
+                console.log(err.message)
+            }
+        } else {
+            setShowErrorURL(true)
         }
     }
 
@@ -267,6 +283,12 @@ const NewForumPage = () => {
                                                 variant="standard"
                                                 className={classes.textFieldLabel}
                                                 InputLabelProps={{ shrink: true }}
+                                                error={showErrorURL}
+                                                helperText={showErrorURL && ErrorTexts.URL_COLLECTION}
+                                                inputProps={{
+                                                    endAdornment: showErrorURL && <InputAdornment position="end"><ErrorIcon
+                                                        style={{ color: AppColors.RED }} /></InputAdornment>,
+                                                }}
                                             />
                                         </FormControl>
                                     </Grid>

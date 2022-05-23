@@ -70,6 +70,10 @@ const ButtonToggle = styled(Button)`
             color: white;
             background-color: ${AppColors.BACKGROUND_DRAWER};
           }
+          &:disabled {
+            color: white;
+            background-color: ${AppColors.BACKGROUND_DRAWER};
+          }
   color: ${AppColors.PRIMARY} ${({ active }) =>
         active &&
         `opacity: 1;
@@ -569,13 +573,18 @@ const GamePage = () => {
                                     <Box sx={{ ml: 2 }}><Typography style={{
                                         color: AppColors.WHITE,
                                         marginBottom: 0,
-                                        fontSize: "20px"
+                                        fontSize: "18px"
                                     }}>{labels[hover !== -1 ? hover : rating]}</Typography></Box>
                                 )}
                             </Box>
+                            <Typography
+                                style={{ color: AppColors.WHITE, marginBottom: 0, marginTop: "1em", fontSize: "20px" }}
+                                gutterBottom
+                            >
+                                {"Play status!"}
+                            </Typography>
                             <Box
                                 onClick={() => (!storageManager.getToken() ? setOpenSnackStateNotLogged(true) : null)}
-
                                 sx={{
                                     color: AppColors.BACKGROUND_DRAWER,
                                     display: "flex",
@@ -732,7 +741,6 @@ const GamePage = () => {
                                         />
                                         {platforms && platforms.map(elem => (
                                             <ListItemIcon key={elem.key} style={{ minWidth: 0 }}>
-
                                                 <Icon classes={classes.iconRoot}>
                                                     <img
                                                         style={{ paddingLeft: "2px" }}
