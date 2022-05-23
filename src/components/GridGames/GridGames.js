@@ -1,15 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Container, Grid } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles"
-import { useTextStyles } from "../../resources/AppTexts";
 import GameCard from "../Cards/GameCard";
 import PropTypes from "prop-types";
 const useStyles = makeStyles(theme => ({
     root: {
         //flexGrow: 1,
-        padding: "2em"
+        padding: "2em !important"
     }
 }))
 
