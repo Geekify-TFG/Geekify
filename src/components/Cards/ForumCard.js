@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { AppColors } from "../../resources/AppColors";
 import { useHistory } from "react-router-dom";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Paper, Typography } from "@material-ui/core";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
@@ -12,7 +12,7 @@ import { StorageManager } from "../../utils";
 import { LabelsSnackbar } from "../../locale/en";
 import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles({
     root: {
         display: "flex",
         backgroundColor: AppColors.BACKGROUND
@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => ({
         width: 38,
     },
 
-}));
+}, { index: 1 });
 
 /**
  * @component

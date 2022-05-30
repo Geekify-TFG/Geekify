@@ -4,12 +4,12 @@ import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles"
 import GameCard from "../Cards/GameCard";
 import PropTypes from "prop-types";
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     root: {
         //flexGrow: 1,
         padding: "2em !important"
     }
-}))
+}, { index: 1 })
 
 /**
  * @component

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { AppColors } from "../../resources/AppColors";
 import { useHistory } from "react-router-dom";
 import { AppTextsFontSize, AppTextsFontWeight } from "../../resources/AppTexts";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
     Button,
     Card,
@@ -55,12 +55,12 @@ const useStyles = makeStyles({
         overflow: "hidden"
     },
     card: {
-        //maxWidth: 310,
-        /* transition: "transform 0.15s ease-in-out",
-        "&:hover": { transform: "scale3d(1.05, 1.05, 1)" }, */
+        maxWidth: 310,
+        transition: "transform 0.15s ease-in-out",
+        "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
     },
 
-});
+}, { index: 1 })
 
 function RemoveFromCollection({
     gameId,
@@ -248,6 +248,7 @@ const GameCard = props => {
 
                     <CardMedia
                         media="picture"
+                        src={gameImage}
                         alt={gameTitle}
                         title={gameTitle}
                         style={{

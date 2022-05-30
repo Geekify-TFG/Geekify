@@ -27,7 +27,7 @@ import { Button, Typography } from "@mui/material";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { AppColors } from "../resources/AppColors";
 import { DialogTexts, ErrorTexts, LabelsProfilePage, LabelsSnackbar, menuOptions } from "../locale/en";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { AppTextsFontSize, AppTextsFontWeight } from "../resources/AppTexts";
 import { followingUsersMock } from "../mocks/FollowingUsersMock";
 import CardGeekify from "../components/Cards/CardGeekify";

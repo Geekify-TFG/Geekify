@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import "./App.css";
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTextStyles } from "./resources/AppTexts";
@@ -37,7 +36,9 @@ import geekifyIcon from "./img/geekify_gif.gif"
 import UserProfilePage from "./pages/UserProfilePage";
 import ChangePwdPage from "./pages/ChangePwdPage";
 
-const drawerWidth = 240;
+import "./App.css";
+
+const drawerWidth = "240px";
 const useStyles = makeStyles((theme) => ({
     content: {
         backgroundColor: AppColors.BACKGROUND,
@@ -96,9 +97,9 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
     },
-}));
+}), { index: 1 });
 
-const RouteMain = ({ component: Component, select }) => {
+const RouteMain = ({ component: Component, ...rest }) => {
     const clientId = "324894202380-fe0leg07j8uv629iul8e98qm06quualo.apps.googleusercontent.com"
 
     const texts = useTextStyles();
@@ -168,7 +169,7 @@ const RouteMain = ({ component: Component, select }) => {
             <main
                 className={classes.content}
             >
-                <Route
+                <Route {...rest}
                     render={(props) =>
                         <Component {...props} />
                     }

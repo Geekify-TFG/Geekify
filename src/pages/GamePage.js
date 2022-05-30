@@ -34,7 +34,7 @@ import axios from "axios";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { AppColors } from "../resources/AppColors";
 import { DialogTexts, LabelsGamePage, LabelsSnackbar } from "../locale/en";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { AppTextsFontSize, AppTextsFontWeight } from "../resources/AppTexts";
 import CommentCard from "../components/Cards/CommentCard";
 import CardGeekify from "../components/Cards/CardGeekify";

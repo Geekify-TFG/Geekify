@@ -26,7 +26,6 @@ const ButtonToggle = styled(Button)`
             background-color: #6563FF;
           }
         `};
-
 `;
 
 const MainPage = () => {
@@ -92,7 +91,6 @@ const MainPage = () => {
 
     return (
         <>
-
             <Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
                     direction={"column"} style={{
@@ -136,16 +134,14 @@ const MainPage = () => {
                         </Grid>
                         <Grid item style={{ marginLeft: "5em" }}>
                             <ButtonGroup style={{ width: "500px" }} color="primary"
-                                aria-label="outlined primary button group">
+                            >
                                 {Object.entries(sort_text).map(([key, value]) => (
-                                    <>
-                                        <Tooltip title={<Typography>{text[key]}</Typography>}>
-                                            <ButtonToggle key={key.id} active={sortActive === key}
-                                                onClick={() => (setSortActive(key))}>
-                                                {value}
-                                            </ButtonToggle>
-                                        </Tooltip>
-                                    </>
+                                    <Tooltip key={key} title={<Typography>{text[key]}</Typography>}>
+                                        <ButtonToggle key={key.id} active={sortActive === key}
+                                            onClick={() => (setSortActive(key))}>
+                                            {value}
+                                        </ButtonToggle>
+                                    </Tooltip>
 
                                 ))}
                             </ButtonGroup>

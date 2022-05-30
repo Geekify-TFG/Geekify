@@ -356,7 +356,7 @@ const EditForumPage = () => {
                                                 <MenuItem style={{ color: AppColors.PRIMARY }}
                                                     value={"Music"}>{LabelsCreateForumPage.MUSIC}</MenuItem>
                                                 <MenuItem style={{ color: AppColors.PRIMARY }}
-                                                    value={"Advice"}>{LabelsCreateForumPage.DISCUSSION}</MenuItem>
+                                                    value={"Advice"}>{LabelsCreateForumPage.ADVICE}</MenuItem>
                                             </Select>}
                                         </FormControl>
                                     </Grid>
