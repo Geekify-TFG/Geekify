@@ -426,7 +426,7 @@ const ForumPage = () => {
                             style={{
                                 fontSize: "20px",
                                 color: AppColors.WHITE
-                            }}>{(`${forum.description}`).toUpperCase()}</Typography>
+                            }}>{(`${forum.description}`)}</Typography>
                         <Typography
                             style={{
                                 fontSize: "16px",

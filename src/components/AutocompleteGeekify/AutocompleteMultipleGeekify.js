@@ -3,7 +3,7 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { AppColors } from "../../resources/AppColors";
 import { Box, Checkbox, Chip } from "@material-ui/core";
 

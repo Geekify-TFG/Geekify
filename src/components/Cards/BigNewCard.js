@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardHeader, CardMedia } from "@material-ui/core";
 import { AppColors } from "../../resources/AppColors";
 import { Typography } from "@mui/material";

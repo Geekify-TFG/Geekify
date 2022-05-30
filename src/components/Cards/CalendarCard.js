@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { AppColors } from "../../resources/AppColors";
 import { useHistory } from "react-router-dom";
 import { AppTextsFontSize, AppTextsFontWeight, useTextStyles } from "../../resources/AppTexts";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
 import Icons from "../../resources/Icons";
 import IconProvider from "../IconProvider/IconProvider";
