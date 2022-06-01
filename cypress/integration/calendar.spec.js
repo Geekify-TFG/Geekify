@@ -16,7 +16,7 @@ describe('Calendar tests', () => {
         cy.wait(6000)
         cy.get('[data-testid="ButtonKey"]').contains("My calendar").click()
         cy.wait(6000)
-        cy.get('[data-testid="calendarCard"]').contains("Sniper Elite 5 ...").click()
+        cy.get('[data-testid="calendarCard"]').contains("F1 22 ...").click()
     })
 
 })
