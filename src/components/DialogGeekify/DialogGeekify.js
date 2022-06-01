@@ -1,44 +1,28 @@
-import React from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton} from '@material-ui/core'
-import CloseIcon from '@material-ui/icons/Close';
+import React from "react";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton } from "@material-ui/core"
+import CloseIcon from "@material-ui/icons/Close";
 
-import PropTypes from 'prop-types';
-import {AppColors} from "../../resources/AppColors"
-import {makeStyles} from "@mui/styles";
-import {AppTextsFontSize, AppTextsFontWeight} from "../../resources/AppTexts";
+import PropTypes from "prop-types";
+import { AppColors } from "../../resources/AppColors"
 
-const useStyles = makeStyles({
-    root: {
-        minWidth: 275,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    text: {
-        fontSize: AppTextsFontSize.SIZE_BODY,
-        fontWeight: AppTextsFontWeight.WEIGHT_LIGHT
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    link: {
-        overflowX: "auto",
-        "&:hover": {
-            cursor: 'pointer',
-            textDecoration: `underline ${AppColors.WHITE}`
-        }
-    }, cardHeaderRoot: {
-        overflow: "hidden"
-    },
-    cardHeaderContent: {
-        overflow: "hidden"
-    }
-
-
-});
-
+/**
+ * Component to create the dialogs
+ *
+ * @component
+ *
+ * @param {function} props.handleShow: function to show the dialog
+ * @param {function} props.handleConfirm: function to confirm the dialog 
+ * @param {function} props.handleDelete: function to delete the dialog
+ * @param {function} props.handleModalClose: function to close the dialog
+ * @param {function} props.handleCloseButton: function to close the dialog
+ * @param {boolean} props.closeButton: boolean to show the close button
+ * @param {boolean} props.cancelButton: boolean to show the cancel button
+ * @param {boolean} props.deleteButton: boolean to show the delete button
+ * 
+ * 
+ * @returns {object} JSX
+ *
+ */
 const DialogGeekify = props => {
     const {
         handleShow,
@@ -49,7 +33,6 @@ const DialogGeekify = props => {
         closeButton,
         cancelButton,
         deleteButton,
-        onEscape
     } = props
     const handleOnClose = () => {
         if (handleModalClose != null) {
@@ -68,11 +51,10 @@ const DialogGeekify = props => {
 
     const spacing = deleteButton ? "space-between" : "flex-end";
 
-
     return (
         <Dialog
-            style={{borderRadius: 10, boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)"}}
-            maxWidth={props.size === true ? 'md' : 'sm'}
+            style={{ borderRadius: 10, boxShadow: "3px 3px 3px 1px rgba(0,0,0,.16)" }}
+            maxWidth={props.size === true ? "md" : "sm"}
             disableEscapeKeyDown
             disableBackdropClick
             fullWidth={true}
@@ -83,23 +65,23 @@ const DialogGeekify = props => {
             PaperProps={{
                 style: {
                     backgroundColor: AppColors.BACKGROUND,
-                    boxShadow: 'none',
+                    boxShadow: "none",
                 },
             }}
         >
-            <DialogTitle style={{color: AppColors.WHITE}} id="scroll-dialog-title">
+            <DialogTitle style={{ color: AppColors.WHITE }} id="scroll-dialog-title">
                 {props.title}
                 {closeButton && <IconButton
                     aria-label="close"
                     onClick={handleOnCloseButton}
                     style={{
-                        position: 'absolute',
+                        position: "absolute",
                         right: 8,
                         top: 8,
                         color: AppColors.SUBTEXT
                     }}
                 >
-                    <CloseIcon/>
+                    <CloseIcon />
                 </IconButton>}
             </DialogTitle>
 
@@ -121,21 +103,21 @@ const DialogGeekify = props => {
                         alignItems="center"
                     >
                         {deleteButton &&
-                        <Button onClick={handleDelete} style={{backgroundColor: AppColors.RED, minWidth: '8em'}}
+                            <Button onClick={handleDelete} style={{ backgroundColor: AppColors.RED, minWidth: "8em" }}
                                 color="primary" variant="contained">
-                            {props.textDeleteButton}
-                        </Button>}
+                                {props.textDeleteButton}
+                            </Button>}
                         {!cancelButton && <Button onClick={handleOnClose} style={{
                             backgroundColor: AppColors.WHITE,
-                            minWidth: '8em',
-                            marginRight: '1em'
+                            minWidth: "8em",
+                            marginRight: "1em"
                         }}
-                                                  variant="outlined">
+                            variant="outlined">
                             {props.textCancelButton}
                         </Button>}
                         <Button data-testid={"confirmButton"} onClick={handleConfirm}
-                                style={{backgroundColor: props.buttonColor, minWidth: '8em'}}
-                                color="primary" variant="contained">
+                            style={{ backgroundColor: props.buttonColor, minWidth: "8em" }}
+                            color="primary" variant="contained">
                             {props.textConfirmButton}
                         </Button>
                     </Grid>
@@ -147,23 +129,22 @@ const DialogGeekify = props => {
     )
 }
 
-DialogGeekify.defaultProps = {
-    show: -999,
-    size: false,
-    backdrop: 'static'
-};
 DialogGeekify.propTypes = {
     handleShow: PropTypes.func.isRequired,
     handleConfirm: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
-    body: PropTypes.object.isRequired,
-    buttonColor: PropTypes.string,
-    textCancelButton: PropTypes.string.isRequired,
-    textConfirmButton: PropTypes.string.isRequired,
-    show: PropTypes.number,
-    size: PropTypes.bool,
-    backdrop: PropTypes.string,
+    handleDelete: PropTypes.func.isRequired,
     handleModalClose: PropTypes.func,
+    handleCloseButton: PropTypes.func,
+    closeButton: PropTypes.bool,
+    cancelButton: PropTypes.bool,
+    deleteButton: PropTypes.bool,
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    textConfirmButton: PropTypes.string.isRequired,
+    textCancelButton: PropTypes.string.isRequired,
+    textDeleteButton: PropTypes.string.isRequired,
+    buttonColor: PropTypes.string.isRequired,
+    size: PropTypes.bool,
 }
 
 export default DialogGeekify;

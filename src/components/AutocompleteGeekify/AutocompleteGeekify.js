@@ -1,25 +1,26 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import CircularProgress from '@mui/material/CircularProgress';
-import {makeStyles} from "@mui/styles";
-import {AppColors} from "../../resources/AppColors";
-
+/* eslint-disable no-unused-vars */
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import CircularProgress from "@mui/material/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import { AppColors } from "../../resources/AppColors";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles({
     textFieldLabel: {
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
                 borderColor: AppColors.PRIMARY,
-                opacity: '0.2',
+                opacity: "0.2",
                 borderRadius: 10,
             },
-        }, '& .MuiInputBase-root': {
+        }, "& .MuiInputBase-root": {
             color: AppColors.PRIMARY,
-        }, '& .MuiInputLabel-root': {
+        }, "& .MuiInputLabel-root": {
             color: AppColors.PRIMARY,
-        }, '& .MuiTextField-root': {
-            height: '25em',
+        }, "& .MuiTextField-root": {
+            height: "25em",
         },
         color: AppColors.PRIMARY,
         backgroundColor: AppColors.BACKGROUND_DRAWER,
@@ -58,9 +59,7 @@ const useStyles = makeStyles({
         borderRadius: 10,
     },
 
-
 });
-
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -68,7 +67,7 @@ function sleep(delay = 0) {
     });
 }
 
-const AutocompleteGeekify = ({list, game, setGame}) => {
+const AutocompleteGeekify = ({ list, game, setGame }) => {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
@@ -106,7 +105,7 @@ const AutocompleteGeekify = ({list, game, setGame}) => {
             className={classes.select}
             onChange={(event, value) => setGame(value.name)} // prints the selected value
             id="asynchronous-demo"
-            style={{width: '20em'}}
+            style={{ width: "20em" }}
             open={open}
             onOpen={() => {
                 setOpen(true);
@@ -130,7 +129,7 @@ const AutocompleteGeekify = ({list, game, setGame}) => {
                         ...params.InputProps,
                         endAdornment: (
                             <React.Fragment>
-                                {loading ? <CircularProgress color="inherit" size={20}/> : null}
+                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
                                 {params.InputProps.endAdornment}
                             </React.Fragment>
                         ),
@@ -140,7 +139,6 @@ const AutocompleteGeekify = ({list, game, setGame}) => {
         />
     );
 }
-
 
 AutocompleteGeekify.propTypes = {}
 

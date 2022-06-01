@@ -1,33 +1,36 @@
-import React, {useState} from "react";
-import {Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import {AppColors} from "../../resources/AppColors";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+/* eslint-disable no-console */
+import React, { useState } from "react";
+import { Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { AppColors } from "../../resources/AppColors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import axios from "axios";
-import {LIKE_PUBLICATION} from "../../resources/ApiUrls";
-import {StorageManager} from "../../utils";
+import { LIKE_PUBLICATION } from "../../resources/ApiUrls";
+import { StorageManager } from "../../utils";
 import SnackBarGeekify from "../SnackbarGeekify/SnackbarGeekify";
-import {LabelsSnackbar} from "../../locale/en";
+import { LabelsSnackbar } from "../../locale/en";
+import { useHistory } from "react-router-dom";
 
 /**
- * Component to create comment cards.
+ * Component to create publications cards.
  *
  * @component
+ * 
+ * @param {string} props.publicationKey: key of the publication
+ * @param {string} props.bg: background color of the card
+ * @param {string} props.height: height of the card
+ * @param {string} props.width: width of the card
+ * @param {string} props.publication: publication of the forum
+ * @param {function} props.getPublications: function to get the publication
+ * @param {boolean} props.favorited: true if the publication is favorited
+ * 
+ * @returns {object} JSX
  *
- * @param {object} props.children: content of the card
- * @param {string} props.bg: color of the card
- * @param {object} props.style: style of the card
- *
- * @example
- * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = 'light';
- * const style = {height: '18rem', width: '18rem'};
- *
- * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
 const PublicationCard = props => {
-    const {publicationKey, bg, height, width, title, time, publication, getPublications, favorited} = props;
+    const { publicationKey, bg, height, width, publication, getPublications, favorited } = props;
+    const history = useHistory()
     const storageManager = new StorageManager()
     const [openSnackLikeLogin, setOpenSnackLikeLogin] = useState();
     const [openSnackLike, setOpenSnackLike] = useState();
@@ -37,8 +40,8 @@ const PublicationCard = props => {
     const handleClickLikePublication = async () => {
         if (storageManager.getToken()) {
             try {
-                var body = {'email': storageManager.getEmail()}
-                const config = {auth: {username: storageManager.getToken()}}
+                var body = { "email": storageManager.getEmail() }
+                const config = { auth: { username: storageManager.getToken() } }
                 const response = await axios.post(`${LIKE_PUBLICATION(publicationKey)}`, body, config)
                 if ((Object.values(response.data.publications)[0].likes).includes(storageManager.getEmail())) {
                     setOpenSnackLike(true)
@@ -49,10 +52,24 @@ const PublicationCard = props => {
 
                 getPublications()
             } catch (e) {
-                console.log('Error: ', e)
+                console.log("Error: ", e)
             }
         } else {
             setOpenSnackLikeLogin(true)
+        }
+    }
+
+    const onClickHandler = () => {
+        //localStorage.setItem("userRoute")
+        const newObj = { "detail": publication.user }
+        localStorage.setItem("userDetails", JSON.stringify(newObj));
+        if (storageManager.getEmail() === publication.user) {
+            history.push("/profile")
+        } else {
+            history.push({
+                pathname: `/user/${publication.user.split("@")[0]}`,
+                state: { detail: publication.user }
+            })
         }
     }
 
@@ -83,19 +100,19 @@ const PublicationCard = props => {
             }>
             <CardHeader
                 avatar={
-                    <Avatar sx={{bgcolor: AppColors.RED}} aria-label="recipe">
-                        <img style={{width: '40px', height: '40px'}} src={publication.image_user}/>
+                    <Avatar sx={{ bgcolor: AppColors.RED }} aria-label="recipe">
+                        <img style={{ width: "40px", height: "40px" }} src={publication.image_user} />
 
                     </Avatar>
                 }
 
-                title={<Typography style={{fontSize: '20px', color: AppColors.PRIMARY}}>{publication.user}</Typography>}
+                title={<Typography style={{ fontSize: "20px", color: AppColors.PRIMARY, cursor: "pointer" }} onClick={() => onClickHandler()} >{publication.user.split("@")[0]}</Typography>}
                 subheader={<Typography
-                    style={{fontSize: '16px', color: AppColors.GRAY}}>{publication.date}</Typography>}
+                    style={{ fontSize: "16px", color: AppColors.GRAY }}>{publication.date}</Typography>}
             />
 
-            <CardContent>
-                <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>
+            <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
+                <Typography style={{ fontSize: "16px", color: AppColors.WHITE }}>
                     {publication.content}
                 </Typography>
 
@@ -104,37 +121,33 @@ const PublicationCard = props => {
 
                 <IconButton onClick={() => handleClickLikePublication()} aria-label="add to favorites">
 
-                    {liked ? <FavoriteIcon style={{fill: AppColors.PRIMARY}}/> : <FavoriteBorderIcon style={{fill: AppColors.PRIMARY}}/>}
+                    {liked ? <FavoriteIcon style={{ fill: AppColors.PRIMARY }} /> : <FavoriteBorderIcon style={{ fill: AppColors.PRIMARY }} />}
                     <Typography
-                        style={{fontSize: '20px', color: AppColors.PRIMARY}}>{publication.likes.length}</Typography>
+                        style={{ fontSize: "20px", color: AppColors.PRIMARY }}>{publication.likes.length}</Typography>
                 </IconButton>
 
             </CardActions>
             <SnackBarGeekify handleClose={handleCloseSnackLikeLogin}
-                             message={LabelsSnackbar.LIKE_PUBLICATION_LOGIN} severity={'warning'}
-                             openSnack={openSnackLikeLogin}/>
+                message={LabelsSnackbar.LIKE_PUBLICATION_LOGIN} severity={"warning"}
+                openSnack={openSnackLikeLogin} />
             <SnackBarGeekify handleClose={handleCloseSnackLike}
-                             message={LabelsSnackbar.LIKE_PUBLICATION}
-                             openSnack={openSnackLike}/>
+                message={LabelsSnackbar.LIKE_PUBLICATION}
+                openSnack={openSnackLike} />
             <SnackBarGeekify handleClose={handleCloseSnackRemoveLike}
-                             message={LabelsSnackbar.REMOVE_LIKE_PUBLICATION}
-                             openSnack={openSnackRemoveLike}/>
+                message={LabelsSnackbar.REMOVE_LIKE_PUBLICATION}
+                openSnack={openSnackRemoveLike} />
         </Card>
     )
 }
 
 PublicationCard.propTypes = {
-    children: PropTypes.array.isRequired,
-    bg: PropTypes.string,
+    publicationKey: PropTypes.string.isRequired,
+    bg: PropTypes.string.isRequired,
     height: PropTypes.string,
     width: PropTypes.string,
-    title: PropTypes.string,
-    time: PropTypes.string,
-    comment: PropTypes.string,
+    publication: PropTypes.object.isRequired,
+    getPublications: PropTypes.func.isRequired,
+    favorited: PropTypes.bool.isRequired
 }
-
-PublicationCard.defaultProps = {
-    bg: AppColors.WHITE
-};
 
 export default PublicationCard;

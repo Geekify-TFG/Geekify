@@ -1,4 +1,4 @@
-describe('Rating tests', () => {
+describe('Calendar tests', () => {
 
     beforeEach(function () {
         cy.fixture('collectionInfo.json').as('testData')
@@ -6,18 +6,17 @@ describe('Rating tests', () => {
         cy.visit(Cypress.env('url'))
     })
 
-    it('Rate game', function () {
+    it('Save game on my Calendar', function () {
         cy.get('[id="Login"]').should('be.visible').click()
         cy.get('[id="email"]').should('be.visible').type(this.testDataUser.email)
         cy.get('[id="password"]').should('be.visible').type(this.testDataUser.password)
         cy.get('button').contains("Log in").should('be.visible').click()
         cy.wait(3000)
-        cy.get('[id="Home"]').should('be.visible').click()
-        cy.window().scrollTo('bottom')
-        cy.wait(3000)
-        cy.get('[data-testid="gameCard"]').contains("Destiny 2").click()
-        cy.get('[data-testid="rating"]').first().click({ force: true })
-
+        cy.get('[id="Release Calendar"]').should('be.visible').click()
+        cy.wait(6000)
+        cy.get('[data-testid="ButtonKey"]').contains("My calendar").click()
+        cy.wait(6000)
+        cy.get('[data-testid="calendarCard"]').contains("F1 22 ...").click()
     })
 
 })

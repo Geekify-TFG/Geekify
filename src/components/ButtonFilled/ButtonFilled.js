@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Button} from '@material-ui/core'
-import {AppColors} from "../../resources/AppColors";
-import {textType, useTextStyles} from "../../resources/AppTexts";
+/* eslint-disable no-param-reassign */
+import React from "react";
+import PropTypes from "prop-types";
+import { Button } from "@material-ui/core"
+import { AppColors } from "../../resources/AppColors";
+import { textType } from "../../resources/AppTexts";
 import TextGeekify from "../TextGeekify/TextGeekify";
 import IconProvider from "../IconProvider/IconProvider";
-
 
 /**
  * @component
@@ -23,36 +23,34 @@ import IconProvider from "../IconProvider/IconProvider";
  * @param marginLeft: marginLeft of the text with the icon or button left margin
  * @param margin: margin of all the text with the button
  * @param type: textType of the text
+ * @param variant: variant of the button
+ * @param border: border of the button
  * @returns {JSX.Element}
  *
- * @example
- * <ButtonFilled marginLeft={'0.2em'} onClick={handleChangeArchived} color={AppColors.WHITE} backGroundColor={AppColors.RED}
- icon={<IconProviderUhdaicon={<Icons.ARCHIVE size={'1.5em'} style={{ color: AppColors.WHITE }} />} />} text={LabelsForm.ARCHIVE}/>
- */
+ **/
 
 const ButtonFilled = ({
-                          backGroundColor,
-                          width,
-                          color,
-                          size,
-                          onClick,
-                          isDisabled,
-                          text,
-                          textAlign,
-                          icon,
-                          marginLeft,
-                          margin,
-                          type,
-                          variant,
-                          border
-                      }) => {
+    backGroundColor,
+    width,
+    color,
+    size,
+    onClick,
+    isDisabled,
+    text,
+    textAlign,
+    icon,
+    marginLeft,
+    margin,
+    type,
+    variant,
+    border
+}) => {
     if (isDisabled == null) isDisabled = false
     if (backGroundColor == null) backGroundColor = AppColors.PRIMARY
     if (color == null) color = AppColors.WHITE
-    if (textAlign == null) textAlign = 'center'
+    if (textAlign == null) textAlign = "center"
     if (type == null) type = textType.BODY_BOLD
     if (variant == null) variant = "contained"
-    const classes = useTextStyles()
 
     return (
         <Button
@@ -65,16 +63,16 @@ const ButtonFilled = ({
                 width: width,
                 paddingTop: 0,
                 paddingBottom: 0,
-                backgroundColor: isDisabled ? '#7B7983' : backGroundColor
+                backgroundColor: isDisabled ? "#7B7983" : backGroundColor
             }}
             disabled={isDisabled}
             onClick={onClick}>
             {icon && (
                 <IconProvider icon={icon}
-                              values={{color: AppColors.WHITE}}/>
+                    values={{ color: AppColors.WHITE }} />
             )}
             {text && (
-                <TextGeekify margin={margin} marginLeft={marginLeft} type={type} text={text} color={color}/>
+                <TextGeekify margin={margin} marginLeft={marginLeft} type={type} text={text} color={color} />
             )}
         </Button>
     )

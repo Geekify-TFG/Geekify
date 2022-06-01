@@ -1,4 +1,9 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable camelcase */
+/* eslint-disable no-console */
+/* eslint-disable no-shadow */
+
+import React, { useEffect, useState } from "react";
 import {
     Box,
     ButtonGroup,
@@ -14,7 +19,7 @@ import {
     ListItemText,
     TextField
 } from "@material-ui/core";
-import {Button, Typography} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import {
     COLLECTION_GAME,
     COMMENT_GAME,
@@ -23,21 +28,21 @@ import {
     MY_BASE_PATH,
     MY_COLLECTIONS,
     RATE_GAME,
-    USER_URL
+    USER_URL, STATE_GAME
 } from "../resources/ApiUrls";
 import axios from "axios";
 import SearchBar from "../components/SearchBar/SearchBar";
-import {AppColors} from "../resources/AppColors";
-import {DialogTexts, LabelsGamePage, LabelsSnackbar} from "../locale/en";
-import {makeStyles} from "@mui/styles";
-import {AppTextsFontSize, AppTextsFontWeight} from "../resources/AppTexts";
+import { AppColors } from "../resources/AppColors";
+import { DialogTexts, LabelsGamePage, LabelsSnackbar } from "../locale/en";
+import { makeStyles } from "@material-ui/core/styles";
+import { AppTextsFontSize, AppTextsFontWeight } from "../resources/AppTexts";
 import CommentCard from "../components/Cards/CommentCard";
 import CardGeekify from "../components/Cards/CardGeekify";
 import CardAchievements from "../components/Cards/AchievementsCard";
 import ProfileButton from "../components/ProfileButton/ProfileButton";
 import DialogGeekify from "../components/DialogGeekify";
 import SelectGeekify from "../components/SelectGeekify/SelectGeekify";
-import {StorageManager} from "../utils";
+import { StorageManager } from "../utils";
 import SnackBarGeekify from "../components/SnackbarGeekify/SnackbarGeekify";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import playIcon from "../img/platforms/playstation_icon.svg"
@@ -46,7 +51,7 @@ import xboxIcon from "../img/platforms/xbox_icon.svg"
 import iosIcon from "../img/platforms/ios_icon.svg"
 import linuxIcon from "../img/platforms/linux_icon.svg"
 import nintendoIcon from "../img/platforms/nintendo_icon.svg"
-import {Rating} from "@material-ui/lab";
+import { Rating } from "@material-ui/lab";
 import accountIcon from "../img/account_icon.svg"
 import {
     FacebookIcon,
@@ -56,15 +61,39 @@ import {
     WhatsappIcon,
     WhatsappShareButton
 } from "react-share";
+import styled from "@emotion/styled";
 
-const useStyles = makeStyles((theme) => ({
+const ButtonToggle = styled(Button)`
+  opacity: 1;
+  background-color: ${AppColors.BACKGROUND_DRAWER};
+   &:hover {
+            color: white;
+            background-color: ${AppColors.BACKGROUND_DRAWER};
+          }
+          &:disabled {
+            color: white;
+            background-color: ${AppColors.BACKGROUND_DRAWER};
+          }
+  color: ${AppColors.PRIMARY} ${({ active }) =>
+        active &&
+        `opacity: 1;
+        background-color: ${AppColors.PRIMARY_OPACITY};
+        color: white;
+        &:hover {
+            color: white;
+            background-color: ${AppColors.BACKGROUND_DRAWER};
+          }
+        `};
+`;
+
+const useStyles = makeStyles(() => ({
     root: {
         minWidth: 275,
     },
     bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
+        display: "inline-block",
+        margin: "0 2px",
+        transform: "scale(0.8)",
     },
     text: {
         fontSize: AppTextsFontSize.SIZE_BODY,
@@ -76,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
     link: {
         overflowX: "auto",
         "&:hover": {
-            cursor: 'pointer',
+            cursor: "pointer",
             textDecoration: `underline ${AppColors.WHITE}`
         }
     }, cardHeaderRoot: {
@@ -86,40 +115,21 @@ const useStyles = makeStyles((theme) => ({
         overflow: "hidden"
     },
     textFieldLabel: {
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: AppColors.PRIMARY,
-                opacity: '0.2',
-                borderRadius: 10,
-            },
-        }, '& .MuiInputBase-root': {
-            color: AppColors.PRIMARY,
-        }, '& .MuiInputLabel-root': {
-            color: AppColors.PRIMARY,
-        }, '& .MuiTextField-root': {
-            height: '25em',
-        },
-        color: AppColors.PRIMARY,
-        backgroundColor: AppColors.BACKGROUND_DRAWER,
-        borderRadius: 10,
-    },
-    textFieldLabelDisabled: {
         "& .MuiOutlinedInput-root": {
             "& fieldset": {
                 borderColor: AppColors.PRIMARY,
                 opacity: "0.2",
                 borderRadius: 10,
             },
-        },
-        "& .MuiInputBase-root": {
-            color: AppColors.SUBTEXT,
-        },
-        "& .MuiInputLabel-root": {
+        }, "& .MuiInputBase-root": {
             color: AppColors.PRIMARY,
-            borderRadius: 10,
+        }, "& .MuiInputLabel-root": {
+            color: AppColors.PRIMARY,
+        }, "& .MuiTextField-root": {
+            height: "25em",
         },
         color: AppColors.PRIMARY,
-        backgroundColor: AppColors.PRIMARY,
+        backgroundColor: AppColors.BACKGROUND_DRAWER,
         borderRadius: 10,
     },
     select: {
@@ -162,99 +172,116 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "row",
         "& > *:not(:last-child)": {
-            marginRight: '1em'
+            marginRight: "1em"
         }
     }
 
 }));
 
-
 function AddToCollection({
-                             handleAddParticipant,
-                             initialValues,
-                             gameId,
-                             collections,
-                             showAddToCollectionModal,
-                             setShowAddToCollectionModal,
-                             openSnackAddToCollection, setOpenSnackAddToCollection
-                         }) {
+    initialValues,
+    gameId,
+    collections,
+    showAddToCollectionModal,
+    setShowAddToCollectionModal,
+    openSnackAddToCollection, setOpenSnackAddToCollection
+}) {
     const [collection, setCollection] = useState()
+    const [openSnackDuplicateCollection, setOpenSnackDuplicateCollection] = useState(false)
     const handleClickSubmit = async () => {
         try {
-            var gameBody = {'game_id': gameId}
-            await axios.put(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
+            var gameBody = { "game_id": gameId }
+            await axios.post(`${MY_BASE_PATH}${COLLECTION_GAME(collection)}`, gameBody)
             setOpenSnackAddToCollection(true)
             setShowAddToCollectionModal(-999)
         } catch (e) {
-            console.log('Error: ', e)
+            if (e.response.status === 409) {
+                setOpenSnackDuplicateCollection(true)
+            }
         }
     }
     const handleChangeCollection = (event) => {
         setCollection(event.target.value);
     };
 
-    return (
-        <DialogGeekify
-            textCancelButton={DialogTexts.CANCEL}
-            textConfirmButton={DialogTexts.SAVE}
-            handleShow={setShowAddToCollectionModal}
-            handleConfirm={handleClickSubmit}
-            title={DialogTexts.ADD_TO_COLLECTIONS}
-            buttonColor={AppColors.PRIMARY}
-            body={
-                <SelectGeekify value={collection} handleChange={handleChangeCollection} options={collections}
-                               borderRadius={30} width={'3px'} label={"Collections"}/>
-            }
-            show={showAddToCollectionModal}
+    const handleCloseSnackDuplicateCollection = () => {
+        setOpenSnackDuplicateCollection(false);
+    };
 
-        />
+    return (
+        <>
+            <DialogGeekify
+                textCancelButton={DialogTexts.CANCEL}
+                textConfirmButton={DialogTexts.SAVE}
+                handleShow={setShowAddToCollectionModal}
+                handleConfirm={handleClickSubmit}
+                title={DialogTexts.ADD_TO_COLLECTIONS}
+                buttonColor={AppColors.PRIMARY}
+                body={
+                    <SelectGeekify value={collection} handleChange={handleChangeCollection} options={collections}
+                        borderRadius={30} width={"3px"} label={"Collections"} />
+                }
+                show={showAddToCollectionModal}
+
+            />
+            <SnackBarGeekify handleClose={handleCloseSnackDuplicateCollection} severity={"warning"}
+                message={LabelsSnackbar.GAME_IN_COLLECTION}
+                openSnack={openSnackDuplicateCollection} />
+        </>
+
     )
 }
 
 const GamePage = () => {
     const [game, setGame] = useState();
     const [achievements, setAchievements] = useState();
-    const [comments, setComments] = useState()
+    const [comments, setComments] = useState([])
     const [comment, setComment] = useState()
     const [platforms, setPlatforms] = useState()
     const [showMore, setShowMore] = useState()
     const [images, setImages] = useState();
     const classes = useStyles();
-    const idGame = new URL(window.location).pathname.split('/')[2]
+    const idGame = new URL(window.location).pathname.split("/")[2]
     const [rating, setRating] = useState("");
     const [hover, setHover] = React.useState(-1);
     const [collections, setCollections] = useState()
     const [likes, setLikes] = useState()
     const storageManager = new StorageManager()
+    const [stateGame, setStateGame] = useState();
+    const textStateGame = { notPlayed: LabelsGamePage.NO_PLAYED, playing: LabelsGamePage.PLAYING, played: LabelsGamePage.PLAYED };
     const [openSnackAddToCollection, setOpenSnackAddToCollection] = useState(false)
     const [openSnackBarErrorLogin, setOpenSnackBarErrorLogin] = useState(false)
     const [openSnackBarComment, setOpenSnackBarComment] = useState(false)
     const [openSnackRateNotLogged, setOpenSnackRateNotLogged] = useState(false)
+    const [openSnackStateNotLogged, setOpenSnackStateNotLogged] = useState(false)
     const [openSnackRateLogged, setOpenSnackRateLogged] = useState(false)
+    const [openSnackStateLogged, setOpenSnackStateLogged] = useState(false)
     const [loading, setLoading] = useState(false)
     const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(-999)
+    const [devicesSize, setDevicesSize] = useState("20em")
+    const [cardWidth, setCardWidth] = useState("20em")
+
     const handleChange = async (event) => {
         var gameBody = {}
         try {
             if (rating === "") {
-                gameBody = {'rate': event.target.value, 'user': storageManager.getEmail()}
+                gameBody = { "rate": event.target.value, "user": storageManager.getEmail() }
                 await axios.post(`${MY_BASE_PATH}${RATE_GAME(idGame)}`, gameBody)
                 setOpenSnackRateLogged(true)
             } else {
-                gameBody = {'rate': event.target.value, 'user': storageManager.getEmail()}
+                gameBody = { "rate": event.target.value, "user": storageManager.getEmail() }
                 await axios.put(`${MY_BASE_PATH}${RATE_GAME(idGame)}`, gameBody)
                 setOpenSnackRateLogged(true)
             }
             setRating(event.target.value);
         } catch (e) {
-            console.log('Error: ', e)
+            console.log("Error: ", e)
         }
 
     };
     const handleCloseSnackAddToCollection = async () => {
         setOpenSnackAddToCollection(false)
     }
-
 
     const handleCloseSnackErrorLogin = async () => {
         setOpenSnackBarErrorLogin(false)
@@ -267,11 +294,16 @@ const GamePage = () => {
     const handleCloseSnackRateNotLogged = async () => {
         setOpenSnackRateNotLogged(false)
     }
+    const handleCloseSnackStateNotLogged = async () => {
+        setOpenSnackStateNotLogged(false)
+    }
 
     const handleCloseSnackRateLogged = async () => {
         setOpenSnackRateLogged(false)
     }
-
+    const handleCloseSnackStateLogged = async () => {
+        setOpenSnackStateLogged(false)
+    }
 
     const handleAddToCollection = () => {
         if (storageManager.getToken()) {
@@ -279,6 +311,39 @@ const GamePage = () => {
         } else {
             setOpenSnackBarErrorLogin(true)
         }
+    }
+
+    const getParentPlatforms = async (parentPlatform) => {
+        const platformIconsList = []
+        parentPlatform.parent_platforms.forEach(function (item) {
+            switch (item.platform.id) {
+                case 1:
+                    platformIconsList.push(windowsIcon)
+                    break;
+                case 2:
+                    platformIconsList.push(playIcon)
+                    break;
+                case 3:
+                    platformIconsList.push(xboxIcon)
+                    break;
+                case 4:
+                    platformIconsList.push(iosIcon)
+                    break;
+                case 5:
+                    platformIconsList.push(iosIcon)
+                    break;
+                case 6:
+                    platformIconsList.push(linuxIcon)
+                    break;
+                case 7:
+                    platformIconsList.push(nintendoIcon)
+                    break;
+                default:
+                    return "";
+            }
+        }
+        )
+        setPlatforms(platformIconsList)
     }
 
     const getGame = async () => {
@@ -300,51 +365,16 @@ const GamePage = () => {
     const getComments = async () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${COMMENTS_OF_GAME(idGame)}`);
-            setComments(Object.values(response.data.comments))
+            setComments(response.data.comments)
             setLoading(false)
         } catch (err) {
             console.log(err.message)
         }
     }
 
-
-    const getParentPlatforms = async (parentPlatform) => {
-        const platformIconsList = []
-        parentPlatform.parent_platforms.forEach(function (item) {
-                switch (item.platform.id) {
-                    case 1:
-                        platformIconsList.push(windowsIcon)
-                        break;
-                    case 2:
-                        platformIconsList.push(playIcon)
-                        break;
-                    case 3:
-                        platformIconsList.push(xboxIcon)
-                        break;
-                    case 4:
-                        platformIconsList.push(iosIcon)
-                        break;
-                    case 5:
-                        platformIconsList.push(iosIcon)
-                        break;
-                    case 6:
-                        platformIconsList.push(linuxIcon)
-                        break;
-                    case 7:
-                        platformIconsList.push(nintendoIcon)
-                        break;
-                    default:
-                        return "";
-                }
-            }
-        )
-        setPlatforms(platformIconsList)
-    }
-
-
     const getCollections = async () => {
         try {
-            const config = {auth: {username: storageManager.getToken()}}
+            const config = { auth: { username: storageManager.getToken() } }
 
             const response = await axios.get(`${MY_BASE_PATH}${MY_COLLECTIONS(storageManager.getEmail())}`, config);
             setCollections(response.data.collections)
@@ -357,9 +387,14 @@ const GamePage = () => {
         try {
             const response = await axios.get(`${MY_BASE_PATH}${USER_URL(storageManager.getEmail())}`);
             var rate = response.data.account.likes
-            let obj = rate.find(o => o.game_id === `${idGame}`);
+            var state = response.data.account.state_game
+            const obj = rate.find(o => o.game_id === `${idGame}`);
+            const obj_state = state.find(o => o.game_id === `${idGame}`);
             if (obj) {
                 setRating(obj.rating)
+            }
+            if (obj_state) {
+                setStateGame(obj_state.state)
             }
             setLikes(response.data.account.likes)
 
@@ -367,13 +402,12 @@ const GamePage = () => {
             console.log(err.message)
         }
     }
-
     const postComment = async () => {
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0');
-        let yyyy = today.getFullYear();
-        let date = dd + '/' + mm + '/' + yyyy;
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, "0");
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const yyyy = today.getFullYear();
+        const date = dd + "/" + mm + "/" + yyyy;
         try {
             const body = {
                 date: date,
@@ -381,7 +415,7 @@ const GamePage = () => {
                 user: storageManager.getEmail(),
                 game_id: idGame
             };
-            const config = {auth: {username: storageManager.getToken()}}
+            const config = { auth: { username: storageManager.getToken() } }
             await axios.post(`${MY_BASE_PATH}${COMMENT_GAME(idGame)}`, body, config);
             setLoading(true)
             setOpenSnackBarComment(true)
@@ -390,6 +424,24 @@ const GamePage = () => {
             console.log(err.message)
         }
     }
+    const handleChangeStateGame = async (stateGameKey) => {
+        var gameBody = {}
+        try {
+            if (stateGame === "") {
+                gameBody = { "state": stateGameKey, "user": storageManager.getEmail() }
+                await axios.post(`${MY_BASE_PATH}${STATE_GAME(idGame)}`, gameBody)
+                setOpenSnackStateLogged(true)
+            } else {
+                gameBody = { "state": stateGameKey, "user": storageManager.getEmail() }
+                await axios.put(`${MY_BASE_PATH}${STATE_GAME(idGame)}`, gameBody)
+                setOpenSnackStateLogged(true)
+            }
+            setStateGame(stateGameKey);
+        } catch (e) {
+            console.log("Error: ", e)
+        }
+
+    };
 
     useEffect(() => {
         getGame()
@@ -400,7 +452,6 @@ const GamePage = () => {
         }
     }, []);
 
-
     const labels = {
         1: LabelsGamePage.NOT_RECOMMENDED,
         2: LabelsGamePage.MEH,
@@ -410,32 +461,73 @@ const GamePage = () => {
     };
 
     function getLabelText(value) {
-        return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+        return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
     }
+
+    function debounce(fn, ms) {
+        //This will run the code on every 1 second
+        let timer
+        return _ => {
+            clearTimeout(timer)
+            timer = setTimeout(_ => {
+                timer = null
+                fn.apply(this, arguments)
+            }, ms)
+        };
+    }
+    useEffect(() => {
+        const debouncedHandleResize = debounce(function handleResize() {
+            //give the paddingLeft size base on drawer open or closed and window size
+            if (window.innerWidth >= 2560) {
+                setDevicesSize("15%")
+                setCardWidth("22em")
+            } else if (window.innerWidth >= 1450) {
+                setDevicesSize("10%")
+                setCardWidth("22em")
+            } else if (window.innerWidth >= 1400) {
+                setDevicesSize("2%")
+                setCardWidth("22em")
+            } else if (window.innerWidth >= 1280) {
+                setDevicesSize("1em")
+                setCardWidth("20em")
+            }
+        }, 300)
+
+        // Add event listener to listen for window sizes 
+        window.addEventListener("resize", debouncedHandleResize);
+        // Call handler right away so state gets updated with initial window size
+
+        debouncedHandleResize()
+        return _ => {
+            window.removeEventListener("resize", debouncedHandleResize)
+
+        }
+
+    }, [])
 
     return (
         <>
             {game && <Grid container alignItems={"center"}>
                 <Grid container alignItems="flex-start"
-                      direction={"column"} style={{
-                    backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(101,99,255,1))`,
-                    backgroundSize: "cover",
+                    direction={"column"} style={{
+                        backgroundImage: "linear-gradient(to bottom, rgba(255,255,255,0), rgba(101,99,255,1))",
+                        backgroundSize: "cover",
 
-                }}>
+                    }}>
                     <Grid container direction={"row"} justifyContent={"space-between"} spacing={20}>
-                        <Grid item style={{margin: '2em'}}>
-                            <SearchBar/>
+                        <Grid item style={{ margin: "2em" }}>
+                            <SearchBar />
                         </Grid>
 
-                        <Grid item style={{margin: '2em'}}>
-                            <ProfileButton/>
+                        <Grid item style={{ margin: "2em" }}>
+                            <ProfileButton />
 
                         </Grid>
                     </Grid>
-                    <Grid container direction={"row"} style={{flexWrap: "nowrap"}}>
-                        <Grid item style={{margin: '4em', marginRight: '2em'}}>
-                            <Card style={{height: '380px', width: '275px', position: "relative", borderRadius: 20}}
-                                  className={classes.card}>
+                    <Grid container direction={"row"} style={{ flexWrap: "nowrap" }}>
+                        <Grid item style={{ margin: "4em", marginRight: "2em" }}>
+                            <Card style={{ height: "380px", width: "275px", position: "relative", borderRadius: 20 }}
+                                className={classes.card}>
                                 <CardMedia
                                     media="picture"
                                     alt={game.name}
@@ -445,13 +537,13 @@ const GamePage = () => {
                                         position: "absolute",
                                         top: 0,
                                         right: 0,
-                                        height: '400px', width: '300px'
+                                        height: "400px", width: "300px"
                                     }}
                                 />
 
                             </Card>
                             <Typography
-                                style={{color: AppColors.WHITE, marginBottom: 0, marginTop: '1em', fontSize: '20px'}}
+                                style={{ color: AppColors.WHITE, marginBottom: 0, marginTop: "1em", fontSize: "20px" }}
                                 gutterBottom
                             >
                                 {"Rate the game!"}
@@ -461,8 +553,8 @@ const GamePage = () => {
 
                                 sx={{
                                     color: AppColors.BACKGROUND_DRAWER,
-                                    display: 'flex',
-                                    alignItems: 'center',
+                                    display: "flex",
+                                    alignItems: "center",
                                 }}
                             >
                                 <Rating
@@ -478,21 +570,49 @@ const GamePage = () => {
                                     }}
                                 />
                                 {rating !== null && (
-                                    <Box sx={{ml: 2}}><Typography style={{
+                                    <Box sx={{ ml: 2 }}><Typography style={{
                                         color: AppColors.WHITE,
                                         marginBottom: 0,
-                                        fontSize: '20px'
+                                        fontSize: "18px"
                                     }}>{labels[hover !== -1 ? hover : rating]}</Typography></Box>
                                 )}
                             </Box>
+                            <Typography
+                                style={{ color: AppColors.WHITE, marginBottom: 0, marginTop: "1em", fontSize: "20px" }}
+                                gutterBottom
+                            >
+                                {"Play status!"}
+                            </Typography>
+                            <Box
+                                onClick={() => (!storageManager.getToken() ? setOpenSnackStateNotLogged(true) : null)}
+                                sx={{
+                                    color: AppColors.BACKGROUND_DRAWER,
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <ButtonGroup style={{ width: "300px", marginTop: "1em" }} color="primary"
+                                    aria-label="outlined primary button group">
+                                    {Object.entries(textStateGame).map(([key, value]) => (
+                                        <>
+                                            <ButtonToggle disabled={!storageManager.getToken()}
+                                                key={key.id} active={stateGame === key}
+                                                onClick={() => { (setStateGame(key)); handleChangeStateGame(key) }}>
+                                                {value}
+                                            </ButtonToggle>
+                                        </>
+
+                                    ))}
+                                </ButtonGroup>
+                            </Box>
                         </Grid>
-                        <Grid container direction={"column"} item style={{margin: '4em', marginLeft: 0}}>
-                            <Grid item style={{marginBottom: '1em'}}>
+                        <Grid container direction={"column"} item style={{ margin: "4em", marginLeft: 0 }}>
+                            <Grid item style={{ marginBottom: "1em" }}>
                                 <Button
-                                    style={{backgroundColor: AppColors.BACKGROUND, borderRadius: 20, maxWidth: '10em'}}
+                                    style={{ backgroundColor: AppColors.BACKGROUND, borderRadius: 20, maxWidth: "10em" }}
                                     disabled={true}>
-                                    <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
-                                                gutterBottom
+                                    <Typography style={{ color: AppColors.WHITE, marginBottom: 0, fontSize: "14px" }}
+                                        gutterBottom
                                     >
                                         {game.genres[0].name}
                                     </Typography>
@@ -500,11 +620,11 @@ const GamePage = () => {
                             </Grid>
                             <Grid item>
                                 <Grid container direction={"row"} justifyContent={"space-between"}
-                                      style={{marginBottom: '1em'}}>
+                                    style={{ marginBottom: "1em" }}>
 
                                     <Typography
                                         style={{
-                                            fontSize: '35px',
+                                            fontSize: "35px",
                                             color: AppColors.WHITE
                                         }}>{game.name.toUpperCase()}</Typography>
 
@@ -513,53 +633,51 @@ const GamePage = () => {
                                         style={{
                                             backgroundColor: AppColors.BACKGROUND,
                                             borderRadius: 20,
-                                            maxWidth: '10em'
+                                            maxWidth: "10em"
                                         }}
                                         onClick={handleAddToCollection}
                                     >
-                                        <Typography style={{color: AppColors.WHITE, marginBottom: 0, fontSize: '14px'}}
-                                                    gutterBottom
+                                        <Typography style={{ color: AppColors.WHITE, marginBottom: 0, fontSize: "14px" }}
+                                            gutterBottom
                                         >
                                             {"Add to your collection"}
                                         </Typography>
                                     </Button>
-                                    <Grid container justifyContent={'flex-end'} style={{marginTop: '1em'}}
-                                          direction={"row"}>
+                                    <Grid container justifyContent={"flex-end"} style={{ marginTop: "1em" }}
+                                        direction={"row"}>
                                         <FacebookShareButton
-                                            url={`https://localhost:3000/${idGame}`}
+                                            url={`https://geekify-main.web.app/${idGame}`}
                                             quote={"Look what game I just discovered"}
                                             hashtag={"#Geekify"}
                                         >
-                                            <FacebookIcon size={32} round/>
+                                            <FacebookIcon size={32} round />
                                         </FacebookShareButton>
                                         <WhatsappShareButton
                                             title={"Look what game I just discovered"}
-                                            url={`https://localhost:3000/game/${idGame}`}
+                                            url={`https://geekify-main.web.app/game/${idGame}`}
                                             hashtags={"#Geekify"}
                                         >
-                                            <WhatsappIcon size={32} round/>
+                                            <WhatsappIcon size={32} round />
                                         </WhatsappShareButton>
                                         <TwitterShareButton
                                             title={"Look what game I just discovered"}
-                                            url={`https://localhost:3000/game/${idGame}`}
-                                            hashtags={"#Geekify"}
+                                            url={`https://geekify-main.web.app/game/${idGame}`}
                                         >
-                                            <TwitterIcon size={32} round/>
+                                            <TwitterIcon size={32} round />
                                         </TwitterShareButton>
                                     </Grid>
 
-
                                 </Grid>
                             </Grid>
-                            <Grid item style={{marginBottom: '1em'}}>
+                            <Grid item style={{ marginBottom: "1em" }}>
 
-                                <ButtonGroup style={{width: '500px', height: '40px'}} className={classes.buttonGroup}
-                                             color="primary"
-                                             aria-label="outlined primary button group">
+                                <ButtonGroup style={{ width: "500px", height: "40px" }} className={classes.buttonGroup}
+                                    color="primary"
+                                >
                                     {game.tags.slice(0, 3).map((type) => (
-                                        <Button style={{backgroundColor: AppColors.WHITE, borderRadius: 20,}}
-                                                disabled={true}>
-                                            <Typography style={{color: AppColors.BLACK, marginBottom: 0}} gutterBottom
+                                        <Button key={type.name} style={{ backgroundColor: AppColors.WHITE, borderRadius: 20, }}
+                                            disabled={true}>
+                                            <Typography style={{ color: AppColors.BLACK, marginBottom: 0 }} gutterBottom
 
                                             >
                                                 {type.name}
@@ -568,16 +686,16 @@ const GamePage = () => {
                                     ))}
                                 </ButtonGroup>
                             </Grid>
-                            <Grid item style={{marginBottom: '1em'}}>
+                            <Grid item style={{ marginBottom: "1em" }}>
 
                                 <Typography
                                     style={{
-                                        fontSize: '20px',
+                                        fontSize: "20px",
                                         color: AppColors.WHITE
                                     }}>{LabelsGamePage.DESCRIPTION}</Typography>
                             </Grid>
 
-                            <Grid item style={{marginBottom: '1em'}}>
+                            <Grid item style={{ marginBottom: "1em" }}>
                                 {showMore ?
                                     <Typography
                                         style={{
@@ -591,10 +709,10 @@ const GamePage = () => {
                                 }
 
                                 <Button style={{
-                                    fontWeight: 'bold',
+                                    fontWeight: "bold",
                                     color: AppColors.BACKGROUND_DRAWER
                                 }}
-                                        onClick={() => setShowMore(!showMore)}>{showMore ? "Show less" : "Show more"}</Button>
+                                    onClick={() => setShowMore(!showMore)}>{showMore ? "Show less" : "Show more"}</Button>
 
                             </Grid>
                         </Grid>
@@ -602,31 +720,30 @@ const GamePage = () => {
                     </Grid>
                 </Grid>
                 <Grid container
-                      direction={"row"} style={{marginTop: '2em', marginBottom: '2em'}}>
-                    <Grid item style={{marginLeft: '4em'}}>
-                        <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={20} height={'auto'} width={'350px'}>
+                    direction={"row"} style={{ marginLeft: devicesSize, marginTop: "2em", marginBottom: "2em" }}>
+                    <Grid item style={{ marginLeft: devicesSize }}>
+                        <CardGeekify bg={AppColors.BACKGROUND_CARD} borderRadius={20} height={"auto"} width={cardWidth}>
                             <Grid
                                 container
                             >
-                                <List style={{marginLeft: '1em', marginTop: '0.5em'}}>
+                                <List style={{ marginLeft: "1em", marginTop: "0.5em" }}>
                                     <ListItem>
-                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                      primary={LabelsGamePage.RELEASE}
+                                        <ListItemText style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                            primary={LabelsGamePage.RELEASE}
                                         />
-                                        <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.released.split('-').reverse().join('-')}
+                                        <ListItemText style={{ color: AppColors.SECONDARY }}
+                                            primary={game.released.split("-").reverse().join("-")}
                                         />
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '9em'}}
-                                                      primary={LabelsGamePage.PLATFORM}
+                                        <ListItemText style={{ color: AppColors.WHITE, marginRight: "9em" }}
+                                            primary={LabelsGamePage.PLATFORM}
                                         />
                                         {platforms && platforms.map(elem => (
-                                            <ListItemIcon style={{minWidth: 0}}>
-
+                                            <ListItemIcon key={elem.key} style={{ minWidth: 0 }}>
                                                 <Icon classes={classes.iconRoot}>
                                                     <img
-                                                        style={{paddingLeft: '2px'}}
+                                                        style={{ paddingLeft: "2px" }}
                                                         alt="icon"
                                                         className={classes.imageIcon}
 
@@ -639,28 +756,28 @@ const GamePage = () => {
 
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                      primary={LabelsGamePage.DURATION}
+                                        <ListItemText style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                            primary={LabelsGamePage.DURATION}
                                         />
-                                        <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.playtime + " hours"}
+                                        <ListItemText style={{ color: AppColors.SECONDARY }}
+                                            primary={game.playtime + " hours"}
                                         />
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                      primary={LabelsGamePage.DEVELOPER}
+                                        <ListItemText style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                            primary={LabelsGamePage.DEVELOPER}
                                         />
-                                        <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.developers === [] ? "-" : game.developers[0].name}
+                                        <ListItemText style={{ color: AppColors.SECONDARY }}
+                                            primary={game.developers === [] ? "-" : game.developers[0].name}
                                         />
                                     </ListItem>
 
                                     <ListItem>
-                                        <ListItemText style={{color: AppColors.WHITE, marginRight: '5em'}}
-                                                      primary={LabelsGamePage.PUBLISHER}
+                                        <ListItemText style={{ color: AppColors.WHITE, marginRight: "5em" }}
+                                            primary={LabelsGamePage.PUBLISHER}
                                         />
-                                        <ListItemText style={{color: AppColors.SECONDARY}}
-                                                      primary={game.publishers.length === 0 ? "-" : game.publishers[0].name}
+                                        <ListItemText style={{ color: AppColors.SECONDARY }}
+                                            primary={game.publishers.length === 0 ? "-" : game.publishers[0].name}
                                         />
                                     </ListItem>
                                 </List>
@@ -669,17 +786,17 @@ const GamePage = () => {
 
                         <Typography
                             style={{
-                                fontSize: '20px',
+                                fontSize: "20px",
                                 color: AppColors.WHITE
                             }}>{LabelsGamePage.ACHIEVEMENTS}</Typography>
 
                         {achievements ?
                             achievements.map(elem => (
-                                <Grid item style={{marginBottom: '1em'}} key={achievements.indexOf(elem)}
+                                <Grid item style={{ marginBottom: "1em" }} key={achievements.indexOf(elem)}
                                 >
                                     <CardAchievements
                                         bg={AppColors.BACKGROUND_DRAWER}
-                                        width={'350px'}
+                                        width={cardWidth}
                                         title={elem.name}
                                         description={elem.description}
                                         percent={elem.percent}
@@ -687,28 +804,34 @@ const GamePage = () => {
 
                                     />
                                 </Grid>
-                            )) : <Grid container style={{width: '350px', marginBottom: '1em'}}
+                            )) : <Grid container style={{ width: "350px", marginBottom: "1em" }}
                             >
                                 <Typography style={{
-                                    fontSize: '30px',
+                                    fontSize: "30px",
                                     color: AppColors.PRIMARY,
-                                    fontWeight: 'bold'
+                                    fontWeight: "bold"
                                 }}>{LabelsGamePage.NO_ACHIEVEMENTS}</Typography>
                             </Grid>}
 
                     </Grid>
-                    <Grid item style={{marginLeft: '2em'}}>
-                        {!loading && <Grid item style={{marginBottom: '4em',}}>
+                    <Grid item style={{ marginLeft: "2em" }}>
+                        {!loading && <Grid item style={{ marginBottom: "4em", }}>
                             <Typography
                                 style={{
-                                    fontSize: '20px',
+                                    fontSize: "20px",
                                     color: AppColors.WHITE
                                 }}>{LabelsGamePage.COMMUNITY}</Typography>
                             <TextField
                                 data-testid="textfieldComment"
-                                style={{width: '350px'}}
+                                style={{ width: cardWidth }}
                                 onChange={(e) => setComment(e.target.value)}
                                 type="text"
+                                onKeyPress={(ev) => {
+                                    if (ev.key === "Enter") {
+                                        ev.preventDefault();
+                                        postComment()
+                                    }
+                                }}
                                 disabled={!storageManager.getToken()}
                                 placeholder={storageManager.getToken() ? "" : "You must be logged to comment"}
                                 label={`Publish about ${game.name}`}
@@ -720,22 +843,17 @@ const GamePage = () => {
                                     startAdornment: (
                                         <InputAdornment position="start">
 
-                                            <img style={{
-                                                borderRadius: 20,
-                                                width: '36px',
-                                                height: '36px',
-                                                backgroundColor: AppColors.PRIMARY
-                                            }}
-                                                 src={storageManager.getToken ? storageManager.getImage() : accountIcon}/>
+                                            <img alt="icon" style={{ width: "36px", height: "36px", borderRadius: 20 }}
+                                                src={storageManager.getToken() ? storageManager.getImage() : accountIcon} />
                                         </InputAdornment>
 
                                     ),
                                     endAdornment: (
                                         <InputAdornment position="end">
 
-                                            <IconButton data-testid={"postComment"} style={{color: AppColors.PRIMARY}}
-                                                        onClick={() => postComment()}>
-                                                <KeyboardReturnIcon/>
+                                            <IconButton data-testid={"postComment"} style={{ color: AppColors.PRIMARY }}
+                                                onClick={() => postComment()}>
+                                                <KeyboardReturnIcon />
                                             </IconButton>
                                         </InputAdornment>
 
@@ -743,59 +861,57 @@ const GamePage = () => {
                                 }}
                             />
 
-                            {comments ? comments.map(elem => (
-                                    <Grid item style={{marginBottom: '1em'}} key={comments.indexOf(elem)}
-                                    >
-                                        <CommentCard width={'350px'} time={"2 minutes ago"} title={"Hola"}
-                                                     comment={elem} bg={AppColors.BACKGROUND_DRAWER}/>
-                                    </Grid>
-                                )) :
-                                <Grid container style={{width: '350px', marginBottom: '1em'}}
+                            {comments ? Object.entries(comments).map(elem => (
+                                <Grid item style={{ marginBottom: "1em" }} key={elem[0].id}
+                                >
+                                    <CommentCard getComments={getComments} width={cardWidth}
+                                        comment={elem[1]} commentKey={elem[0]} bg={AppColors.BACKGROUND_DRAWER} like={elem[1].likes.includes(storageManager.getEmail())} />
+                                </Grid>
+                            )) :
+                                <Grid container style={{ width: "350px", marginBottom: "1em" }}
                                 >
                                     <Typography style={{
-                                        fontSize: '30px',
+                                        fontSize: "30px",
                                         color: AppColors.PRIMARY,
-                                        fontWeight: 'bold'
+                                        fontWeight: "bold"
                                     }}>{LabelsGamePage.NO_COMMENTS}</Typography>
                                 </Grid>
                             }
 
                         </Grid>}
 
-
                     </Grid>
-                    <Grid item style={{marginLeft: '2em'}}>
-                        <Grid item style={{marginBottom: '4em',}}>
+                    <Grid item style={{ marginLeft: "2em" }}>
+                        <Grid item style={{ marginBottom: "4em", }}>
 
                             {images &&
-                            images.map(elem => (
-                                <Grid item style={{marginBottom: '1em'}} key={images.indexOf(elem)}
+                                images.map(elem => (
+                                    <Grid item style={{ marginBottom: "1em" }} key={images.indexOf(elem)}
 
-                                >
-                                    <Card style={{
-                                        height: '400px',
-                                        width: '275px',
-                                        position: "relative",
-                                        borderRadius: 20
-                                    }}
-                                          className={classes.card}>
-                                        <CardMedia
-                                            image={elem.image}
-                                            title={elem.image}
-                                            alt={elem.image}
-                                            style={{
-                                                position: "absolute",
-                                                top: 0,
-                                                right: 0,
-                                                height: '400px', width: '300px'
-                                            }}
-                                        />
+                                    >
+                                        <Card style={{
+                                            height: "400px",
+                                            width: "275px",
+                                            position: "relative",
+                                            borderRadius: 20
+                                        }}
+                                            className={classes.card}>
+                                            <CardMedia
+                                                image={elem.image}
+                                                title={elem.image}
+                                                alt={elem.image}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 0,
+                                                    right: 0,
+                                                    height: "400px", width: "300px"
+                                                }}
+                                            />
 
-                                    </Card>
-                                </Grid>
-                            ))}
+                                        </Card>
+                                    </Grid>
+                                ))}
                         </Grid>
-
 
                     </Grid>
                 </Grid>
@@ -811,20 +927,27 @@ const GamePage = () => {
                 />
             )}
             <SnackBarGeekify handleClose={handleCloseSnackAddToCollection}
-                             message={LabelsSnackbar.ADDED_TO_COLLECTION}
-                             openSnack={openSnackAddToCollection}/>
-            <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={'warning'}
-                             message={LabelsSnackbar.ERROR_LOGIN_COLLECTION}
-                             openSnack={openSnackBarErrorLogin}/>
+                message={LabelsSnackbar.ADDED_TO_COLLECTION}
+                openSnack={openSnackAddToCollection} />
+            <SnackBarGeekify handleClose={handleCloseSnackErrorLogin} severity={"warning"}
+                message={LabelsSnackbar.ERROR_LOGIN_COLLECTION}
+                openSnack={openSnackBarErrorLogin} />
             <SnackBarGeekify handleClose={handleCloseSnackComment}
-                             message={LabelsSnackbar.COMMENTED_SUCCESSFULLY}
-                             openSnack={openSnackBarComment}/>
+                message={LabelsSnackbar.COMMENTED_SUCCESSFULLY}
+                openSnack={openSnackBarComment} />
             <SnackBarGeekify data-testid={"snackbarRate"} handleClose={handleCloseSnackRateLogged}
-                             message={LabelsSnackbar.RATED_SUCCESSFULLY}
-                             openSnack={openSnackRateLogged}/>
-            <SnackBarGeekify data-test handleClose={handleCloseSnackRateNotLogged} severity={'warning'}
-                             message={LabelsSnackbar.RATED_ERROR_LOGGED}
-                             openSnack={openSnackRateNotLogged}/>
+                message={LabelsSnackbar.RATED_SUCCESSFULLY}
+                openSnack={openSnackRateLogged} />
+            <SnackBarGeekify data-testid={"snackbarState"} handleClose={handleCloseSnackStateLogged}
+                message={LabelsSnackbar.STATE_SUCCESSFULLY}
+                openSnack={openSnackStateLogged} />
+            <SnackBarGeekify data-test handleClose={handleCloseSnackRateNotLogged} severity={"warning"}
+                message={LabelsSnackbar.RATED_ERROR_LOGGED}
+                openSnack={openSnackRateNotLogged} />
+
+            <SnackBarGeekify data-test handleClose={handleCloseSnackStateNotLogged} severity={"warning"}
+                message={LabelsSnackbar.STATE_ERROR_LOGGED}
+                openSnack={openSnackStateNotLogged} />
         </>
     )
 }

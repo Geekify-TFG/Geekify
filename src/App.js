@@ -1,12 +1,12 @@
-import './App.css';
-import React, {useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
-import {useTextStyles} from "./resources/AppTexts";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { useTextStyles } from "./resources/AppTexts";
 import clsx from "clsx";
-import {Button, Drawer, Grid, Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
-import {LabelsDrawer, LabelsSnackbar} from "./locale/en";
-import {AppColors} from "./resources/AppColors";
-import {BrowserRouter as Router, Link, Route, Switch, useHistory,} from "react-router-dom";
+import { Button, Drawer, Grid, Icon, List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import { LabelsDrawer, LabelsSnackbar } from "./locale/en";
+import { AppColors } from "./resources/AppColors";
+import { BrowserRouter as Router, Link, Route, Switch, useHistory, } from "react-router-dom";
 import MainPage from "./pages/MainPage"
 import GamePage from "./pages/GamePage";
 import homeIcon from "./img/home_icon.svg"
@@ -25,27 +25,27 @@ import ProfilePage from "./pages/ProfilePage";
 import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import {Typography} from "@mui/material";
-import {StorageManager} from "./utils";
-import {GoogleLogout} from "react-google-login";
+import { Typography } from "@mui/material";
+import { StorageManager } from "./utils";
+import { GoogleLogout } from "react-google-login";
 import SnackBarGeekify from "./components/SnackbarGeekify/SnackbarGeekify";
 import NewsPage from "./pages/NewsPage";
 import NewForumPage from "./pages/NewForumPage";
 import EditForumPage from "./pages/EditForumPage";
 import geekifyIcon from "./img/geekify_gif.gif"
+import UserProfilePage from "./pages/UserProfilePage";
+import ChangePwdPage from "./pages/ChangePwdPage";
 
+import "./App.css";
 
-const drawerWidth = 240;
+const drawerWidth = "240px";
 const useStyles = makeStyles((theme) => ({
     content: {
         backgroundColor: AppColors.BACKGROUND,
-        transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
         marginRight: 0,
         flexGrow: 1,
-        minHeight: '100vh !important'
+        minHeight: "100vh !important",
+        marginLeft: drawerWidth,
 
     },
     contentShift: {
@@ -64,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "flex-end",
     },
     drawer: {
+        backgroundColor: AppColors.BACKGROUND_DRAWER,
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: "nowrap",
@@ -91,28 +92,24 @@ const useStyles = makeStyles((theme) => ({
     },
 
     appBar: {
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
     },
-}));
+}), { index: 1 });
 
-const RouteMain = ({component: Component, select}) => {
-    //const authContext = useContext(AuthContext);
-    // const {authenticated, checkAuth} = authContext;
+const RouteMain = ({ component: Component, ...rest }) => {
     const clientId = "324894202380-fe0leg07j8uv629iul8e98qm06quualo.apps.googleusercontent.com"
 
     const texts = useTextStyles();
     const storageManager = new StorageManager();
     const history = useHistory()
 
-
     const classes = useStyles();
     const [open, setOpen] = useState(true); //false
     const [selected, setSelected] = useState(0);
     const [openSnackLogoutSuccess, setOpenSnackLogoutSuccess] = React.useState(false);
-
 
     const logout = () => {
         storageManager.clear()
@@ -150,7 +147,7 @@ const RouteMain = ({component: Component, select}) => {
             LabelsDrawer.NEWS,
             LabelsDrawer.SIGN_OUT,
         ];
-        drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums", '/news', "/"]
+        drawerLinkList = ["/", "/search", "/calendar", "/collections", "/forums", "/news", "/"]
         drawerIconsList = [homeIcon, searchIcon, calendarIcon, libraryIcon, forumsIcon, newspaperIcon, loginIcon, loginIcon];
 
     } else {
@@ -163,54 +160,52 @@ const RouteMain = ({component: Component, select}) => {
             LabelsDrawer.LOGIN,
             LabelsDrawer.SIGNUP,
         ];
-        drawerLinkList = ["/", "/search", "/calendar", "/forums", '/news', "/login", "/signup"]
+        drawerLinkList = ["/", "/search", "/calendar", "/forums", "/news", "/login", "/signup"]
         drawerIconsList = [homeIcon, searchIcon, calendarIcon, forumsIcon, newspaperIcon, loginIcon, loginIcon];
 
     }
     return (
         <>
-
             <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open,
-                })}
+                className={classes.content}
             >
-                {/*<div className={classes.drawerHeader}/>*/}
-                <Route
+                <Route {...rest}
                     render={(props) =>
                         <Component {...props} />
                     }
                 />
-
             </main>
             <Drawer
                 anchor="left"
                 variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                })}
+                className={classes.drawer}
+                /*  className={clsx(classes.drawer, {
+                     [classes.drawerOpen]: open,
+                 })} */
                 classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                    }),
+                    paper: classes.drawer
                 }}
             >
                 <div className={classes.drawerHeader}>
-                    <Grid style={{marginTop:'5em'}}>
-                        <img style={{height: '20em', width: '20em'}} src={geekifyIcon}
-                             alt="loading..."/>
+                    <Grid style={{ marginTop: "5em" }}>
+                        <img onClick={() => history.push("/")} style={{ height: "20em", width: "20em", cursor: "pointer" }} src={geekifyIcon}
+                            alt="loading..." />
                     </Grid >
 
                 </div>
 
                 <List>
                     {drawerLabelsList.map((text, index) => (
-                        <Link
+                        <Link key={text}
                             to={drawerLinkList[index]}
                             onClick={() => {
-                                setSelected(index);
+                                if (storageManager.getToken() && index === drawerLabelsList.length - 1) {
+                                    logout()
+                                } else {
+                                    setSelected(index);
+                                }
                             }}
-                            style={{color: AppColors.WHITE, textDecoration: "none"}}
+                            style={{ color: AppColors.WHITE, textDecoration: "none" }}
                         >
                             <ListItem
                                 button
@@ -236,7 +231,7 @@ const RouteMain = ({component: Component, select}) => {
                                 </ListItemIcon>
                                 <ListItemText
                                     id={`${text}`}
-                                    classes={{primary: texts.subtitle_bold}}
+                                    classes={{ primary: texts.subtitle_bold }}
                                     primary={
                                         <>
                                             {(storageManager.getToken() && index === drawerLabelsList.length - 1) ?
@@ -253,13 +248,13 @@ const RouteMain = ({component: Component, select}) => {
                                                         <Button onClick={() => {
                                                             logout()
                                                         }} style={{
-                                                            color: AppColors.WHITE, fontWeight: 'bold'
+                                                            color: AppColors.WHITE, fontWeight: "bold"
                                                         }}>{text}</Button>
                                                     }
 
                                                 </> :
                                                 <Typography style={{
-                                                    color: AppColors.WHITE, fontWeight: 'bold'
+                                                    color: AppColors.WHITE, fontWeight: "bold"
                                                 }}>{text}</Typography>
                                             }
                                         </>
@@ -272,9 +267,9 @@ const RouteMain = ({component: Component, select}) => {
 
                 </List>
             </Drawer>
-            <SnackBarGeekify handleClose={handleCloseLogoutSucces} severity={'success'}
-                             message={LabelsSnackbar.LOGOUT_SUCCESS}
-                             openSnack={openSnackLogoutSuccess}/>
+            <SnackBarGeekify handleClose={handleCloseLogoutSucces} severity={"success"}
+                message={LabelsSnackbar.LOGOUT_SUCCESS}
+                openSnack={openSnackLogoutSuccess} />
         </>
     );
 };
@@ -283,23 +278,26 @@ function App() {
     return (
         <Router>
             <Switch>
-                <Route exact path="/login" component={LoginPage}/>
-                <Route exact path="/signup" component={SignUpPage}/>
-                <RouteMain exact path="/" component={MainPage}/>
-                <RouteMain path={"/game/:id"} component={() => <GamePage/>}/>
-                <RouteMain path={"/profile"} component={() => <ProfilePage/>}/>
-                <RouteMain path={"/calendar"} component={() => <CalendarPage/>}/>
-                <RouteMain path={"/search/:string"} component={() => <SearchPage/>}/>
+                <Route exact path="/login" component={LoginPage} />
+                <Route exact path="/signup" component={SignUpPage} />
+                <Route exact path="/changePassword" component={ChangePwdPage} />
 
-                <RouteMain path={"/search"} component={() => <SearchPage/>}/>
-                <RouteMain path={"/collections"} component={() => <CollectionsPage/>}/>
-                <RouteMain path={"/collection/:id"} component={() => <CollectionPage/>}/>
-                <RouteMain path={"/forums"} component={() => <ForumsPage/>}/>
-                <RouteMain path={"/forum/:id/edit"} component={() => <EditForumPage/>}/>
-                <RouteMain path={"/forum/:id"} component={() => <ForumPage/>}/>
-                <RouteMain path={"/forum"} component={() => <NewForumPage/>}/>
+                <RouteMain exact path="/" component={MainPage} />
+                <RouteMain path={"/game/:id"} component={() => <GamePage />} />
+                <RouteMain path={"/profile"} component={() => <ProfilePage />} />
+                <RouteMain path={"/user/:string"} component={() => <UserProfilePage />} />
+                <RouteMain path={"/calendar"} component={() => <CalendarPage />} />
+                <RouteMain path={"/search/:string"} component={() => <SearchPage />} />
 
-                <RouteMain path={"/news"} component={() => <NewsPage/>}/>
+                <RouteMain path={"/search"} component={() => <SearchPage />} />
+                <RouteMain path={"/collections"} component={() => <CollectionsPage />} />
+                <RouteMain path={"/collection/:id"} component={() => <CollectionPage />} />
+                <RouteMain path={"/forums"} component={() => <ForumsPage />} />
+                <RouteMain path={"/forum/:id/edit"} component={() => <EditForumPage />} />
+                <RouteMain path={"/forum/:id"} component={() => <ForumPage />} />
+                <RouteMain path={"/forum"} component={() => <NewForumPage />} />
+
+                <RouteMain path={"/news"} component={() => <NewsPage />} />
             </Switch>
         </Router>
 

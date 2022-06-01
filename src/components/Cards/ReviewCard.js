@@ -1,29 +1,29 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import {Avatar, Card, CardContent, CardHeader, Grid, Paper, Typography} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import {AppColors} from "../../resources/AppColors";
-import IconProvider from "../IconProvider/IconProvider";
-import Icons from "../../resources/Icons";
+import { Avatar, Card, CardContent, CardHeader, Grid, Paper, Typography } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { AppColors } from "../../resources/AppColors";
 
 /**
- * Component to create comment cards.
+ * Component to create the review card
  *
  * @component
  *
  * @param {object} props.children: content of the card
  * @param {string} props.bg: color of the card
- * @param {object} props.style: style of the card
+ * @param {object} props.height: height of the card
+ * @param {object} props.width: width of the card
+ * @param {object} props.game: game of the review card
+ * @param {object} props.review: review of the review card
+ * @param {object} props.avatar: avatar of the review card
+ * @param {object} props.comment: comment of the review card
+ * 
+ * @returns {object} JSX
  *
- * @example
- * const children = <CardGeekify.Body> ... </CardGeekify.Body>;
- * const bg = 'light';
- * const style = {height: '18rem', width: '18rem'};
- *
- * <CommentCard bg={bg} style={style}> {children} </CardGeekify>
  */
 
 const ReviewCard = props => {
-    const {children, bg, height, width, game, review, avatar, comment} = props;
+    const { children, bg, height, width, game, review, avatar, comment } = props;
     return (
         <Card
             className="w-100 mb-3"
@@ -39,9 +39,9 @@ const ReviewCard = props => {
             <CardHeader
                 title={
                     <Paper
-                        style={{width: '10em', borderRadius: 20, backgroundColor: AppColors.PRIMARY}}>
+                        style={{ width: "10em", borderRadius: 20, backgroundColor: AppColors.PRIMARY }}>
                         <Typography
-                            style={{marginLeft: '1em', marginRight: '1em', fontSize: '20px', color: AppColors.WHITE}}>
+                            style={{ marginLeft: "1em", marginRight: "1em", fontSize: "20px", color: AppColors.WHITE }}>
                             {game}
                         </Typography>
                     </Paper>}
@@ -50,11 +50,11 @@ const ReviewCard = props => {
             <CardContent>
                 <Grid container spacing={2}>
                     <Grid item xs={2}>
-                        <Avatar sx={{bgcolor: AppColors.RED}} src={avatar} aria-label="recipe">
+                        <Avatar sx={{ bgcolor: AppColors.RED }} src={avatar} aria-label="recipe">
                         </Avatar>
                     </Grid>
                     <Grid item xs={10}>
-                        <Typography style={{fontSize: '16px', color: AppColors.WHITE}}>{comment}</Typography>
+                        <Typography style={{ fontSize: "16px", color: AppColors.WHITE }}>{comment}</Typography>
                     </Grid>
                 </Grid>
 

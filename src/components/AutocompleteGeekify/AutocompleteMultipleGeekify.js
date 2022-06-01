@@ -1,29 +1,30 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import CircularProgress from '@mui/material/CircularProgress';
-import {makeStyles} from "@mui/styles";
-import {AppColors} from "../../resources/AppColors";
-import {Box, Checkbox, Chip} from "@material-ui/core";
+/* eslint-disable no-unused-vars */
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import CircularProgress from "@mui/material/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import { AppColors } from "../../resources/AppColors";
+import { Box, Checkbox, Chip } from "@material-ui/core";
 
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import {useState} from "react";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { useState } from "react";
 
 const useStyles = makeStyles({
     textFieldLabel: {
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
                 borderColor: AppColors.PRIMARY,
-                opacity: '0.2',
+                opacity: "0.2",
                 borderRadius: 10,
             },
-        }, '& .MuiInputBase-root': {
+        }, "& .MuiInputBase-root": {
             color: AppColors.PRIMARY,
-        }, '& .MuiInputLabel-root': {
+        }, "& .MuiInputLabel-root": {
             color: AppColors.PRIMARY,
-        }, '& .MuiTextField-root': {
-            height: '25em',
+        }, "& .MuiTextField-root": {
+            height: "25em",
         },
         color: AppColors.PRIMARY,
         backgroundColor: AppColors.BACKGROUND_DRAWER,
@@ -62,9 +63,7 @@ const useStyles = makeStyles({
         borderRadius: 10,
     },
 
-
 });
-
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -72,7 +71,7 @@ function sleep(delay = 0) {
     });
 }
 
-const AutocompleteMultipleGeekify = ({list, game, setGame,handleChange}) => {
+const AutocompleteMultipleGeekify = ({ list, game, setGame, handleChange }) => {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);
@@ -112,7 +111,7 @@ const AutocompleteMultipleGeekify = ({list, game, setGame,handleChange}) => {
             className={classes.select}
             onChange={handleChange} // prints the selected value
             id="asynchronous-demo"
-            style={{width: '20em'}}
+            style={{ width: "20em" }}
             open={open}
             onOpen={() => {
                 setOpen(true);
@@ -131,7 +130,7 @@ const AutocompleteMultipleGeekify = ({list, game, setGame,handleChange}) => {
                     <Checkbox
                         icon={icon}
                         checkedIcon={checkedIcon}
-                        style={{ color: AppColors.PRIMARY,marginRight: 8 }}
+                        style={{ color: AppColors.PRIMARY, marginRight: 8 }}
                         checked={selected}
                     />
                     {option.name}
@@ -148,7 +147,7 @@ const AutocompleteMultipleGeekify = ({list, game, setGame,handleChange}) => {
                         ...params.InputProps,
                         endAdornment: (
                             <React.Fragment>
-                                {loading ? <CircularProgress color="inherit" size={20}/> : null}
+                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
                                 {params.InputProps.endAdornment}
                             </React.Fragment>
                         ),
@@ -158,7 +157,6 @@ const AutocompleteMultipleGeekify = ({list, game, setGame,handleChange}) => {
         />
     );
 }
-
 
 AutocompleteMultipleGeekify.propTypes = {}
 

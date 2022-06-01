@@ -19,10 +19,8 @@ import {AppColors} from "../../resources/AppColors";
  * <CardGeekify bg={bg} style={style}> {children} </CardGeekify>
  */
 const SliderGeekify = props => {
-    const {min} = props;
     return (
         <Slider>
-
 
         </Slider>
     )

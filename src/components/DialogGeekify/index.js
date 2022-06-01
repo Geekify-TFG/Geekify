@@ -1,1 +1,1 @@
-export {default} from './DialogGeekify'
+export {default} from "./DialogGeekify"
